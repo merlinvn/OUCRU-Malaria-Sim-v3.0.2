@@ -1,0 +1,16 @@
+._.*
+~*
+_*
+*.o.d
+*.o
+*.a
+/MalariaSimulation/build/Debug/
+/MalariaSimulation/nbproject/private/
+/MalariaCore/dist/Debug/
+/MalariaCore/build/Debug/
+/MalariaCore/nbproject/private/
+/GoogleMock/nbproject/private/
+/MalariaSimulation/dist/Release/
+/MalariaCore/dist/Release/
+/MalariaCore/build/Release/
+/MalariaSimulation/build/Release/
