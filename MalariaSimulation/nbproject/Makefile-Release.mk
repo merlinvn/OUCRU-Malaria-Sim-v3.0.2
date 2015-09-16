@@ -21,8 +21,8 @@ FC=gfortran
 AS=as
 
 # Macros
-CND_PLATFORM=MinGW-Windows
-CND_DLIB_EXT=dll
+CND_PLATFORM=GNU-Linux-x86
+CND_DLIB_EXT=so
 CND_CONF=Release
 CND_DISTDIR=dist
 CND_BUILDDIR=build
@@ -42,8 +42,8 @@ OBJECTFILES= \
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=-m32
-CXXFLAGS=-m32
+CCFLAGS=
+CXXFLAGS=
 
 # Fortran Compiler Flags
 FFLAGS=
@@ -52,17 +52,17 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=../MalariaCore/dist/Release/MinGW-Windows/libmalariacore.a -l yaml-cpp
+LDLIBSOPTIONS=../MalariaCore/dist/Release/GNU-Linux-x86/libmalariacore.a
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/malariasimulation.exe
+	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/malariasimulation
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/malariasimulation.exe: ../MalariaCore/dist/Release/MinGW-Windows/libmalariacore.a
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/malariasimulation: ../MalariaCore/dist/Release/GNU-Linux-x86/libmalariacore.a
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/malariasimulation.exe: ${OBJECTFILES}
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/malariasimulation: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
-	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/malariasimulation ${OBJECTFILES} ${LDLIBSOPTIONS} -l gsl -l gslcblas -static-libstdc++
+	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/malariasimulation ${OBJECTFILES} ${LDLIBSOPTIONS} -l gsl -l gslcblas -static-libstdc++ -l yaml-cpp
 
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -76,7 +76,7 @@ ${OBJECTDIR}/main.o: main.cpp
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r ${CND_BUILDDIR}/${CND_CONF}
-	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/malariasimulation.exe
+	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/malariasimulation
 
 # Subprojects
 .clean-subprojects:

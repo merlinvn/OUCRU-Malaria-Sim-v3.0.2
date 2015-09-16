@@ -2278,7 +2278,7 @@ namespace ez {
                                 sprintf(tmp, "%s%c", g->args[k]->at(j)->c_str(), g->delim);
                                 out += tmp;
                             }
-                            sprintf(tmp, "%s\n", g->args[k]->back()->c_str(), g->delim);
+                            sprintf(tmp, "%s\n", g->args[k]->back()->c_str());
                             out += tmp;
                         }
                     }

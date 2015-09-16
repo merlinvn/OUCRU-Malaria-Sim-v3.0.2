@@ -653,3 +653,7 @@ tme_info:
   
 using_free_recombination: true
 #using_free_recombination: false
+
+tf_window_size: 60
+using_age_dependent_bitting_level: true
+using_variable_probability_infectious_bites_cause_infection: false

@@ -161,12 +161,20 @@ initial_parasite_info:
 introduce_parasite:
   - location: 1
     parasite_info:
-      - time: 6000
-        ptype: 4
-        number: 5
-      - time: 7500
-        ptype: 2
-        number: 10
+      - time: 4000
+        genotype_id: 1
+        number_of_cases: 5
+      - time: 4000
+        genotype_id: 2
+        number_of_cases: 5
+      - time: 4000
+        genotype_id: 4
+        number_of_cases: 5
+      - time: 4000
+        genotype_id: 8
+        number_of_cases: 5
+        
+        
   - location: 1
     parasite_info:
       - time: 1000
@@ -174,14 +182,14 @@ introduce_parasite:
         number: 7
       - time: 5000
         ptype: 2
-        number: 10
+        number_of_cases: 10
 
 introduce_parasite_periodically:
-  - location: 1
+  - location: 0
     parasite_info:
-      - timePeriod: 7 
-        ptype: 0
-        number: 5
+      - duration: 7 
+        genotype_id: 0
+        number_of_cases: 5
         
         
 # drug id 0: no drug
@@ -664,3 +672,8 @@ tme_info:
   
 using_free_recombination: true
 #using_free_recombination: false
+
+tf_window_size: 60
+
+using_age_dependent_bitting_level: true
+using_variable_probability_infectious_bites_cause_infection: false
