@@ -1,74 +1,62 @@
-# total days the simulation is run, including the burn-in period
-# where the system goes to equilibrium
-total_time: 11300
+# ---------------------------------------------------------------
+#
+# DATE: Sep 16 2015
+# AUTHORS: Tran Dang Nguyen and Maciej F Boni
+#
+# This sample input file was created to get a first-time user up 
+# and running quickly with the simulation.
+#
+# ---------------------------------------------------------------
 
+
+# total number of days the simulation is run, including the burn-in period which we normally set to 4000
+# days; during the burn-in period, no one receives malaria treatement and the system sets into a natural 
+# equilibrium 
+total_time: 4730
 
 # length of burn-in period
-#start_treatment_day: 3000
 start_treatment_day: 4000
 
-#start_collect_data_day: 6000
+# the day at which the simulation's reporting functionality begins collecting data for 
+# the purposes of displaying it
 start_collect_data_day: 4000
 
-# probability that a person receives treatment
+# probability that a symptomatic and infected individual seeks and receives antimalarial treatment
 p_treatment: 0.600000
-#p_treatment: 0.90000
 
-
-#comments
+# this functionality works, but it was not used in any analyses for the 2015 LGH paper
 number_of_locations: 1
 
-# what are these age classes?
-#
-# these are the same as in the influenza model
-# there is currently no effect of age class
-#
-#numberOfAgeClasses: 7
-number_of_age_classes: 15
 
 
-# THE MAIN TRANSMISSION PARAMETER THAT DETERMINES R0 AND EIR
-#
-# if there is more than 1 location just separate by a comma
-#beta: [2.5 , 0.1 , 0.2, 0.0015]
+
+# main scaling parameter for transmission, by location
+# the last four terms are ignored when the number of locations is 1
 beta: [0.2 , 1.4 , 1.4, 1.4, 1]
 
+# this functionality works, but it was not used in any analyses for the 2015 LGH paper
+# seasonality parameters, by location
 seasonal_beta:
   a: [0, 0.25, 0.25, 0.25]
   phi: [200, 200, 200, 200]
-#
-# population size by location -- note that it's ok to have more pop sizes than
-# locations, but not vice versa
-#
-# this is only population of susceptible individuals!
-# TO DO: let's make the input numbers here the population of all persons (regardless of state)
-# living at that location
-#
-population_size_by_location: [100000, 1000 , 1000, 1000, 500]
+  
+  
+# the last four terms are ignored when the number of locations is 1
+population_size_by_location: [50000, 1000 , 1000, 1000, 500]
 
-#probability for an infectious bite to make an infection
-#maybe range from 0.1 to 0.3...
+# probability that an infectious bite on a human causes a blood stage malaria infection
 p_infection_from_an_infectious_bite: 0.1
 
-# ageStructure
-# 0-1    1-5    5-10   10-15  15-20   20-40 40-100
-#[0,4), [4,9), [9,14), [14,19), [19,39), [39,100) new convention
-#ageStructure: [0, 4, 9, 14, 19, 39, 100]
-#[0,1), [1,2) .....
-age_structure: [1, 2, 3, 4, 5, 6, 7, 8, 9,10,11, 15, 20, 60, 100]
 
-#[0,1) [1,2) .....
-ageStructureReport: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 14, 19, 60, 100]
+# the simulation itself uses explicit ages and birthdays
+# but for reporting purposes and for age-specific mortality calculations, individuals are grouped into the following age classes
+number_of_age_classes: 15
+age_structure: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 15, 20, 60, 100]
 
 
-#
-# age distribution, each line for each location
-#
-# this is taken from the flu model, but we don't know what it is yet
-# note that just like in the flu model there are six numbers per row even though
-# there are seven age classes; the last one is calculated as 1 - `the rest'
-#
-initial_age_structure: [1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15, 25, 35,45,55,65,100]
+# this is only used for initializing the population structure at time 0
+# the last four rows of the matrix below are ignored when the number of locations is 1
+initial_age_structure: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 25, 35, 45, 55, 65, 100]
 age_distribution_by_location: [
 [0.0334, 0.0300, 0.0329, 0.0324, 0.0332, 0.0314, 0.0316, 0.0310, 0.0285, 0.0256, 0.0298, 0.0212, 0.0321, 0.0228, 0.0230, 0.1906, 0.1403, 0.0966, 0.0605, 0.0344, 0.0387],
 [0.0334, 0.0300, 0.0329, 0.0324, 0.0332, 0.0314, 0.0316, 0.0310, 0.0285, 0.0256, 0.0298, 0.0212, 0.0321, 0.0228, 0.0230, 0.1906, 0.1403, 0.0966, 0.0605, 0.0344, 0.0387],
@@ -76,64 +64,28 @@ age_distribution_by_location: [
 [0.0334, 0.0300, 0.0329, 0.0324, 0.0332, 0.0314, 0.0316, 0.0310, 0.0285, 0.0256, 0.0298, 0.0212, 0.0321, 0.0228, 0.0230, 0.1906, 0.1403, 0.0966, 0.0605, 0.0344, 0.0387]
 ]
 
-#age_distribution_by_location: [
-##[0.05000,	0.12500,	0.12500,	0.12500,	0.15000,	0.28000],
-#[0.05000, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.15000, 0.0800, 0.42000, 0.03],
-#[0.05000, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.15000, 0.0800, 0.42000, 0.03],
-#[0.05000, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.15000, 0.0800, 0.42000, 0.03],
-#[0.05000, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.15000, 0.0800, 0.42000, 0.03],
-#[0.05000, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.15000, 0.0800, 0.42000, 0.03]
-##[0.05000,	0.0277, 0.0277,0.0277,0.0277,0.0277,0.0277,0.0277,0.0277,0.0277,0.12500,	0.12500,	0.42070,	0.03],
-##[0.05000,	0.0277, 0.0277,0.0277,0.0277,0.0277,0.0277,0.0277,0.0277,0.0277,0.12500,	0.12500,	0.42070,	0.03],
-##[0.05000,	0.0277, 0.0277,0.0277,0.0277,0.0277,0.0277,0.0277,0.0277,0.0277,0.12500,	0.12500,	0.42070,	0.03],
-##[0.0731,  0.1895,   0.1717,   0.1254,   0.2605,   0.1340],
-##[0.0731,  0.1895,   0.1717,   0.1254,   0.2605,   0.1340],
-##[0.0731,  0.1895,   0.1717,   0.1254,   0.2605,   0.1340]
-#]
-
-#
-# birthRate per year
-# number of births per year should be between 1% and 6% of population size
-#
-# number of deaths per year should be between 1% and 3% of population size
-#
-# Tanzania: 37.25 birth per 1000 per year
-#
+# below value indicates 37.25 births per 1000 individuals per year
 birth_rate: 0.03725
-#birth_rate: 0.03
 
-#deathRateByAge: [0.08, 0.02, 0.005, 0.003, 0.003, 0.03, 0.06]
-#death_rate_by_age: [0.08, 0.037,0.02,0.012,0.006, 0.00454, 0.00388, 0.00316,  0.00288,0.00260, 0.00225, 0.0059, 0.0059, 0.0547]
+# annual death rate (probability) by age group
 death_rate_by_age: [0.053979329, 0.018935757, 0.006867257, 0.001124347, 0.001136455, 0.001606066, 0.001953783, 0.001530096, 0.001299153, 0.001068073, 0.000978264, 0.000978264, 0.0055, 0.0055, 0.04450]
 
 
-
-#number of days to keep track total number of parasites in population
+# number of days to keep track total number of parasites in population
+# in other words, the simulation stores 11 days of mosquitoes-biting-on-humans history
+# if an individual is infected today, the infection type and probability will be based 
+# on the biting that took place 11 days ago
 number_of_tracking_days: 11
 
-# probability progress to death for patients who fail treatment or who are not treated
-#ageSpecificMortalityWhenTreatmentFails: [0.050, 0.020, 0.005, 0.001, 0.001, 0.001, 0.001]
+
+# probability of death for patients who are not treated or patients who experience a treatment failure (due to drug resistance, or otherwise)
 mortality_when_treatment_fail_by_age: [0.040, 0.020,0.020,0.020,0.020,0.004,0.004,0.004,0.004,0.004,0.004, 0.001, 0.001, 0.001, 0.001]
 
-#
-# initialize parasite population
-# day-location - id - number
-# day= 0 is 7 days ago
-#
-# this is all currently based on the fact that development inside the moquito takes 7 days (DiM=7)
-# but, we will want to do sensitivity analyses that allow us to look at DiM=10, DiM=14 and so on.
-#
-# so, for the IC (inital conditions) below we can just assume that if we had 600 infected persons 3 days ago,
-# that the number of infected persons 1 day ago and 5 days ago wa salso 600; in other words, we can remove column
-# one from here
-#
 
-#
-#
-# NOV 19 2009: the new input method should look like this
-# so that we don't have to put DiM explicitly into the input file
-#
-#1. loc 2. id (this is the resistance type of the parasite) 3. prevalence unweighted by biting rate
+# initial conditions for prevalence and drug resistance, by location
+# parasite_type_id is the parasite genotype; 0 means completely sensitive to all drugs
+# the parasite_type_id is a bit-string, so types 1, 2, 4, and 8 correspond to parasites 
+# that have a resistance to a single drug
 initial_parasite_info:
   - location_id: 0
     parasite_info:
@@ -158,6 +110,9 @@ initial_parasite_info:
 #      - parasite_type_id: 4
 #        prevalence: 0.03
 
+
+# functional but not used in 2015 LGH paper
+# allows for the introduction of a specific parasite type at a specific time
 introduce_parasite:
 #  - location: 0
 #    parasite_info:
@@ -174,16 +129,9 @@ introduce_parasite:
 #        genotype_id: 8
 #        number_of_cases: 5
 #        
-        
-  - location: 1
-    parasite_info:
-      - time: 1000
-        ptype: 3
-        number: 7
-      - time: 5000
-        ptype: 2
-        number_of_cases: 10
 
+
+# periodic importation of drug-sensitive parasites; five new cases imported every seven days
 introduce_parasite_periodically:
   - location: 0
     parasite_info:
@@ -192,99 +140,43 @@ introduce_parasite_periodically:
         number_of_cases: 5
         
         
-# drug id 0: no drug
-# drug info
-# tStart -- drug effect per day -- percentPRemovePerDay -- PMutation -- k
-# tStar: the time for drug to reduce to 0.5
-# k is the factor by which probability of Mutation goes up
-# cost of resistant relative assymtomatic infection length
-# cost of resistant multiple infection
 
 
-# Drug #1 - artesunate
+# drug information below
 #
-# columns:
-# 1. the first column is the half-life, right now set to "1 day" so we have to think about this a bit
+# maximum_parasite_killing_rate: 
+#       e.g. 0.999 means the drug can kill 99.9% of parasites in 1 day if a person has 
+#       the highest possible drug concentration
 #
-# 2. maximum_parasite_killing_rate; class member of DrugType
-#    0.999 here means the drug can kill 99.9% in 1 day if a person can have maximum drug concentratrion
-#    typicaly, maximum drug concentration = 1 + 3*age_specific_drug_concentration_sd
+# n: 
+#       the slope of the linear portion of the conentration-effect curve
 #
-# 3. n: the slope of the linear portion of the conentration-effect curve
+# EC50: 
+#       the drug concentration which produces 50% of the parasite killing achieved at maximum-concentration
+#       ( the expected starting concentration is 1.0 )
 #
-# 4. EC50: the drug conentration which produces 50% of the parasite killing achieved at maximum-concentration
+# age_specific_drug_concentration_sd: 
+#       the actual drug concentration, per individual, will be drawn from a normal distribution with mean=1 and this sd.
 #
-# 5. age_specific_drug_concentration_sd: drug concentration will be draw from a normal distribution with means = 1 and this sd.
+# k: 
+#       parameter that describes the change in the mutation probability when drug levels are intermediate
+#       - set k=0.5 for a simple linear model where mutation probablity decreases linearly with drug concentration
+#       - set k=2 or k=4 for a piecewise-linear model where mutation probability increases from high concentrations
+#               to intermediate concentrations, and then decreases linearly from intermediate concentrations to zero
 #
-# 6. probability of mutation to the resistant type
-#
-# 7. k: parameter that decsribes increase in mutation prob when drug level is low
-#
-# 8. DrugType::resistantCostMultipleInfection
-#
-# 9. DrugType::isArtDerivative 1==yes, 0 == no
-#
-# the column that is commented out at the end 'pcure' tells us what fraction of infections are
-# cured given the first four (or three?) columns
-#
-# what we will need in the future is:
-#
-
-# Drug #1 - Hypothetical Drug 1
-# Drug #2 - Hypothetical Drug 2
-# Drug #3 - Hypothetical Drug 3
-#
-#
-# Drug #4 - artesunate
-# Drug #5 - artemether
-# Drug #6 - dihydroartemisinin
-# Drug #7 - amodiaquine
-# Drug #8 - lumefantrine
-# Drug #9 - piperaquine
-# Drug #10 - mefloquine
-# Drug #11 - SP
-# Drug #12 - chloroquine
-# Drug #13 - quinine
-# Drug #14 - cotrimoxyzol
-# Drug #15 - clindamyacin
-# Drug #16 - pyranaradine
-# Drug #17 - primaquine
-#
-#
-# hl 0 _ 25 _ 0.6 _ 0.999
-# hl 3.5 _ 25 _ 0.5 _ 0.99
-# hl 7 _ 21 _ 0.5 _ 0.95
-# hl 10.5 _ 21 _ 0.55 _ 0.95
-# hl 14 _ 5 _ 0.5 _ 0.95
-# hl 17.5 _ 5 _ 0.55 _ 0.95
-# hl 21 _ 5 _ 0.6 _ 0.95
-# hl 24.5 _ 5 _ 0.6 _ 0.95
-# hl 28 _ 5 _ 0.65 _ 0.95
-
 drugInfo:
-  1:    
+  1:  # artemisinin (used for artemether, artesunate, and dihydroartemisinin)  
     half_life: 0.0
     maximum_parasite_killing_rate: 0.999
     n: 25
     EC50: 0.7
-    #0.4 = 94%
     age_specific_drug_concentration_sd: [0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4]
-#    age_specific_drug_concentration_sd: [0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2]
-#    age_specific_drug_concentration_sd: [0.45,0.45,0.45,0.45,0.45,0.45,0.45,0.45,0.45,0.45,0.45,0.45,0.45,0.45,0.45]
-    #0.3 = 98%
-#    age_specific_drug_concentration_sd: [0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3]
-#0.35 = 98%
-# 0.45 = 95%
-#    age_specific_drug_concentration_sd: [0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35]
-#    age_specific_drug_concentration_sd: [0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5]
-
     mutation_probability: 0.005
-#    mutation_probability: 0.000
     mutation_position: [0]
     k: 4
-    resistance_cost_multiple_infection: 0.1
+    resistance_cost_multiple_infection: 0.01
     isArtermisininDerivative: 1
-  2:
+  2: # lumefantrine - use this for a standard simulation
     half_life: 4.5
     maximum_parasite_killing_rate: 0.99
     n: 20
@@ -293,10 +185,9 @@ drugInfo:
     mutation_probability: 0.005
     mutation_position: [1]
     k: 4
-    resistance_cost_multiple_infection: 0.1
+    resistance_cost_multiple_infection: 0.01
     isArtermisininDerivative: 0
-    
-  3:
+  3: # lumefantrine - for advanced users only
     half_life: 4.5
     maximum_parasite_killing_rate: 0.99
     n: 20
@@ -305,9 +196,9 @@ drugInfo:
     mutation_probability: 0.005
     mutation_position: [2]
     k: 4
-    resistance_cost_multiple_infection: 0.1
+    resistance_cost_multiple_infection: 0.01
     isArtermisininDerivative: 0
-  4:
+  4: # lumefantrine - for advanced users only
     half_life: 4.5
     maximum_parasite_killing_rate: 0.99
     n: 20
@@ -316,9 +207,9 @@ drugInfo:
     mutation_probability: 0.005
     mutation_position: [3]
     k: 4
-    resistance_cost_multiple_infection: 0.1
+    resistance_cost_multiple_infection: 0.01
     isArtermisininDerivative: 0
-  5:
+  5: # amodiaquine - for advanced users only
     half_life: 9.0
     maximum_parasite_killing_rate: 0.95
     n: 19
@@ -327,9 +218,9 @@ drugInfo:
     mutation_probability: 0.00
     mutation_position: [1]
     k: 4
-    resistance_cost_multiple_infection: 0.1
+    resistance_cost_multiple_infection: 0.01
     isArtermisininDerivative: 0
-  6:
+  6: # amodiaquine - use this for a standard simulation
     half_life: 9.0
     maximum_parasite_killing_rate: 0.95
     n: 19
@@ -338,9 +229,9 @@ drugInfo:
     mutation_probability: 0.005
     mutation_position: [2]
     k: 4
-    resistance_cost_multiple_infection: 0.1
+    resistance_cost_multiple_infection: 0.01
     isArtermisininDerivative: 0
-  7:
+  7: # amodiaquine - for advanced users only
     half_life: 9.0
     maximum_parasite_killing_rate: 0.95
     n: 19
@@ -349,9 +240,9 @@ drugInfo:
     mutation_probability: 0.005
     mutation_position: [3]
     k: 4
-    resistance_cost_multiple_infection: 0.1
+    resistance_cost_multiple_infection: 0.01
     isArtermisininDerivative: 0
-  8:
+  8: # piperaquine - for advanced users only
     half_life: 28.0
     maximum_parasite_killing_rate: 0.9
     n: 15
@@ -360,9 +251,9 @@ drugInfo:
     mutation_probability: 0.005
     mutation_position: [1]
     k: 4
-    resistance_cost_multiple_infection: 0.1
+    resistance_cost_multiple_infection: 0.01
     isArtermisininDerivative: 0
-  9:
+  9: # piperaquine - for advanced users only
     half_life: 28.0
     maximum_parasite_killing_rate: 0.9
     n: 15
@@ -371,9 +262,9 @@ drugInfo:
     mutation_probability: 0.005
     mutation_position: [2]
     k: 4
-    resistance_cost_multiple_infection: 0.1
+    resistance_cost_multiple_infection: 0.01
     isArtermisininDerivative: 0
-  10:
+  10: # piperaquine - use this for a standard simulation
     half_life: 28.0
     maximum_parasite_killing_rate: 0.9
     n: 15
@@ -382,12 +273,12 @@ drugInfo:
     mutation_probability: 0.005
     mutation_position: [3]
     k: 4
-    resistance_cost_multiple_infection: 0.1
+    resistance_cost_multiple_infection: 0.01
     isArtermisininDerivative: 0
   
-#therapy info
-#dosing days + drug ID(s)
-#testing days: host will take a test at testing day (the number of days after receive treatment) to determine treatment failures
+# therapy info
+# the drug_ids that make up the therapy, and the number of days that the therapy is prescribed for 
+# testing day tells you the follow-up point at which it is determined if treatment failed or not
 TherapyInfo:
   1:    
     drug_id: [1,2]
@@ -438,11 +329,8 @@ TherapyInfo:
     dosing_days: 3
     testing_day: 28
 
-#
-# strategy info
-#
-# simply uncomment below to turn on a particular strategy
-#
+
+# drug-deployment strategy - simply uncomment below to turn on a particular strategy
 StrategyInfo:
   #strategyName can be SFTStrategy / CyclingStrategy / MFTStrategy / AdaptiveCyclingStrategy
 #  strategyName: SFTStrategy
@@ -451,27 +339,21 @@ StrategyInfo:
 #  strategyName: AdaptiveCyclingStrategy
 
   SFTStrategy:
-    therapyID: [4]
+    therapyID: [10]
 
-  #first number is the time for cycling, the followings is Therapy IDs
+  # cycle three ACTs in and out every five years
   CyclingStrategy:
-    therapyID: [7,8,9]
+    therapyID: [10,11,12]
     cycling_time: 1825
-  #therapy ID - %Distribution
+    
+  # deploy three ACTs simultaneously
   MFTStrategy:
     therapyID: [10,11,12]
     distribution: [0.33334,0.33333,0.33333]
-#    distribution: [0.66666,0.33334]
 
-
-#
-# columns
-# 1. failure rate (RITF60) to trigger a switch
-# 2. number of days of delay between trigger and actual switch
-# 3. number of days after switch when the trigger mechanism is turned off
-#
-#
-#
+  # cycle three ACTs in and out - switch between ACTs when the fraction of patients experiencing
+  # treatment failure get to the trigger value below
+  # there is a one-year delay until the actual switch is made in the field (delay_until_actual_trigger)
   AdaptiveCyclingStrategy:
     therapyID: [10,11,12]
     trigger_value: 0.1
@@ -479,82 +361,76 @@ StrategyInfo:
     turn_off_days: 50
     
 
-
-# this number use to detemine whether a therapy is useful or not and use to calculate useful therapeutic duration
+# this number use to detemine whether a therapy is "useful" or not and it is used to calculate 
+# the useful therapeutic duration of a therapy
 TF_rate: 0.1
 
-#  "4" : meaning that patient is cured when parasites are lower than 10^4
-#  "5" : meaning that initial population size emerging from liver is 10^5 parasites
-#  "8" : meaning that 108 = parasite pop size in asymptomatics
-#  "12": meaning that clinicals have 10^12 parasites
+# definitions of some log parasite density levels
+#
 parasite_density_level:
   log_parasite_density_cured:        -2.699    # corresponds to 10,000 total parasites (0.002 per μl)
-  log_parasite_density_from_liver:    -2.000    # corresponds to 50,000 total parasites (0.01 per μl)
-#  log_parasite_density_asymptomatic: 1.301    # corresponds to 20 parasites per microliter of blood
-#  log_parasite_density_asymptomatic: 2.69    # corresponds to 500 parasites per microliter of blood
-  log_parasite_density_asymptomatic: 3    # corresponds to 1000 parasites per microliter of blood
-  log_parasite_density_clinical:     4.301    # corresponds to 20,000 parasites per microliter of blood
-  log_parasite_density_detectable:   1.000    # corresponds to 10 parasites per microliter of blood
-  log_parasite_density_pyrogenic:    3.398    # corresponds to 2500 parasites per microliter of blood
+  log_parasite_density_from_liver:    -2.000   # corresponds to 50,000 total parasites (0.01 per μl)
+  log_parasite_density_asymptomatic: 3         # corresponds to 1000 parasites per microliter of blood
+  log_parasite_density_clinical:     4.301     # corresponds to 20,000 parasites per microliter of blood
+  log_parasite_density_detectable:   1.000     # corresponds to 10 parasites per microliter of blood
+  log_parasite_density_pyrogenic:    3.398     # corresponds to 2500 parasites per microliter of blood
 
 
 immune_system_information:
   
-  #rate at which the immune level increases when host has parasites in blood
-  #the plausible range is between 0.00125 and 0.003
+  #rate at which antimalarial immune function increases when a host is parasitaemic
   b1: 0.00125
-#  Component1_b1: 0.00009012
   
-  #rate at which the immune level decreases when host has no parasites in blood
-  #the plausible range is between 0.0025 and 0.01
+  #rate at which antimalarial immune function decreases when a host is parasitaemic
   b2: 0.0025
   
-#  Component2_b1: 0.00019
-#  Component2_b2: 0.00038
-  
-#  Component2_b1: 0.00125
-#  Component2_b2: 0.0025
-
-  #
-  # durations of infection of naive and fully-immune hosts
+  # durations of infection of naive and fully-immune hosts (TODO check if this is necessary used for calibration)
   duration_for_naive: 300
   duration_for_fully_immune: 60
 
-  #mean and sd for Immune level
+  # initial conditions for the immune function of the population at time zero
   mean_initial_condition: 0.1
   sd_initial_condition: 0.1
   
+  # (per year) age-dependent faster acquisition of immunity from age 1 to age 10
   immune_inflation_rate: 0.01   
 
+  # mix and max probabilities of experiencing symptoms as a result of a new infection
+  # the actual probability will depend on the host's immunity
   min_clinical_probability: 0.05
   max_clinical_probability: 0.99
 
+  # slope of sigmoidal prob-v-immunity function (parameter z [TODO check] in supplement of 2015 LGH paper) 
   immune_effect_on_progression_to_clinical: 4
   
+  # age at which immune function is mature
   age_mature_immunity: 10
+  
+  # TODO check - parameter kappa in supplement of 2015 LGH paper
   factor_effect_age_mature_immunity : 1
 
-# that the patient will enter the "clinical" state
-# the first two age classes are "under fives"; everyone
-# else is "over five"
+# days from end of liver-stage infection to appearance of symptoms
 days_to_clinical_under_five: 4
 days_to_clinical_over_five: 6
 
 
 # days that parasites develop mature gametocyte after exiting liverstage
+# please read the documentation carefully - there are no explicit gametocytes in
+# v3.0.2 of the simulation
 days_mature_gametocyte_under_five: 4
 days_mature_gametocyte_over_five: 6
 
-#seasonal_beta: [1, 1, 1, 1]
-#season_break: [100, 150, 300, 365]
-
+# TODO what is this?
 startDayInYear: 0
 
-#Probability to have full dosing days
+# probability that a patient completes a course of treatment
 p_compliance: 1
+
+# TODO Nguyen - is this used for anything?
 min_dosing_days: 1
 
-#person relRateBitten
+# relative biting rates for individuals; uncomment "distribution: Exponential" to use an
+# exponentially distributed biting rate
 relative_bitting_info:
   max_relative_biting_value: 35
   number_of_biting_levels: 100
@@ -568,7 +444,7 @@ relative_bitting_info:
       sd: 10
 
 
-#migration parameter
+# this functionality works, but it was not used in any analyses for the 2015 LGH paper
 percentMovement: [
 [0.0,   0.01,   0.01 ],
 [0.01,  0.01,   0.01],
@@ -582,38 +458,58 @@ meanDaysToReturn: [
 ]
 
 
-
+# TODO Nguyen - does this do anything?
 gametocyte_level_under_artemisinin_action: 0.2
 
-#percentage of infectivity of an asymtomatic host compare to clinical host based on the function : f(density) = density / (density + A), 
-# obsolate
+
+
+# TODO DELETE THIS? percentage of infectivity of an asymtomatic host compare to clinical host based on the function : f(density) = density / (density + A), 
+# obsolete
 #to find A = (densityAsymptomatic / relInfectivityAsymtomatic) - densityasymptomatic
 #relInfectivityAsymtomatic: 0.7
 
-#this value based on Ross 2006
+
+
+
+
+
+
+# these values are based on Ross 2006 - these parameters determine the probability a mosquito
+# becomes infected based on the host's parasitaemia level [ TODO : Nguyen, is this correct? ]
 relative_infectivity:
   sigma: 3.91
   ro: 0.00031
-  #on average 1 mosquito take 3microliter blood per bloodeal
+  # on average 1 mosquito take 3 microliters of blood per bloodeal
   blood_meal_volume: 3
 
+  
+  
+  
+  
 
-#probablity to relapse after no treatment or a treatment failure or a drug resistance
+# probablity to relapse after no treatment, or a treatment failure due to drug resistance
 p_relapse: 0.01
-#number of days to be wait for the next relapse, use only when have no treatment or resistant to drug
+
+# number of days before a relapse can occur
 relapse_duration: 30
-#relapse rate use to increase the parasite density after a treatment failure (at drug clearance day)
-# multiply with sqrt(20) per day
+
+# relapse rate - used to increase the parasite density after a treatment failure (at the drug clearance day)
+# multiply by sqrt(20) per day
 relapseRate: 4.4721
 
-#update a person for <updateFrequency> days.
+# minimum update frequency for a host's attributes (esp. parasite density) is every 7 days, or
+# more frequently if other events are occurring at this time
 update_frequency: 7
 
 #report to GUI and console every 30 days
 report_frequency: 30
 
+# if an infected and asymptomatic host is bitten and infected by a new 
+# parasite clone, this setting allows the new infection to cause symptoms
 allow_new_coinfection_to_cause_symtoms: true
 
+
+# this functionality works, but it was not used in any analyses for the 2015 LGH paper
 spatial_information:
   max_relative_moving_value: 35
   number_of_moving_levels: 100
@@ -627,11 +523,10 @@ spatial_information:
       sd: 10
   circulation_percent: 0.0
   length_of_stay:
-    # drawn from gamma distribution?
     mean: 5
     sd: 10
     
-    
+# this functionality works, but it was not used in any analyses for the 2015 LGH paper
 spatial_external_population_information:
   max_relative_moving_value: 35
   number_of_moving_levels: 100
@@ -653,16 +548,29 @@ spatial_external_population_information:
     a: [0.25,0.25,0.25,0.25]
     phi: [200,200,200,200]
     
+# this functionality works, but it was not used in any analyses for the 2015 LGH paper
 tme_info:
   tme_starting_day: 0
   mda_coverage: [0.8, 0.8, 0.8, 0.8]
   mda_duration: [4, 4, 4, 4]
   
-  
+# free recombination among the drug resistance loci
 using_free_recombination: true
 #using_free_recombination: false
 
+# the current treatment failure rate as observed in the population is not really
+# today's treatment failure rate, as these data are never assembled that quickly in
+# real life; rather, it is the average treatment failure rate observed over the 
+# past 60 days
 tf_window_size: 60
 
+# special function to make the mean biting rate (across hosts) depend on age
 using_age_dependent_bitting_level: true
+
+# special function which makes the probability of an infection (resulting 
+# from an infectious mosquito bite) age-dependent
 using_variable_probability_infectious_bites_cause_infection: false
+
+
+
+
