@@ -11,3 +11,5 @@ This version of the simulation was used to generate the results published in
    Lancet Global Heath, in press, 2015.
    
 In the individual Figure folders in this repository you will find the raw simulation outputs that were used to generate the figures in this paper.
+
+Maciek making some changes.
