@@ -384,7 +384,8 @@ immune_system_information:
   #rate at which antimalarial immune function decreases when a host is parasitaemic
   b2: 0.0025
   
-  # durations of infection of naive and fully-immune hosts (TODO check if this is necessary used for calibration)
+  # durations of infection of naive and fully-immune hosts. 
+  # Those parameters are used to calculate max and min killing rate by immune system
   duration_for_naive: 300
   duration_for_fully_immune: 60
 
@@ -400,13 +401,13 @@ immune_system_information:
   min_clinical_probability: 0.05
   max_clinical_probability: 0.99
 
-  # slope of sigmoidal prob-v-immunity function (parameter z [TODO check] in supplement of 2015 LGH paper) 
+  # slope of sigmoidal prob-v-immunity function (parameter z in supplement of 2015 LGH paper) 
   immune_effect_on_progression_to_clinical: 4
   
   # age at which immune function is mature
   age_mature_immunity: 10
   
-  # TODO check - parameter kappa in supplement of 2015 LGH paper
+  # parameter kappa in supplement of 2015 LGH paper
   factor_effect_age_mature_immunity : 1
 
 # days from end of liver-stage infection to appearance of symptoms
@@ -420,13 +421,11 @@ days_to_clinical_over_five: 6
 days_mature_gametocyte_under_five: 4
 days_mature_gametocyte_over_five: 6
 
-# TODO what is this?
-startDayInYear: 0
-
 # probability that a patient completes a course of treatment
 p_compliance: 1
 
-# TODO Nguyen - is this used for anything?
+# TND:  this functionality works if p_compliance (above) less than 1.
+# and it was not used in any analyses for the 2015 LGH paper since p_compliance is always 1.
 min_dosing_days: 1
 
 # relative biting rates for individuals; uncomment "distribution: Exponential" to use an
@@ -458,34 +457,16 @@ meanDaysToReturn: [
 ]
 
 
-# TODO Nguyen - does this do anything?
+#currently it have no effect if fixed at 0.2.
 gametocyte_level_under_artemisinin_action: 0.2
 
-
-
-# TODO DELETE THIS? percentage of infectivity of an asymtomatic host compare to clinical host based on the function : f(density) = density / (density + A), 
-# obsolete
-#to find A = (densityAsymptomatic / relInfectivityAsymtomatic) - densityasymptomatic
-#relInfectivityAsymtomatic: 0.7
-
-
-
-
-
-
-
 # these values are based on Ross 2006 - these parameters determine the probability a mosquito
-# becomes infected based on the host's parasitaemia level [ TODO : Nguyen, is this correct? ]
+# becomes infected based on the host's assexual parasitaemia level
 relative_infectivity:
   sigma: 3.91
   ro: 0.00031
   # on average 1 mosquito take 3 microliters of blood per bloodeal
   blood_meal_volume: 3
-
-  
-  
-  
-  
 
 # probablity to relapse after no treatment, or a treatment failure due to drug resistance
 p_relapse: 0.01
@@ -565,7 +546,7 @@ using_free_recombination: true
 tf_window_size: 60
 
 # special function to make the mean biting rate (across hosts) depend on age
-using_age_dependent_bitting_level: true
+using_age_dependent_bitting_level: false
 
 # special function which makes the probability of an infection (resulting 
 # from an infectious mosquito bite) age-dependent
