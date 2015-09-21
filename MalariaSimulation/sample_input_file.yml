@@ -385,7 +385,7 @@ immune_system_information:
   b2: 0.0025
   
   # durations of infection of naive and fully-immune hosts. 
-  # Those parameters are used to calculate max and min killing rate by immune system
+  # these parameters are used to calculate max and min killing rate by immune system
   duration_for_naive: 300
   duration_for_fully_immune: 60
 
@@ -424,8 +424,10 @@ days_mature_gametocyte_over_five: 6
 # probability that a patient completes a course of treatment
 p_compliance: 1
 
-# TND:  this functionality works if p_compliance (above) less than 1.
-# and it was not used in any analyses for the 2015 LGH paper since p_compliance is always 1.
+# this functionality works. It is used when p_compliance (above) is less than 1.
+# It was not used in any analyses for the 2015 LGH paper where p_compliance is always 1.
+# this guarantees that the minimum number of dosing days for a poorly-complying 
+# patient is still 1
 min_dosing_days: 1
 
 # relative biting rates for individuals; uncomment "distribution: Exponential" to use an
@@ -457,18 +459,20 @@ meanDaysToReturn: [
 ]
 
 
-#currently it have no effect if fixed at 0.2.
+# do not change this
+# this paramater was used in a different model version where gametocytes were
+# modeled explicitly.  In v3.0.2, this need to be set to 0.2.
 gametocyte_level_under_artemisinin_action: 0.2
 
 # these values are based on Ross 2006 - these parameters determine the probability a mosquito
-# becomes infected based on the host's assexual parasitaemia level
+# becomes infected based on the host's asexual parasitaemia level
 relative_infectivity:
   sigma: 3.91
   ro: 0.00031
   # on average 1 mosquito take 3 microliters of blood per bloodeal
   blood_meal_volume: 3
 
-# probablity to relapse after no treatment, or a treatment failure due to drug resistance
+# probability to relapse after no treatment, or a treatment failure due to drug resistance
 p_relapse: 0.01
 
 # number of days before a relapse can occur
