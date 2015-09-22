@@ -101,10 +101,10 @@ Note that many of the variables are not reported during the burn-in stage (first
 
 14.	Placeholder text
 
-15.  	Blood-slide prevalence, across all ages
-16.  	Blood-slide prevalence, 2-10 age group
-17.  	Blood-slide prevalence, 10-15 age group
-18.  	Blood-slide prevalence, 15-45 age group
+15.	Blood-slide prevalence, across all ages
+16.	Blood-slide prevalence, 2-10 age group
+17.	Blood-slide prevalence, 10-15 age group
+18.	Blood-slide prevalence, 15-45 age group
 
 19.	EIR over the past 365 days (this will be zero for the first year of the simulation)
 20.	Multiplicity of Infection (MOI) - this is the mean MOI over infected hosts
