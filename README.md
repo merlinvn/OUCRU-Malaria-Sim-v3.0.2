@@ -110,24 +110,3 @@ Note that many of the variables are not reported during the burn-in stage (first
 20.	Multiplicity of Infection (MOI) - this is the mean MOI over infected hosts
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-First line is random number seed.
-
-  
-  
-  
-
-
-
-
