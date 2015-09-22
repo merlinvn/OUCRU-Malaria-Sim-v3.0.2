@@ -17,7 +17,7 @@ void Usage(ez::ezOptionParser& opt) {
     std::string usage;
     opt.getUsage(usage);
     std::cout << usage;
-    std::cout << "=================="<<std::endl;
+    std::cout << "========================="<<std::endl;
 };
 
 void handle_option_parser(Model* m, ez::ezOptionParser& opt);
@@ -58,7 +58,7 @@ int main(int argc, const char * argv[]) {
             for (i = 0; i < badOptions.size(); ++i)
                 std::cerr << "ERROR: Missing required option " << badOptions[i] << ".\n\n";
             Usage(opt);
-            return 1;
+            return 0;
         }
 
         //        if (!opt.gotExpected(badOptions)) {
@@ -95,7 +95,7 @@ void CreateOptionParser(ez::ezOptionParser& opt) {
     opt.overview = "Individual-based simulation for malaria.";
     opt.syntax = "malariasimulation [OPTIONS]";
     opt.example = "malariasimulation -h\n\n";
-    opt.footer = "malariasimulation v3.0.0 Copyright (C) 2012 OUCRU.\n";
+    opt.footer = "=========================\nmalariasimulation v3.0.2\n";
 
     opt.add(
             "0", // Default.
@@ -125,7 +125,7 @@ void CreateOptionParser(ez::ezOptionParser& opt) {
             1, // Required?
             1, // Number of args expected.
             0, // Delimiter if expecting multiple args.
-            "The config file (YAML format).", // Help description.
+            "The config file (YAML format). \nEx: malariasimulation -c config.yml", // Help description.
             "-c", // Flag token. 
             "-i", // stand for input
             "-cfg", // Flag token.
