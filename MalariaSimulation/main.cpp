@@ -122,7 +122,7 @@ void CreateOptionParser(ez::ezOptionParser& opt) {
 
     opt.add(
             "config.yml", // Default.
-            0, // Required?
+            1, // Required?
             1, // Number of args expected.
             0, // Delimiter if expecting multiple args.
             "The config file (YAML format).", // Help description.
