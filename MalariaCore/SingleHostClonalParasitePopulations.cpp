@@ -391,3 +391,12 @@ bool SingleHostClonalParasitePopulations::has_detectable_parasite() {
     }
     return false;
 }
+
+bool SingleHostClonalParasitePopulations::isGameticytaemic(){
+  for (int i = 0; i < parasites_->size(); i++) {
+        if (parasites_->at(i)->gametocyte_level()>0) {
+            return true;
+        }
+    }
+    return false;
+}

@@ -115,6 +115,8 @@ public:
     bool has_0_case();
 
     void initialize_person_indices();
+    
+    void perform_interupted_feeding_recombination();
 
 private:
 

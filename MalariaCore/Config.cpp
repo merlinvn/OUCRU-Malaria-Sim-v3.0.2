@@ -57,7 +57,7 @@ Config::Config(Model* model) : model_(model), strategy_(NULL), drug_db_(NULL), p
     modified_mutation_factor_ = -1;
     tf_window_size_ = -1;
     //    initial_parasite_info_.reserve(1);
-
+    fraction_mosquitoes_interrupted_feeding_ = 0;
 }
 
 Config::Config(const Config& orig) {
@@ -179,9 +179,10 @@ void Config::read_from_file(const std::string& config_file_name) {
 
     using_free_recombination_ = config["using_free_recombination"].as<bool>();
     tf_window_size_ = config["tf_window_size"].as<int>();
-    
+
     using_age_dependent_bitting_level_ = config["using_age_dependent_bitting_level"].as<bool>();
     using_variable_probability_infectious_bites_cause_infection_ = config["using_variable_probability_infectious_bites_cause_infection"].as<bool>();
+    fraction_mosquitoes_interrupted_feeding_ = config["fraction_mosquitoes_interrupted_feeding"].as<double>();
 }
 
 void Config::read_parasite_density_level(const YAML::Node& config) {
@@ -359,7 +360,7 @@ Therapy* Config::read_therapy(const YAML::Node& config, const int& therapy_id) {
     const YAML::Node& n = config["TherapyInfo"];
 
     std::string t_id = NumberToString<int>(therapy_id);
-//    std::cout << therapy_id << std::endl;
+    //    std::cout << therapy_id << std::endl;
 
     Therapy* t = new Therapy();
 

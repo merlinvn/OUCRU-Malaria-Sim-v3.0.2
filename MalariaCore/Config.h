@@ -105,6 +105,7 @@ class Config {
     VIRTUAL_PROPERTY_REF(int, tf_window_size)
     VIRTUAL_PROPERTY_REF(bool, using_age_dependent_bitting_level)
     VIRTUAL_PROPERTY_REF(bool, using_variable_probability_infectious_bites_cause_infection)
+    VIRTUAL_PROPERTY_REF(double, fraction_mosquitoes_interrupted_feeding)
 
 public:
     Config(Model* model = NULL);

@@ -183,6 +183,8 @@ public:
     
     double p_infection_from_an_infectious_bite();
     
+    bool isGametocytaemic();
+    
 private:
 
 };

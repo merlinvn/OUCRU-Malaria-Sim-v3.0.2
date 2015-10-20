@@ -699,3 +699,102 @@ void Population::perform_moving_to_external_population_event() {
         today_move_to_external_population.clear();
     }
 }
+
+void Population::perform_interupted_feeding_recombination() {
+    // calculate vector Y, Z
+    std::vector< std::vector <double> > Y = std::vector< std::vector<double> > (Model::CONFIG->number_of_locations(), std::vector<double>(Model::CONFIG->number_of_parasite_types(), 0));
+    std::vector< std::vector <double> > Z = std::vector< std::vector<double> > (Model::CONFIG->number_of_locations(), std::vector<double>(Model::CONFIG->number_of_parasite_types(), 0));
+
+    //expected allel frequencies after recombination
+    std::vector< std::vector <double> > eafar = std::vector< std::vector<double> > (Model::CONFIG->number_of_locations(), std::vector<double>(Model::CONFIG->number_of_parasite_types(), 0));
+
+
+
+    for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
+        for (int parasite_type_id = 0; parasite_type_id < Model::CONFIG->number_of_parasite_types(); parasite_type_id++) {
+            Y[loc][parasite_type_id] = current_force_of_infection_by_location_parasite_type_[loc][parasite_type_id] * (1 - Model::CONFIG->fraction_mosquitoes_interrupted_feeding());
+            Z[loc][parasite_type_id] = current_force_of_infection_by_location_parasite_type_[loc][parasite_type_id] * Model::CONFIG->fraction_mosquitoes_interrupted_feeding();
+        }
+    }
+
+    int numberOfGametocytaemic = 0;
+
+    PersonIndexByLocationStateAgeClass* pi = Model::POPULATION->get_person_index<PersonIndexByLocationStateAgeClass>();
+    for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
+        //hs 2: assymptomatic, 3: clinical
+        for (int hs = 2; hs <= 3; hs++) {
+            for (int ac = 0; ac < Model::CONFIG->number_of_age_classes(); ac++) {
+                for (int i = 0; i < pi->vPerson()[loc][hs][ac].size(); i++) {
+                    Person* p = pi->vPerson()[loc][hs][ac][i];
+                    if (p->isGametocytaemic()) {
+                        numberOfGametocytaemic++;
+                    }
+                }
+            }
+        }
+    }
+
+    double sumZ = 0;
+    for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
+        for (int parasite_type_id = 0; parasite_type_id < Model::CONFIG->number_of_parasite_types(); parasite_type_id++) {
+            sumZ += Z[loc][parasite_type_id];
+        }
+    }
+
+    double a = Model::CONFIG->fraction_mosquitoes_interrupted_feeding() * numberOfGametocytaemic / sumZ;
+
+    for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
+        for (int parasite_type_id = 0; parasite_type_id < Model::CONFIG->number_of_parasite_types(); parasite_type_id++) {
+            Z[loc][parasite_type_id] = ceil(a * Z[loc][parasite_type_id]);
+        }
+    }
+
+    sumZ = 0;
+    for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
+        for (int parasite_type_id = 0; parasite_type_id < Model::CONFIG->number_of_parasite_types(); parasite_type_id++) {
+            sumZ += Z[loc][parasite_type_id];
+        }
+    }
+    //    std::cout << sumZ << " -- " << Model::CONFIG->fraction_mosquitoes_interrupted_feeding() * numberOfGametocytaemic;
+    // perform free recombination in Z
+    if (sumZ != 0) {
+        for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
+            for (int i = 0; i < Model::CONFIG->number_of_parasite_types(); i++) {
+                if (Z[loc][i] == 0) continue;
+                for (int j = 0; j < Model::CONFIG->number_of_parasite_types(); j++) {
+                    if (Z[loc][j] == 0) continue;
+                    if (i == j) {
+                        double weight = Z[loc][i] * Z[loc][i]/ (sumZ*sumZ);
+                        eafar[loc][i] += weight;
+
+                    } else {
+                        double weight = 2 * Z[loc][i] * Z[loc][j] / (sumZ*sumZ);               
+                        for (int p = 0; p < Model::CONFIG->number_of_parasite_types(); p++) {
+                            if (Model::CONFIG->parasite_db()->mating_matrix()[i][j][p] == 0) continue;
+                            eafar[loc][p] += weight * Model::CONFIG->parasite_db()->mating_matrix()[i][j][p];
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+    
+    //weight Z with eafar and divide by a and calculate current_force_of_infection
+    for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
+        for (int parasite_type_id = 0; parasite_type_id < Model::CONFIG->number_of_parasite_types(); parasite_type_id++) {
+            Z[loc][parasite_type_id] *= eafar[loc][parasite_type_id]/a;
+            current_force_of_infection_by_location_parasite_type_[loc][parasite_type_id] = Y[loc][parasite_type_id] + Z[loc][parasite_type_id];
+        }
+    }
+
+
+    //    for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
+    //        for (int parasite_type_id = 0; parasite_type_id < Model::CONFIG->number_of_parasite_types(); parasite_type_id++) {
+    //            current_force_of_infection_by_location_parasite_type_[loc][parasite_type_id] = Y[loc][parasite_type_id] + Z[loc][parasite_type_id];
+    //        }
+    //    }
+    //p
+
+
+}

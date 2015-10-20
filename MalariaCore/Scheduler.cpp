@@ -169,10 +169,11 @@ void Scheduler::initialize(const int& total_time) {
 }
 
 void Scheduler::update_force_of_infection() {
-
+     Population* population = model_->population();
+     population->perform_interupted_feeding_recombination();
+     
     for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
-        for (int pType = 0; pType < Model::CONFIG->number_of_parasite_types(); pType++) {
-            Population* population = model_->population();
+        for (int pType = 0; pType < Model::CONFIG->number_of_parasite_types(); pType++) {           
             population->force_of_infection_for7days_by_location_parasite_type()[current_time_ % Model::CONFIG->number_of_tracking_days()][loc][pType] = population->current_force_of_infection_by_location_parasite_type()[loc][pType];
         }
     }

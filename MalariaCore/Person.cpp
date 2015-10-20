@@ -730,3 +730,8 @@ double Person::get_age_dependent_bitting_factor() {
 double Person::p_infection_from_an_infectious_bite() {
     return (1 - immune_system_->get_current_value()) / 8.333 + 0.04;
 }
+
+
+bool Person::isGametocytaemic(){
+     return all_clonal_parasite_populations_->isGameticytaemic();
+}
