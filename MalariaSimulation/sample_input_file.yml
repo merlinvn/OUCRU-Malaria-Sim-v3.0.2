@@ -12,7 +12,7 @@
 # total number of days the simulation is run, including the burn-in period which we normally set to 4000
 # days; during the burn-in period, no one receives malaria treatement and the system sets into a natural 
 # equilibrium 
-total_time: 4730
+total_time: 11330
 
 # length of burn-in period
 start_treatment_day: 4000
@@ -32,7 +32,7 @@ number_of_locations: 1
 
 # main scaling parameter for transmission, by location
 # the last four terms are ignored when the number of locations is 1
-beta: [0.14 , 1.4 , 1.4, 1.4, 1]
+beta: [0.2 , 1.4 , 1.4, 1.4, 1]
 
 # this functionality works, but it was not used in any analyses for the 2015 LGH paper
 # seasonality parameters, by location
@@ -42,7 +42,7 @@ seasonal_beta:
   
   
 # the last four terms are ignored when the number of locations is 1
-population_size_by_location: [100000, 1000 , 1000, 1000, 500]
+population_size_by_location: [10000, 1000 , 1000, 1000, 500]
 
 # probability that an infectious bite on a human causes a blood stage malaria infection
 p_infection_from_an_infectious_bite: 0.1
@@ -334,8 +334,8 @@ TherapyInfo:
 StrategyInfo:
   #strategyName can be SFTStrategy / CyclingStrategy / MFTStrategy / AdaptiveCyclingStrategy
 #  strategyName: SFTStrategy
-#  strategyName: CyclingStrategy
-  strategyName: MFTStrategy
+  strategyName: CyclingStrategy
+#  strategyName: MFTStrategy
 #  strategyName: AdaptiveCyclingStrategy
 
   SFTStrategy:
@@ -556,5 +556,5 @@ using_age_dependent_bitting_level: false
 # from an infectious mosquito bite) age-dependent
 using_variable_probability_infectious_bites_cause_infection: false
 
-fraction_mosquitoes_interrupted_feeding: 0.22
+fraction_mosquitoes_interrupted_feeding: 0.1
 
