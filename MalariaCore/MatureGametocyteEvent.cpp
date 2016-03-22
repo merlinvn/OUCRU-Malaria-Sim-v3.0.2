@@ -44,7 +44,7 @@ void MatureGametocyteEvent::execute() {
         if (person->drugs_in_blood()->is_drug_in_blood(1) && !blood_parasite_->resist_to(Model::CONFIG->drug_db()->drug_db()[1])) {
             blood_parasite_->set_gametocyte_level(Model::CONFIG->gametocyte_level_under_artemisinin_action());
         } else {
-            blood_parasite_->set_gametocyte_level(0.2);
+            blood_parasite_->set_gametocyte_level(Model::CONFIG->gametocyte_level_full());
         }
     }
 

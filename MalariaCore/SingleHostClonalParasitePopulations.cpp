@@ -322,7 +322,7 @@ void SingleHostClonalParasitePopulations::deactive_astermisinin_on_gametocyte() 
     //    Config* config = person_->population()->model()->config();
     for (int i = 0; i < parasites_->size(); i++) {
         if (fabs(parasites_->at(i)->gametocyte_level() - Model::CONFIG->gametocyte_level_under_artemisinin_action()) < 0.0001) {
-            parasites_->at(i)->set_gametocyte_level(0.2);
+            parasites_->at(i)->set_gametocyte_level(Model::CONFIG->gametocyte_level_full());
         }
     }
 }

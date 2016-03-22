@@ -72,7 +72,6 @@ class Config {
 
     POINTER_PROPERTY(Strategy, strategy);
     POINTER_PROPERTY(DrugDatabase, drug_db);
-    //    POINTER_PROPERTY(ParasiteDatabase, parasite_db);
     POINTER_PROPERTY(IntGenotypeDatabase, genotype_db);
     VIRTUAL_PROPERTY_REF(GenotypeInfo, genotype_info);
     VIRTUAL_PROPERTY_REF(TherapyPtrMap, therapy_db);

@@ -67,7 +67,6 @@ Config::~Config() {
     DeletePointer<Strategy>(strategy_);
     DeletePointer<Strategy>(tme_strategy_);
     DeletePointer<DrugDatabase>(drug_db_);
-    //    DeletePointer<ParasiteDatabase>(parasite_db_);
     DeletePointer<IntGenotypeDatabase>(genotype_db_);
 
     BOOST_FOREACH(TherapyPtrMap::value_type &i, therapy_db_) {
@@ -403,19 +402,6 @@ void Config::build_parasite_db() {
 
     genotype_db_->initialize_matting_matrix();
     number_of_parasite_types_ = genotype_db_->genotype_db().size();
-    //    std::cout << number_of_parasite_types_ << std::endl;
-
-    //    DeletePointer<ParasiteDatabase>(parasite_db_);
-    //    parasite_db_ = new ParasiteDatabase();
-    //    for (int i = 0; i < pow(2, gene_length); i++) {
-    //        Genotype* gt = new Genotype(i, gene_length, drug_db_);
-    //        //        std::cout << gt->gene_expression() << "-" << gt->relative_fitness_multiple_infection() << std::endl;
-    //        parasite_db_->add(gt);
-    //    }
-    //    number_of_parasite_types_ = parasite_db_->genotype_db().size();
-    //
-    //    parasite_db_->initialize_matting_matrix();
-
 }
 
 Strategy* Config::read_strategy(const YAML::Node& config, const YAML::Node& n, const std::string& strategy_name) {

@@ -385,7 +385,7 @@ void Population::initial_infection(Person* p, IntGenotype * parasite_type) {
 
     double size = model_->random()->random_flat(Model::CONFIG->log_parasite_density_level().log_parasite_density_from_liver, Model::CONFIG->log_parasite_density_level().log_parasite_density_clinical);
 
-    blood_parasite->set_gametocyte_level(0.2);
+    blood_parasite->set_gametocyte_level(Model::CONFIG->gametocyte_level_full());
     blood_parasite->set_last_update_log10_parasite_density(size);
 
 
