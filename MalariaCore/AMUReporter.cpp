@@ -138,7 +138,7 @@ void AMUReporter::begin_time_step() {
 void AMUReporter::after_time_step() {
 
     if (Model::SCHEDULER->current_time() % Model::CONFIG->report_frequency() == 0) {
-        Model::DATA_COLLECTOR->perform_population_statistic();
+//        Model::DATA_COLLECTOR->perform_population_statistic();
 
         std::cout << Model::SCHEDULER->current_time() << "\t";
         std::cout << Model::DATA_COLLECTOR->AMU_per_parasite_pop() << "\t";
@@ -199,7 +199,7 @@ void AMUReporter::output_parameters() {
     }
 
     std::cout << Model::CONFIG->p_treatment() << "\t";
-    std::cout << Model::CONFIG->drug_db()->drug_db().begin()->second->resistance_cost_multiple_infection() << "\t";
+    std::cout << Model::CONFIG->genotype_info().loci_vector[0].cost_of_resistance << "\t";
     std::cout << Model::CONFIG->immune_system_information().factor_effect_age_mature_immunity << "\t";
     std::cout << Model::CONFIG->immune_system_information().immune_effect_on_progression_to_clinical << "\t";
     std::cout << Model::CONFIG->relative_bitting_information().max_relative_biting_value << "\t";

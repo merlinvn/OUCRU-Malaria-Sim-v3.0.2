@@ -38,7 +38,7 @@ void ReceiveMDADrugEvent::execute() {
 //        return;
 //    }
 
-    person->receive_therapy(received_therapy_, received_therapy_->number_of_dosing_days());
+    person->receive_therapy(received_therapy_, NULL);
 
     person->schedule_update_by_drug_event(NULL);
 

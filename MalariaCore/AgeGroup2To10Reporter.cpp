@@ -14,7 +14,7 @@
 #include "ModelDataCollector.h"
 #include "Config.h"
 #include "Strategy.h"
-#include "Therapy.h"
+#include "SCTherapy.h"
 #include "Population.h"
 #include <boost/format.hpp>
 #include "ResistanceTracker.h"
@@ -118,7 +118,7 @@ void AgeGroup2To10Reporter::begin_time_step() {
 void AgeGroup2To10Reporter::after_time_step() {
 
     if (Model::SCHEDULER->current_time() % Model::CONFIG->report_frequency() == 0) {
-        Model::DATA_COLLECTOR->perform_population_statistic();
+//        Model::DATA_COLLECTOR->perform_population_statistic();
 
         std::cout << Model::SCHEDULER->current_time() << "\t";
         std::cout << Model::DATA_COLLECTOR->AMU_per_parasite_pop() << "\t";
@@ -194,7 +194,7 @@ void AgeGroup2To10Reporter::output_parameters() {
     }
 
     std::cout << Model::CONFIG->p_treatment() << "\t";
-    std::cout << Model::CONFIG->drug_db()->drug_db().begin()->second->resistance_cost_multiple_infection() << "\t";
+    std::cout << Model::CONFIG->genotype_info().loci_vector[0].cost_of_resistance << "\t";
     std::cout << Model::CONFIG->immune_system_information().factor_effect_age_mature_immunity << "\t";
     std::cout << Model::CONFIG->immune_system_information().immune_effect_on_progression_to_clinical << "\t";
     std::cout << Model::CONFIG->relative_bitting_information().max_relative_biting_value << "\t";
@@ -204,6 +204,12 @@ void AgeGroup2To10Reporter::output_parameters() {
     std::cout << Model::CONFIG->strategy()->to_int() << "\t";
     std::cout << Model::CONFIG->tf_window_size() << "\t";
 
+    SCTherapy* scTherapy = dynamic_cast<SCTherapy*> (Model::CONFIG->strategy()->get_therapy());
+    if (scTherapy != NULL) {
+        std::cout << scTherapy->dosing_day() << "\t";
+    } else {
+        std::cout << 0 << "\t";
+}
 }
 
 void AgeGroup2To10Reporter::print_ntf_by_location() {

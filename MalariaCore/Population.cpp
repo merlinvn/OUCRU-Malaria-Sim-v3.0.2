@@ -326,7 +326,7 @@ void Population::introduce_initial_cases() {
         BOOST_FOREACH(InitialParasiteInfo p_info, Model::CONFIG->initial_parasite_info()) {
             int num_of_infections = size(p_info.location) * p_info.prevalence;
             //            std::cout << num_of_infections << std::endl;
-            Genotype* genotype = Model::CONFIG->parasite_db()->genotype_db()[p_info.parasite_type_id];
+            IntGenotype* genotype = Model::CONFIG->genotype_db()->genotype_db()[p_info.parasite_type_id];
             //std::cout << p_info.location << "-" << p_info.parasite_type_id << "-" << num_of_infections << std::endl;
             introduce_parasite(p_info.location, genotype, num_of_infections);
 
@@ -344,7 +344,7 @@ void Population::introduce_initial_cases() {
 
 }
 
-void Population::introduce_parasite(const int& location, Genotype* parasite_type, const int& num_of_infections) {
+void Population::introduce_parasite(const int& location, IntGenotype* parasite_type, const int& num_of_infections) {
 
     if (model_ != NULL) {
 
@@ -375,7 +375,7 @@ void Population::introduce_parasite(const int& location, Genotype* parasite_type
     }
 }
 
-void Population::initial_infection(Person* p, Genotype * parasite_type) {
+void Population::initial_infection(Person* p, IntGenotype * parasite_type) {
 
     p->immune_system()->set_increase(true);
     p->set_host_state(Person::ASYMPTOMATIC);
@@ -773,8 +773,8 @@ void Population::perform_interupted_feeding_recombination() {
                     } else {
                         double weight = 2 * Z[loc][i] * Z[loc][j];
                         for (int p = 0; p < Model::CONFIG->number_of_parasite_types(); p++) {
-                            if (Model::CONFIG->parasite_db()->mating_matrix()[i][j][p] == 0) continue;
-                            eafar[loc][p] += weight * Model::CONFIG->parasite_db()->mating_matrix()[i][j][p];
+                            if (Model::CONFIG->genotype_db()->mating_matrix()[i][j][p] == 0) continue;
+                            eafar[loc][p] += weight * Model::CONFIG->genotype_db()->mating_matrix()[i][j][p];
                             //                            sumEafar += weight * Model::CONFIG->parasite_db()->mating_matrix()[i][j][p];
                         }
                     }

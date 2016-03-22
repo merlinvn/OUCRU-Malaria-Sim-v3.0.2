@@ -12,6 +12,11 @@
 #include "FarmReporter.h"
 #include "MultipleLocationGuiReporter.h"
 #include "AgeGroup2To10Reporter.h"
+#include "YearlyReporterV1.h"
+#include "Model.h"
+#include "Random.h"
+#include <boost/format.hpp>
+#include <string>
 
 Reporter::Reporter() : model_(NULL) {
 }
@@ -23,7 +28,9 @@ Reporter::~Reporter() {
 }
 
 Reporter* Reporter::MakeReport(ReportType report_type) {
-
+    std::string file_name1 = boost::str(boost::format("yearly_data_%1%_%2%.txt")
+            % Model::RANDOM->seed()
+            % Model::MODEL->override_parameter_line_number());
     switch (report_type) {
         case CONSOLE:
             return new ConsoleReporter();
@@ -37,6 +44,8 @@ Reporter* Reporter::MakeReport(ReportType report_type) {
             return new MultipleLocationGuiReporter();
         case AGE_GROUP_2_TO_10:
             return new AgeGroup2To10Reporter();
+        case YEARLY_REPORTER_V1:
+            return new YearlyReporterV1(file_name1);
         default:
             return new ConsoleReporter();
             break;

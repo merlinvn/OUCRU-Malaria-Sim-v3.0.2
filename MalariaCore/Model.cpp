@@ -143,6 +143,11 @@ void Model::initialize() {
         add_reporter(Reporter::MakeReport(Reporter::GUI));
     }
 
+    if (override_parameter_line_number_ != -1) {
+        add_reporter(Reporter::MakeReport(Reporter::YEARLY_REPORTER_V1));
+    }
+
+
     //initialize reporters
 
     BOOST_FOREACH(Reporter* reporter, reporters_) {
@@ -178,7 +183,7 @@ void Model::initialize() {
     for (int i = 0; i < CONFIG->importation_parasite_periodically_info().size(); i++) {
         ImportationPeriodicallyEvent::schedule_event(SCHEDULER, CONFIG->importation_parasite_periodically_info()[i].location, CONFIG->importation_parasite_periodically_info()[i].duration, CONFIG->importation_parasite_periodically_info()[i].parasite_type_id, CONFIG->importation_parasite_periodically_info()[i].number);
     }
-    
+
     for (int i = 0; i < CONFIG->importation_parasite_info().size(); i++) {
         ImportationEvent::schedule_event(SCHEDULER, CONFIG->importation_parasite_info()[i].location, CONFIG->importation_parasite_info()[i].time, CONFIG->importation_parasite_info()[i].parasite_type_id, CONFIG->importation_parasite_info()[i].number);
     }
@@ -256,24 +261,18 @@ void Model::release_object_pool() {
 
 void Model::run() {
     before_run();
-
     scheduler_->run();
-
     after_run();
 }
 
 void Model::before_run() {
     //    std::cout << "Seed:" << RANDOM->seed() << std::endl;
-
     BOOST_FOREACH(Reporter* reporter, reporters_) {
         reporter->before_run();
     }
-
-
 }
 
 void Model::after_run() {
-
     BOOST_FOREACH(Reporter* reporter, reporters_) {
         reporter->after_run();
     }
@@ -281,15 +280,29 @@ void Model::after_run() {
 
 void Model::perform_infection_event() {
     population_->perform_infection_event();
-
     external_population_->perform_infection_event();
 }
 
 void Model::report_end_of_time_step() {
+    if (Model::SCHEDULER->current_time() % Model::CONFIG->report_frequency() == 0) {
+        Model::DATA_COLLECTOR->perform_population_statistic();
+        BOOST_FOREACH(Reporter* reporter, reporters_) {
+            reporter->after_time_step();
+        }       
+    }
+//     if (Model::SCHEDULER->current_time() >= 4000) {
+//        std::cout << "end" << std::endl;
+//    }
+}
+
+void Model::report_begin_of_time_step() {
 
     BOOST_FOREACH(Reporter* reporter, reporters_) {
-        reporter->after_time_step();
+        reporter->begin_time_step();
     }
+//    if (Model::SCHEDULER->current_time() >= 4000) {
+//        std::cout << "begin" << std::endl;
+//    }
 }
 
 void Model::add_reporter(Reporter* reporter) {

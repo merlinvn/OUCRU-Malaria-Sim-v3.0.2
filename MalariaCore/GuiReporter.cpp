@@ -14,7 +14,7 @@
 #include "ModelDataCollector.h"
 #include "Population.h"
 #include "Drug.h"
-#include "Genotype.h"
+#include "IntGenotype.h"
 #include <boost/format.hpp>
 
 
@@ -55,8 +55,7 @@ void GuiReporter::before_run() {
 
     CreateNewChart("LineChart", boost::str(boost::format("%1%%2%") % prevalanceChart % 0), "Prevalance & Immune", "Time", "Integer", 0, Model::CONFIG->total_time(), "Prevalance", "Double", 0, 0.1, "Immune level", "Double", 0, 0.3);
 
-    //    CreateNewChart("BarChart", boost::str(boost::format("%1%%2%") % ageClassChart % 0), "Age Class", "Age Class", "Category", 0, 0, "Percent", "Double", 0, 1);
-    CreateNewChart("LineChart", boost::str(boost::format("%1%%2%") % meanMOIChart % 0), "MeanMOI", "Time", "Integer", 0, Model::CONFIG->total_time(), "Mean MOI", "Double", 0, 8);
+    CreateNewChart("BarChart", boost::str(boost::format("%1%%2%") % ageClassChart % 0), "Age Class", "Age Class", "Category", 0, 0, "Percent", "Double", 0, 1);
 
     CreateNewChart("BarChart", boost::str(boost::format("%1%%2%") % multiInfectionChart % 0), "Multi Infection Chart", "Number of Parasite Population", "Category", 0, 0, "Number of Person", "Integer", 0, 1);
 
@@ -117,7 +116,7 @@ void GuiReporter::HandleGuiCommand(const std::string &command) {
 
 void GuiReporter::after_time_step() {
     if (Model::SCHEDULER->current_time() % Model::CONFIG->report_frequency() == 0) {
-        Model::DATA_COLLECTOR->perform_population_statistic();
+//        Model::DATA_COLLECTOR->perform_population_statistic();
 
         send_prevalence_chart_data_for_location(0);
         //        send_age_class_chart_data(0);
@@ -283,8 +282,8 @@ void GuiReporter::send_mono_resistance_chart_data(const int& location) {
     //
     //        SendLineChartData(mono_chart_name, NumberToString<int>(d_id), NumberToString<int>(Model::SCHEDULER->current_time()), NumberToString<double>(num), "0");
     //    }
-    GenotypePtrMap::iterator it;
-    for (it = Model::CONFIG->parasite_db()->genotype_db().begin(); it != Model::CONFIG->parasite_db()->genotype_db().end(); it++) {
+    IntGenotypePtrMap::iterator it;
+    for (it = Model::CONFIG->genotype_db()->genotype_db().begin(); it != Model::CONFIG->genotype_db()->genotype_db().end(); it++) {
         if (it->second->number_of_resistance_position() == 1) {
             int d_id = it->second->genotype_id();
             double num = Model::POPULATION->current_force_of_infection_by_location_parasite_type()[location][d_id];
@@ -333,8 +332,10 @@ void GuiReporter::send_double_resistance_chart_data(const int& location) {
     //    SendLineChartData(double_chart_name, "Non Resistance", NumberToString<int>(Model::SCHEDULER->current_time()), NumberToString<double>(Model::POPULATION->current_force_of_infection_by_location_parasite_type()[location][0]), "0");
 
 
-    GenotypePtrMap::iterator it;
-    for (it = Model::CONFIG->parasite_db()->genotype_db().begin(); it != Model::CONFIG->parasite_db()->genotype_db().end(); it++) {
+//    GenotypePtrMap::iterator it;
+    IntGenotypePtrMap::iterator it;
+//    for (it = Model::CONFIG->parasite_db()->genotype_db().begin(); it != Model::CONFIG->parasite_db()->genotype_db().end(); it++) {
+    for (it = Model::CONFIG->genotype_db()->genotype_db().begin(); it != Model::CONFIG->genotype_db()->genotype_db().end(); it++) {
         if (it->second->number_of_resistance_position() == 2) {
             int d_id = it->second->genotype_id();
             double num = Model::POPULATION->current_force_of_infection_by_location_parasite_type()[location][d_id];
@@ -384,8 +385,9 @@ void GuiReporter::send_triple_resistance_chart_data(const int& location) {
     //    SendLineChartData(double_chart_name, "Non Resistance", NumberToString<int>(Model::SCHEDULER->current_time()), NumberToString<double>(Model::POPULATION->current_force_of_infection_by_location_parasite_type()[location][0]), "0");
 
 
-    GenotypePtrMap::iterator it;
-    for (it = Model::CONFIG->parasite_db()->genotype_db().begin(); it != Model::CONFIG->parasite_db()->genotype_db().end(); it++) {
+//    GenotypePtrMap::iterator it;
+    IntGenotypePtrMap::iterator it;
+    for (it = Model::CONFIG->genotype_db()->genotype_db().begin(); it != Model::CONFIG->genotype_db()->genotype_db().end(); it++) {
         if (it->second->number_of_resistance_position() == 3) {
             int d_id = it->second->genotype_id();
             double num = Model::POPULATION->current_force_of_infection_by_location_parasite_type()[location][d_id];

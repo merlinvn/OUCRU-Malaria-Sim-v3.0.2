@@ -21,8 +21,8 @@ FC=gfortran
 AS=as
 
 # Macros
-CND_PLATFORM=GNU-Linux-x86
-CND_DLIB_EXT=so
+CND_PLATFORM=MinGW-Windows
+CND_DLIB_EXT=dll
 CND_CONF=Release
 CND_DISTDIR=dist
 CND_BUILDDIR=build
@@ -58,7 +58,6 @@ OBJECTFILES= \
 	${OBJECTDIR}/Event.o \
 	${OBJECTDIR}/ExternalPopulation.o \
 	${OBJECTDIR}/FarmReporter.o \
-	${OBJECTDIR}/Genotype.o \
 	${OBJECTDIR}/GuiReporter.o \
 	${OBJECTDIR}/ImmuneComponent.o \
 	${OBJECTDIR}/ImmuneSystem.o \
@@ -67,6 +66,9 @@ OBJECTFILES= \
 	${OBJECTDIR}/ImportationPeriodicallyEvent.o \
 	${OBJECTDIR}/IndexHandler.o \
 	${OBJECTDIR}/InfantImmuneComponent.o \
+	${OBJECTDIR}/IntGenotype.o \
+	${OBJECTDIR}/IntGenotypeDatabase.o \
+	${OBJECTDIR}/MACTherapy.o \
 	${OBJECTDIR}/MDAAction.o \
 	${OBJECTDIR}/MFTStrategy.o \
 	${OBJECTDIR}/MatureGametocyteEvent.o \
@@ -76,7 +78,6 @@ OBJECTFILES= \
 	${OBJECTDIR}/MoveToExternalPopulationEvent.o \
 	${OBJECTDIR}/MultipleLocationGuiReporter.o \
 	${OBJECTDIR}/NonInfantImmuneComponent.o \
-	${OBJECTDIR}/ParasiteDatabase.o \
 	${OBJECTDIR}/ParasiteDensityUpdateFunction.o \
 	${OBJECTDIR}/Person.o \
 	${OBJECTDIR}/PersonIndex.o \
@@ -95,10 +96,12 @@ OBJECTFILES= \
 	${OBJECTDIR}/ProgressToClinicalEvent.o \
 	${OBJECTDIR}/Random.o \
 	${OBJECTDIR}/ReceiveMDADrugEvent.o \
+	${OBJECTDIR}/ReceiveTherapyEvent.o \
 	${OBJECTDIR}/Reporter.o \
 	${OBJECTDIR}/ResistanceTracker.o \
 	${OBJECTDIR}/ReturnToNormalPopulationEvent.o \
 	${OBJECTDIR}/ReturnToResidenceEvent.o \
+	${OBJECTDIR}/SCTherapy.o \
 	${OBJECTDIR}/SFTStrategy.o \
 	${OBJECTDIR}/STCAction.o \
 	${OBJECTDIR}/Scheduler.o \
@@ -111,7 +114,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/TestTreatmentFailureEvent.o \
 	${OBJECTDIR}/Therapy.o \
 	${OBJECTDIR}/UpdateEveryKDaysEvent.o \
-	${OBJECTDIR}/UpdateWhenDrugIsPresentEvent.o
+	${OBJECTDIR}/UpdateWhenDrugIsPresentEvent.o \
+	${OBJECTDIR}/YearlyReporterV1.o
 
 
 # C Compiler Flags
@@ -255,11 +259,6 @@ ${OBJECTDIR}/FarmReporter.o: FarmReporter.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FarmReporter.o FarmReporter.cpp
 
-${OBJECTDIR}/Genotype.o: Genotype.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Genotype.o Genotype.cpp
-
 ${OBJECTDIR}/GuiReporter.o: GuiReporter.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -299,6 +298,21 @@ ${OBJECTDIR}/InfantImmuneComponent.o: InfantImmuneComponent.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/InfantImmuneComponent.o InfantImmuneComponent.cpp
+
+${OBJECTDIR}/IntGenotype.o: IntGenotype.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/IntGenotype.o IntGenotype.cpp
+
+${OBJECTDIR}/IntGenotypeDatabase.o: IntGenotypeDatabase.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/IntGenotypeDatabase.o IntGenotypeDatabase.cpp
+
+${OBJECTDIR}/MACTherapy.o: MACTherapy.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MACTherapy.o MACTherapy.cpp
 
 ${OBJECTDIR}/MDAAction.o: MDAAction.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -344,11 +358,6 @@ ${OBJECTDIR}/NonInfantImmuneComponent.o: NonInfantImmuneComponent.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/NonInfantImmuneComponent.o NonInfantImmuneComponent.cpp
-
-${OBJECTDIR}/ParasiteDatabase.o: ParasiteDatabase.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ParasiteDatabase.o ParasiteDatabase.cpp
 
 ${OBJECTDIR}/ParasiteDensityUpdateFunction.o: ParasiteDensityUpdateFunction.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -440,6 +449,11 @@ ${OBJECTDIR}/ReceiveMDADrugEvent.o: ReceiveMDADrugEvent.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ReceiveMDADrugEvent.o ReceiveMDADrugEvent.cpp
 
+${OBJECTDIR}/ReceiveTherapyEvent.o: ReceiveTherapyEvent.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ReceiveTherapyEvent.o ReceiveTherapyEvent.cpp
+
 ${OBJECTDIR}/Reporter.o: Reporter.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -459,6 +473,11 @@ ${OBJECTDIR}/ReturnToResidenceEvent.o: ReturnToResidenceEvent.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ReturnToResidenceEvent.o ReturnToResidenceEvent.cpp
+
+${OBJECTDIR}/SCTherapy.o: SCTherapy.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SCTherapy.o SCTherapy.cpp
 
 ${OBJECTDIR}/SFTStrategy.o: SFTStrategy.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -524,6 +543,11 @@ ${OBJECTDIR}/UpdateWhenDrugIsPresentEvent.o: UpdateWhenDrugIsPresentEvent.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/UpdateWhenDrugIsPresentEvent.o UpdateWhenDrugIsPresentEvent.cpp
+
+${OBJECTDIR}/YearlyReporterV1.o: YearlyReporterV1.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/YearlyReporterV1.o YearlyReporterV1.cpp
 
 # Subprojects
 .build-subprojects:

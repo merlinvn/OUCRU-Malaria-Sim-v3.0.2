@@ -6,7 +6,6 @@
  */
 
 #include "MoveParasiteToBloodEvent.h"
-#include "Genotype.h"
 #include "Person.h"
 #include "ImmuneSystem.h"
 #include "Model.h"
@@ -28,7 +27,7 @@ MoveParasiteToBloodEvent::MoveParasiteToBloodEvent(const MoveParasiteToBloodEven
 MoveParasiteToBloodEvent::~MoveParasiteToBloodEvent() {
 }
 
-void MoveParasiteToBloodEvent::schedule_event(Scheduler* scheduler, Person* p, Genotype* infection_type, const int& time) {
+void MoveParasiteToBloodEvent::schedule_event(Scheduler* scheduler, Person* p, IntGenotype* infection_type, const int& time) {
     if (scheduler != NULL) {
         MoveParasiteToBloodEvent* e = new MoveParasiteToBloodEvent();
         e->set_dispatcher(p);
@@ -43,7 +42,7 @@ void MoveParasiteToBloodEvent::schedule_event(Scheduler* scheduler, Person* p, G
 
 void MoveParasiteToBloodEvent::execute() {
     Person* person = (Person*) dispatcher();
-    Genotype* parasite_type = person->liver_parasite_type();
+    IntGenotype* parasite_type = person->liver_parasite_type();
     person->set_liver_parasite_type(NULL);
 
     //add to blood

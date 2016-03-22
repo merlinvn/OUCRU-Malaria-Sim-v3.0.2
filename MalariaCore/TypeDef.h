@@ -27,6 +27,7 @@ typedef std::vector<DoubleVector2> DoubleVector3;
 typedef std::vector<int> IntVector;
 typedef std::vector<int>* IntVectorPtr;
 typedef std::vector<IntVector> IntVector2;
+typedef std::vector<IntVector2> IntVector3;
 typedef std::vector<IntVector*> IntVectorPtrVector;
 typedef std::vector<IntVector>* IntVector2Ptr;
 typedef std::vector<unsigned int> UIntVector;
@@ -99,6 +100,8 @@ struct ParasiteDensityLevel {
     double log_parasite_density_from_liver;
     double log_parasite_density_asymptomatic;
     double log_parasite_density_clinical;
+    double log_parasite_density_clinical_from;
+    double log_parasite_density_clinical_to;
     double log_parasite_density_detectable;
     double log_parasite_density_pyrogenic;
 };
@@ -186,6 +189,7 @@ struct InitialParasiteInfo {
 
 };
 
+
 struct ImportationParasiteInfo {
     int location;
     int time;
@@ -237,6 +241,24 @@ struct TMEInfo {
 
     DoubleVector MDA_coverage;
     IntVector MDA_duration;
+};
+
+struct Allele {
+    int value; //we can do char later or map from char to int
+    IntVector mutation_value_up;
+    IntVector mutation_value_down;
+    IntVector mutation_values;
+    int mutation_level;
+};
+
+struct Locus {
+    std::vector<Allele> alleles;
+    int position;
+    double cost_of_resistance;
+};
+
+struct GenotypeInfo {
+    std::vector<Locus> loci_vector;
 };
 
 #endif	/* TYPEDEF_H */

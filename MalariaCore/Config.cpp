@@ -11,14 +11,14 @@
 #include <gsl/gsl_cdf.h>
 #include "SFTStrategy.h"
 #include "HelperFunction.h"
-#include "Therapy.h"
+#include "SCTherapy.h"
 #include "Strategy.h"
 #include "AdaptiveCyclingStrategy.h"
 #include "CyclingStrategy.h"
 #include "MFTStrategy.h"
 #include "Model.h"
-#include "Genotype.h"
 #include "Random.h"
+#include "MACTherapy.h"
 #include <math.h>
 #include <fstream>
 #include <boost/algorithm/string.hpp>
@@ -38,7 +38,7 @@ std::vector<std::string> split(const std::string &s, char delim) {
     return split(s, delim, elems);
 }
 
-Config::Config(Model* model) : model_(model), strategy_(NULL), drug_db_(NULL), parasite_db_(NULL), initial_parasite_info_(), importation_parasite_info_(), importation_parasite_periodically_info_(), tme_strategy_(NULL) {
+Config::Config(Model* model) : model_(model), strategy_(NULL), drug_db_(NULL), genotype_db_(NULL), initial_parasite_info_(), tme_strategy_(NULL) {
     total_time_ = -1;
     start_treatment_day_ = -1;
     start_collect_data_day_ = -1;
@@ -67,7 +67,19 @@ Config::~Config() {
     DeletePointer<Strategy>(strategy_);
     DeletePointer<Strategy>(tme_strategy_);
     DeletePointer<DrugDatabase>(drug_db_);
-    DeletePointer<ParasiteDatabase>(parasite_db_);
+    //    DeletePointer<ParasiteDatabase>(parasite_db_);
+    DeletePointer<IntGenotypeDatabase>(genotype_db_);
+
+    BOOST_FOREACH(TherapyPtrMap::value_type &i, therapy_db_) {
+        delete i.second;
+    }
+    therapy_db_.clear();
+
+    BOOST_FOREACH(StrategyPtrMap::value_type &i, strategy_db_) {
+        delete i.second;
+    }
+    strategy_db_.clear();
+
 }
 
 void Config::read_from_file(const std::string& config_file_name) {
@@ -159,6 +171,7 @@ void Config::read_from_file(const std::string& config_file_name) {
     min_dosing_days_ = config["min_dosing_days"].as<int>();
 
     gametocyte_level_under_artemisinin_action_ = config["gametocyte_level_under_artemisinin_action"].as<double>();
+    gametocyte_level_full_ = config["gametocyte_level_full"].as<double>();
 
     p_relapse_ = config["p_relapse"].as<double>();
     relapse_duration_ = config["relapse_duration"].as<int>();
@@ -191,6 +204,8 @@ void Config::read_parasite_density_level(const YAML::Node& config) {
     log_parasite_density_level_.log_parasite_density_from_liver = config["log_parasite_density_from_liver"].as<double>();
     log_parasite_density_level_.log_parasite_density_asymptomatic = config["log_parasite_density_asymptomatic"].as<double>();
     log_parasite_density_level_.log_parasite_density_clinical = config["log_parasite_density_clinical"].as<double>();
+    log_parasite_density_level_.log_parasite_density_clinical_from = config["log_parasite_density_clinical_from"].as<double>();
+    log_parasite_density_level_.log_parasite_density_clinical_to = config["log_parasite_density_clinical_to"].as<double>();
     log_parasite_density_level_.log_parasite_density_detectable = config["log_parasite_density_detectable"].as<double>();
     log_parasite_density_level_.log_parasite_density_pyrogenic = config["log_parasite_density_pyrogenic"].as<double>();
 }
@@ -223,7 +238,9 @@ void Config::read_immune_system_information(const YAML::Node& config) {
 
     immune_system_information_.c_min = pow(10, -(log_parasite_density_level_.log_parasite_density_asymptomatic - log_parasite_density_level_.log_parasite_density_cured) / immune_system_information_.duration_for_fully_immune);
     immune_system_information_.c_max = pow(10, -(log_parasite_density_level_.log_parasite_density_asymptomatic - log_parasite_density_level_.log_parasite_density_cured) / immune_system_information_.duration_for_naive);
-
+//    std::cout << immune_system_information_.c_min << std::endl;
+//    std::cout << immune_system_information_.c_max << std::endl;
+    
 
     immune_system_information_.age_mature_immunity = config["age_mature_immunity"].as<double>();
     immune_system_information_.factor_effect_age_mature_immunity = config["factor_effect_age_mature_immunity"].as<double>();
@@ -245,88 +262,159 @@ void Config::read_immune_system_information(const YAML::Node& config) {
         acR *= (1 + immune_system_information_.immune_inflation_rate);
         //        std::cout << acR << std::endl;
     }
-
-    //       for (int age = 0; age <= 80; age++) {
-    //            std::cout <<  immune_system_information_.acquire_rate_by_age[age] << "\t";
-    //        }
-    //        std::cout << std::endl;
-
     assert(immune_system_information_.acquire_rate_by_age.size() == 81);
 
 }
 
 void Config::read_strategy_therapy_and_drug_information(const YAML::Node& config) {
+    read_genotype_info(config);
+    build_drug_and_parasite_db(config);
+
+    //    read_all_therapy
+
+    for (int i = 0; i < config["TherapyInfo"].size(); i++) {
+        Therapy* t = read_therapy(config, i);
+        therapy_db_[i] = t;
+        //        std::cout<<i << std::endl;
+    }
+
+
+    //read tf_testing_day
+    tf_testing_day_ = config["tf_testing_day"].as<int>();
+
+    strategy_ = read_strategy(config, config["StrategyInfo"], "SFTStrategy");
+    strategy_db_.insert(std::pair<int, Strategy*>(strategy_->to_int(), strategy_));
+
+    strategy_ = read_strategy(config, config["StrategyInfo"], "CyclingStrategy");
+    strategy_db_.insert(std::pair<int, Strategy*>(strategy_->to_int(), strategy_));
+
+    strategy_ = read_strategy(config, config["StrategyInfo"], "MFTStrategy");
+    strategy_db_.insert(std::pair<int, Strategy*>(strategy_->to_int(), strategy_));
+
+    strategy_ = read_strategy(config, config["StrategyInfo"], "AdaptiveCyclingStrategy");
+    strategy_db_.insert(std::pair<int, Strategy*>(strategy_->to_int(), strategy_));
+
+
     std::string strategyName = config["StrategyInfo"]["strategyName"].as<std::string>();
 
-    strategy_ = read_strategy(config, config["StrategyInfo"], strategyName);
+    BOOST_FOREACH(StrategyPtrMap::value_type &i, strategy_db_) {
+        if (i.second->to_string() == strategyName) {
+            strategy_ = i.second;
+        }
+    }
 
-    build_drug_and_parasite_db(config);
+
 }
 
 void Config::build_drug_and_parasite_db(const YAML::Node& config) {
-    std::set<int> drug_ids;
-
-    BOOST_FOREACH(Therapy* therapy, strategy_->therapy_list()) {
-
-        BOOST_FOREACH(int drug_id, therapy->drug_ids()) {
-            drug_ids.insert(drug_id);
-        }
-    }
-    //tme strategy
-    if (config["tme_info"]["tme_starting_day"].as<int>() != 0) {
-        if (tme_strategy_ == NULL) {
-            std::string tme_strategyName = config["tme_info"]["strategyName"].as<std::string>();
-            tme_strategy_ = read_strategy(config, config["tme_info"], tme_strategyName);
-        }
-
-        BOOST_FOREACH(Therapy* therapy, tme_strategy_->therapy_list()) {
-
-            BOOST_FOREACH(int drug_id, therapy->drug_ids()) {
-                drug_ids.insert(drug_id);
-            }
-        }
-    }
-    //find max mutation position
-    int max_mutation_position = 0;
-
-    BOOST_FOREACH(int drug_id, drug_ids) {
-        std::string drug_id_s = NumberToString<int>(drug_id);
-        for (int i = 0; i < config["drugInfo"][drug_id_s]["mutation_position"].size(); i++) {
-            if (max_mutation_position < config["drugInfo"][drug_id_s]["mutation_position"][i].as<int>()) {
-                max_mutation_position = config["drugInfo"][drug_id_s]["mutation_position"][i].as<int>();
-            }
-        }
-    }
-    int gene_length = max_mutation_position + 1;
+    // build parasite db
+    build_parasite_db();
 
     //build drug DB
-    build_drug_db(config, drug_ids, gene_length);
-    // build parasite db
-    build_parasite_db(gene_length);
+    build_drug_db(config);
+
+
+    //read fake_efficacy_table
+    fake_efficacy_table_.clear();
+    fake_efficacy_table_.assign(genotype_db_->genotype_db().size(), std::vector<double>());
+
+    for (int g_id = 0; g_id < genotype_db_->genotype_db().size(); g_id++) {
+        for (int i = 0; i < config["fake_efficacy_table"][g_id].size(); i++) {
+            fake_efficacy_table_[g_id].push_back(config["fake_efficacy_table"][g_id][i].as<double>());
+        }
+    }
 }
 
-void Config::build_drug_db(const YAML::Node& config, const std::set<int>& drug_ids, const int& gene_length) {
+void Config::read_genotype_info(const YAML::Node& config) {
+    genotype_info_.loci_vector.clear();
+    for (int i = 0; i < config["genotype_info"]["loci"].size(); i++) {
+        Locus l;
+        l.position = config["genotype_info"]["loci"][i]["position"].as<int>();
+        l.cost_of_resistance = config["genotype_info"]["loci"][i]["cost_of_resistance"].as<double>();
+
+        for (int j = 0; j < config["genotype_info"]["loci"][i]["alleles"].size(); j++) {
+            Allele al;
+            al.value = config["genotype_info"]["loci"][i]["alleles"][j]["value"].as<int>();
+            al.mutation_level = config["genotype_info"]["loci"][i]["alleles"][j]["mutation_level"].as<int>();
+
+            for (int c = 0; c < config["genotype_info"]["loci"][i]["alleles"][j]["mutation_up"].size(); c++) {
+                al.mutation_value_up.push_back(config["genotype_info"]["loci"][i]["alleles"][j]["mutation_up"][c].as<int>());
+                al.mutation_values.push_back(config["genotype_info"]["loci"][i]["alleles"][j]["mutation_up"][c].as<int>());
+            }
+            for (int c = 0; c < config["genotype_info"]["loci"][i]["alleles"][j]["mutation_down"].size(); c++) {
+                al.mutation_value_down.push_back(config["genotype_info"]["loci"][i]["alleles"][j]["mutation_down"][c].as<int>());
+                al.mutation_values.push_back(config["genotype_info"]["loci"][i]["alleles"][j]["mutation_down"][c].as<int>());
+            }
+            l.alleles.push_back(al);
+        }
+        genotype_info_.loci_vector.push_back(l);
+    }
+    //
+    //    for (int c = 0; c < genotype_info_.loci_vector[2].alleles[2].mutation_values.size(); c++) {
+    //        std::cout << genotype_info_.loci_vector[2].alleles[2].mutation_values[c] << std::endl;
+    //
+    //    }
+}
+
+void Config::build_drug_db(const YAML::Node& config) {
     DeletePointer<DrugDatabase>(drug_db_);
     drug_db_ = new DrugDatabase();
 
-    BOOST_FOREACH(int drug_id, drug_ids) {
-        DrugType* dt = read_drugtype(config, drug_id, gene_length);
+    for (int i = 0; i < config["drugInfo"].size(); i++) {
+        DrugType* dt = read_drugtype(config, i);
+        //        std::cout << i << std::endl;
         drug_db_->add(dt);
+
     }
 
+
+    //get EC50 table and compute EC50^n
+    EC50_power_n_table_.clear();
+    EC50_power_n_table_.assign(genotype_db_->genotype_db().size(), std::vector<double>());
+
+    for (int g_id = 0; g_id < genotype_db_->genotype_db().size(); g_id++) {
+        for (int i = 0; i < config["EC50_table"][g_id].size(); i++) {
+            EC50_power_n_table_[g_id].push_back(config["EC50_table"][g_id][i].as<double>());
+        }
+    }
+    //    std::cout << "ok " << std::endl;
+
+    for (int g_id = 0; g_id < genotype_db_->genotype_db().size(); g_id++) {
+        for (int i = 0; i < config["EC50_table"][g_id].size(); i++) {
+            EC50_power_n_table_[g_id][i] = pow(EC50_power_n_table_[g_id][i], drug_db_->get(i)->n());
+        }
+    }
 }
 
-void Config::build_parasite_db(const int &gene_length) {
-    DeletePointer<ParasiteDatabase>(parasite_db_);
-    parasite_db_ = new ParasiteDatabase();
-    for (int i = 0; i < pow(2, gene_length); i++) {
-        Genotype* gt = new Genotype(i, gene_length, drug_db_);
-        //        std::cout << gt->resistance_bit_string() << "-" << gt->relative_fitness_multiple_infection() << std::endl;
-        parasite_db_->add(gt);
-    }
-    number_of_parasite_types_ = parasite_db_->genotype_db().size();
+void Config::build_parasite_db() {
 
-    parasite_db_->initialize_mating_matrix();
+    DeletePointer<IntGenotypeDatabase>(genotype_db_);
+    genotype_db_ = new IntGenotypeDatabase();
+
+    int number_of_genotypes = 1;
+    for (int i = 0; i < genotype_info_.loci_vector.size(); i++) {
+        number_of_genotypes *= genotype_info_.loci_vector[i].alleles.size();
+    }
+
+    for (int i = 0; i < number_of_genotypes; i++) {
+        IntGenotype* int_genotype = new IntGenotype(i);
+        genotype_db_->add(int_genotype);
+    }
+
+    genotype_db_->initialize_matting_matrix();
+    number_of_parasite_types_ = genotype_db_->genotype_db().size();
+    //    std::cout << number_of_parasite_types_ << std::endl;
+
+    //    DeletePointer<ParasiteDatabase>(parasite_db_);
+    //    parasite_db_ = new ParasiteDatabase();
+    //    for (int i = 0; i < pow(2, gene_length); i++) {
+    //        Genotype* gt = new Genotype(i, gene_length, drug_db_);
+    //        //        std::cout << gt->gene_expression() << "-" << gt->relative_fitness_multiple_infection() << std::endl;
+    //        parasite_db_->add(gt);
+    //    }
+    //    number_of_parasite_types_ = parasite_db_->genotype_db().size();
+    //
+    //    parasite_db_->initialize_matting_matrix();
 
 }
 
@@ -350,8 +438,8 @@ Strategy* Config::read_strategy(const YAML::Node& config, const YAML::Node& n, c
     }
 
     for (int i = 0; i < n[strategy_name]["therapyID"].size(); i++) {
-        Therapy* therapy = read_therapy(config, n[strategy_name]["therapyID"][i].as<int>());
-        s->add_therapy(therapy);
+        //        Therapy* therapy = read_therapy(config, n[strategy_name]["therapyID"][i].as<int>());
+        s->add_therapy(therapy_db_[n[strategy_name]["therapyID"][i].as<int>()]);
     }
     return s;
 }
@@ -360,29 +448,42 @@ Therapy* Config::read_therapy(const YAML::Node& config, const int& therapy_id) {
     const YAML::Node& n = config["TherapyInfo"];
 
     std::string t_id = NumberToString<int>(therapy_id);
-    //    std::cout << therapy_id << std::endl;
+    Therapy* t = NULL;
+    if (n[t_id]["drug_id"]) {
+        t = new SCTherapy();
 
-    Therapy* t = new Therapy();
+        for (int i = 0; i < n[t_id]["drug_id"].size(); i++) {
+            int drug_id = n[t_id]["drug_id"][i].as<int>();
+            //        std::cout << therapy_id << "-" << drug_id << std::endl;
+            ((SCTherapy*) t)->add_drug(drug_id);
+        }
 
-    for (int i = 0; i < n[t_id]["drug_id"].size(); i++) {
-        int drug_id = n[t_id]["drug_id"][i].as<int>();
-        //                std::cout<<drug_id << std::endl;
-        t->add_drug(drug_id);
+        int dosing_days = n[t_id]["dosing_days"].as<int>();
+        ((SCTherapy*) t)->set_dosing_day(dosing_days);
+    } else {
+        if (n[t_id]["therapy_ids"]) {
+            t = new MACTherapy();
+
+            for (int i = 0; i < n[t_id]["therapy_ids"].size(); i++) {
+                int therapy_id = n[t_id]["therapy_ids"][i].as<int>();
+                //        std::cout << therapy_id << "-" << drug_id << std::endl;
+                ((MACTherapy*) t)->add_therapy_id(therapy_id);
+            }
+            for (int i = 0; i < n[t_id]["regimen"].size(); i++) {
+                int starting_day = n[t_id]["regimen"][i].as<int>();
+                //        std::cout << therapy_id << "-" << drug_id << std::endl;
+                ((MACTherapy*) t)->add_schedule(starting_day);
+            }
+        }
     }
 
-    int dosing_days = n[t_id]["dosing_days"].as<int>();
-    int testing_day = n[t_id]["testing_day"].as<int>();
-
     t->set_id(therapy_id);
-    t->set_number_of_dosing_days(dosing_days);
-    t->set_testing_day(testing_day);
-
     return t;
 
 }
 
-DrugType* Config::read_drugtype(const YAML::Node& config, const int& drug_id, const int& gene_length) {
-    DrugType* dt = new DrugType(gene_length);
+DrugType * Config::read_drugtype(const YAML::Node& config, const int& drug_id) {
+    DrugType* dt = new DrugType();
     dt->set_id(drug_id);
 
     std::string drug_id_s = NumberToString<int>(drug_id);
@@ -391,7 +492,7 @@ DrugType* Config::read_drugtype(const YAML::Node& config, const int& drug_id, co
     dt->set_drug_half_life(n["half_life"].as<double>());
     dt->set_maximum_parasite_killing_rate(n["maximum_parasite_killing_rate"].as<double>());
     dt->set_n(n["n"].as<double>());
-    dt->set_EC50(n["EC50"].as<double>());
+    //    dt->set_EC50(n["EC50"].as<double>());
 
     //    std::cout <<dt->drug_half_life() << "-" << dt->maximum_parasite_killing_rate() << "-" << dt->n() << "-" << dt->EC50() << std::endl;
     for (int i = 0; i < n["age_specific_drug_concentration_sd"].size(); i++) {
@@ -401,16 +502,43 @@ DrugType* Config::read_drugtype(const YAML::Node& config, const int& drug_id, co
 
     dt->set_p_mutation(n["mutation_probability"].as<double>());
 
-    for (int i = 0; i < n["mutation_position"].size(); i++) {
-        dt->set_resistance_position(n["mutation_position"][i].as<int>());
+    dt->affecting_loci().clear();
+    for (int i = 0; i < n["affecting_loci"].size(); i++) {
+        dt->affecting_loci().push_back(n["affecting_loci"][i].as<int>());
     }
 
+    dt->selecting_alleles().clear();
+    dt->selecting_alleles().assign(n["affecting_loci"].size(), IntVector());
+    for (int i = 0; i < n["affecting_loci"].size(); i++) {
+        for (int j = 0; j < n["selecting_alleles"][i].size(); j++) {
+            dt->selecting_alleles()[i].push_back(n["selecting_alleles"][i][j].as<int>());
+
+        }
+    }
+
+
+
     dt->set_k(n["k"].as<double>());
-    dt->set_resistance_cost_multiple_infection(n["resistance_cost_multiple_infection"].as<double>());
-    dt->set_artermisinin_derivative(n["isArtermisininDerivative"].as<int>() == 1 ? true : false);
+    //    dt->set_resistance_cost_multiple_infection(n["resistance_cost_multiple_infection"].as<double>());
+    //    dt->set_artermisinin_derivative(n["isArtermisininDerivative"].as<int>() == 1 ? true : false);
+
+    //    dt->set_artemisinin_derivative(drug_id == config["artemisinin_drug_id"].as<int>());
+
+    //if drug_id is equal to artermisinin drug id in config file, set 
+    //isArterminsinin to true otherwise set it to false
 
 
 
+    //if drug_id is equal to piperaquine drug id in config file, set 
+    //isArterminsinin to true otherwise set it to false
+
+    if (drug_id == config["artemisinin_drug_id"].as<int>()) {
+        dt->set_drug_family(DrugType::Artemisinin);
+    } else if (drug_id == config["lumefantrine_drug_id"].as<int>()) {
+        dt->set_drug_family(DrugType::Lumefantrine);
+    } else {
+        dt->set_drug_family(DrugType::Other);
+    }
     return dt;
 }
 
@@ -758,15 +886,10 @@ void Config::override_1_parameter(const std::string& parameter_name, const std::
 
     if (parameter_name == "cost_of_resistance") {
         modified_cost_of_resistance_ = atof(parameter_value.c_str());
-
-        for (DrugTypePtrMap::iterator it = drug_db_->drug_db().begin(); it != drug_db_->drug_db().end(); it++) {
-            //            std::cout << it->second->id()<< std::endl;
-            it->second->set_resistance_cost_multiple_infection(modified_cost_of_resistance_);
+        for (int i = 0; i < genotype_info_.loci_vector.size(); i++) {
+            genotype_info_.loci_vector[i].cost_of_resistance = modified_cost_of_resistance_;
         }
-
-        int gene_length = parasite_db_->genotype_db()[0]->resistance_bit_string().size();
-        build_parasite_db(gene_length);
-
+        build_parasite_db();
     }
 
     if (parameter_name == "z") {
@@ -812,80 +935,20 @@ void Config::override_1_parameter(const std::string& parameter_name, const std::
         modified_drug_half_life_ = atof(parameter_value.c_str());
     }
 
-
     if (parameter_name == "strategy") {
         YAML::Node config = YAML::LoadFile(Model::MODEL->config_filename());
-
         int strategy_type = atoi(parameter_value.c_str());
+        strategy_ = strategy_db_[strategy_type];
+    }
 
-        DeletePointer<Strategy>(strategy_);
+    if (parameter_name == "dosing_days") {
+        int dosing_days = atof(parameter_value.c_str());
+        for (TherapyPtrMap::iterator it = therapy_db_.begin(); it != therapy_db_.end(); it++) {
 
-        if (strategy_type == Strategy::Cycling) {
-            strategy_ = new CyclingStrategy();
-            ((CyclingStrategy*) strategy_)->set_cycling_time(1825);
-        } else if (strategy_type == Strategy::AdaptiveCycling) {
-            strategy_ = new AdaptiveCyclingStrategy();
-            ((AdaptiveCyclingStrategy*) strategy_)->set_trigger_value(0.1);
-            ((AdaptiveCyclingStrategy*) strategy_)->set_delay_until_actual_trigger(365);
-            ((AdaptiveCyclingStrategy*) strategy_)->set_turn_off_days(365);
-        } else if (strategy_type == Strategy::MFT) {
-            strategy_ = new MFTStrategy();
-            ((MFTStrategy*) strategy_)->distribution().push_back(0.333334);
-            ((MFTStrategy*) strategy_)->distribution().push_back(0.333333);
-            ((MFTStrategy*) strategy_)->distribution().push_back(0.333333);
-        } else /*  if (strategy_name == "SFTStrategy")*/ {
-            strategy_ = new SFTStrategy();
-        }
-
-        std::vector<int> t_ids;
-        if (modified_drug_half_life_ == 1) {
-            //            std::cout << "Hello" << std::endl;
-            t_ids.push_back(1);
-            t_ids.push_back(2);
-            t_ids.push_back(3);
-            // t_id =  1 ,2,3
-        } else if (modified_drug_half_life_ == 9) {
-            //            std::cout << "Hello" << std::endl;
-            t_ids.push_back(4);
-            t_ids.push_back(5);
-            t_ids.push_back(6);
-            // t_id =  4 ,5,6
-        } else if (modified_drug_half_life_ == 28) {
-            // t_id =  7 ,8,9
-            t_ids.push_back(7);
-            t_ids.push_back(8);
-            t_ids.push_back(9);
-        } else if (modified_drug_half_life_ == -1) {
-            // t_id =  10 ,11,12
-            t_ids.push_back(10);
-            t_ids.push_back(11);
-            t_ids.push_back(12);
-        }
-
-        for (int i = 0; i < t_ids.size(); i++) {
-            Therapy* therapy = read_therapy(config, t_ids[i]);
-            strategy_->add_therapy(therapy);
-        }
-
-        //rebuild database
-        build_drug_and_parasite_db(config);
-
-        if (modified_cost_of_resistance_ != -1) {
-            for (DrugTypePtrMap::iterator it = drug_db_->drug_db().begin(); it != drug_db_->drug_db().end(); it++) {
-                //            std::cout << it->second->id()<< std::endl;
-                it->second->set_resistance_cost_multiple_infection(modified_cost_of_resistance_);
-            }
-
-            int gene_length = parasite_db_->genotype_db()[0]->resistance_bit_string().size();
-            build_parasite_db(gene_length);
-        }
-
-        if (modified_mutation_factor_ != -1) {
-            for (DrugTypePtrMap::iterator it = drug_db_->drug_db().begin(); it != drug_db_->drug_db().end(); it++) {
-                it->second->set_k(modified_mutation_factor_);
+            SCTherapy* scTherapy = dynamic_cast<SCTherapy*> (it->second);
+            if (scTherapy != NULL) {
+                scTherapy->set_dosing_day(dosing_days);
             }
         }
     }
-
-
 }

@@ -8,6 +8,7 @@
 #include "Drug.h"
 #include "DrugType.h"
 #include "Person.h"
+#include "Random.h"
 #include "Population.h"
 #include "Model.h"
 #include "Scheduler.h"
@@ -39,7 +40,15 @@ double Drug::get_current_drug_concentration(int currentTime) {
     }
 
     if (days <= dosing_days_) {
+        if (drug_type()->is_artemisinin()) {
+            //            std::cout << "hello" << std::endl;
+            double sd = drug_type_->age_group_specific_drug_concentration_sd()[person_drugs_->person()->age_class()];
+            starting_value_ = Model::RANDOM->random_normal_truncated(1.0, sd);
         return starting_value_;
+        }
+
+        //        starting_value_ += Model::RANDOM->random_uniform_double(-0.1, 0.1);
+        return starting_value_ + Model::RANDOM->random_uniform_double(-0.1, 0.1);
     } else {
         double temp = drug_type_->drug_half_life() == 0 ? -100 : -(days - dosing_days_) * log(2) / drug_type_->drug_half_life(); //-ai*t = - t* ln2 / tstar
 

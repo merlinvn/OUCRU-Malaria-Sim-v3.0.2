@@ -11,7 +11,7 @@
 #include "Person.h"
 #include "ImmuneSystem.h"
 #include "Model.h"
-#include "Genotype.h"
+#include "IntGenotype.h"
 
 ImmunityClearanceUpdateFunction::ImmunityClearanceUpdateFunction(Model* model) : model_(model) {
 }

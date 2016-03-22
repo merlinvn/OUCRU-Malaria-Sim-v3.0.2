@@ -82,7 +82,7 @@ void Scheduler::cancel(Event* event) {
 void Scheduler::run() {
     current_time_ = 0;
     for (current_time_ = 0; !can_stop(); current_time_++) {
-        //        std::cout << "Day: " << current_time_ << std::endl;
+//        std::cout << "Day: " << current_time_ << std::endl;
         begin_time_step();
         int size = timed_events_list_[current_time_].size();
         for (int i = 0; i < size; i++) {
@@ -99,15 +99,11 @@ void Scheduler::run() {
 }
 
 void Scheduler::begin_time_step() {
-
-
     if (model_ != NULL) {
         Model::DATA_COLLECTOR->begin_time_step();
-        //        model_->report_begin_of_time_step();
-
+        model_->report_begin_of_time_step();
         model_->perform_infection_event();
     }
-
 }
 
 void Scheduler::end_time_step() {
@@ -116,7 +112,6 @@ void Scheduler::end_time_step() {
     Model::POPULATION->perform_birth_event();
     Model::POPULATION->perform_death_event();
     Model::EXTERNAL_POPULATION->perform_death_event();
-
     ///for safety remove all dead by calling perform_death_event
     Model::POPULATION->perform_circulation_event();
 
@@ -129,6 +124,7 @@ void Scheduler::end_time_step() {
     update_end_of_time_step();
 
     report_end_of_time_step();
+    Model::DATA_COLLECTOR->update_every_year();
 }
 
 void Scheduler::update_end_of_time_step() {
@@ -145,7 +141,6 @@ void Scheduler::update_end_of_time_step() {
     //    if (current_time_ % Model::CONFIG->update_frequency() == 0) {
     //        Model::POPULATION->update();
     //    }
-    Model::DATA_COLLECTOR->update_every_year();
 
     //check to switch strategy
     Model::CONFIG->strategy()->check_and_switch_therapy();

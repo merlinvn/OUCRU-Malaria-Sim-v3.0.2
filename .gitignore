@@ -17,3 +17,4 @@ _*
 /MalariaCore/dist/Release/
 /MalariaCore/build/Release/
 /MalariaSimulation/build/Release/
+/MalariaSimulation/dist/*

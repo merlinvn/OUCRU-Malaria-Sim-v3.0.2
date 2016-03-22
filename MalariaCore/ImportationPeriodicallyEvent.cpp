@@ -65,7 +65,7 @@ void ImportationPeriodicallyEvent::execute() {
         p->immune_system()->set_increase(true);
         p->set_host_state(Person::ASYMPTOMATIC);
 
-        ClonalParasitePopulation* blood_parasite = p->add_new_parasite_to_blood(Model::CONFIG->parasite_db()->get(genotype_id_));
+        ClonalParasitePopulation* blood_parasite = p->add_new_parasite_to_blood(Model::CONFIG->genotype_db()->get(genotype_id_));
         //    std::cout << "hello"<< std::endl;
 
         double size = Model::CONFIG->log_parasite_density_level().log_parasite_density_asymptomatic;

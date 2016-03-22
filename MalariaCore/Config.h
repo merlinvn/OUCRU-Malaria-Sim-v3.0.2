@@ -15,7 +15,7 @@
 #include <yaml-cpp/yaml.h>
 #include "TypeDef.h"
 #include "DrugDatabase.h"
-#include "ParasiteDatabase.h"
+#include "IntGenotypeDatabase.h"
 
 #include <math.h>
 #include <boost/math/constants/constants.hpp>
@@ -23,6 +23,9 @@ class Strategy;
 class Therapy;
 class Model;
 const double PI = boost::math::constants::pi<double>();
+
+typedef std::map<int, Therapy*> TherapyPtrMap;
+typedef std::map<int, Strategy*> StrategyPtrMap;
 
 class Config {
     DISALLOW_COPY_AND_ASSIGN_(Config)
@@ -38,6 +41,8 @@ class Config {
     VIRTUAL_PROPERTY_REF(int, number_of_locations)
     VIRTUAL_PROPERTY_REF(int, number_of_age_classes)
     VIRTUAL_PROPERTY_REF(int, number_of_parasite_types)
+    VIRTUAL_PROPERTY_REF(std::vector<std::vector<double> >, fake_efficacy_table)
+    VIRTUAL_PROPERTY_REF(std::vector<std::vector<double> >, EC50_power_n_table)
 
     VIRTUAL_PROPERTY_REF(std::vector<double>, beta)
     VIRTUAL_PROPERTY_REF(Seasonality, seasonal_beta)
@@ -67,7 +72,11 @@ class Config {
 
     POINTER_PROPERTY(Strategy, strategy);
     POINTER_PROPERTY(DrugDatabase, drug_db);
-    POINTER_PROPERTY(ParasiteDatabase, parasite_db);
+    //    POINTER_PROPERTY(ParasiteDatabase, parasite_db);
+    POINTER_PROPERTY(IntGenotypeDatabase, genotype_db);
+    VIRTUAL_PROPERTY_REF(GenotypeInfo, genotype_info);
+    VIRTUAL_PROPERTY_REF(TherapyPtrMap, therapy_db);
+    VIRTUAL_PROPERTY_REF(StrategyPtrMap, strategy_db);
 
     VIRTUAL_PROPERTY_REF(std::vector<InitialParasiteInfo>, initial_parasite_info)
     VIRTUAL_PROPERTY_REF(std::vector<ImportationParasiteInfo>, importation_parasite_info)
@@ -82,6 +91,7 @@ class Config {
     VIRTUAL_PROPERTY_REF(int, min_dosing_days);
 
     VIRTUAL_PROPERTY_REF(double, gametocyte_level_under_artemisinin_action);
+    VIRTUAL_PROPERTY_REF(double, gametocyte_level_full);
 
     VIRTUAL_PROPERTY_REF(double, p_relapse);
     VIRTUAL_PROPERTY_REF(int, relapse_duration);
@@ -102,6 +112,7 @@ class Config {
     VIRTUAL_PROPERTY_REF(double, modified_drug_half_life)
 
     VIRTUAL_PROPERTY_REF(bool, using_free_recombination)
+    VIRTUAL_PROPERTY_REF(int, tf_testing_day)
     VIRTUAL_PROPERTY_REF(int, tf_window_size)
     VIRTUAL_PROPERTY_REF(bool, using_age_dependent_bitting_level)
     VIRTUAL_PROPERTY_REF(bool, using_variable_probability_infectious_bites_cause_infection)
@@ -131,14 +142,15 @@ public:
     Strategy* read_strategy(const YAML::Node& config, const YAML::Node& n, const std::string& strategy_name);
     Therapy* read_therapy(const YAML::Node& config, const int& therapy_id);
 
-    DrugType* read_drugtype(const YAML::Node& config, const int& drug_id, const int& gene_length);
+    DrugType* read_drugtype(const YAML::Node& config, const int& drug_id);
 
     void override_parameters(const std::string& override_file, const int& pos);
     void override_1_parameter(const std::string& parameter_name, const std::string& parameter_value);
 
-    void build_drug_db(const YAML::Node& config, const std::set<int>& drug_ids, const int& gene_length);
-    void build_parasite_db(const int& gene_length);
+    void build_drug_db(const YAML::Node& config);
+    void build_parasite_db();
     void build_drug_and_parasite_db(const YAML::Node& config);
+    void read_genotype_info(const YAML::Node& config);
 
     double seasonality(const int& current_time, const double& amplitude, const double& phi) {
         return amplitude * cos(2 * PI * (current_time - phi) / 365) + 1;

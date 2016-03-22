@@ -7,7 +7,7 @@
 
 #include <boost/foreach.hpp>
 #include "ClonalParasitePopulation.h"
-#include "Genotype.h"
+#include "IntGenotype.h"
 #include "SingleHostClonalParasitePopulations.h"
 #include "Person.h"
 #include "DrugType.h"
@@ -209,8 +209,8 @@ void SingleHostClonalParasitePopulations::update_relative_effective_parasite_den
                 int id_f = parasites_->at(i)->genotype()->genotype_id();
                 int id_m = parasites_->at(j)->genotype()->genotype_id();
                 for (int p = 0; p < Model::CONFIG->number_of_parasite_types(); p++) {
-                    if (Model::CONFIG->parasite_db()->mating_matrix()[id_f][id_m][p] == 0) continue;
-                    relative_effective_parasite_density_->at(p) += weight * Model::CONFIG->parasite_db()->mating_matrix()[id_f][id_m][p];
+                    if (Model::CONFIG->genotype_db()->mating_matrix()[id_f][id_m][p] == 0) continue;
+                    relative_effective_parasite_density_->at(p) += weight * Model::CONFIG->genotype_db()->mating_matrix()[id_f][id_m][p];
                 }
             }
         }
@@ -308,7 +308,7 @@ void SingleHostClonalParasitePopulations::change_all_parasite_update_function(Pa
 void SingleHostClonalParasitePopulations::active_astermisinin_on_gametocyte(DrugType* dt) {
     //    Config* config = person_->population()->model()->config();
     for (int i = 0; i < parasites_->size(); i++) {
-        if (!parasites_->at(i)->genotype()->resistant_to(dt)) {
+        if (!parasites_->at(i)->genotype()->resist_to(dt)) {
             if (fabs(parasites_->at(i)->gametocyte_level() - 1.0) < 0.0001) {
                 parasites_->at(i)->set_gametocyte_level(Model::CONFIG->gametocyte_level_under_artemisinin_action());
             }
@@ -348,37 +348,50 @@ void SingleHostClonalParasitePopulations::clear_cured_parasites() {
 void SingleHostClonalParasitePopulations::update_by_drugs(DrugsInBlood* drugs_in_blood) {
     for (int i = 0; i < parasites_->size(); i++) {
         ClonalParasitePopulation* bloodParasite = parasites_->at(i);
-        Genotype* oldType = bloodParasite->genotype();
+        IntGenotype* new_genotype = bloodParasite->genotype();
 
         double percent_parasite_remove = 0;
         DrugPtrMap::iterator it;
         for (it = drugs_in_blood->drugs()->begin(); it != drugs_in_blood->drugs()->end(); it++) {
             Drug* drug = it->second;
-            if (!bloodParasite->genotype()->resistant_to(drug->drug_type())) {
 
-
-                double pTemp = drug->drug_type()->get_parasite_killing_rate_by_concentration(drug->last_update_value());
-                percent_parasite_remove = percent_parasite_remove + pTemp - percent_parasite_remove* pTemp;
 
                 double P = Model::RANDOM->random_flat(0.0, 1.0);
 
-                if (P < drug->get_mutation_probability()) {
-                    oldType = oldType->combine_mutation_to(drug->drug_type());
+            if (P < drug->get_mutation_probability()) {
+                int mutation_locus = drug->drug_type()->select_mutation_locus();
+                int new_allele_value = bloodParasite->genotype()->select_mutation_allele(mutation_locus, bloodParasite->genotype()->gene_expression()[mutation_locus]);
+                //                std::cout << mutation_locus << "-" << bloodParasite->genotype()->gene_expression()[mutation_locus] << "-" << new_allele_value << std::endl;
+                IntGenotype* mutation_genotype = new_genotype->combine_mutation_to(mutation_locus, new_allele_value);
+
+                //                if (drug->drug_type()->id() == 3) {
+                //                    std::cout << drug->getMutationProbability() << std::endl;
+                //                }
+
+                if (mutation_genotype->get_fake_efficacy(drug->drug_type()) < new_genotype->get_fake_efficacy(drug->drug_type())) {
+                    //allow mutation
+                    //                    if (mutation_genotype->gene_expression()[2] == 1) {
+                    //                        std::cout << mutation_genotype->genotype_id() << "\t" << mutation_genotype->get_fake_efficacy(drug->drug_type()) << "\t"
+                    //                                << new_genotype->get_fake_efficacy(drug->drug_type()) << std::endl;
+                    //                        assert(false);
+                    //                    }
+                    new_genotype = mutation_genotype;
                 }
+
             }
+            if (new_genotype != bloodParasite->genotype()) {
+                //mutation occurs
+                Model::DATA_COLLECTOR->record_1_mutation(person_->location(), bloodParasite->genotype(), new_genotype);
+                //                std::cout << bloodParasite->genotype()->genotype_id() << "==>" << new_genotype->genotype_id() << std::endl;
+                bloodParasite->set_genotype(new_genotype);
         }
 
-        if (oldType != bloodParasite->genotype()) {
-            //mutation occurs
-            Model::DATA_COLLECTOR->record_1_mutation(person_->location(), bloodParasite->genotype(), oldType);
-            bloodParasite->set_genotype(oldType);
-
-
-        } else {
+            double pTemp = drug->drug_type()->get_parasite_killing_rate_by_concentration(drug->last_update_value(), bloodParasite->genotype());
+            percent_parasite_remove = percent_parasite_remove + pTemp - percent_parasite_remove* pTemp;
+        }
+        if (percent_parasite_remove > 0) {
             bloodParasite->perform_drug_action(percent_parasite_remove);
         }
-
-
     }
 
 }

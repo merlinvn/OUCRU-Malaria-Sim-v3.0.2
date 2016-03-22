@@ -67,7 +67,7 @@ void TestTreatmentFailureEvent::execute() {
             tf = true;
             Model::DATA_COLLECTOR->record_1_TF(person->location(), true);
             if (!isResistance()) {
-                Model::DATA_COLLECTOR->record_1_treatment_failure_by_therapy(therapyId_);
+                Model::DATA_COLLECTOR->record_1_treatment_failure_by_therapy(person->location(), person->age(), therapyId_);
             }
             //            if (person->is_tracking_treatment_number()) {
             //                Model::STATISTIC->record_1_treatment_failure_by_therapy(person->last_therapy_id());

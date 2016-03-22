@@ -22,7 +22,8 @@ class Reporter {
         AMU,
         FARM,
         MULTIPLE_LOCATION,
-        AGE_GROUP_2_TO_10        
+        AGE_GROUP_2_TO_10,
+        YEARLY_REPORTER_V1
     };
     
     
