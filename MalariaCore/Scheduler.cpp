@@ -155,7 +155,7 @@ bool Scheduler::can_stop() {
     //    std::cout << current_time_ << "\t" << Model::CONFIG->total_time() << std::endl;
 
     return (current_time_ > Model::CONFIG->total_time()) || Model::POPULATION->has_0_case() || is_force_stop_;
-    //    return (current_time_ > Model::CONFIG->total_time()) ||  is_force_stop_;
+//        return (current_time_ > Model::CONFIG->total_time()) ||  is_force_stop_;
 }
 
 void Scheduler::initialize(const int& total_time) {

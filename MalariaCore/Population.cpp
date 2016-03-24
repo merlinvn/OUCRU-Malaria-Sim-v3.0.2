@@ -616,7 +616,7 @@ bool Population::has_0_case() {
 
     PersonIndexByLocationStateAgeClass* pi = get_person_index<PersonIndexByLocationStateAgeClass>();
     for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
-        for (int hs = Person::EXPOSED; hs <= Person::CLINICAL - 1; hs++) {
+        for (int hs = Person::EXPOSED; hs <= Person::CLINICAL; hs++) {
             for (int ac = 0; ac < Model::CONFIG->number_of_age_classes(); ac++) {
                 if (pi->vPerson()[loc][hs][ac].size() > 0) {
                     return false;

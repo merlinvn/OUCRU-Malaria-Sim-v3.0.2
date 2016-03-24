@@ -103,9 +103,7 @@ void ProgressToClinicalEvent::execute() {
             Model::DATA_COLLECTOR->record_1_treatment_failure_by_therapy(person->location(), person->age(), therapy->id());
             return;
         }
-        //schedule EndClinical by resistance event
-        person->schedule_end_clinical_due_to_drug_resistance_event(clinical_caused_parasite_);
-
+  
         person->schedule_update_by_drug_event(clinical_caused_parasite_);
 
         if (clinical_caused_parasite_->resist_to(therapy)) {
