@@ -330,6 +330,7 @@ void Config::read_genotype_info(const YAML::Node& config) {
         Locus l;
         l.position = config["genotype_info"]["loci"][i]["position"].as<int>();
         l.cost_of_resistance = config["genotype_info"]["loci"][i]["cost_of_resistance"].as<double>();
+        l.daily_cost_of_resistance = config["genotype_info"]["loci"][i]["daily_cost_of_resistance"].as<double>();
 
         for (int j = 0; j < config["genotype_info"]["loci"][i]["alleles"].size(); j++) {
             Allele al;
@@ -512,7 +513,6 @@ DrugType * Config::read_drugtype(const YAML::Node& config, const int& drug_id) {
 
     //if drug_id is equal to artermisinin drug id in config file, set 
     //isArterminsinin to true otherwise set it to false
-
 
 
     //if drug_id is equal to piperaquine drug id in config file, set 

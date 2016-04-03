@@ -22,7 +22,7 @@ start_treatment_day: 4000
 start_collect_data_day: 4000
 
 # probability that a symptomatic and infected individual seeks and receives antimalarial treatment
-p_treatment: 0.600000
+p_treatment: 0.800000
 
 # this functionality works, but it was not used in any analyses for the 2015 LGH paper
 number_of_locations: 1
@@ -32,7 +32,7 @@ number_of_locations: 1
 
 # main scaling parameter for transmission, by location
 # the last four terms are ignored when the number of locations is 1
-beta: [0.05 , 1.4 , 1.4, 1.4, 1]
+beta: [0.09 , 1.4 , 1.4, 1.4, 1]
 
 # this functionality works, but it was not used in any analyses for the 2015 LGH paper
 # seasonality parameters, by location
@@ -42,7 +42,7 @@ seasonal_beta:
   
   
 # the last four terms are ignored when the number of locations is 1
-population_size_by_location: [10000, 1000 , 1000, 1000, 500]
+population_size_by_location: [100000, 1000 , 1000, 1000, 500]
 
 # probability that an infectious bite on a human causes a blood stage malaria infection
 p_infection_from_an_infectious_bite: 0.1
@@ -84,7 +84,8 @@ mortality_when_treatment_fail_by_age: [0.040, 0.020,0.020,0.020,0.020,0.004,0.00
 
 genotype_info:
     loci:
-        - cost_of_resistance: 0.01
+        - cost_of_resistance: 0.005
+          daily_cost_of_resistance: 0.0005
           position: 0
           alleles:
             - value: 0
@@ -95,7 +96,8 @@ genotype_info:
               mutation_up: [1]
               mutation_down: [0]        
               mutation_level: 1
-        - cost_of_resistance: 0.01
+        - cost_of_resistance: 0.005
+          daily_cost_of_resistance: 0.0005
           position: 1
           alleles:
             - value: 0
@@ -106,7 +108,8 @@ genotype_info:
               mutation_up: [1]
               mutation_down: [0]        
               mutation_level: 1
-        - cost_of_resistance: 0.01
+        - cost_of_resistance: 0.005
+          daily_cost_of_resistance: 0.0005
           position: 2
           alleles:
             - value: 0
@@ -117,7 +120,8 @@ genotype_info:
               mutation_up: [1]
               mutation_down: [0]        
               mutation_level: 1
-        - cost_of_resistance: 0.01
+        - cost_of_resistance: 0.005
+          daily_cost_of_resistance: 0.0005
           position: 3
           alleles:
             - value: 0
@@ -295,46 +299,44 @@ drugInfo:
     maximum_parasite_killing_rate: 0.999
     n: 25
     age_specific_drug_concentration_sd: [0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4]
-    mutation_probability: 0.005
+    mutation_probability: 0.0005
     affecting_loci: [0]
     selecting_alleles: [[1]]
     k: 4
-    resistance_cost_multiple_infection: 0.01
-    isArtermisininDerivative: 1
-  1: # lumefantrine - use this for a standard simulation
+  1: # lumefantrine 
     half_life: 4.5
     maximum_parasite_killing_rate: 0.99
     n: 20
     age_specific_drug_concentration_sd: [0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4]
-    mutation_probability: 0.005
+    mutation_probability: 0.0005
     affecting_loci: [1]
     selecting_alleles: [[1]]
     k: 4
-  2: # amodiaquine - for advanced users only
+  2: # amodiaquine 
     half_life: 9.0
     maximum_parasite_killing_rate: 0.95
     n: 19
     age_specific_drug_concentration_sd: [0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4]
-    mutation_probability: 0.005
+    mutation_probability: 0.0005
     affecting_loci: [2]
     selecting_alleles: [[1]]
     k: 4
   
-  3: # piperaquine - for advanced users only
+  3: # piperaquine 
     half_life: 28.0
     maximum_parasite_killing_rate: 0.9
     n: 15
     age_specific_drug_concentration_sd: [0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4]
-    mutation_probability: 0.005
+    mutation_probability: 0.0005
     affecting_loci: [3]
     selecting_alleles: [[1]]
     k: 4
-  4: # piperaquine - for advanced users only
+  4: # sample drug
     half_life: 28.0
     maximum_parasite_killing_rate: 0.9
     n: 15
     age_specific_drug_concentration_sd: [0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4]
-    mutation_probability: 0.005
+    mutation_probability: 0.0005
     affecting_loci: [3]
     selecting_alleles: [[1]]
     k: 4
@@ -384,11 +386,11 @@ StrategyInfo:
   #strategyName can be SFTStrategy / CyclingStrategy / MFTStrategy / AdaptiveCyclingStrategy
 #  strategyName: SFTStrategy
 #  strategyName: CyclingStrategy
-  strategyName: MFTStrategy
-#  strategyName: AdaptiveCyclingStrategy
+#  strategyName: MFTStrategy
+  strategyName: AdaptiveCyclingStrategy
 
   SFTStrategy:
-    therapyID: [5]
+    therapyID: [0]
 
   # cycle three ACTs in and out every five years
   CyclingStrategy:
@@ -608,5 +610,5 @@ using_age_dependent_bitting_level: false
 # from an infectious mosquito bite) age-dependent
 using_variable_probability_infectious_bites_cause_infection: false
 
-fraction_mosquitoes_interrupted_feeding: 0.1
+fraction_mosquitoes_interrupted_feeding: 0.0
 

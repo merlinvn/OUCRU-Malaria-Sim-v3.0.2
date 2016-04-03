@@ -370,11 +370,6 @@ void SingleHostClonalParasitePopulations::update_by_drugs(DrugsInBlood* drugs_in
 
                 if (mutation_genotype->get_fake_efficacy(drug->drug_type()) < new_genotype->get_fake_efficacy(drug->drug_type())) {
                     //allow mutation
-                    //                    if (mutation_genotype->gene_expression()[2] == 1) {
-                    //                        std::cout << mutation_genotype->genotype_id() << "\t" << mutation_genotype->get_fake_efficacy(drug->drug_type()) << "\t"
-                    //                                << new_genotype->get_fake_efficacy(drug->drug_type()) << std::endl;
-                    //                        assert(false);
-                    //                    }
                     new_genotype = mutation_genotype;
                 }
 

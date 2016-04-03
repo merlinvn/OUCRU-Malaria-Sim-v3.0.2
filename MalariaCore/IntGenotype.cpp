@@ -28,6 +28,12 @@ IntGenotype::IntGenotype(const int& id) : genotype_id_(id) {
     for (int i = 0; i < Model::CONFIG->genotype_info().loci_vector.size(); i++) {
         relative_fitness_multiple_infection_ *= pow((1 - Model::CONFIG->genotype_info().loci_vector[i].cost_of_resistance), Model::CONFIG->genotype_info().loci_vector[i].alleles[gene_expression_[i]].mutation_level);
     }
+    
+    //daily_fitness
+    daily_fitness_multiple_infection_ = 1;
+    for (int i = 0; i < Model::CONFIG->genotype_info().loci_vector.size(); i++) {
+        daily_fitness_multiple_infection_ *= pow((1 - Model::CONFIG->genotype_info().loci_vector[i].daily_cost_of_resistance), Model::CONFIG->genotype_info().loci_vector[i].alleles[gene_expression_[i]].mutation_level);
+    }
 
     //number_of_resistance_position (level)
     number_of_resistance_position_ = 0;
