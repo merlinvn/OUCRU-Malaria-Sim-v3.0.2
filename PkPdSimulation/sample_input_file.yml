@@ -304,8 +304,6 @@ drugInfo:
     affecting_loci: [0]
     selecting_alleles: [[1]]
     k: 4
-    resistance_cost_multiple_infection: 0.01
-    isArtermisininDerivative: 1
   1: # lumefantrine - use this for a standard simulation
     half_life: 4.5
     maximum_parasite_killing_rate: 0.99
