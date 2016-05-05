@@ -38,7 +38,7 @@ std::vector<std::string> split(const std::string &s, char delim) {
     return split(s, delim, elems);
 }
 
-Config::Config(Model* model) : model_(model), strategy_(NULL), drug_db_(NULL), genotype_db_(NULL), initial_parasite_info_(), tme_strategy_(NULL) {
+Config::Config(Model* model) : model_(model), strategy_(NULL),strategy_db_(),therapy_db_(), drug_db_(NULL), genotype_db_(NULL), initial_parasite_info_(), tme_strategy_(NULL) {
     total_time_ = -1;
     start_treatment_day_ = -1;
     start_collect_data_day_ = -1;
@@ -64,21 +64,23 @@ Config::Config(const Config& orig) {
 }
 
 Config::~Config() {
-    DeletePointer<Strategy>(strategy_);
+//    DeletePointer<Strategy>(strategy_);
     DeletePointer<Strategy>(tme_strategy_);
     DeletePointer<DrugDatabase>(drug_db_);
     DeletePointer<IntGenotypeDatabase>(genotype_db_);
 
-    BOOST_FOREACH(TherapyPtrMap::value_type &i, therapy_db_) {
-        delete i.second;
-    }
-    therapy_db_.clear();
 
     BOOST_FOREACH(StrategyPtrMap::value_type &i, strategy_db_) {
         delete i.second;
     }
     strategy_db_.clear();
-
+    
+    strategy_ = NULL;    
+    
+    BOOST_FOREACH(TherapyPtrMap::value_type &i, therapy_db_) {
+        delete i.second;
+    }
+    therapy_db_.clear();
 }
 
 void Config::read_from_file(const std::string& config_file_name) {
@@ -237,9 +239,9 @@ void Config::read_immune_system_information(const YAML::Node& config) {
 
     immune_system_information_.c_min = pow(10, -(log_parasite_density_level_.log_parasite_density_asymptomatic - log_parasite_density_level_.log_parasite_density_cured) / immune_system_information_.duration_for_fully_immune);
     immune_system_information_.c_max = pow(10, -(log_parasite_density_level_.log_parasite_density_asymptomatic - log_parasite_density_level_.log_parasite_density_cured) / immune_system_information_.duration_for_naive);
-//    std::cout << immune_system_information_.c_min << std::endl;
-//    std::cout << immune_system_information_.c_max << std::endl;
-    
+    //    std::cout << immune_system_information_.c_min << std::endl;
+    //    std::cout << immune_system_information_.c_max << std::endl;
+
 
     immune_system_information_.age_mature_immunity = config["age_mature_immunity"].as<double>();
     immune_system_information_.factor_effect_age_mature_immunity = config["factor_effect_age_mature_immunity"].as<double>();
@@ -273,11 +275,9 @@ void Config::read_strategy_therapy_and_drug_information(const YAML::Node& config
 
     for (int i = 0; i < config["TherapyInfo"].size(); i++) {
         Therapy* t = read_therapy(config, i);
-        therapy_db_[i] = t;
-        //        std::cout<<i << std::endl;
+        therapy_db_.insert(std::pair<int,Therapy*>(i, t));
     }
-
-
+  
     //read tf_testing_day
     tf_testing_day_ = config["tf_testing_day"].as<int>();
 
@@ -291,8 +291,8 @@ void Config::read_strategy_therapy_and_drug_information(const YAML::Node& config
     strategy_db_.insert(std::pair<int, Strategy*>(strategy_->to_int(), strategy_));
 
     strategy_ = read_strategy(config, config["StrategyInfo"], "AdaptiveCyclingStrategy");
+    
     strategy_db_.insert(std::pair<int, Strategy*>(strategy_->to_int(), strategy_));
-
 
     std::string strategyName = config["StrategyInfo"]["strategyName"].as<std::string>();
 
@@ -302,6 +302,7 @@ void Config::read_strategy_therapy_and_drug_information(const YAML::Node& config
         }
     }
 
+    
 
 }
 

@@ -118,7 +118,7 @@ void AgeGroup2To10Reporter::begin_time_step() {
 void AgeGroup2To10Reporter::after_time_step() {
 
     if (Model::SCHEDULER->current_time() % Model::CONFIG->report_frequency() == 0) {
-//        Model::DATA_COLLECTOR->perform_population_statistic();
+        //        Model::DATA_COLLECTOR->perform_population_statistic();
 
         std::cout << Model::SCHEDULER->current_time() << "\t";
         std::cout << Model::DATA_COLLECTOR->AMU_per_parasite_pop() << "\t";
@@ -209,7 +209,7 @@ void AgeGroup2To10Reporter::output_parameters() {
         std::cout << scTherapy->dosing_day() << "\t";
     } else {
         std::cout << 0 << "\t";
-}
+    }
 }
 
 void AgeGroup2To10Reporter::print_ntf_by_location() {
