@@ -74,6 +74,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/MatureGametocyteEvent.o \
 	${OBJECTDIR}/Model.o \
 	${OBJECTDIR}/ModelDataCollector.o \
+	${OBJECTDIR}/MonthlyReporter.o \
 	${OBJECTDIR}/MoveParasiteToBloodEvent.o \
 	${OBJECTDIR}/MoveToExternalPopulationEvent.o \
 	${OBJECTDIR}/MultipleLocationGuiReporter.o \
@@ -338,6 +339,11 @@ ${OBJECTDIR}/ModelDataCollector.o: ModelDataCollector.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ModelDataCollector.o ModelDataCollector.cpp
+
+${OBJECTDIR}/MonthlyReporter.o: MonthlyReporter.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MonthlyReporter.o MonthlyReporter.cpp
 
 ${OBJECTDIR}/MoveParasiteToBloodEvent.o: MoveParasiteToBloodEvent.cpp 
 	${MKDIR} -p ${OBJECTDIR}

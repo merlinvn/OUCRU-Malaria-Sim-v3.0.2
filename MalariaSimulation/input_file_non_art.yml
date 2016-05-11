@@ -12,7 +12,7 @@
 # total number of days the simulation is run, including the burn-in period which we normally set to 4000
 # days; during the burn-in period, no one receives malaria treatement and the system sets into a natural 
 # equilibrium 
-total_time: 11330
+total_time: 14950
 
 # length of burn-in period
 start_treatment_day: 4000
@@ -84,7 +84,7 @@ mortality_when_treatment_fail_by_age: [0.040, 0.020,0.020,0.020,0.020,0.004,0.00
 
 genotype_info:
     loci:
-        - cost_of_resistance: 0.005
+        - cost_of_resistance: 0.00
           daily_cost_of_resistance: 0.0005
           position: 0
           alleles:
@@ -96,7 +96,7 @@ genotype_info:
               mutation_up: [1]
               mutation_down: [0]        
               mutation_level: 1
-        - cost_of_resistance: 0.005
+        - cost_of_resistance: 0.00
           daily_cost_of_resistance: 0.0005
           position: 1
           alleles:
@@ -120,9 +120,21 @@ genotype_info:
               mutation_up: [1]
               mutation_down: [0]        
               mutation_level: 1
-        - cost_of_resistance: 0.005
+        - cost_of_resistance: 0.00
           daily_cost_of_resistance: 0.0005
           position: 3
+          alleles:
+            - value: 0
+              mutation_up: [1]
+              mutation_down: [0]
+              mutation_level: 0
+            - value: 1
+              mutation_up: [1]
+              mutation_down: [0]        
+              mutation_level: 1
+        - cost_of_resistance: 0.00
+          daily_cost_of_resistance: 0.0005
+          position: 4
           alleles:
             - value: 0
               mutation_up: [1]
@@ -152,22 +164,38 @@ genotype_info:
 #15: 1,1,3
 
 fake_efficacy_table: [
-[1,1,1,1],
-[1,1,1,0],
-[1,1,0,1],
-[1,1,0,0],
-[1,0,1,1],
-[1,0,1,0],
-[1,0,0,1],
-[1,0,0,0],
-[0,1,1,1],
-[0,1,1,0],
-[0,1,0,1],
-[0,1,0,0],
-[0,0,1,1],
-[0,0,1,0],
-[0,0,0,1],
-[0,0,0,0]
+[1, 1, 1, 1, 1],
+[1, 1, 1, 1, 0],
+[1, 1, 1, 0, 1],
+[1, 1, 1, 0, 0],
+[1, 1, 0, 1, 1],
+[1, 1, 0, 1, 0],
+[1, 1, 0, 0, 1],
+[1, 1, 0, 0, 0],
+[1, 0, 1, 1, 1],
+[1, 0, 1, 1, 0],
+[1, 0, 1, 0, 1],
+[1, 0, 1, 0, 0],
+[1, 0, 0, 1, 1],
+[1, 0, 0, 1, 0],
+[1, 0, 0, 0, 1],
+[1, 0, 0, 0, 0],
+[0, 1, 1, 1, 1],
+[0, 1, 1, 1, 0],
+[0, 1, 1, 0, 1],
+[0, 1, 1, 0, 0],
+[0, 1, 0, 1, 1],
+[0, 1, 0, 1, 0],
+[0, 1, 0, 0, 1],
+[0, 1, 0, 0, 0],
+[0, 0, 1, 1, 1],
+[0, 0, 1, 1, 0],
+[0, 0, 1, 0, 1],
+[0, 0, 1, 0, 0],
+[0, 0, 0, 1, 1],
+[0, 0, 0, 1, 0],
+[0, 0, 0, 0, 1],
+[0, 0, 0, 0, 0]
 ]
 #drug id:
 # 0: artemisinin
@@ -276,20 +304,36 @@ introduce_parasite_periodically:
 
 EC50_table: [
 [0.75, 0.75, 0.75, 0.75, 0.75],
-[0.75,0.75, 0.75, 1.3, 1.3],
+[0.75, 0.75, 0.75, 0.75, 1.3],
+[0.75, 0.75, 0.75, 1.3, 0.75],
+[0.75, 0.75, 0.75, 1.3, 1.3],
 [0.75, 0.75, 1.3, 0.75, 0.75],
+[0.75, 0.75, 1.3, 0.75, 1.3],
+[0.75, 0.75, 1.3, 1.3, 0.75],
 [0.75, 0.75, 1.3, 1.3, 1.3],
 [0.75, 1.3, 0.75, 0.75, 0.75],
+[0.75, 1.3, 0.75, 0.75, 1.3],
+[0.75, 1.3, 0.75, 1.3, 0.75],
 [0.75, 1.3, 0.75, 1.3, 1.3],
 [0.75, 1.3, 1.3, 0.75, 0.75],
+[0.75, 1.3, 1.3, 0.75, 1.3],
+[0.75, 1.3, 1.3, 1.3, 0.75],
 [0.75, 1.3, 1.3, 1.3, 1.3],
 [1.3, 0.75, 0.75, 0.75, 0.75],
+[1.3, 0.75, 0.75, 0.75, 1.3],
+[1.3, 0.75, 0.75, 1.3, 0.75],
 [1.3, 0.75, 0.75, 1.3, 1.3],
 [1.3, 0.75, 1.3, 0.75, 0.75],
+[1.3, 0.75, 1.3, 0.75, 1.3],
+[1.3, 0.75, 1.3, 1.3, 0.75],
 [1.3, 0.75, 1.3, 1.3, 1.3],
 [1.3, 1.3, 0.75, 0.75, 0.75],
+[1.3, 1.3, 0.75, 0.75, 1.3],
+[1.3, 1.3, 0.75, 1.3, 0.75],
 [1.3, 1.3, 0.75, 1.3, 1.3],
 [1.3, 1.3, 1.3, 0.75, 0.75],
+[1.3, 1.3, 1.3, 0.75, 1.3],
+[1.3, 1.3, 1.3, 1.3, 0.75],
 [1.3, 1.3, 1.3, 1.3, 1.3]
 ]
 
@@ -299,7 +343,7 @@ drugInfo:
     maximum_parasite_killing_rate: 0.999
     n: 25
     age_specific_drug_concentration_sd: [0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4]
-    mutation_probability: 0.0005
+    mutation_probability: 0.001
     affecting_loci: [0]
     selecting_alleles: [[1]]
     k: 4
@@ -308,7 +352,7 @@ drugInfo:
     maximum_parasite_killing_rate: 0.99
     n: 20
     age_specific_drug_concentration_sd: [0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4]
-    mutation_probability: 0.0005
+    mutation_probability: 0.001
     affecting_loci: [1]
     selecting_alleles: [[1]]
     k: 4
@@ -317,7 +361,7 @@ drugInfo:
     maximum_parasite_killing_rate: 0.95
     n: 19
     age_specific_drug_concentration_sd: [0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4]
-    mutation_probability: 0.0005
+    mutation_probability: 0.001
     affecting_loci: [2]
     selecting_alleles: [[1]]
     k: 4
@@ -327,17 +371,17 @@ drugInfo:
     maximum_parasite_killing_rate: 0.9
     n: 15
     age_specific_drug_concentration_sd: [0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4]
-    mutation_probability: 0.0005
+    mutation_probability: 0.001
     affecting_loci: [3]
     selecting_alleles: [[1]]
     k: 4
   4: # sample drug
-    half_life: 28.0
-    maximum_parasite_killing_rate: 0.9
-    n: 15
+    half_life: 0.0
+    maximum_parasite_killing_rate:  0.999
+    n: 25
     age_specific_drug_concentration_sd: [0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4]
-    mutation_probability: 0.0005
-    affecting_loci: [3]
+    mutation_probability: 0.001
+    affecting_loci: [4]
     selecting_alleles: [[1]]
     k: 4
   
@@ -359,7 +403,7 @@ TherapyInfo:
     drug_id: [0,3]
     dosing_days: 3
   3:
-    drug_id: [0,4]
+    drug_id: [4,3]
     dosing_days: 3
   4:
     drug_id: [0]
@@ -384,9 +428,9 @@ TherapyInfo:
 # drug-deployment strategy - simply uncomment below to turn on a particular strategy
 StrategyInfo:
   #strategyName can be SFTStrategy / CyclingStrategy / MFTStrategy / AdaptiveCyclingStrategy
-  strategyName: SFTStrategy
+#  strategyName: SFTStrategy
 #  strategyName: CyclingStrategy
-#  strategyName: MFTStrategy
+  strategyName: MFTStrategy
 #  strategyName: AdaptiveCyclingStrategy
 
   SFTStrategy:
@@ -612,3 +656,6 @@ using_variable_probability_infectious_bites_cause_infection: false
 
 fraction_mosquitoes_interrupted_feeding: 0.0
 
+non_artemisinin_switching_day: 9475
+
+fraction_non_art_replacement: 0.3333

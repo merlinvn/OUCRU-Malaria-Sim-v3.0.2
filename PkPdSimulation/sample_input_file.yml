@@ -42,7 +42,7 @@ seasonal_beta:
   
   
 # the last four terms are ignored when the number of locations is 1
-population_size_by_location: [10000, 1000 , 1000, 1000, 500]
+population_size_by_location: [1000, 1000 , 1000, 1000, 500]
 
 # probability that an infectious bite on a human causes a blood stage malaria infection
 p_infection_from_an_infectious_bite: 0.1
@@ -85,8 +85,9 @@ mortality_when_treatment_fail_by_age: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
 genotype_info:
     loci:
-        - cost_of_resistance: 0.01
-          daily_cost_of_resistance: 0.001
+        - name: "K13 Propeller"
+          cost_of_resistance: 0.01
+          daily_cost_of_resistance: 0.001   
           position: 0
           alleles:
             - value: 0

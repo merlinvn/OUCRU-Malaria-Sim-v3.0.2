@@ -117,6 +117,10 @@ class Config {
     VIRTUAL_PROPERTY_REF(bool, using_variable_probability_infectious_bites_cause_infection)
     VIRTUAL_PROPERTY_REF(double, fraction_mosquitoes_interrupted_feeding)
 
+    VIRTUAL_PROPERTY_REF(int, non_artemisinin_switching_day);
+    VIRTUAL_PROPERTY_REF(double, fraction_non_art_replacement);
+    
+    
 public:
     Config(Model* model = NULL);
     virtual ~Config();

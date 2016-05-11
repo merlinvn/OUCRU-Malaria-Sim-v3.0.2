@@ -118,10 +118,10 @@ class ModelDataCollector {
     PROPERTY_REF(IntVector3, number_of_treatments_by_location_age_therapy_year)
     PROPERTY_REF(IntVector3, number_of_treatment_failures_by_location_age_therapy_year)
     PROPERTY_REF(IntVector2, popsize_by_location_age)
+    
+    PROPERTY_REF(DoubleVector, cumulative_NTF_15_30_by_location)
 
     static const int number_of_reported_MOI = 8;
-
-
     mean_acc acc;
 
 public:

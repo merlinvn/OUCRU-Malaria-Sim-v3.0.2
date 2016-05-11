@@ -125,6 +125,8 @@ void ModelDataCollector::initialize() {
         number_of_treatments_by_location_age_therapy_year_ = IntVector3(Model::CONFIG->number_of_locations(), IntVector2(80, IntVector(3, 0)));
         number_of_treatment_failures_by_location_age_therapy_year_ = IntVector3(Model::CONFIG->number_of_locations(), IntVector2(80, IntVector(3, 0)));
         popsize_by_location_age_ = IntVector2(Model::CONFIG->number_of_locations(), IntVector(80, 0));
+                
+        cumulative_NTF_15_30_by_location_ =  DoubleVector(Model::CONFIG->number_of_locations(), 0.0);
     }
 }
 
@@ -439,6 +441,12 @@ void ModelDataCollector::record_1_TF(const int& location, const bool& by_drug) {
             today_TF_by_location_[location] += 1;
         }
     }
+    
+    if (Model::SCHEDULER->current_time() >= Model::CONFIG->non_artemisinin_switching_day()) {
+        //TODO: collect NTF15-30
+        cumulative_NTF_15_30_by_location_[location] += 1;
+    }
+
 }
 
 void ModelDataCollector::record_1_non_treated_case(const int& location, const int& age) {
@@ -533,7 +541,7 @@ void ModelDataCollector::collect_1_non_resistant_treatment(const int& therapy_id
     number_of_treatments_with_therapy_ID_[therapy_id] += 1;
 }
 
-void ModelDataCollector::record_1_treatment_failure_by_therapy(const int& location, const int& age, const int& therapy_id){
+void ModelDataCollector::record_1_treatment_failure_by_therapy(const int& location, const int& age, const int& therapy_id) {
     number_of_treatments_fail_with_therapy_ID_[therapy_id] += 1;
     if (therapy_id < 3) {
         if (age < 79) {
@@ -543,7 +551,6 @@ void ModelDataCollector::record_1_treatment_failure_by_therapy(const int& locati
         }
     }
 }
-
 
 void ModelDataCollector::record_1_treatment_success_by_therapy(const int& therapy_id) {
     number_of_treatments_success_with_therapy_ID_[therapy_id] += 1;

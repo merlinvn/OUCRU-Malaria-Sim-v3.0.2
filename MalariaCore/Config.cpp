@@ -197,6 +197,9 @@ void Config::read_from_file(const std::string& config_file_name) {
     using_age_dependent_bitting_level_ = config["using_age_dependent_bitting_level"].as<bool>();
     using_variable_probability_infectious_bites_cause_infection_ = config["using_variable_probability_infectious_bites_cause_infection"].as<bool>();
     fraction_mosquitoes_interrupted_feeding_ = config["fraction_mosquitoes_interrupted_feeding"].as<double>();
+    
+    non_artemisinin_switching_day_ = config["non_artemisinin_switching_day"].as<int>();
+    fraction_non_art_replacement_ = config["fraction_non_art_replacement"].as<double>();
 }
 
 void Config::read_parasite_density_level(const YAML::Node& config) {

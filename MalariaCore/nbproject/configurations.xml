@@ -126,6 +126,8 @@
       <itemPath>GuiReporter.h</itemPath>
       <itemPath>ModelDataCollector.cpp</itemPath>
       <itemPath>ModelDataCollector.h</itemPath>
+      <itemPath>MonthlyReporter.cpp</itemPath>
+      <itemPath>MonthlyReporter.h</itemPath>
       <itemPath>MultipleLocationGuiReporter.cpp</itemPath>
       <itemPath>MultipleLocationGuiReporter.h</itemPath>
       <itemPath>Reporter.cpp</itemPath>
@@ -392,6 +394,10 @@
       <item path="ModelDataCollector.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="ModelDataCollector.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="MonthlyReporter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="MonthlyReporter.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="MoveParasiteToBloodEvent.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -815,6 +821,10 @@
       <item path="ModelDataCollector.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="ModelDataCollector.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="MonthlyReporter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="MonthlyReporter.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="MoveParasiteToBloodEvent.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -1241,6 +1251,10 @@
       <item path="ModelDataCollector.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="ModelDataCollector.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="MonthlyReporter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="MonthlyReporter.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="MoveParasiteToBloodEvent.cpp" ex="false" tool="1" flavor2="0">
       </item>

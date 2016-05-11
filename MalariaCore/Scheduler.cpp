@@ -16,6 +16,7 @@
 #include "Strategy.h"
 #include "TMEScheduler.h"
 #include "ImportationPeriodicallyEvent.h"
+#include "MFTStrategy.h"
 #include <boost/foreach.hpp>
 
 Scheduler::Scheduler(Model* model) :
@@ -82,6 +83,9 @@ void Scheduler::cancel(Event* event) {
 void Scheduler::run() {
     current_time_ = 0;
     for (current_time_ = 0; !can_stop(); current_time_++) {
+        //Check time to replace 1 ACT with non ACT
+        perform_check_and_replace_ACT();
+        
 //        std::cout << "Day: " << current_time_ << std::endl;
         begin_time_step();
         int size = timed_events_list_[current_time_].size();
@@ -176,4 +180,17 @@ void Scheduler::update_force_of_infection() {
 
 int Scheduler::current_day_in_year() {
     return (current_time_ - Model::CONFIG->start_collect_data_day()) % 365;
+}
+
+void Scheduler::perform_check_and_replace_ACT(){
+    if(current_time_ == Model::CONFIG->non_artemisinin_switching_day())
+    {
+        //switch therapy 2 to therapy 3
+        Model::CONFIG->strategy()->therapy_list()[2] = Model::CONFIG->therapy_db()[3];        
+        //change the distribution         
+        ((MFTStrategy *)Model::CONFIG->strategy())->distribution()[2] = Model::CONFIG->fraction_non_art_replacement();
+        ((MFTStrategy *)Model::CONFIG->strategy())->distribution()[0] = (1-Model::CONFIG->fraction_non_art_replacement())/2.0;
+        ((MFTStrategy *)Model::CONFIG->strategy())->distribution()[1] = (1-Model::CONFIG->fraction_non_art_replacement())/2.0;
+        
+    }    
 }

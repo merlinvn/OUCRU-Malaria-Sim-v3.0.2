@@ -17,8 +17,6 @@
         <group name="MaSim3.1F">
             <file>file:/D:/Users/Merlin/Documents/Box%20Sync/Works/MaSim_V3.1F/PkPdSimulation/basic_config.yml</file>
         </group>
-        <group>
-            <file>file:/D:/temp/GitHub/OUCRU-Malaria-Sim-v3.0.2/PkPdSimulation/sample_input_file.yml</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
