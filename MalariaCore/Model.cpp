@@ -273,6 +273,8 @@ void Model::before_run() {
 }
 
 void Model::after_run() {
+    Model::DATA_COLLECTOR->update_after_run();
+
     BOOST_FOREACH(Reporter* reporter, reporters_) {
         reporter->after_run();
     }

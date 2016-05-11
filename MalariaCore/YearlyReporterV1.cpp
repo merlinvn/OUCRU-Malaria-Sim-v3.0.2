@@ -55,7 +55,6 @@ void YearlyReporterV1::after_time_step() {
 }
 
 void YearlyReporterV1::after_run() {
-    Model::DATA_COLLECTOR->update_after_run();
 
     fs_.close();
 }

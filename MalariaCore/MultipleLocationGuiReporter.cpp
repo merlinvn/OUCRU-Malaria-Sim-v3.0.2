@@ -83,9 +83,6 @@ void MultipleLocationGuiReporter::begin_time_step() {
 void MultipleLocationGuiReporter::after_time_step() {
 
     if (Model::SCHEDULER->current_time() % Model::CONFIG->report_frequency() == 0) {
-        Model::DATA_COLLECTOR->perform_population_statistic();
-
-
         for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
             send_tme_chart_data(location);
             send_mono_resistance_chart_data(location);

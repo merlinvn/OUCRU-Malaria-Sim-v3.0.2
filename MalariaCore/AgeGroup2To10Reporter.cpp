@@ -37,7 +37,6 @@ void AgeGroup2To10Reporter::before_run() {
 }
 
 void AgeGroup2To10Reporter::after_run() {
-    Model::DATA_COLLECTOR->update_after_run();
 
     //output parameter
     output_parameters();
@@ -155,6 +154,7 @@ void AgeGroup2To10Reporter::after_time_step() {
         std::cout << Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(Model::DATA_COLLECTOR->resistance_tracker().double_resistance_ids()) << "\t";
         std::cout << Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(Model::DATA_COLLECTOR->resistance_tracker().tripple_resistance_ids()) << "\t";
         std::cout << Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(Model::DATA_COLLECTOR->resistance_tracker().quadruple_resistance_ids()) << "\t";
+        std::cout << Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(Model::DATA_COLLECTOR->resistance_tracker().quintuple_resistance_ids()) << "\t";
         std::cout << Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(Model::DATA_COLLECTOR->resistance_tracker().artemisinin_ids()) << "\t";
         std::cout << Model::DATA_COLLECTOR->resistance_tracker().total_resistance_frequency() << "\t";
 

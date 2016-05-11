@@ -32,7 +32,6 @@ void FarmReporter::before_run() {
 }
 
 void FarmReporter::after_run() {
-    Model::DATA_COLLECTOR->update_after_run();
 
     //output parameter
     output_parameters();
@@ -105,9 +104,7 @@ void FarmReporter::begin_time_step() {
 }
 
 void FarmReporter::after_time_step() {
-    if (Model::SCHEDULER->current_time() % Model::CONFIG->report_frequency() == 0) {
-        Model::DATA_COLLECTOR->perform_population_statistic();
-    }
+
 }
 
 void FarmReporter::output_parameters() {
