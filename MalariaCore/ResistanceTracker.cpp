@@ -195,28 +195,10 @@ void ResistanceTracker::update_resistance_tracker() {
             update_time_value(all_quintuple_tracking_time_[i], min_fraction_resistance(quintuple_resistance_ids_), tracking_values_[i]);
         }
 
+
+        calculate_total_resistance_frequency();
+
         if (total_tracking_time_[i] == -1) {
-
-
-            const int size = Model::CONFIG->genotype_db()->get(0)->gene_expression().size() ;
-
-            //get weighted sum
-            total_resistance_frequency_ = 0;
-            for (int c = 0; c < size; c++) {
-                double sub_sum = 0;
-                if (c == size - 1) {
-                    sub_sum += parasite_population_count_[all_resistance_id_];
-                } else {
-                    for (int j = 0; j < total_resistance_ids_[c]->size(); j++) {
-                        sub_sum += parasite_population_count_[total_resistance_ids_[c]->at(j)];
-                    }
-                }
-
-                total_resistance_frequency_ += (c + 1) * sub_sum;
-            }
-            total_resistance_frequency_ = (total_resistance_frequency_ / total_) / size;
-
-
             update_time_value(total_tracking_time_[i], total_resistance_frequency_, tracking_values_[i]);
         }
 
@@ -224,6 +206,28 @@ void ResistanceTracker::update_resistance_tracker() {
             update_time_value(artemisinin_tracking_time_[i], sum_fraction_resistance(artemisinin_ids_), tracking_values_[i]);
         }
     }
+}
+
+void ResistanceTracker::calculate_total_resistance_frequency() {
+    //TODO: size should be equal to the sum of all allele values of the drug used in strategy??? what if multiple stragegy....
+    // not the size of the gene expression
+    
+    const int size = Model::CONFIG->genotype_db()->get(0)->gene_expression().size();
+
+    //get weighted sum
+    total_resistance_frequency_ = 0;
+    for (int c = 0; c < size; c++) {
+        double sub_sum = 0;
+        if (c == size - 1) {
+            sub_sum += parasite_population_count_[all_resistance_id_];
+        } else {
+            for (int j = 0; j < total_resistance_ids_[c]->size(); j++) {
+                sub_sum += parasite_population_count_[total_resistance_ids_[c]->at(j)];
+            }
+        }
+        total_resistance_frequency_ += (c + 1) * sub_sum;
+    }
+    total_resistance_frequency_ = (total_resistance_frequency_ / total_) / size;
 }
 
 double ResistanceTracker::max_fraction_resistance(const IntVector & resitance_ids) {

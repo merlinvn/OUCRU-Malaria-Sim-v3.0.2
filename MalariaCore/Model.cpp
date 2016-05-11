@@ -138,6 +138,7 @@ void Model::initialize() {
             add_reporter(Reporter::MakeReport(Reporter::FARM));
         } else {
             add_reporter(Reporter::MakeReport(Reporter::AGE_GROUP_2_TO_10));
+            add_reporter(Reporter::MakeReport(Reporter::MONTHLY_REPORTER));
         }
     } else {
         add_reporter(Reporter::MakeReport(Reporter::GUI));
@@ -267,6 +268,7 @@ void Model::run() {
 
 void Model::before_run() {
     //    std::cout << "Seed:" << RANDOM->seed() << std::endl;
+
     BOOST_FOREACH(Reporter* reporter, reporters_) {
         reporter->before_run();
     }
@@ -288,13 +290,14 @@ void Model::perform_infection_event() {
 void Model::report_end_of_time_step() {
     if (Model::SCHEDULER->current_time() % Model::CONFIG->report_frequency() == 0) {
         Model::DATA_COLLECTOR->perform_population_statistic();
+
         BOOST_FOREACH(Reporter* reporter, reporters_) {
             reporter->after_time_step();
-        }       
+        }
     }
-//     if (Model::SCHEDULER->current_time() >= 4000) {
-//        std::cout << "end" << std::endl;
-//    }
+    //     if (Model::SCHEDULER->current_time() >= 4000) {
+    //        std::cout << "end" << std::endl;
+    //    }
 }
 
 void Model::report_begin_of_time_step() {
@@ -302,9 +305,9 @@ void Model::report_begin_of_time_step() {
     BOOST_FOREACH(Reporter* reporter, reporters_) {
         reporter->begin_time_step();
     }
-//    if (Model::SCHEDULER->current_time() >= 4000) {
-//        std::cout << "begin" << std::endl;
-//    }
+    //    if (Model::SCHEDULER->current_time() >= 4000) {
+    //        std::cout << "begin" << std::endl;
+    //    }
 }
 
 void Model::add_reporter(Reporter* reporter) {
