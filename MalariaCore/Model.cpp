@@ -137,7 +137,7 @@ void Model::initialize() {
         if (is_farm_output_) {
             add_reporter(Reporter::MakeReport(Reporter::FARM));
         } else {
-            add_reporter(Reporter::MakeReport(Reporter::AGE_GROUP_2_TO_10));
+            add_reporter(Reporter::MakeReport(Reporter::FARM));
             add_reporter(Reporter::MakeReport(Reporter::MONTHLY_REPORTER));
         }
     } else {

@@ -120,6 +120,8 @@ class Config {
     VIRTUAL_PROPERTY_REF(int, non_artemisinin_switching_day);
     VIRTUAL_PROPERTY_REF(double, fraction_non_art_replacement);
     
+    VIRTUAL_PROPERTY_REF(double, modified_daily_cost_of_resistance)
+    VIRTUAL_PROPERTY_REF(double, modified_mutation_probability)
     
 public:
     Config(Model* model = NULL);

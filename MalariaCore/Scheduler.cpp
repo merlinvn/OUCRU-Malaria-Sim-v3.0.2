@@ -185,12 +185,25 @@ int Scheduler::current_day_in_year() {
 void Scheduler::perform_check_and_replace_ACT(){
     if(current_time_ == Model::CONFIG->non_artemisinin_switching_day())
     {
+        //collect the current TF
+        //TODO: multiple location
+        Model::DATA_COLLECTOR->TF_at_15() = Model::DATA_COLLECTOR->current_TF_by_location()[0];
+        Model::DATA_COLLECTOR->single_resistance_frequency_at_15() = Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(Model::DATA_COLLECTOR->resistance_tracker().single_resistance_ids());
+        Model::DATA_COLLECTOR->double_resistance_frequency_at_15() = Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(Model::DATA_COLLECTOR->resistance_tracker().double_resistance_ids());
+        Model::DATA_COLLECTOR->triple_resistance_frequency_at_15() = Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(Model::DATA_COLLECTOR->resistance_tracker().tripple_resistance_ids());
+        Model::DATA_COLLECTOR->quadruple_resistance_frequency_at_15() = Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(Model::DATA_COLLECTOR->resistance_tracker().quadruple_resistance_ids());
+        Model::DATA_COLLECTOR->quintuple_resistance_frequency_at_15() =  Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(Model::DATA_COLLECTOR->resistance_tracker().quintuple_resistance_ids());
+        Model::DATA_COLLECTOR->art_resistance_frequency_at_15() = Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(Model::DATA_COLLECTOR->resistance_tracker().artemisinin_ids()) ;
+        Model::DATA_COLLECTOR->total_resistance_frequency_at_15() = Model::DATA_COLLECTOR->resistance_tracker().calculate_total_resistance_frequency();
+
+        
         //switch therapy 2 to therapy 3
         Model::CONFIG->strategy()->therapy_list()[2] = Model::CONFIG->therapy_db()[3];        
         //change the distribution         
         ((MFTStrategy *)Model::CONFIG->strategy())->distribution()[2] = Model::CONFIG->fraction_non_art_replacement();
         ((MFTStrategy *)Model::CONFIG->strategy())->distribution()[0] = (1-Model::CONFIG->fraction_non_art_replacement())/2.0;
         ((MFTStrategy *)Model::CONFIG->strategy())->distribution()[1] = (1-Model::CONFIG->fraction_non_art_replacement())/2.0;
+        
         
     }    
 }

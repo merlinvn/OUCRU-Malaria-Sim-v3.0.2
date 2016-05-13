@@ -22,17 +22,14 @@ start_treatment_day: 4000
 start_collect_data_day: 4000
 
 # probability that a symptomatic and infected individual seeks and receives antimalarial treatment
-p_treatment: 0.800000
+p_treatment: 0.600000
 
 # this functionality works, but it was not used in any analyses for the 2015 LGH paper
 number_of_locations: 1
 
-
-
-
 # main scaling parameter for transmission, by location
 # the last four terms are ignored when the number of locations is 1
-beta: [0.09 , 1.4 , 1.4, 1.4, 1]
+beta: [0.06 , 1.4 , 1.4, 1.4, 1]
 
 # this functionality works, but it was not used in any analyses for the 2015 LGH paper
 # seasonality parameters, by location
@@ -42,7 +39,7 @@ seasonal_beta:
   
   
 # the last four terms are ignored when the number of locations is 1
-population_size_by_location: [10000, 1000 , 1000, 1000, 500]
+population_size_by_location: [500000, 1000 , 1000, 1000, 500]
 
 # probability that an infectious bite on a human causes a blood stage malaria infection
 p_infection_from_an_infectious_bite: 0.1
@@ -343,7 +340,7 @@ drugInfo:
     maximum_parasite_killing_rate: 0.999
     n: 25
     age_specific_drug_concentration_sd: [0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4]
-    mutation_probability: 0.001
+    mutation_probability: 0.0005
     affecting_loci: [0]
     selecting_alleles: [[1]]
     k: 4
@@ -352,7 +349,7 @@ drugInfo:
     maximum_parasite_killing_rate: 0.99
     n: 20
     age_specific_drug_concentration_sd: [0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4]
-    mutation_probability: 0.001
+    mutation_probability: 0.0005
     affecting_loci: [1]
     selecting_alleles: [[1]]
     k: 4
@@ -361,7 +358,7 @@ drugInfo:
     maximum_parasite_killing_rate: 0.95
     n: 19
     age_specific_drug_concentration_sd: [0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4]
-    mutation_probability: 0.001
+    mutation_probability: 0.0005
     affecting_loci: [2]
     selecting_alleles: [[1]]
     k: 4
@@ -371,16 +368,26 @@ drugInfo:
     maximum_parasite_killing_rate: 0.9
     n: 15
     age_specific_drug_concentration_sd: [0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4]
-    mutation_probability: 0.001
+    mutation_probability: 0.0005
     affecting_loci: [3]
     selecting_alleles: [[1]]
     k: 4
   4: # sample drug
-    half_life: 0.0
+    half_life: 2.0
     maximum_parasite_killing_rate:  0.999
     n: 25
     age_specific_drug_concentration_sd: [0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4]
-    mutation_probability: 0.001
+    mutation_probability: 0.0005
+    affecting_loci: [4]
+    selecting_alleles: [[1]]
+    k: 4
+    
+  5: # sample drug
+    half_life: 20.0
+    maximum_parasite_killing_rate:  0.95
+    n: 15
+    age_specific_drug_concentration_sd: [0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4]
+    mutation_probability: 0.0005
     affecting_loci: [4]
     selecting_alleles: [[1]]
     k: 4
@@ -406,7 +413,7 @@ TherapyInfo:
     drug_id: [4,3]
     dosing_days: 3
   4:
-    drug_id: [0]
+    drug_id: [0,5]
     dosing_days: 3
   5:
     drug_id: [1]
@@ -658,4 +665,4 @@ fraction_mosquitoes_interrupted_feeding: 0.0
 
 non_artemisinin_switching_day: 9475
 
-fraction_non_art_replacement: 0.3333
+fraction_non_art_replacement: 0.33333

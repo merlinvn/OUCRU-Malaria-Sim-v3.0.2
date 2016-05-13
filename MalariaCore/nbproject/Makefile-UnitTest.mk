@@ -37,7 +37,6 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 OBJECTFILES= \
 	${OBJECTDIR}/AMUReporter.o \
 	${OBJECTDIR}/AdaptiveCyclingStrategy.o \
-	${OBJECTDIR}/AgeGroup2To10Reporter.o \
 	${OBJECTDIR}/BirthdayEvent.o \
 	${OBJECTDIR}/BittingLevelGenerator.o \
 	${OBJECTDIR}/CSVRow.o \
@@ -154,11 +153,6 @@ ${OBJECTDIR}/AdaptiveCyclingStrategy.o: AdaptiveCyclingStrategy.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -DUNITTEST=\"True\" -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/AdaptiveCyclingStrategy.o AdaptiveCyclingStrategy.cpp
-
-${OBJECTDIR}/AgeGroup2To10Reporter.o: AgeGroup2To10Reporter.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -DUNITTEST=\"True\" -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/AgeGroup2To10Reporter.o AgeGroup2To10Reporter.cpp
 
 ${OBJECTDIR}/BirthdayEvent.o: BirthdayEvent.cpp 
 	${MKDIR} -p ${OBJECTDIR}

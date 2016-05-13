@@ -60,16 +60,16 @@ double Drug::get_current_drug_concentration(int currentTime) {
     }
 }
 
-double Drug::get_mutation_probability(double currentDrugValue) {
+double Drug::get_mutation_probability(double currentDrugConcentration) {
     double P = 0;
-    if (currentDrugValue <= 0)
+    if (currentDrugConcentration <= 0)
         return 0;
-    if (currentDrugValue < (0.5))
-        P = 2 * drug_type_->p_mutation() * drug_type_->k() * currentDrugValue;
+    if (currentDrugConcentration < (0.5))
+        P = 2 * drug_type_->p_mutation() * drug_type_->k() * currentDrugConcentration;
 
-    else if (currentDrugValue >= (0.5) && currentDrugValue < 1.0) {
-        P = drug_type_->p_mutation() * (2 * (1 - drug_type_->k()) * currentDrugValue + (2 * drug_type_->k() - 1));
-    } else if (currentDrugValue >= 1.0) {
+    else if (currentDrugConcentration >= (0.5) && currentDrugConcentration < 1.0) {
+        P = drug_type_->p_mutation() * (2 * (1 - drug_type_->k()) * currentDrugConcentration + (2 * drug_type_->k() - 1));
+    } else if (currentDrugConcentration >= 1.0) {
         P = drug_type_->p_mutation();
     }
     //    cout << P << endl;

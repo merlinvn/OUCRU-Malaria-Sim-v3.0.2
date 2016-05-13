@@ -63,7 +63,7 @@ public:
     void make_resistance_profile(std::vector<int>& vResistanceID, const int& size);
     void make_arterminsinin_resistance_profile(std::vector<int>& vResistanceID);
     
-    void calculate_total_resistance_frequency();
+    double calculate_total_resistance_frequency();
 private:
 
 };

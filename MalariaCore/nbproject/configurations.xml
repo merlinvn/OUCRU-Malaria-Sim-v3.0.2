@@ -116,8 +116,6 @@
     <logicalFolder name="f6" displayName="Reporter" projectFiles="true">
       <itemPath>AMUReporter.cpp</itemPath>
       <itemPath>AMUReporter.h</itemPath>
-      <itemPath>AgeGroup2To10Reporter.cpp</itemPath>
-      <itemPath>AgeGroup2To10Reporter.h</itemPath>
       <itemPath>ConsoleReporter.cpp</itemPath>
       <itemPath>ConsoleReporter.h</itemPath>
       <itemPath>FarmReporter.cpp</itemPath>
@@ -227,10 +225,6 @@
       <item path="AdaptiveCyclingStrategy.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="AdaptiveCyclingStrategy.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="AgeGroup2To10Reporter.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="AgeGroup2To10Reporter.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="BirthdayEvent.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -654,10 +648,6 @@
       <item path="AdaptiveCyclingStrategy.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="AdaptiveCyclingStrategy.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="AgeGroup2To10Reporter.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="AgeGroup2To10Reporter.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="BirthdayEvent.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -1084,10 +1074,6 @@
       <item path="AdaptiveCyclingStrategy.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="AdaptiveCyclingStrategy.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="AgeGroup2To10Reporter.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="AgeGroup2To10Reporter.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="BirthdayEvent.cpp" ex="false" tool="1" flavor2="0">
       </item>

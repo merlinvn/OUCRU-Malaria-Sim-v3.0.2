@@ -38,7 +38,7 @@ std::vector<std::string> split(const std::string &s, char delim) {
     return split(s, delim, elems);
 }
 
-Config::Config(Model* model) : model_(model), strategy_(NULL),strategy_db_(),therapy_db_(), drug_db_(NULL), genotype_db_(NULL), initial_parasite_info_(), tme_strategy_(NULL) {
+Config::Config(Model* model) : model_(model), strategy_(NULL), strategy_db_(), therapy_db_(), drug_db_(NULL), genotype_db_(NULL), initial_parasite_info_(), tme_strategy_(NULL) {
     total_time_ = -1;
     start_treatment_day_ = -1;
     start_collect_data_day_ = -1;
@@ -58,25 +58,27 @@ Config::Config(Model* model) : model_(model), strategy_(NULL),strategy_db_(),the
     tf_window_size_ = -1;
     //    initial_parasite_info_.reserve(1);
     fraction_mosquitoes_interrupted_feeding_ = 0;
+
+    modified_daily_cost_of_resistance_ = -1;
+    modified_mutation_probability_ = -1;
 }
 
 Config::Config(const Config& orig) {
 }
 
 Config::~Config() {
-//    DeletePointer<Strategy>(strategy_);
+    //    DeletePointer<Strategy>(strategy_);
     DeletePointer<Strategy>(tme_strategy_);
     DeletePointer<DrugDatabase>(drug_db_);
     DeletePointer<IntGenotypeDatabase>(genotype_db_);
-
 
     BOOST_FOREACH(StrategyPtrMap::value_type &i, strategy_db_) {
         delete i.second;
     }
     strategy_db_.clear();
-    
-    strategy_ = NULL;    
-    
+
+    strategy_ = NULL;
+
     BOOST_FOREACH(TherapyPtrMap::value_type &i, therapy_db_) {
         delete i.second;
     }
@@ -197,7 +199,7 @@ void Config::read_from_file(const std::string& config_file_name) {
     using_age_dependent_bitting_level_ = config["using_age_dependent_bitting_level"].as<bool>();
     using_variable_probability_infectious_bites_cause_infection_ = config["using_variable_probability_infectious_bites_cause_infection"].as<bool>();
     fraction_mosquitoes_interrupted_feeding_ = config["fraction_mosquitoes_interrupted_feeding"].as<double>();
-    
+
     non_artemisinin_switching_day_ = config["non_artemisinin_switching_day"].as<int>();
     fraction_non_art_replacement_ = config["fraction_non_art_replacement"].as<double>();
 }
@@ -278,9 +280,9 @@ void Config::read_strategy_therapy_and_drug_information(const YAML::Node& config
 
     for (int i = 0; i < config["TherapyInfo"].size(); i++) {
         Therapy* t = read_therapy(config, i);
-        therapy_db_.insert(std::pair<int,Therapy*>(i, t));
+        therapy_db_.insert(std::pair<int, Therapy*>(i, t));
     }
-  
+
     //read tf_testing_day
     tf_testing_day_ = config["tf_testing_day"].as<int>();
 
@@ -294,7 +296,7 @@ void Config::read_strategy_therapy_and_drug_information(const YAML::Node& config
     strategy_db_.insert(std::pair<int, Strategy*>(strategy_->to_int(), strategy_));
 
     strategy_ = read_strategy(config, config["StrategyInfo"], "AdaptiveCyclingStrategy");
-    
+
     strategy_db_.insert(std::pair<int, Strategy*>(strategy_->to_int(), strategy_));
 
     std::string strategyName = config["StrategyInfo"]["strategyName"].as<std::string>();
@@ -305,7 +307,7 @@ void Config::read_strategy_therapy_and_drug_information(const YAML::Node& config
         }
     }
 
-    
+
 
 }
 
@@ -882,6 +884,14 @@ void Config::override_1_parameter(const std::string& parameter_name, const std::
         build_parasite_db();
     }
 
+    if (parameter_name == "daily_cost_of_resistance") {
+        modified_daily_cost_of_resistance_ = atof(parameter_value.c_str());
+        for (int i = 0; i < genotype_info_.loci_vector.size(); i++) {
+            genotype_info_.loci_vector[i].daily_cost_of_resistance = modified_daily_cost_of_resistance_;
+        }
+        build_parasite_db();
+    }
+
     if (parameter_name == "z") {
         immune_system_information_.immune_effect_on_progression_to_clinical = atof(parameter_value.c_str());
     }
@@ -941,4 +951,12 @@ void Config::override_1_parameter(const std::string& parameter_name, const std::
             }
         }
     }
+
+    if (parameter_name == "mutation_probability") {
+        modified_mutation_probability_ = atof(parameter_value.c_str());
+        for (DrugTypePtrMap::iterator it = drug_db_->drug_db().begin(); it != drug_db_->drug_db().end(); it++) {
+            it->second->set_p_mutation(modified_mutation_probability_);
+        }
+    }
+
 }

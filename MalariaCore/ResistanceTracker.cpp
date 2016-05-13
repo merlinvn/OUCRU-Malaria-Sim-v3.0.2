@@ -208,7 +208,7 @@ void ResistanceTracker::update_resistance_tracker() {
     }
 }
 
-void ResistanceTracker::calculate_total_resistance_frequency() {
+double ResistanceTracker::calculate_total_resistance_frequency() {
     //TODO: size should be equal to the sum of all allele values of the drug used in strategy??? what if multiple stragegy....
     // not the size of the gene expression
     
@@ -228,6 +228,8 @@ void ResistanceTracker::calculate_total_resistance_frequency() {
         total_resistance_frequency_ += (c + 1) * sub_sum;
     }
     total_resistance_frequency_ = (total_resistance_frequency_ / total_) / size;
+    
+    return total_resistance_frequency_;
 }
 
 double ResistanceTracker::max_fraction_resistance(const IntVector & resitance_ids) {

@@ -127,6 +127,16 @@ void ModelDataCollector::initialize() {
         popsize_by_location_age_ = IntVector2(Model::CONFIG->number_of_locations(), IntVector(80, 0));
                 
         cumulative_NTF_15_30_by_location_ =  DoubleVector(Model::CONFIG->number_of_locations(), 0.0);
+        TF_at_15_ = 0;
+        single_resistance_frequency_at_15_ = 0;
+        double_resistance_frequency_at_15_ = 0;
+        triple_resistance_frequency_at_15_ = 0;
+        quadruple_resistance_frequency_at_15_ = 0;
+        quintuple_resistance_frequency_at_15_ = 0;
+        art_resistance_frequency_at_15_ = 0;
+        total_resistance_frequency_at_15_ = 0;
+        
+        
     }
 }
 

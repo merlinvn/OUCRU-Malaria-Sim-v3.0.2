@@ -90,7 +90,6 @@
         </cTool>
         <ccTool>
           <developmentMode>5</developmentMode>
-          <architecture>1</architecture>
           <incDir>
             <pElem>../MalariaCore</pElem>
           </incDir>

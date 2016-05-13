@@ -121,6 +121,15 @@ class ModelDataCollector {
     
     PROPERTY_REF(DoubleVector, cumulative_NTF_15_30_by_location)
 
+    PROPERTY_REF(double, TF_at_15)
+    PROPERTY_REF(double, single_resistance_frequency_at_15)
+    PROPERTY_REF(double, double_resistance_frequency_at_15)
+    PROPERTY_REF(double, triple_resistance_frequency_at_15)
+    PROPERTY_REF(double, quadruple_resistance_frequency_at_15)
+    PROPERTY_REF(double, quintuple_resistance_frequency_at_15)
+    PROPERTY_REF(double, art_resistance_frequency_at_15)
+    PROPERTY_REF(double, total_resistance_frequency_at_15)
+    
     static const int number_of_reported_MOI = 8;
     mean_acc acc;
 
