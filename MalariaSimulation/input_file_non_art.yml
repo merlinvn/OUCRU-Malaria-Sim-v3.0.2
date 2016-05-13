@@ -29,7 +29,7 @@ number_of_locations: 1
 
 # main scaling parameter for transmission, by location
 # the last four terms are ignored when the number of locations is 1
-beta: [0.06 , 1.4 , 1.4, 1.4, 1]
+beta: [0.065 , 1.4 , 1.4, 1.4, 1]
 
 # this functionality works, but it was not used in any analyses for the 2015 LGH paper
 # seasonality parameters, by location
