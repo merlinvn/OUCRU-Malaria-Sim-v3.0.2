@@ -11,7 +11,6 @@
 #include "AMUReporter.h"
 #include "FarmReporter.h"
 #include "MultipleLocationGuiReporter.h"
-#include "AgeGroup2To10Reporter.h"
 #include "YearlyReporterV1.h"
 #include "Model.h"
 #include "Random.h"
@@ -45,8 +44,6 @@ Reporter* Reporter::MakeReport(ReportType report_type) {
             return new FarmReporter();
         case MULTIPLE_LOCATION:
             return new MultipleLocationGuiReporter();
-        case AGE_GROUP_2_TO_10:
-            return new AgeGroup2To10Reporter();
         case YEARLY_REPORTER_V1:
             return new YearlyReporterV1(file_name1);
         case MONTHLY_REPORTER:

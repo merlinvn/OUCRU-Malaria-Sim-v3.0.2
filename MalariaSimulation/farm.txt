@@ -1,4 +1,4 @@
-population_size	beta	f	daily_cost_of_resistance	mutation_propbability	fraction_non_art_replacement
+population_size	beta	f	daily_cost_of_resistance	mutation_probability	fraction_non_art_replacement
 500000	0.065000	0.500000	0.000100	0.000500	0.333333
 500000	0.065000	0.500000	0.000100	0.000500	0.666667
 500000	0.065000	0.500000	0.000100	0.000500	1.000000

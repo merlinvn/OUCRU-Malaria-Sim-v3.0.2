@@ -958,5 +958,13 @@ void Config::override_1_parameter(const std::string& parameter_name, const std::
             it->second->set_p_mutation(modified_mutation_probability_);
         }
     }
+    
+    if(parameter_name == "fraction_non_art_replacement")
+    {
+        double fnar = atof(parameter_value.c_str());
+        fraction_non_art_replacement_ = fnar;
+        
+        
+    }
 
 }
