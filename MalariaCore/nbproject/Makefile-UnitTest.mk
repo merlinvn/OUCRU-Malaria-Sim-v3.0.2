@@ -21,8 +21,8 @@ FC=gfortran
 AS=as
 
 # Macros
-CND_PLATFORM=MinGW-Windows
-CND_DLIB_EXT=dll
+CND_PLATFORM=GNU-MacOSX
+CND_DLIB_EXT=dylib
 CND_CONF=UnitTest
 CND_DISTDIR=dist
 CND_BUILDDIR=build
@@ -74,6 +74,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Model.o \
 	${OBJECTDIR}/ModelDataCollector.o \
 	${OBJECTDIR}/MonthlyReporter.o \
+	${OBJECTDIR}/MonthlyReporterConsole.o \
 	${OBJECTDIR}/MoveParasiteToBloodEvent.o \
 	${OBJECTDIR}/MoveToExternalPopulationEvent.o \
 	${OBJECTDIR}/MultipleLocationGuiReporter.o \
@@ -338,6 +339,11 @@ ${OBJECTDIR}/MonthlyReporter.o: MonthlyReporter.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -DUNITTEST=\"True\" -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MonthlyReporter.o MonthlyReporter.cpp
+
+${OBJECTDIR}/MonthlyReporterConsole.o: MonthlyReporterConsole.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -DUNITTEST=\"True\" -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MonthlyReporterConsole.o MonthlyReporterConsole.cpp
 
 ${OBJECTDIR}/MoveParasiteToBloodEvent.o: MoveParasiteToBloodEvent.cpp 
 	${MKDIR} -p ${OBJECTDIR}

@@ -402,7 +402,7 @@ tf_testing_day: 28
 TherapyInfo:
   0:    
     drug_id: [0,1]
-    dosing_days: 1
+    dosing_days: 3
   1:
     drug_id: [0,2]
     dosing_days:  3

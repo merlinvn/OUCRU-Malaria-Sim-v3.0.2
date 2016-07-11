@@ -12,7 +12,7 @@
 # total number of days the simulation is run, including the burn-in period which we normally set to 4000
 # days; during the burn-in period, no one receives malaria treatement and the system sets into a natural 
 # equilibrium 
-total_time: 14950
+total_time: 11300
 
 # length of burn-in period
 start_treatment_day: 4000
@@ -39,7 +39,7 @@ seasonal_beta:
   
   
 # the last four terms are ignored when the number of locations is 1
-population_size_by_location: [500000, 1000 , 1000, 1000, 500]
+population_size_by_location: [100000, 1000 , 1000, 1000, 500]
 
 # probability that an infectious bite on a human causes a blood stage malaria infection
 p_infection_from_an_infectious_bite: 0.1
@@ -402,7 +402,7 @@ tf_testing_day: 28
 TherapyInfo:
   0:    
     drug_id: [0,1]
-    dosing_days: 1
+    dosing_days: 3
   1:
     drug_id: [0,2]
     dosing_days:  3
@@ -410,7 +410,7 @@ TherapyInfo:
     drug_id: [0,3]
     dosing_days: 3
   3:
-    drug_id: [4,3]
+    drug_id: [4,2]
     dosing_days: 3
   4:
     drug_id: [0,5]
@@ -450,8 +450,8 @@ StrategyInfo:
     
   # deploy three ACTs simultaneously
   MFTStrategy:
-    therapyID: [0,1,2]
-    distribution: [0.33334,0.33333,0.33333]
+    therapyID: [2,2]
+    distribution: [0.5, 0.5]
 
   # cycle three ACTs in and out - switch between ACTs when the fraction of patients experiencing
   # treatment failure get to the trigger value below
@@ -663,6 +663,8 @@ using_variable_probability_infectious_bites_cause_infection: false
 
 fraction_mosquitoes_interrupted_feeding: 0.0
 
-non_artemisinin_switching_day: 9475
+non_artemisinin_switching_day: 7650
 
-fraction_non_art_replacement: 0.33333
+non_art_therapy_id: 3
+
+fraction_non_art_replacement: 0.0

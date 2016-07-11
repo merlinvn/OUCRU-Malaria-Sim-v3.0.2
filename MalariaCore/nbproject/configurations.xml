@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configurationDescriptor version="97">
+<configurationDescriptor version="95">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <logicalFolder name="f5" displayName="Drugs" projectFiles="true">
       <itemPath>AdaptiveCyclingStrategy.cpp</itemPath>
@@ -126,6 +126,8 @@
       <itemPath>ModelDataCollector.h</itemPath>
       <itemPath>MonthlyReporter.cpp</itemPath>
       <itemPath>MonthlyReporter.h</itemPath>
+      <itemPath>MonthlyReporterConsole.cpp</itemPath>
+      <itemPath>MonthlyReporterConsole.h</itemPath>
       <itemPath>MultipleLocationGuiReporter.cpp</itemPath>
       <itemPath>MultipleLocationGuiReporter.h</itemPath>
       <itemPath>Reporter.cpp</itemPath>
@@ -393,6 +395,10 @@
       </item>
       <item path="MonthlyReporter.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="MonthlyReporterConsole.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="MonthlyReporterConsole.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="MoveParasiteToBloodEvent.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="MoveParasiteToBloodEvent.h" ex="false" tool="3" flavor2="0">
@@ -631,6 +637,7 @@
         </cTool>
         <ccTool>
           <developmentMode>5</developmentMode>
+          <architecture>1</architecture>
         </ccTool>
         <fortranCompilerTool>
           <developmentMode>5</developmentMode>
@@ -815,6 +822,10 @@
       <item path="MonthlyReporter.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="MonthlyReporter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="MonthlyReporterConsole.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="MonthlyReporterConsole.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="MoveParasiteToBloodEvent.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -1241,6 +1252,10 @@
       <item path="MonthlyReporter.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="MonthlyReporter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="MonthlyReporterConsole.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="MonthlyReporterConsole.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="MoveParasiteToBloodEvent.cpp" ex="false" tool="1" flavor2="0">
       </item>
