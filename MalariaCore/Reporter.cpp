@@ -15,6 +15,7 @@
 #include "Model.h"
 #include "Random.h"
 #include "MonthlyReporter.h"
+#include "MonthlyReporterConsole.h"
 #include <boost/format.hpp>
 #include <string>
 
@@ -32,7 +33,7 @@ Reporter* Reporter::MakeReport(ReportType report_type) {
             % Model::RANDOM->seed()
             % Model::MODEL->override_parameter_line_number());
     
-    std::string file_name2 = boost::str(boost::format("monthly_data.txt"));
+//    std::string file_name2 = boost::str(boost::format("monthly_data.txt"));
     switch (report_type) {
         case CONSOLE:
             return new ConsoleReporter();
@@ -47,7 +48,7 @@ Reporter* Reporter::MakeReport(ReportType report_type) {
         case YEARLY_REPORTER_V1:
             return new YearlyReporterV1(file_name1);
         case MONTHLY_REPORTER:
-            return new MonthlyReporter(file_name2);
+            return new MonthlyReporterConsole();
         default:
             return new ConsoleReporter();
             break;

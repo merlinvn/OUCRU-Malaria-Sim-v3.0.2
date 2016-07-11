@@ -201,6 +201,7 @@ void Config::read_from_file(const std::string& config_file_name) {
     fraction_mosquitoes_interrupted_feeding_ = config["fraction_mosquitoes_interrupted_feeding"].as<double>();
 
     non_artemisinin_switching_day_ = config["non_artemisinin_switching_day"].as<int>();
+    non_art_therapy_id_ = config["non_art_therapy_id"].as<int>();
     fraction_non_art_replacement_ = config["fraction_non_art_replacement"].as<double>();
 }
 
@@ -956,14 +957,15 @@ void Config::override_1_parameter(const std::string& parameter_name, const std::
         modified_mutation_probability_ = atof(parameter_value.c_str());
         for (DrugTypePtrMap::iterator it = drug_db_->drug_db().begin(); it != drug_db_->drug_db().end(); it++) {
             it->second->set_p_mutation(modified_mutation_probability_);
+            
         }
+//        std::cout<< Model::CONFIG->drug_db()->drug_db().begin()->second->p_mutation() << std::endl;
     }
     
     if(parameter_name == "fraction_non_art_replacement")
     {
         double fnar = atof(parameter_value.c_str());
-        fraction_non_art_replacement_ = fnar;
-        
+        fraction_non_art_replacement_ = fnar;       
         
     }
 

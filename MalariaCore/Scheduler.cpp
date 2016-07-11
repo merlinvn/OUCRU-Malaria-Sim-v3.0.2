@@ -85,8 +85,8 @@ void Scheduler::run() {
     for (current_time_ = 0; !can_stop(); current_time_++) {
         //Check time to replace 1 ACT with non ACT
         perform_check_and_replace_ACT();
-        
-//        std::cout << "Day: " << current_time_ << std::endl;
+
+        //        std::cout << "Day: " << current_time_ << std::endl;
         begin_time_step();
         int size = timed_events_list_[current_time_].size();
         for (int i = 0; i < size; i++) {
@@ -159,7 +159,7 @@ bool Scheduler::can_stop() {
     //    std::cout << current_time_ << "\t" << Model::CONFIG->total_time() << std::endl;
 
     return (current_time_ > Model::CONFIG->total_time()) || Model::POPULATION->has_0_case() || is_force_stop_;
-//        return (current_time_ > Model::CONFIG->total_time()) ||  is_force_stop_;
+    //        return (current_time_ > Model::CONFIG->total_time()) ||  is_force_stop_;
 }
 
 void Scheduler::initialize(const int& total_time) {
@@ -168,11 +168,11 @@ void Scheduler::initialize(const int& total_time) {
 }
 
 void Scheduler::update_force_of_infection() {
-     Population* population = model_->population();
-     population->perform_interupted_feeding_recombination();
-     
+    Population* population = model_->population();
+    population->perform_interupted_feeding_recombination();
+
     for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
-        for (int pType = 0; pType < Model::CONFIG->number_of_parasite_types(); pType++) {           
+        for (int pType = 0; pType < Model::CONFIG->number_of_parasite_types(); pType++) {
             population->force_of_infection_for7days_by_location_parasite_type()[current_time_ % Model::CONFIG->number_of_tracking_days()][loc][pType] = population->interupted_feeding_force_of_infection_by_location_parasite_type()[loc][pType];
         }
     }
@@ -182,28 +182,32 @@ int Scheduler::current_day_in_year() {
     return (current_time_ - Model::CONFIG->start_collect_data_day()) % 365;
 }
 
-void Scheduler::perform_check_and_replace_ACT(){
-    if(current_time_ == Model::CONFIG->non_artemisinin_switching_day())
-    {
-        //collect the current TF
-        //TODO: multiple location
-        Model::DATA_COLLECTOR->TF_at_15() = Model::DATA_COLLECTOR->current_TF_by_location()[0];
-        Model::DATA_COLLECTOR->single_resistance_frequency_at_15() = Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(Model::DATA_COLLECTOR->resistance_tracker().single_resistance_ids());
-        Model::DATA_COLLECTOR->double_resistance_frequency_at_15() = Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(Model::DATA_COLLECTOR->resistance_tracker().double_resistance_ids());
-        Model::DATA_COLLECTOR->triple_resistance_frequency_at_15() = Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(Model::DATA_COLLECTOR->resistance_tracker().tripple_resistance_ids());
-        Model::DATA_COLLECTOR->quadruple_resistance_frequency_at_15() = Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(Model::DATA_COLLECTOR->resistance_tracker().quadruple_resistance_ids());
-        Model::DATA_COLLECTOR->quintuple_resistance_frequency_at_15() =  Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(Model::DATA_COLLECTOR->resistance_tracker().quintuple_resistance_ids());
-        Model::DATA_COLLECTOR->art_resistance_frequency_at_15() = Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(Model::DATA_COLLECTOR->resistance_tracker().artemisinin_ids()) ;
-        Model::DATA_COLLECTOR->total_resistance_frequency_at_15() = Model::DATA_COLLECTOR->resistance_tracker().calculate_total_resistance_frequency();
+void Scheduler::perform_check_and_replace_ACT() {
+    if (current_time_ == Model::CONFIG->non_artemisinin_switching_day()) {
 
-        
-        //switch therapy 2 to therapy 3
-        Model::CONFIG->strategy()->therapy_list()[2] = Model::CONFIG->therapy_db()[3];        
-        //change the distribution         
-        ((MFTStrategy *)Model::CONFIG->strategy())->distribution()[2] = Model::CONFIG->fraction_non_art_replacement();
-        ((MFTStrategy *)Model::CONFIG->strategy())->distribution()[0] = (1-Model::CONFIG->fraction_non_art_replacement())/2.0;
-        ((MFTStrategy *)Model::CONFIG->strategy())->distribution()[1] = (1-Model::CONFIG->fraction_non_art_replacement())/2.0;
-        
-        
-    }    
+        if (Model::CONFIG->fraction_non_art_replacement() > 0.0) {
+            //collect the current TF
+            //TODO: multiple location
+            Model::DATA_COLLECTOR->TF_at_15() = Model::DATA_COLLECTOR->current_TF_by_location()[0];
+            Model::DATA_COLLECTOR->single_resistance_frequency_at_15() = Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(Model::DATA_COLLECTOR->resistance_tracker().single_resistance_ids());
+            Model::DATA_COLLECTOR->double_resistance_frequency_at_15() = Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(Model::DATA_COLLECTOR->resistance_tracker().double_resistance_ids());
+            Model::DATA_COLLECTOR->triple_resistance_frequency_at_15() = Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(Model::DATA_COLLECTOR->resistance_tracker().tripple_resistance_ids());
+            Model::DATA_COLLECTOR->quadruple_resistance_frequency_at_15() = Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(Model::DATA_COLLECTOR->resistance_tracker().quadruple_resistance_ids());
+            Model::DATA_COLLECTOR->quintuple_resistance_frequency_at_15() = Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(Model::DATA_COLLECTOR->resistance_tracker().quintuple_resistance_ids());
+            Model::DATA_COLLECTOR->art_resistance_frequency_at_15() = Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(Model::DATA_COLLECTOR->resistance_tracker().artemisinin_ids());
+            Model::DATA_COLLECTOR->total_resistance_frequency_at_15() = Model::DATA_COLLECTOR->resistance_tracker().calculate_total_resistance_frequency();
+
+
+            //switch therapy 2 to therapy 3
+            int number_of_therapies = Model::CONFIG->strategy()->therapy_list().size();
+
+            Model::CONFIG->strategy()->therapy_list()[number_of_therapies - 1] = Model::CONFIG->therapy_db()[Model::CONFIG->non_art_therapy_id()];
+            //change the distribution         
+            ((MFTStrategy *) Model::CONFIG->strategy())->distribution()[number_of_therapies - 1] = Model::CONFIG->fraction_non_art_replacement();
+
+            for (int i = 0; i < number_of_therapies - 1; i++) {
+                ((MFTStrategy *) Model::CONFIG->strategy())->distribution()[i] = (1 - Model::CONFIG->fraction_non_art_replacement()) / (double) (number_of_therapies - 1);
+            }
+        }
+    }
 }

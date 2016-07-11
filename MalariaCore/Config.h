@@ -118,6 +118,7 @@ class Config {
     VIRTUAL_PROPERTY_REF(double, fraction_mosquitoes_interrupted_feeding)
 
     VIRTUAL_PROPERTY_REF(int, non_artemisinin_switching_day);
+    VIRTUAL_PROPERTY_REF(int, non_art_therapy_id);
     VIRTUAL_PROPERTY_REF(double, fraction_non_art_replacement);
     
     VIRTUAL_PROPERTY_REF(double, modified_daily_cost_of_resistance)
