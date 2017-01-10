@@ -15,13 +15,13 @@ CND_PACKAGE_DIR_Debug=dist/Debug/MinGW-Windows/package
 CND_PACKAGE_NAME_Debug=pkpdsimulation.tar
 CND_PACKAGE_PATH_Debug=dist/Debug/MinGW-Windows/package/pkpdsimulation.tar
 # Release configuration
-CND_PLATFORM_Release=GNU-MacOSX
-CND_ARTIFACT_DIR_Release=dist/Release/GNU-MacOSX
+CND_PLATFORM_Release=MinGW-Windows
+CND_ARTIFACT_DIR_Release=dist/Release/MinGW-Windows
 CND_ARTIFACT_NAME_Release=pkpdsimulation
-CND_ARTIFACT_PATH_Release=dist/Release/GNU-MacOSX/pkpdsimulation
-CND_PACKAGE_DIR_Release=dist/Release/GNU-MacOSX/package
+CND_ARTIFACT_PATH_Release=dist/Release/MinGW-Windows/pkpdsimulation
+CND_PACKAGE_DIR_Release=dist/Release/MinGW-Windows/package
 CND_PACKAGE_NAME_Release=pkpdsimulation.tar
-CND_PACKAGE_PATH_Release=dist/Release/GNU-MacOSX/package/pkpdsimulation.tar
+CND_PACKAGE_PATH_Release=dist/Release/MinGW-Windows/package/pkpdsimulation.tar
 #
 # include compiler specific variables
 #

@@ -21,8 +21,8 @@ FC=gfortran
 AS=as
 
 # Macros
-CND_PLATFORM=GNU-MacOSX
-CND_DLIB_EXT=dylib
+CND_PLATFORM=MinGW-Windows
+CND_DLIB_EXT=dll
 CND_CONF=Release
 CND_DISTDIR=dist
 CND_BUILDDIR=build
@@ -54,15 +54,15 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=../MalariaCore/dist/Release/GNU-MacOSX/libmalariacore.a
+LDLIBSOPTIONS=../MalariaCore/dist/Release/MinGW-Windows/libmalariacore.a
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/pkpdsimulation
+	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/pkpdsimulation.exe
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/pkpdsimulation: ../MalariaCore/dist/Release/GNU-MacOSX/libmalariacore.a
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/pkpdsimulation.exe: ../MalariaCore/dist/Release/MinGW-Windows/libmalariacore.a
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/pkpdsimulation: ${OBJECTFILES}
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/pkpdsimulation.exe: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/pkpdsimulation ${OBJECTFILES} ${LDLIBSOPTIONS} -l gsl -l gslcblas -l yaml-cpp -static-libstdc++
 
@@ -88,7 +88,7 @@ ${OBJECTDIR}/main.o: main.cpp
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r ${CND_BUILDDIR}/${CND_CONF}
-	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/pkpdsimulation
+	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/pkpdsimulation.exe
 
 # Subprojects
 .clean-subprojects:

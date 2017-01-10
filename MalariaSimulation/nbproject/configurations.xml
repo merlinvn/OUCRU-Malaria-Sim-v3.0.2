@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configurationDescriptor version="95">
+<configurationDescriptor version="97">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
@@ -91,7 +91,7 @@
     </conf>
     <conf name="Release" type="1">
       <toolsSet>
-        <compilerSet>default</compilerSet>
+        <compilerSet>MinGW|MinGW</compilerSet>
         <dependencyChecking>true</dependencyChecking>
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
@@ -113,7 +113,7 @@
           <developmentMode>5</developmentMode>
         </asmTool>
         <linkerTool>
-          <output>${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/malariasimulation.o</output>
+          <output>${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/malariasimulation.exe</output>
           <linkerLibItems>
             <linkerLibProjectItem>
               <makeArtifact PL="../MalariaCore"

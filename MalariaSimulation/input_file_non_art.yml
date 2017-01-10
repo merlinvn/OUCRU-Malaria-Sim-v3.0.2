@@ -39,7 +39,7 @@ seasonal_beta:
   
   
 # the last four terms are ignored when the number of locations is 1
-population_size_by_location: [500000, 1000 , 1000, 1000, 500]
+population_size_by_location: [10000, 1000 , 1000, 1000, 500]
 
 # probability that an infectious bite on a human causes a blood stage malaria infection
 p_infection_from_an_infectious_bite: 0.1
@@ -81,66 +81,113 @@ mortality_when_treatment_fail_by_age: [0.040, 0.020,0.020,0.020,0.020,0.004,0.00
 
 genotype_info:
     loci:
-        - cost_of_resistance: 0.00
+        # here we start defining the first locus
+        - cost_of_resistance: 0.00    
+          locus_name: "pfcrt"
           daily_cost_of_resistance: 0.0005
           position: 0
           alleles:
             - value: 0
-              mutation_up: [1]
+              allele_name: "K76"
+              # this is the list of "mutant values" you can mutate up to (there is no real meaning of up; down mutations are equally likely)
+              mutation_up: [1]   
               mutation_down: [0]
               mutation_level: 0
             - value: 1
+              allele_name: "76T"
               mutation_up: [1]
-              mutation_down: [0]        
+              mutation_down: [0]
               mutation_level: 1
-        - cost_of_resistance: 0.00
+              # here we start defining the second locus
+        - cost_of_resistance: 0.00    
+          locus_name: "pfmdr1"
           daily_cost_of_resistance: 0.0005
           position: 1
           alleles:
             - value: 0
-              mutation_up: [1]
-              mutation_down: [0]
+              allele_name: "N86 Y184 one copy of pfmdr1"   
+              mutation_up: [1,2,4]  
+              # Nguyen, you should allow this be an empty list.
+              mutation_down: [0]   
               mutation_level: 0
             - value: 1
-              mutation_up: [1]
-              mutation_down: [0]        
-              mutation_level: 1
-        - cost_of_resistance: 0.005
-          daily_cost_of_resistance: 0.0005
-          position: 2
-          alleles:
-            - value: 0
-              mutation_up: [1]
+              allele_name: "86Y Y184 one copy of pfmdr1"
+              mutation_up: [3,5]
               mutation_down: [0]
-              mutation_level: 0
-            - value: 1
-              mutation_up: [1]
-              mutation_down: [0]        
-              mutation_level: 1
-        - cost_of_resistance: 0.00
-          daily_cost_of_resistance: 0.0005
-          position: 3
-          alleles:
-            - value: 0
-              mutation_up: [1]
+              mutation_level: 1     
+            - value: 2
+              allele_name: "N86 184F one copy of pfmdr1"
+              mutation_up: [3,6]    
               mutation_down: [0]
-              mutation_level: 0
-            - value: 1
-              mutation_up: [1]
-              mutation_down: [0]        
               mutation_level: 1
-        - cost_of_resistance: 0.00
-          daily_cost_of_resistance: 0.0005
-          position: 4
-          alleles:
-            - value: 0
-              mutation_up: [1]
-              mutation_down: [0]
-              mutation_level: 0
-            - value: 1
-              mutation_up: [1]
-              mutation_down: [0]        
+            - value: 3
+              allele_name: "86Y 184F one copy of pfmdr1"
+              mutation_up: [7]
+              mutation_down: [1,2]
+              mutation_level: 2          
+            - value: 4
+              allele_name: "N86 Y184 two copies of pfmdr1"
+              # you can only add a copy here; only one choice for an "up-mutation"   # 
+              mutation_up: [8] 
+              # you can only delete a copy here; only one choice for a "down-mutation"
+              mutation_down: [0] 
               mutation_level: 1
+            - value: 5
+              allele_name: "86Y Y184 two copies of pfmdr1"
+              mutation_up: [9]
+              mutation_down: [1]
+              mutation_level: 2     
+            - value: 6
+              allele_name: "N86 184F two copies of pfmdr1"
+              mutation_up: [10]   
+              mutation_down: [2]
+              mutation_level: 2
+            - value: 7
+              allele_name: "86Y 184F two copies of pfmdr1"
+              mutation_up: [11]
+              mutation_down: [3]
+              mutation_level: 3          
+            - value: 8
+              allele_name: "N86 Y184 three copies of pfmdr1"
+              mutation_up: [12]   
+              mutation_down: [4]
+              mutation_level: 2
+            - value: 9
+              allele_name: "86Y Y184 three copies of pfmdr1"
+              mutation_up: [13]
+              mutation_down: [5]
+              mutation_level: 3     
+            - value: 10
+              allele_name: "N86 184F three copies of pfmdr1"
+              mutation_up: [14]   
+              mutation_down: [6]
+              mutation_level: 3
+            - value: 11
+              allele_name: "86Y 184F three copies of pfmdr1"
+              mutation_up: [15]
+              mutation_down: [7]
+              mutation_level: 4          
+            - value: 12
+              allele_name: "N86 Y184 four copies of pfmdr1"
+              # empty list; cannot mutate "up"
+              mutation_up: []   
+              mutation_down: [8]
+              mutation_level: 3
+            - value: 13
+              allele_name: "86Y Y184 four copies of pfmdr1"
+              mutation_up: []
+              mutation_down: [9]
+              mutation_level: 4     
+            - value: 14
+              allele_name: "N86 184F four copies of pfmdr1"
+              mutation_up: []   
+              mutation_down: [10]
+              mutation_level: 4
+            - value: 15
+              allele_name: "86Y 184F four copies of pfmdr1"
+              mutation_up: []
+              mutation_down: [11]
+              mutation_level: 5
 
 #parasite genotype:
 #0: 0,0,0
@@ -435,9 +482,9 @@ TherapyInfo:
 # drug-deployment strategy - simply uncomment below to turn on a particular strategy
 StrategyInfo:
   #strategyName can be SFTStrategy / CyclingStrategy / MFTStrategy / AdaptiveCyclingStrategy
-#  strategyName: SFTStrategy
+  strategyName: SFTStrategy
 #  strategyName: CyclingStrategy
-  strategyName: MFTStrategy
+#  strategyName: MFTStrategy
 #  strategyName: AdaptiveCyclingStrategy
 
   SFTStrategy:
@@ -664,5 +711,5 @@ using_variable_probability_infectious_bites_cause_infection: false
 fraction_mosquitoes_interrupted_feeding: 0.0
 
 non_artemisinin_switching_day: 9475
-
+non_art_therapy_id: 3
 fraction_non_art_replacement: 0.33333

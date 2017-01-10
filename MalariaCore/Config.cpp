@@ -114,7 +114,6 @@ void Config::read_from_file(const std::string& config_file_name) {
     for (int i = 0; i < number_of_age_classes_; i++) {
         age_structure_.push_back(config["age_structure"][i].as<int>());
     }
-
     initial_age_structure_.clear();
     for (int i = 0; i < config["initial_age_structure"].size(); i++) {
         initial_age_structure_.push_back(config["initial_age_structure"][i].as<int>());
@@ -153,7 +152,6 @@ void Config::read_from_file(const std::string& config_file_name) {
     read_immune_system_information(config["immune_system_information"]);
 
     read_strategy_therapy_and_drug_information(config);
-
 
     read_relative_biting_rate_info(config);
     read_spatial_info(config);
@@ -276,7 +274,6 @@ void Config::read_immune_system_information(const YAML::Node& config) {
 void Config::read_strategy_therapy_and_drug_information(const YAML::Node& config) {
     read_genotype_info(config);
     build_drug_and_parasite_db(config);
-
     //    read_all_therapy
 
     for (int i = 0; i < config["TherapyInfo"].size(); i++) {
@@ -307,9 +304,6 @@ void Config::read_strategy_therapy_and_drug_information(const YAML::Node& config
             strategy_ = i.second;
         }
     }
-
-
-
 }
 
 void Config::build_drug_and_parasite_db(const YAML::Node& config) {
@@ -957,16 +951,15 @@ void Config::override_1_parameter(const std::string& parameter_name, const std::
         modified_mutation_probability_ = atof(parameter_value.c_str());
         for (DrugTypePtrMap::iterator it = drug_db_->drug_db().begin(); it != drug_db_->drug_db().end(); it++) {
             it->second->set_p_mutation(modified_mutation_probability_);
-            
+
         }
-//        std::cout<< Model::CONFIG->drug_db()->drug_db().begin()->second->p_mutation() << std::endl;
+        //        std::cout<< Model::CONFIG->drug_db()->drug_db().begin()->second->p_mutation() << std::endl;
     }
-    
-    if(parameter_name == "fraction_non_art_replacement")
-    {
+
+    if (parameter_name == "fraction_non_art_replacement") {
         double fnar = atof(parameter_value.c_str());
-        fraction_non_art_replacement_ = fnar;       
-        
+        fraction_non_art_replacement_ = fnar;
+
     }
 
 }
