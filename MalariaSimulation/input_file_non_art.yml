@@ -82,8 +82,7 @@ mortality_when_treatment_fail_by_age: [0.040, 0.020,0.020,0.020,0.020,0.004,0.00
 genotype_info:
     loci:
         # here we start defining the first locus
-        - cost_of_resistance: 0.00    
-          locus_name: "pfcrt"
+        - locus_name: "pfcrt"
           daily_cost_of_resistance: 0.0005
           position: 0
           alleles:
@@ -99,8 +98,7 @@ genotype_info:
               can_mutate_to: [0]
               mutation_level: 1
               # here we start defining the second locus
-        - cost_of_resistance: 0.00    
-          locus_name: "pfmdr1"
+        - locus_name: "pfmdr1"
           daily_cost_of_resistance: 0.0005
           position: 1
           alleles:
@@ -153,7 +151,7 @@ genotype_info:
               mutation_level: 2
             - value: 9
               allele_name: "86Y Y184 three copies of pfmdr1"
-              short_name: "YYYY----"
+              short_name: "YYYYYY--"
               can_mutate_to: [13,5]
               mutation_level: 3     
             - value: 10

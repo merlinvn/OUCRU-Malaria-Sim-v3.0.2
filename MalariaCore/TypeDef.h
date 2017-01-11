@@ -257,7 +257,6 @@ struct Allele {
 struct Locus {
     std::vector<Allele> alleles;
     int position;
-    double cost_of_resistance;
     double daily_cost_of_resistance;
     
     friend std::ostream& operator<<(std::ostream& os, const Locus& l) {

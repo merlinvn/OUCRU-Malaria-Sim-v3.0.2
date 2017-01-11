@@ -330,7 +330,6 @@ void Config::read_genotype_info(const YAML::Node& config) {
     for (int i = 0; i < config["genotype_info"]["loci"].size(); i++) {
         Locus l;
         l.position = config["genotype_info"]["loci"][i]["position"].as<int>();
-        l.cost_of_resistance = config["genotype_info"]["loci"][i]["cost_of_resistance"].as<double>();
         l.daily_cost_of_resistance = config["genotype_info"]["loci"][i]["daily_cost_of_resistance"].as<double>();
 
         for (int j = 0; j < config["genotype_info"]["loci"][i]["alleles"].size(); j++) {
@@ -870,14 +869,6 @@ void Config::override_1_parameter(const std::string& parameter_name, const std::
 
     if (parameter_name == "f") {
         p_treatment_ = atof(parameter_value.c_str());
-    }
-
-    if (parameter_name == "cost_of_resistance") {
-        modified_cost_of_resistance_ = atof(parameter_value.c_str());
-        for (int i = 0; i < genotype_info_.loci_vector.size(); i++) {
-            genotype_info_.loci_vector[i].cost_of_resistance = modified_cost_of_resistance_;
-        }
-        build_parasite_db();
     }
 
     if (parameter_name == "daily_cost_of_resistance") {

@@ -18,7 +18,6 @@ class IntGenotype {
     DISALLOW_COPY_AND_ASSIGN_(IntGenotype)
     PROPERTY_REF(int, genotype_id);
     PROPERTY_REF(IntVector, gene_expression);
-    PROPERTY_REF(double, relative_fitness_multiple_infection);
     PROPERTY_REF(double, daily_fitness_multiple_infection);
     PROPERTY_REF(int, number_of_resistance_position);
     POINTER_PROPERTY(DrugDatabase, drug_db)

@@ -50,7 +50,7 @@ double ClonalParasitePopulation::get_log10_relative_density() {
     if ((last_update_log10_parasite_density_ == LOG_ZERO_PARASITE_DENSITY) || (gametocyte_level_ == 0.0))
         return LOG_ZERO_PARASITE_DENSITY;
 
-    return log10(genotype_->relative_fitness_multiple_infection()) + last_update_log10_parasite_density_ + log10(gametocyte_level_);
+    return last_update_log10_parasite_density_ + log10(gametocyte_level_);
 }
 
 double ClonalParasitePopulation::last_update_log10_parasite_density() const {
