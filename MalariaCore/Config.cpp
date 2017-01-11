@@ -336,18 +336,18 @@ void Config::read_genotype_info(const YAML::Node& config) {
         for (int j = 0; j < config["genotype_info"]["loci"][i]["alleles"].size(); j++) {
             Allele al;
             al.value = config["genotype_info"]["loci"][i]["alleles"][j]["value"].as<int>();
+            al.name = config["genotype_info"]["loci"][i]["alleles"][j]["allele_name"].as<std::string>();
+            al.short_name = config["genotype_info"]["loci"][i]["alleles"][j]["short_name"].as<std::string>();
             al.mutation_level = config["genotype_info"]["loci"][i]["alleles"][j]["mutation_level"].as<int>();
 
-            for (int c = 0; c < config["genotype_info"]["loci"][i]["alleles"][j]["mutation_up"].size(); c++) {
-                al.mutation_value_up.push_back(config["genotype_info"]["loci"][i]["alleles"][j]["mutation_up"][c].as<int>());
-                al.mutation_values.push_back(config["genotype_info"]["loci"][i]["alleles"][j]["mutation_up"][c].as<int>());
+            for (int c = 0; c < config["genotype_info"]["loci"][i]["alleles"][j]["can_mutate_to"].size(); c++) {
+                //                al.mutation_value_up.push_back(config["genotype_info"]["loci"][i]["alleles"][j]["mutation_up"][c].as<int>());
+                al.mutation_values.push_back(config["genotype_info"]["loci"][i]["alleles"][j]["can_mutate_to"][c].as<int>());
             }
-            for (int c = 0; c < config["genotype_info"]["loci"][i]["alleles"][j]["mutation_down"].size(); c++) {
-                al.mutation_value_down.push_back(config["genotype_info"]["loci"][i]["alleles"][j]["mutation_down"][c].as<int>());
-                al.mutation_values.push_back(config["genotype_info"]["loci"][i]["alleles"][j]["mutation_down"][c].as<int>());
-            }
+
             l.alleles.push_back(al);
         }
+
         genotype_info_.loci_vector.push_back(l);
     }
     //
@@ -399,6 +399,7 @@ void Config::build_parasite_db() {
 
     for (int i = 0; i < number_of_genotypes; i++) {
         IntGenotype* int_genotype = new IntGenotype(i);
+        std::cout << *int_genotype << std::endl;
         genotype_db_->add(int_genotype);
     }
 

@@ -6,12 +6,13 @@
  */
 
 #ifndef TYPEDEF_H
-#define	TYPEDEF_H
+#define TYPEDEF_H
 
 #include <vector>
 #include <list>
 #include <map>
 #include <string>
+#include <iostream>
 
 class Person;
 class PersonIndex;
@@ -189,7 +190,6 @@ struct InitialParasiteInfo {
 
 };
 
-
 struct ImportationParasiteInfo {
     int location;
     int time;
@@ -208,8 +208,6 @@ struct ImportationParasiteInfo {
     //        prevalence = orig.prevalence;
     //    } 
 };
-
-
 
 struct ImportationParasitePeriodicallyInfo {
     int location;
@@ -245,10 +243,15 @@ struct TMEInfo {
 
 struct Allele {
     int value; //we can do char later or map from char to int
-    IntVector mutation_value_up;
-    IntVector mutation_value_down;
+    std::string name;
+    std::string short_name;
     IntVector mutation_values;
     int mutation_level;
+
+    friend std::ostream& operator<<(std::ostream& os, const Allele& e) {
+        os << e.short_name ;
+        return os;
+    }
 };
 
 struct Locus {
@@ -256,11 +259,18 @@ struct Locus {
     int position;
     double cost_of_resistance;
     double daily_cost_of_resistance;
+    
+    friend std::ostream& operator<<(std::ostream& os, const Locus& l) {
+        for (const auto &a : l.alleles) {
+            os << a;
+        }
+        return os;
+    }
 };
 
 struct GenotypeInfo {
     std::vector<Locus> loci_vector;
 };
 
-#endif	/* TYPEDEF_H */
+#endif /* TYPEDEF_H */
 

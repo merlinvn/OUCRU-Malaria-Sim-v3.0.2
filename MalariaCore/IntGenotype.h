@@ -6,7 +6,7 @@
  */
 
 #ifndef INTGENOTYPE_H
-#define	INTGENOTYPE_H
+#define INTGENOTYPE_H
 #include "TypeDef.h"
 #include "PropertyMacro.h"
 
@@ -38,11 +38,11 @@ public:
 
     int select_mutation_allele(const int & mutation_locus, const int &current_allele_value);
 
+    friend std::ostream& operator<<(std::ostream& os, const IntGenotype& e);
+
 private:
-
-
 
 };
 
-#endif	/* INTGENOTYPE_H */
+#endif /* INTGENOTYPE_H */
 

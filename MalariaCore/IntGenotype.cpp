@@ -28,7 +28,7 @@ IntGenotype::IntGenotype(const int& id) : genotype_id_(id) {
     for (int i = 0; i < Model::CONFIG->genotype_info().loci_vector.size(); i++) {
         relative_fitness_multiple_infection_ *= pow((1 - Model::CONFIG->genotype_info().loci_vector[i].cost_of_resistance), Model::CONFIG->genotype_info().loci_vector[i].alleles[gene_expression_[i]].mutation_level);
     }
-    
+
     //daily_fitness
     daily_fitness_multiple_infection_ = 1;
     for (int i = 0; i < Model::CONFIG->genotype_info().loci_vector.size(); i++) {
@@ -101,4 +101,14 @@ int IntGenotype::select_mutation_allele(const int &mutation_locus, const int &cu
     double P = Model::RANDOM->random_flat(0.0, 1.0);
     //    double t = 1.0 / affecting_loci_.size();
     return Model::CONFIG->genotype_info().loci_vector[mutation_locus].alleles[current_allele_value].mutation_values[(int) floor(P * Model::CONFIG->genotype_info().loci_vector[mutation_locus].alleles[current_allele_value].mutation_values.size())];
+}
+
+std::ostream& operator<<(std::ostream& os, const IntGenotype& e) {
+    os << "id: " << e.genotype_id_ << ": ";
+    for (int i = 0; i < e.gene_expression_.size(); i++) {
+        int v = e.gene_expression_[i];
+//        os << v;
+        os << Model::CONFIG->genotype_info().loci_vector[i].alleles[v];
+    }
+    return os;
 }
