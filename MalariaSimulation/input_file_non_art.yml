@@ -12,7 +12,7 @@
 # total number of days the simulation is run, including the burn-in period which we normally set to 4000
 # days; during the burn-in period, no one receives malaria treatement and the system sets into a natural 
 # equilibrium 
-total_time: 14950
+total_time: 11350
 
 # length of burn-in period
 start_treatment_day: 4000
@@ -710,6 +710,6 @@ using_variable_probability_infectious_bites_cause_infection: false
 
 fraction_mosquitoes_interrupted_feeding: 0.0
 
-non_artemisinin_switching_day: 9475
+non_artemisinin_switching_day: -1
 non_art_therapy_id: 3
 fraction_non_art_replacement: 0.33333

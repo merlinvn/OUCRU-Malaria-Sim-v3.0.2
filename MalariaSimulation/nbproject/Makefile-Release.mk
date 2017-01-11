@@ -71,7 +71,7 @@ ${OBJECTDIR}/main.o: main.cpp
 
 # Subprojects
 .build-subprojects:
-	cd ../MalariaCore && ${MAKE} -j 2 -f Makefile CONF=Release
+	cd ../MalariaCore && ${MAKE}  -f Makefile CONF=Release
 
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
@@ -80,7 +80,7 @@ ${OBJECTDIR}/main.o: main.cpp
 
 # Subprojects
 .clean-subprojects:
-	cd ../MalariaCore && ${MAKE} -j 2 -f Makefile CONF=Release clean
+	cd ../MalariaCore && ${MAKE}  -f Makefile CONF=Release clean
 
 # Enable dependency checking
 .dep.inc: .depcheck-impl

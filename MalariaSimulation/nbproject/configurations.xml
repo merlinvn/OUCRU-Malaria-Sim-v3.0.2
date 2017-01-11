@@ -122,8 +122,8 @@
                             AC="true"
                             BL="true"
                             WD="../MalariaCore"
-                            BC="${MAKE} -j 2 -f Makefile CONF=Release"
-                            CC="${MAKE} -j 2 -f Makefile CONF=Release clean"
+                            BC="${MAKE}  -f Makefile CONF=Release"
+                            CC="${MAKE}  -f Makefile CONF=Release clean"
                             OP="${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libmalariacore.a">
               </makeArtifact>
             </linkerLibProjectItem>

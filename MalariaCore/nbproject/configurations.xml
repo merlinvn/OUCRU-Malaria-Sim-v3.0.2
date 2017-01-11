@@ -126,6 +126,8 @@
       <itemPath>ModelDataCollector.h</itemPath>
       <itemPath>MonthlyReporter.cpp</itemPath>
       <itemPath>MonthlyReporter.h</itemPath>
+      <itemPath>MonthlyReporterConsole.cpp</itemPath>
+      <itemPath>MonthlyReporterConsole.h</itemPath>
       <itemPath>MultipleLocationGuiReporter.cpp</itemPath>
       <itemPath>MultipleLocationGuiReporter.h</itemPath>
       <itemPath>Reporter.cpp</itemPath>
@@ -647,6 +649,7 @@
         <ccTool>
           <developmentMode>5</developmentMode>
           <architecture>1</architecture>
+          <commandLine>-std=c++11</commandLine>
         </ccTool>
         <fortranCompilerTool>
           <developmentMode>5</developmentMode>

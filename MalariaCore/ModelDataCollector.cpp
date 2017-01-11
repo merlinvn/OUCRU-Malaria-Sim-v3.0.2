@@ -547,9 +547,9 @@ void ModelDataCollector::update_UTL_vector() {
     current_utl_duration_ = 0;
 }
 
-void ModelDataCollector::collect_1_non_resistant_treatment(const int& therapy_id) {
-    number_of_treatments_with_therapy_ID_[therapy_id] += 1;
-}
+//void ModelDataCollector::collect_1_non_resistant_treatment(const int& therapy_id) {
+//    number_of_treatments_with_therapy_ID_[therapy_id] += 1;
+//}
 
 void ModelDataCollector::record_1_treatment_failure_by_therapy(const int& location, const int& age, const int& therapy_id) {
     number_of_treatments_fail_with_therapy_ID_[therapy_id] += 1;

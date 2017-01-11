@@ -165,7 +165,7 @@ public:
     void end_of_time_step();
     void update_UTL_vector();
 
-    void collect_1_non_resistant_treatment(const int& therapy_id);
+//    void collect_1_non_resistant_treatment(const int& therapy_id);
     void record_1_treatment_failure_by_therapy(const int& location, const int& age, const int& therapy_id);
     void record_1_treatment_success_by_therapy(const int& therapy_id);
 

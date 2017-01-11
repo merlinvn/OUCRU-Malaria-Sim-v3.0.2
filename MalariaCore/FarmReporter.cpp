@@ -335,9 +335,9 @@ void FarmReporter::print_treatments_by_therapy() {
         int nTreaments = Model::DATA_COLLECTOR->number_of_treatments_with_therapy_ID()[t_id];
         int nSuccess = Model::DATA_COLLECTOR->number_of_treatments_success_with_therapy_ID()[t_id];
         int nFail = Model::DATA_COLLECTOR->number_of_treatments_fail_with_therapy_ID()[t_id];
-        double pSuccess = (nTreaments == 0) ? 0 : nSuccess * 100.0 / nTreaments;
+        double pSuccess = (nTreaments == 0) ? 0 : nSuccess * 100.0 / (nSuccess+nFail);
 
-        std::cout << t_id << "\t" << nTreaments << "\t" << nFail + nSuccess << "\t" << pSuccess << "\t";
+        std::cout << t_id << "\t" << nFail + nSuccess << "\t" << nSuccess << "\t" << pSuccess << "\t";
 
     }
 }

@@ -314,8 +314,6 @@ void SingleHostClonalParasitePopulations::active_astermisinin_on_gametocyte(Drug
             }
         }
     }
-
-
 }
 
 void SingleHostClonalParasitePopulations::deactive_astermisinin_on_gametocyte() {
@@ -354,9 +352,7 @@ void SingleHostClonalParasitePopulations::update_by_drugs(DrugsInBlood* drugs_in
         DrugPtrMap::iterator it;
         for (it = drugs_in_blood->drugs()->begin(); it != drugs_in_blood->drugs()->end(); it++) {
             Drug* drug = it->second;
-
-
-                double P = Model::RANDOM->random_flat(0.0, 1.0);
+            double P = Model::RANDOM->random_flat(0.0, 1.0);
 
             if (P < drug->get_mutation_probability()) {
                 int mutation_locus = drug->drug_type()->select_mutation_locus();
@@ -379,7 +375,7 @@ void SingleHostClonalParasitePopulations::update_by_drugs(DrugsInBlood* drugs_in
                 Model::DATA_COLLECTOR->record_1_mutation(person_->location(), bloodParasite->genotype(), new_genotype);
                 //                std::cout << bloodParasite->genotype()->genotype_id() << "==>" << new_genotype->genotype_id() << std::endl;
                 bloodParasite->set_genotype(new_genotype);
-        }
+            }
 
             double pTemp = drug->drug_type()->get_parasite_killing_rate_by_concentration(drug->last_update_value(), bloodParasite->genotype());
             percent_parasite_remove = percent_parasite_remove + pTemp - percent_parasite_remove* pTemp;
@@ -400,9 +396,9 @@ bool SingleHostClonalParasitePopulations::has_detectable_parasite() {
     return false;
 }
 
-bool SingleHostClonalParasitePopulations::isGameticytaemic(){
-  for (int i = 0; i < parasites_->size(); i++) {
-        if (parasites_->at(i)->gametocyte_level()>0) {
+bool SingleHostClonalParasitePopulations::isGameticytaemic() {
+    for (int i = 0; i < parasites_->size(); i++) {
+        if (parasites_->at(i)->gametocyte_level() > 0) {
             return true;
         }
     }
