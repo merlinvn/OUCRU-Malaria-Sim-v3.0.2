@@ -184,7 +184,77 @@ genotype_info:
               short_name: "YFYFYFYF"
               can_mutate_to: [11]
               mutation_level: 5
-
+        - locus_name: "K13 Propeller"
+          daily_cost_of_resistance: 0.0005
+          position: 2
+          alleles:
+            - value: 0
+              allele_name: "C580"
+              short_name: "C"
+              can_mutate_to: [1]
+              mutation_level: 0
+            - value: 1
+              allele_name: "580Y"
+              short_name: "Y"
+              can_mutate_to: [0]
+              mutation_level: 1
+        - locus_name: "Piperaquine confer resistant locus"
+          daily_cost_of_resistance: 0.0005
+          position: 3
+          alleles:
+            - value: 0
+              allele_name: "OZ Sensitive"
+              short_name: "x"
+              can_mutate_to: [1]
+              mutation_level: 0
+            - value: 1
+              allele_name: "OZ Resistant"
+              short_name: "X"
+              can_mutate_to: [0]
+              mutation_level: 1
+        - locus_name: "OZ439 confer resistant locus"
+          daily_cost_of_resistance: 0.0005
+          position: 4
+          alleles:
+            - value: 0
+              allele_name: "OZ Sensitive"
+              short_name: "x"
+              can_mutate_to: [1]
+              mutation_level: 0
+            - value: 1
+              allele_name: "OZ Resistant"
+              short_name: "X"
+              can_mutate_to: [0]
+              mutation_level: 1
+        
+        - locus_name: "KAF156 confer resistant locus"
+          daily_cost_of_resistance: 0.0005
+          position: 5
+          alleles:
+            - value: 0
+              allele_name: "KAF156 Sensitive"
+              short_name: "x"
+              can_mutate_to: [1]
+              mutation_level: 0
+            - value: 1
+              allele_name: "KAF156 Resistant"
+              short_name: "X"
+              can_mutate_to: [0]
+              mutation_level: 1
+        - locus_name: "Feroquine confer resistant locus"
+          daily_cost_of_resistance: 0.0005
+          position: 6
+          alleles:
+            - value: 0
+              allele_name: "Feroquine Sensitive"
+              short_name: "x"
+              can_mutate_to: [1]
+              mutation_level: 0
+            - value: 1
+              allele_name: "Feroquine Resistant"
+              short_name: "X"
+              can_mutate_to: [0]
+              mutation_level: 1      
 #parasite genotype:
 #0: 0,0,0
 #1: 0,0,1

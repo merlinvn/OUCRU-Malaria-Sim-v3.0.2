@@ -90,6 +90,4 @@ void TestTreatmentFailureEvent::execute() {
     } else {
         Model::DATA_COLLECTOR->record_1_treatment_success_by_therapy(therapyId_);
     }
-
-
 }

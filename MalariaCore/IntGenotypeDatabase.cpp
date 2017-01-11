@@ -70,7 +70,7 @@ std::vector<double> IntGenotypeDatabase::generate_offspring_parasite_density(con
             results[results.size() - 1][i] = f[i];
         }
     }
-
+    
     std::vector<double> recombination_parasite_density(genotype_db_.size(), 0);
 
     BOOST_FOREACH(IntVector &ge_i, results) {
