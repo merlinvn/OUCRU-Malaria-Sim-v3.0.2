@@ -62,7 +62,6 @@ void ResistanceTracker::make_resistance_profile(std::vector<int>& vResistanceID,
 
     BOOST_FOREACH(IntGenotypePtrMap::value_type &i, Model::CONFIG->genotype_db()->genotype_db()) {
         if (i.second->number_of_resistance_position() == size) {
-            //            std::cout << i.first << std::endl;
             vResistanceID.push_back(i.first);
         }
     }
@@ -96,6 +95,8 @@ void ResistanceTracker::initialize() {
     make_resistance_profile(tripple_resistance_ids_, 3);
     make_resistance_profile(quadruple_resistance_ids_, 4);
     make_resistance_profile(quintuple_resistance_ids_, 5);
+    
+    //TODO: add 6 or more all resistance pos
 
     make_arterminsinin_resistance_profile(artemisinin_ids_);
 
@@ -209,14 +210,13 @@ void ResistanceTracker::update_resistance_tracker() {
 }
 
 double ResistanceTracker::calculate_total_resistance_frequency() {
-    //TODO: size should be equal to the sum of all allele values of the drug used in strategy??? what if multiple stragegy....
-    // not the size of the gene expression
-    
+
+
     const int size = Model::CONFIG->genotype_db()->get(0)->gene_expression().size();
 
     //get weighted sum
     total_resistance_frequency_ = 0;
-    for (int c = 0; c < size; c++) {
+    for (int c = 0; c < total_resistance_ids_.size(); c++) {
         double sub_sum = 0;
         if (c == size - 1) {
             sub_sum += parasite_population_count_[all_resistance_id_];
@@ -228,7 +228,7 @@ double ResistanceTracker::calculate_total_resistance_frequency() {
         total_resistance_frequency_ += (c + 1) * sub_sum;
     }
     total_resistance_frequency_ = (total_resistance_frequency_ / total_) / size;
-    
+
     return total_resistance_frequency_;
 }
 

@@ -102,5 +102,7 @@ std::ostream& operator<<(std::ostream& os, const IntGenotype& e) {
         int v = e.gene_expression_[i];
         os << Model::CONFIG->genotype_info().loci_vector[i].alleles[v];
     }
+    
+    os << "\t" << e.number_of_resistance_position_;
     return os;
 }

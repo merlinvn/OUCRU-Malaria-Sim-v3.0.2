@@ -163,8 +163,7 @@ genotype_info:
               allele_name: "OZ Resistant"
               short_name: "X"
               can_mutate_to: [0]
-              mutation_level: 1
-        
+              mutation_level: 1        
         - locus_name: "KAF156 confer resistant locus"
           daily_cost_of_resistance: 0.0005
           position: 5
@@ -193,23 +192,7 @@ genotype_info:
               short_name: "X"
               can_mutate_to: [0]
               mutation_level: 1      
-#parasite genotype:
-#0: 0,0,0
-#1: 0,0,1
-#2: 0,0,2
-#3: 0,0,3
-#4: 0,1,0
-#5: 0,1,1
-#6: 0,1,2
-#7: 0,1,3
-#8: 1,0,0
-#9: 1,0,1
-#10: 1,0,2
-#11: 1,0,3
-#12: 1,1,0
-#13: 1,1,1
-#14: 1,1,2
-#15: 1,1,3
+
 
 fake_efficacy_table: [
 [1, 1, 1, 1, 1],
@@ -245,12 +228,7 @@ fake_efficacy_table: [
 [0, 0, 0, 0, 1],
 [0, 0, 0, 0, 0]
 ]
-#drug id:
-# 0: artemisinin
-# 1: lumefantrine
-# 2: amodiaquine
-# 3: mefloquine
-# 4: piperaquine
+
 
 #
 # initialize parasite population
@@ -312,7 +290,7 @@ introduce_parasite:
 #        number_of_cases: 5
 #      - time: 4000
 #        genotype_id: 8
-#        number_of_cases: 5
+#        number_of_cases: 5 
 #        
 
 
@@ -386,25 +364,28 @@ EC50_table: [
 ]
 
 drugInfo:
-  0:    
+  0:
+    name: "artmisinin"
     half_life: 0.0
     maximum_parasite_killing_rate: 0.999
     n: 25
     age_specific_drug_concentration_sd: [0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4]
-    mutation_probability: 0.0005
+    mutation_probability: 0.0000
     affecting_loci: [0]
     selecting_alleles: [[1]]
     k: 4
-  1: # lumefantrine 
+  1:
+    name: "lumefantrine"
     half_life: 4.5
     maximum_parasite_killing_rate: 0.99
     n: 20
     age_specific_drug_concentration_sd: [0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4]
-    mutation_probability: 0.0005
+    mutation_probability: 0.0000
     affecting_loci: [1]
     selecting_alleles: [[1]]
     k: 4
-  2: # amodiaquine 
+  2: 
+    name: "amodiaquine"
     half_life: 9.0
     maximum_parasite_killing_rate: 0.95
     n: 19
@@ -414,7 +395,8 @@ drugInfo:
     selecting_alleles: [[1]]
     k: 4
   
-  3: # piperaquine 
+  3: 
+    name: "piperaquine"
     half_life: 28.0
     maximum_parasite_killing_rate: 0.9
     n: 15
@@ -423,7 +405,8 @@ drugInfo:
     affecting_loci: [3]
     selecting_alleles: [[1]]
     k: 4
-  4: # sample drug
+  4: 
+    name: "Hypothetical OZ439"
     half_life: 2.0
     maximum_parasite_killing_rate:  0.999
     n: 25
@@ -433,7 +416,18 @@ drugInfo:
     selecting_alleles: [[1]]
     k: 4
     
-  5: # sample drug
+  5: 
+    name: "Ferroquine"
+    half_life: 20.0
+    maximum_parasite_killing_rate:  0.95
+    n: 15
+    age_specific_drug_concentration_sd: [0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4]
+    mutation_probability: 0.0005
+    affecting_loci: [4]
+    selecting_alleles: [[1]]
+    k: 4
+  6: 
+    name: "KAF156"
     half_life: 20.0
     maximum_parasite_killing_rate:  0.95
     n: 15
