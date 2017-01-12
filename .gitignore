@@ -25,3 +25,9 @@ _*
 /PkPdSimulation/dist/*
 /PkPdSimulation/build/*
 /PkPdSimulation/nbproject/private/
+
+/EC50_EfficacyTableGenerator/build/Debug/
+/EC50_EfficacyTableGenerator/dist/Debug/
+/EC50_EfficacyTableGenerator/build/Release/
+/EC50_EfficacyTableGenerator/dist/Release/
+/EC50_EfficacyTableGenerator/dist/*
