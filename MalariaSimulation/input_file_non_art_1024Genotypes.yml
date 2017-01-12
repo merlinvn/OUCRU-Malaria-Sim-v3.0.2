@@ -104,24 +104,86 @@ genotype_info:
           alleles:
             - value: 0
               allele_name: "N86 Y184 one copy of pfmdr1"
-              short_name: "NY"
-              can_mutate_to: [1,2]
+              short_name: "NY------"
+              can_mutate_to: [1,2,4]
               mutation_level: 0
             - value: 1
               allele_name: "86Y Y184 one copy of pfmdr1"
-              short_name: "YY"
-              can_mutate_to: [3,0]
+              short_name: "YY------"
+              can_mutate_to: [3,5,0]
               mutation_level: 1     
             - value: 2
               allele_name: "N86 184F one copy of pfmdr1"
-              short_name: "NF"
-              can_mutate_to: [3,0]
+              short_name: "NF------"
+              can_mutate_to: [3,6,0]
               mutation_level: 1
             - value: 3
               allele_name: "86Y 184F one copy of pfmdr1"
-              short_name: "YF"
-              can_mutate_to: [1,2]
-              mutation_level: 2                      
+              short_name: "YF------"
+              can_mutate_to: [7,1,2]
+              mutation_level: 2          
+            - value: 4
+              allele_name: "N86 Y184 two copies of pfmdr1"
+              short_name: "NYNY----"
+              # you can only add a copy here mutate to 8;   # 
+              # you can only delete a copy here mutate to 0;
+              can_mutate_to: [8,0]
+              mutation_level: 1
+            - value: 5
+              allele_name: "86Y Y184 two copies of pfmdr1"
+              short_name: "YYYY----"
+              can_mutate_to: [9,1]
+              mutation_level: 2     
+            - value: 6
+              allele_name: "N86 184F two copies of pfmdr1"
+              short_name: "NFNF----"
+              can_mutate_to: [10,2]
+              mutation_level: 2
+            - value: 7
+              allele_name: "86Y 184F two copies of pfmdr1"
+              short_name: "YFYF----"
+              can_mutate_to: [11,3]
+              mutation_level: 3          
+            - value: 8
+              allele_name: "N86 Y184 three copies of pfmdr1"
+              short_name: "NYNYNY--"
+              can_mutate_to: [12,4]
+              mutation_level: 2
+            - value: 9
+              allele_name: "86Y Y184 three copies of pfmdr1"
+              short_name: "YYYYYY--"
+              can_mutate_to: [13,5]
+              mutation_level: 3     
+            - value: 10
+              allele_name: "N86 184F three copies of pfmdr1"
+              short_name: "NFNFNF--"
+              can_mutate_to: [14,6]
+              mutation_level: 3
+            - value: 11
+              allele_name: "86Y 184F three copies of pfmdr1"
+              short_name: "YFYFYF--"
+              can_mutate_to: [15,7]
+              mutation_level: 4          
+            - value: 12
+              allele_name: "N86 Y184 four copies of pfmdr1"
+              short_name: "NYNYNYNY"
+              can_mutate_to: [8]
+              mutation_level: 3
+            - value: 13
+              allele_name: "86Y Y184 four copies of pfmdr1"
+              short_name: "YYYYYYYY"
+              can_mutate_to: [9]
+              mutation_level: 4     
+            - value: 14
+              allele_name: "N86 184F four copies of pfmdr1"
+              short_name: "NFNFNFNF"
+              can_mutate_to: [10]
+              mutation_level: 4
+            - value: 15
+              allele_name: "86Y 184F four copies of pfmdr1"
+              short_name: "YFYFYFYF"
+              can_mutate_to: [11]
+              mutation_level: 5
         - locus_name: "K13 Propeller"
           daily_cost_of_resistance: 0.0005
           position: 2
