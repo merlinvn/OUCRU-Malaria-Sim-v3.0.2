@@ -43,6 +43,7 @@ public:
 //    VIRTUAL_PROPERTY_REF(IntVector, mutation_positions)
     VIRTUAL_PROPERTY_REF(IntVector, affecting_loci)
     VIRTUAL_PROPERTY_REF(IntVector2, selecting_alleles)
+    VIRTUAL_PROPERTY_REF(IntVector2, resistant_factor)
     
 
 
@@ -70,6 +71,8 @@ public:
     bool is_lumefantrine();
        
     int select_mutation_locus();
+    
+    double inferEC50(IntGenotype* genotype);
 
 private:
     double n_;

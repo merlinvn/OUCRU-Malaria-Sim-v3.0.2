@@ -20,7 +20,7 @@ typedef std::vector< std::vector < std::vector <double> > > MatingMatrix;
 
 class IntGenotypeDatabase {
     DISALLOW_COPY_AND_ASSIGN_(IntGenotypeDatabase)
-    VIRTUAL_PROPERTY_REF(IntGenotypePtrMap, genotype_db);
+    VIRTUAL_PROPERTY_REF(IntGenotypePtrMap, db);
     VIRTUAL_PROPERTY_REF(MatingMatrix, mating_matrix);
     VIRTUAL_PROPERTY_REF(IntVector, weight);
 

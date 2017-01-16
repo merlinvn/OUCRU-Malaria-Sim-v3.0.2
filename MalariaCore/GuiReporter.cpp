@@ -283,7 +283,7 @@ void GuiReporter::send_mono_resistance_chart_data(const int& location) {
     //        SendLineChartData(mono_chart_name, NumberToString<int>(d_id), NumberToString<int>(Model::SCHEDULER->current_time()), NumberToString<double>(num), "0");
     //    }
     IntGenotypePtrMap::iterator it;
-    for (it = Model::CONFIG->genotype_db()->genotype_db().begin(); it != Model::CONFIG->genotype_db()->genotype_db().end(); it++) {
+    for (it = Model::CONFIG->genotype_db()->db().begin(); it != Model::CONFIG->genotype_db()->db().end(); it++) {
         if (it->second->number_of_resistance_position() == 1) {
             int d_id = it->second->genotype_id();
             double num = Model::POPULATION->current_force_of_infection_by_location_parasite_type()[location][d_id];
@@ -335,7 +335,7 @@ void GuiReporter::send_double_resistance_chart_data(const int& location) {
 //    GenotypePtrMap::iterator it;
     IntGenotypePtrMap::iterator it;
 //    for (it = Model::CONFIG->parasite_db()->genotype_db().begin(); it != Model::CONFIG->parasite_db()->genotype_db().end(); it++) {
-    for (it = Model::CONFIG->genotype_db()->genotype_db().begin(); it != Model::CONFIG->genotype_db()->genotype_db().end(); it++) {
+    for (it = Model::CONFIG->genotype_db()->db().begin(); it != Model::CONFIG->genotype_db()->db().end(); it++) {
         if (it->second->number_of_resistance_position() == 2) {
             int d_id = it->second->genotype_id();
             double num = Model::POPULATION->current_force_of_infection_by_location_parasite_type()[location][d_id];
@@ -387,7 +387,7 @@ void GuiReporter::send_triple_resistance_chart_data(const int& location) {
 
 //    GenotypePtrMap::iterator it;
     IntGenotypePtrMap::iterator it;
-    for (it = Model::CONFIG->genotype_db()->genotype_db().begin(); it != Model::CONFIG->genotype_db()->genotype_db().end(); it++) {
+    for (it = Model::CONFIG->genotype_db()->db().begin(); it != Model::CONFIG->genotype_db()->db().end(); it++) {
         if (it->second->number_of_resistance_position() == 3) {
             int d_id = it->second->genotype_id();
             double num = Model::POPULATION->current_force_of_infection_by_location_parasite_type()[location][d_id];

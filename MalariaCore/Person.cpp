@@ -590,7 +590,7 @@ void Person::infected_by(const int& parasite_type_id) {
             set_host_state(EXPOSED);
         }
 
-        IntGenotype* genotype = Model::CONFIG->genotype_db()->genotype_db()[parasite_type_id];
+        IntGenotype* genotype = Model::CONFIG->genotype_db()->db()[parasite_type_id];
         liver_parasite_type_ = genotype;
 
         //move parasite to blood in next 7 days

@@ -106,17 +106,6 @@ void ProgressToClinicalEvent::execute() {
   
         person->schedule_update_by_drug_event(clinical_caused_parasite_);
 
-//        if (clinical_caused_parasite_->resist_to(therapy)) {
-//            Model::DATA_COLLECTOR->record_1_RITF(person->location());
-//        } else {
-//            Model::DATA_COLLECTOR->collect_1_non_resistant_treatment(therapy->id());
-//        }
-
-        //        //store # of treatment for non-resistence parasite
-//        Model::DATA_COLLECTOR->collect_1_non_resistant_treatment(therapy->id());
-        //            person->set_is_tracking_treatment_number(true);
-
-        //
         person->schedule_end_clinical_event(clinical_caused_parasite_);
         person->schedule_test_treatment_failure_event(clinical_caused_parasite_, Model::CONFIG->tf_testing_day(), false, therapy->id());
 

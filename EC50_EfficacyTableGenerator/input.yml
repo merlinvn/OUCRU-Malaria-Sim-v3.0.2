@@ -373,6 +373,7 @@ drugInfo:
     mutation_probability: 0.0000
     affecting_loci: [3]
     selecting_alleles: [[1]]
+    resistant_factor: [[1]]
     k: 4
   1:
     name: "lumefantrine"
@@ -382,7 +383,8 @@ drugInfo:
     age_specific_drug_concentration_sd: [0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4]
     mutation_probability: 0.0000
     affecting_loci: [0,1]
-    selecting_alleles: [[0],[2,3,0]]
+    selecting_alleles: [[0],[0,2,3]]
+    resistant_factor: [[1],[1,2,1]]
     k: 4
   2: 
     name: "amodiaquine"
@@ -393,6 +395,7 @@ drugInfo:
     mutation_probability: 0.0005
     affecting_loci: [2]
     selecting_alleles: [[1]]
+    resistant_factor: [[1]]
     k: 4
   
   3: 
@@ -404,6 +407,7 @@ drugInfo:
     mutation_probability: 0.0005
     affecting_loci: [3]
     selecting_alleles: [[1]]
+    resistant_factor: [[1]]
     k: 4
   4: 
     name: "Hypothetical OZ439"
@@ -414,6 +418,7 @@ drugInfo:
     mutation_probability: 0.0005
     affecting_loci: [4]
     selecting_alleles: [[1]]
+    resistant_factor: [[1]]
     k: 4
     
   5: 
@@ -423,8 +428,9 @@ drugInfo:
     n: 15
     age_specific_drug_concentration_sd: [0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4]
     mutation_probability: 0.0005
-    affecting_loci: [4]
+    affecting_loci: [5]
     selecting_alleles: [[1]]
+    resistant_factor: [[1]]
     k: 4
   6: 
     name: "KAF156"
@@ -433,8 +439,9 @@ drugInfo:
     n: 15
     age_specific_drug_concentration_sd: [0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4]
     mutation_probability: 0.0005
-    affecting_loci: [4]
+    affecting_loci: [6]
     selecting_alleles: [[1]]
+    resistant_factor: [[1]]
     k: 4
   
 lumefantrine_drug_id: 2

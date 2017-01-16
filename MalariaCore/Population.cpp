@@ -326,7 +326,7 @@ void Population::introduce_initial_cases() {
         BOOST_FOREACH(InitialParasiteInfo p_info, Model::CONFIG->initial_parasite_info()) {
             int num_of_infections = size(p_info.location) * p_info.prevalence;
             //            std::cout << num_of_infections << std::endl;
-            IntGenotype* genotype = Model::CONFIG->genotype_db()->genotype_db()[p_info.parasite_type_id];
+            IntGenotype* genotype = Model::CONFIG->genotype_db()->db()[p_info.parasite_type_id];
             //std::cout << p_info.location << "-" << p_info.parasite_type_id << "-" << num_of_infections << std::endl;
             introduce_parasite(p_info.location, genotype, num_of_infections);
 

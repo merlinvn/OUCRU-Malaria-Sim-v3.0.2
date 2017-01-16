@@ -14,6 +14,7 @@
 #include <cstdlib>
 #include <iostream>
 #include "Model.h"
+#include "Config.h"
 using namespace std;
 
 /*
@@ -24,8 +25,13 @@ int main(int argc, char** argv) {
     m->set_initial_seed_number(-1);
     m->config_filename() = "input.yml";
     m->initialize();
-
-
+    std::cout << "start:" << std::endl;
+    for (const auto& genotype : Model::CONFIG->genotype_db()->db()) {
+        auto g = genotype.second;
+        std::cout << *(g) << "\t"
+                << Model::CONFIG->drug_db()->get(1)->inferEC50(g)
+                << std::endl;
+    }
 
     //
     //    m->run();

@@ -26,31 +26,31 @@ IntGenotypeDatabase::IntGenotypeDatabase() {
 
 IntGenotypeDatabase::~IntGenotypeDatabase() {
 
-    BOOST_FOREACH(IntGenotypePtrMap::value_type &i, genotype_db_) {
+    BOOST_FOREACH(IntGenotypePtrMap::value_type &i, db_) {
         delete i.second;
     }
-    genotype_db_.clear();
+    db_.clear();
 
 }
 
 void IntGenotypeDatabase::add(IntGenotype* genotype) {
-    if (genotype_db_.find(genotype->genotype_id()) != genotype_db_.end()) {
-        delete genotype_db_[genotype->genotype_id()];
+    if (db_.find(genotype->genotype_id()) != db_.end()) {
+        delete db_[genotype->genotype_id()];
     }
-    genotype_db_[genotype->genotype_id()] = genotype;
+    db_[genotype->genotype_id()] = genotype;
 }
 
 IntGenotype* IntGenotypeDatabase::get(const int& id) {
-    return genotype_db_.at(id);
+    return db_.at(id);
 }
 
 void IntGenotypeDatabase::initialize_matting_matrix() {
-    int size = genotype_db_.size();
+    int size = db_.size();
     mating_matrix_ = MatingMatrix(size, std::vector< std::vector<double> > (size, std::vector<double>()));
 
     for (int m = 0; m < size; m++) {
         for (int f = 0; f < size; f++) {
-            mating_matrix_[m][f] = generate_offspring_parasite_density(genotype_db_[m]->gene_expression(), genotype_db_[f]->gene_expression());
+            mating_matrix_[m][f] = generate_offspring_parasite_density(db_[m]->gene_expression(), db_[f]->gene_expression());
         }
     }
 }
@@ -71,7 +71,7 @@ std::vector<double> IntGenotypeDatabase::generate_offspring_parasite_density(con
         }
     }
     
-    std::vector<double> recombination_parasite_density(genotype_db_.size(), 0);
+    std::vector<double> recombination_parasite_density(db_.size(), 0);
 
     BOOST_FOREACH(IntVector &ge_i, results) {
         //        std::cout << ge_i << std::endl;
@@ -80,7 +80,7 @@ std::vector<double> IntGenotypeDatabase::generate_offspring_parasite_density(con
 
     for (int i = 0; i < recombination_parasite_density.size(); i++) {
         if (recombination_parasite_density[i] != 0) {
-            recombination_parasite_density[i] /= genotype_db_.size();
+            recombination_parasite_density[i] /= db_.size();
         }
     }
 

@@ -60,7 +60,7 @@ ResistanceTracker::~ResistanceTracker() {
 void ResistanceTracker::make_resistance_profile(std::vector<int>& vResistanceID, const int& size) {
     vResistanceID.clear();
 
-    BOOST_FOREACH(IntGenotypePtrMap::value_type &i, Model::CONFIG->genotype_db()->genotype_db()) {
+    BOOST_FOREACH(IntGenotypePtrMap::value_type &i, Model::CONFIG->genotype_db()->db()) {
         if (i.second->number_of_resistance_position() == size) {
             vResistanceID.push_back(i.first);
         }
@@ -73,7 +73,7 @@ void ResistanceTracker::make_resistance_profile(std::vector<int>& vResistanceID,
 void ResistanceTracker::make_arterminsinin_resistance_profile(std::vector<int>& vResistanceID) {
     vResistanceID.clear();
 
-    BOOST_FOREACH(IntGenotypePtrMap::value_type &i, Model::CONFIG->genotype_db()->genotype_db()) {
+    BOOST_FOREACH(IntGenotypePtrMap::value_type &i, Model::CONFIG->genotype_db()->db()) {
         if (i.second->gene_expression()[0] != 0) {
             //            std::cout << i.first << std::endl;
             vResistanceID.push_back(i.first);
@@ -88,7 +88,7 @@ void ResistanceTracker::initialize() {
     IntVector drugs_used;
 
 
-    all_resistance_id_ = Model::CONFIG->genotype_db()->get(Model::CONFIG->genotype_db()->genotype_db().size() - 1)->genotype_id();
+    all_resistance_id_ = Model::CONFIG->genotype_db()->get(Model::CONFIG->genotype_db()->db().size() - 1)->genotype_id();
     //    
     make_resistance_profile(single_resistance_ids_, 1);
     make_resistance_profile(double_resistance_ids_, 2);

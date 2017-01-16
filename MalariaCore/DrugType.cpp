@@ -59,7 +59,7 @@ double DrugType::n() {
 
 void DrugType::set_n(const double& n) {
     n_ = n;
-//    set_EC50_power_n(pow(EC50_, n_));
+    //    set_EC50_power_n(pow(EC50_, n_));
 }
 //
 //double DrugType::EC50() {
@@ -90,6 +90,21 @@ int DrugType::select_mutation_locus() {
     //    double t = 1.0 / affecting_loci_.size();
 
     return affecting_loci_[(int) floor(P * affecting_loci_.size())];
+}
+
+double DrugType::inferEC50(IntGenotype* genotype) {
+    int count = 0;
+    for (int i = 0; i < affecting_loci_.size(); i++) {
+        auto locus = affecting_loci_[i];
+        for (int j = 0; j < selecting_alleles_[i].size(); j++) {
+            auto selected_allele = selecting_alleles_[i][j];            
+            if (genotype->gene_expression()[locus] == selected_allele) {
+                count += resistant_factor_[i][j];
+            }
+        }
+
+    }
 
 
+    return count;
 }

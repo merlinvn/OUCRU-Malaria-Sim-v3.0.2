@@ -40,6 +40,7 @@
     <itemPath>farm.txt</itemPath>
     <itemPath>farm2.txt</itemPath>
     <itemPath>farm_beta.txt</itemPath>
+    <itemPath>input_file_non_art.yml</itemPath>
     <itemPath>tme.txt</itemPath>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
@@ -83,6 +84,8 @@
       <item path="farm2.txt" ex="false" tool="3" flavor2="0">
       </item>
       <item path="farm_beta.txt" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="input_file_non_art.yml" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -139,6 +142,8 @@
       <item path="farm2.txt" ex="false" tool="3" flavor2="0">
       </item>
       <item path="farm_beta.txt" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="input_file_non_art.yml" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>

@@ -316,9 +316,9 @@ void Config::build_drug_and_parasite_db(const YAML::Node& config) {
 
     //read fake_efficacy_table
     fake_efficacy_table_.clear();
-    fake_efficacy_table_.assign(genotype_db_->genotype_db().size(), std::vector<double>());
+    fake_efficacy_table_.assign(genotype_db_->db().size(), std::vector<double>());
 
-    for (int g_id = 0; g_id < genotype_db_->genotype_db().size(); g_id++) {
+    for (int g_id = 0; g_id < genotype_db_->db().size(); g_id++) {
         for (int i = 0; i < config["fake_efficacy_table"][g_id].size(); i++) {
             fake_efficacy_table_[g_id].push_back(config["fake_efficacy_table"][g_id][i].as<double>());
         }
@@ -370,16 +370,16 @@ void Config::build_drug_db(const YAML::Node& config) {
 
     //get EC50 table and compute EC50^n
     EC50_power_n_table_.clear();
-    EC50_power_n_table_.assign(genotype_db_->genotype_db().size(), std::vector<double>());
+    EC50_power_n_table_.assign(genotype_db_->db().size(), std::vector<double>());
 
-    for (int g_id = 0; g_id < genotype_db_->genotype_db().size(); g_id++) {
+    for (int g_id = 0; g_id < genotype_db_->db().size(); g_id++) {
         for (int i = 0; i < config["EC50_table"][g_id].size(); i++) {
             EC50_power_n_table_[g_id].push_back(config["EC50_table"][g_id][i].as<double>());
         }
     }
     //    std::cout << "ok " << std::endl;
 
-    for (int g_id = 0; g_id < genotype_db_->genotype_db().size(); g_id++) {
+    for (int g_id = 0; g_id < genotype_db_->db().size(); g_id++) {
         for (int i = 0; i < config["EC50_table"][g_id].size(); i++) {
             EC50_power_n_table_[g_id][i] = pow(EC50_power_n_table_[g_id][i], drug_db_->get(i)->n());
         }
@@ -398,12 +398,12 @@ void Config::build_parasite_db() {
 
     for (int i = 0; i < number_of_genotypes; i++) {
         IntGenotype* int_genotype = new IntGenotype(i);
-        std::cout << *int_genotype << std::endl;
+        //        std::cout << *int_genotype << std::endl;
         genotype_db_->add(int_genotype);
     }
 
     genotype_db_->initialize_matting_matrix();
-    number_of_parasite_types_ = genotype_db_->genotype_db().size();
+    number_of_parasite_types_ = genotype_db_->db().size();
 }
 
 Strategy* Config::read_strategy(const YAML::Node& config, const YAML::Node& n, const std::string& strategy_name) {
@@ -501,6 +501,14 @@ DrugType * Config::read_drugtype(const YAML::Node& config, const int& drug_id) {
         for (int j = 0; j < n["selecting_alleles"][i].size(); j++) {
             dt->selecting_alleles()[i].push_back(n["selecting_alleles"][i][j].as<int>());
 
+        }
+    }
+
+    dt->resistant_factor().clear();
+    dt->resistant_factor().assign(n["affecting_loci"].size(), IntVector());
+    for (int i = 0; i < n["affecting_loci"].size(); i++) {
+        for (int j = 0; j < n["resistant_factor"][i].size(); j++) {
+            dt->resistant_factor()[i].push_back(n["resistant_factor"][i][j].as<int>());
         }
     }
 
