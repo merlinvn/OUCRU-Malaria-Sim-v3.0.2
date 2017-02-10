@@ -116,7 +116,7 @@ void Person::set_host_state(const HostStates& value) {
 
             //
             //            Model::STATISTIC->update_person_days_by_years(location_, -(365 - Model::SCHEDULER->current_day_in_year()));
-            Model::DATA_COLLECTOR->record_1_death(location_, birthday_, number_of_times_bitten_, age_class_,age_);
+            Model::DATA_COLLECTOR->record_1_death(location_, birthday_, number_of_times_bitten_, age_class_, age_);
         }
 
         host_state_ = value;
@@ -178,7 +178,7 @@ void Person::set_bitting_level(const int& value) {
     }
     if (bitting_level_ != new_value) {
         all_clonal_parasite_populations_->remove_all_infection_force();
-        
+
         NotifyChange(BITTING_LEVEL, &bitting_level_, &new_value);
         bitting_level_ = new_value;
         all_clonal_parasite_populations_->add_all_infection_force();
@@ -370,8 +370,8 @@ void Person::receive_therapy(Therapy* therapy, ClonalParasitePopulation* clinica
 
         BOOST_FOREACH(int drug_id, scTherapy->drug_ids()) {
             //        std::cout << drug_id << std::endl;
-        add_drug_to_blood(Model::CONFIG->drug_db()->drug_db()[drug_id], dosing_days);
-    }
+            add_drug_to_blood(Model::CONFIG->drug_db()->drug_db()[drug_id], dosing_days);
+        }
     } else {
         //else if therapy is MACTherapy
         MACTherapy* macTherapy = dynamic_cast<MACTherapy*> (therapy);
@@ -545,9 +545,7 @@ void Person::update_bitting_level() {
             set_bitting_level(bitting_level_ + diff_in_level);
             //              std::cout << "ok" << std::endl;
         }
-
     }
-
 }
 
 void Person::update_current_state() {
@@ -756,7 +754,6 @@ double Person::p_infection_from_an_infectious_bite() {
     return (1 - immune_system_->get_current_value()) / 8.333 + 0.04;
 }
 
-
-bool Person::isGametocytaemic(){
-     return all_clonal_parasite_populations_->isGameticytaemic();
+bool Person::isGametocytaemic() {
+    return all_clonal_parasite_populations_->isGameticytaemic();
 }

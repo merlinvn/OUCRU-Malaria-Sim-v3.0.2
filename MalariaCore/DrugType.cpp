@@ -93,18 +93,19 @@ int DrugType::select_mutation_locus() {
 }
 
 double DrugType::inferEC50(IntGenotype* genotype) {
-    int count = 0;
+    double minEC50 = is_artemisinin() ? 0.6 : 0.6;
+    double maxEC50 = is_artemisinin() ? 1.3 : 1.3;
+    double EC50 = minEC50;
+
     for (int i = 0; i < affecting_loci_.size(); i++) {
         auto locus = affecting_loci_[i];
         for (int j = 0; j < selecting_alleles_[i].size(); j++) {
-            auto selected_allele = selecting_alleles_[i][j];            
+            auto selected_allele = selecting_alleles_[i][j];
             if (genotype->gene_expression()[locus] == selected_allele) {
-                count += resistant_factor_[i][j];
+                EC50 += resistant_factor_[i][j]*(maxEC50 - minEC50) / affecting_loci_.size();
+                break;
             }
         }
-
     }
-
-
-    return count;
+    return EC50;
 }

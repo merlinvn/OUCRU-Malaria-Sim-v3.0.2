@@ -12,24 +12,24 @@
 # total number of days the simulation is run, including the burn-in period which we normally set to 4000
 # days; during the burn-in period, no one receives malaria treatement and the system sets into a natural 
 # equilibrium 
-total_time: 11350
+total_time: 29
 
 # length of burn-in period
-start_treatment_day: 4000
+start_treatment_day: 0
 
 # the day at which the simulation's reporting functionality begins collecting data for 
 # the purposes of displaying it
-start_collect_data_day: 4000
+start_collect_data_day: 0
 
 # probability that a symptomatic and infected individual seeks and receives antimalarial treatment
-p_treatment: 0.600000
+p_treatment: 1.00000
 
 # this functionality works, but it was not used in any analyses for the 2015 LGH paper
 number_of_locations: 1
 
 # main scaling parameter for transmission, by location
 # the last four terms are ignored when the number of locations is 1
-beta: [0.065 , 1.4 , 1.4, 1.4, 1]
+beta: [0.0 , 1.4 , 1.4, 1.4, 1]
 
 # this functionality works, but it was not used in any analyses for the 2015 LGH paper
 # seasonality parameters, by location
@@ -62,11 +62,12 @@ age_distribution_by_location: [
 ]
 
 # below value indicates 37.25 births per 1000 individuals per year
-birth_rate: 0.03725
+#birth_rate: 0.03725
+birth_rate: 0.0
 
 # annual death rate (probability) by age group
-death_rate_by_age: [0.053979329, 0.018935757, 0.006867257, 0.001124347, 0.001136455, 0.001606066, 0.001953783, 0.001530096, 0.001299153, 0.001068073, 0.000978264, 0.000978264, 0.0055, 0.0055, 0.04450]
-
+#death_rate_by_age: [0.053979329, 0.018935757, 0.006867257, 0.001124347, 0.001136455, 0.001606066, 0.001953783, 0.001530096, 0.001299153, 0.001068073, 0.000978264, 0.000978264, 0.0055, 0.0055, 0.04450]
+death_rate_by_age: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 # number of days to keep track total number of parasites in population
 # in other words, the simulation stores 11 days of mosquitoes-biting-on-humans history
@@ -76,8 +77,8 @@ number_of_tracking_days: 11
 
 
 # probability of death for patients who are not treated or patients who experience a treatment failure (due to drug resistance, or otherwise)
-mortality_when_treatment_fail_by_age: [0.040, 0.020,0.020,0.020,0.020,0.004,0.004,0.004,0.004,0.004,0.004, 0.001, 0.001, 0.001, 0.001]
-
+#mortality_when_treatment_fail_by_age: [0.040, 0.020,0.020,0.020,0.020,0.004,0.004,0.004,0.004,0.004,0.004, 0.001, 0.001, 0.001, 0.001]
+mortality_when_treatment_fail_by_age: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
 genotype_info:
     loci:
@@ -141,12 +142,12 @@ genotype_info:
           position: 3
           alleles:
             - value: 0
-              allele_name: "OZ Sensitive"
+              allele_name: "PQ Sensitive"
               short_name: "x"
               can_mutate_to: [1]
               mutation_level: 0
             - value: 1
-              allele_name: "OZ Resistant"
+              allele_name: "PQ Resistant"
               short_name: "X"
               can_mutate_to: [0]
               mutation_level: 1
@@ -163,10 +164,24 @@ genotype_info:
               allele_name: "OZ Resistant"
               short_name: "X"
               can_mutate_to: [0]
-              mutation_level: 1        
-        - locus_name: "KAF156 confer resistant locus"
+              mutation_level: 1   
+        - locus_name: "Feroquine confer resistant locus"
           daily_cost_of_resistance: 0.0005
           position: 5
+          alleles:
+            - value: 0
+              allele_name: "Feroquine Sensitive"
+              short_name: "x"
+              can_mutate_to: [1]
+              mutation_level: 0
+            - value: 1
+              allele_name: "Feroquine Resistant"
+              short_name: "X"
+              can_mutate_to: [0]
+              mutation_level: 1    
+        - locus_name: "KAF156 confer resistant locus"
+          daily_cost_of_resistance: 0.0005
+          position: 6
           alleles:
             - value: 0
               allele_name: "KAF156 Sensitive"
@@ -178,20 +193,7 @@ genotype_info:
               short_name: "X"
               can_mutate_to: [0]
               mutation_level: 1
-        - locus_name: "Feroquine confer resistant locus"
-          daily_cost_of_resistance: 0.0005
-          position: 6
-          alleles:
-            - value: 0
-              allele_name: "Feroquine Sensitive"
-              short_name: "x"
-              can_mutate_to: [1]
-              mutation_level: 0
-            - value: 1
-              allele_name: "Feroquine Resistant"
-              short_name: "X"
-              can_mutate_to: [0]
-              mutation_level: 1      
+        
 
 
 fake_efficacy_table: [
@@ -253,7 +255,7 @@ initial_parasite_info:
   - location_id: 0
     parasite_info:
       - parasite_type_id: 0
-        prevalence: 0.1
+        prevalence: 0.0
 #      - parasite_type_id: 2
 #        prevalence: 0.1
 #      - parasite_type_id: 4
@@ -300,7 +302,7 @@ introduce_parasite_periodically:
     parasite_info:
       - duration: 7 
         genotype_id: 0
-        number_of_cases: 5
+        number_of_cases: 0
         
         
 
@@ -371,7 +373,7 @@ drugInfo:
     n: 25
     age_specific_drug_concentration_sd: [0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4]
     mutation_probability: 0.0000
-    affecting_loci: [3]
+    affecting_loci: [2]
     selecting_alleles: [[1]]
     resistant_factor: [[1]]
     k: 4
@@ -384,7 +386,7 @@ drugInfo:
     mutation_probability: 0.0000
     affecting_loci: [0,1]
     selecting_alleles: [[0],[0,2,3]]
-    resistant_factor: [[1],[1,2,1]]
+    resistant_factor: [[1],[0.5,1,0.5]]
     k: 4
   2: 
     name: "amodiaquine"
@@ -392,10 +394,10 @@ drugInfo:
     maximum_parasite_killing_rate: 0.95
     n: 19
     age_specific_drug_concentration_sd: [0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4]
-    mutation_probability: 0.0005
-    affecting_loci: [2]
-    selecting_alleles: [[1]]
-    resistant_factor: [[1]]
+    mutation_probability: 0.0000
+    affecting_loci: [0,1]
+    selecting_alleles: [[1],[0,1,3]]
+    resistant_factor: [[1],[0.5,1,0.5]]
     k: 4
   
   3: 
@@ -404,18 +406,18 @@ drugInfo:
     maximum_parasite_killing_rate: 0.9
     n: 15
     age_specific_drug_concentration_sd: [0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4]
-    mutation_probability: 0.0005
+    mutation_probability: 0.0000
     affecting_loci: [3]
     selecting_alleles: [[1]]
     resistant_factor: [[1]]
     k: 4
   4: 
     name: "Hypothetical OZ439"
-    half_life: 2.0
-    maximum_parasite_killing_rate:  0.999
-    n: 25
+    half_life: 2.2
+    maximum_parasite_killing_rate:  0.99
+    n: 20
     age_specific_drug_concentration_sd: [0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4]
-    mutation_probability: 0.0005
+    mutation_probability: 0.0000
     affecting_loci: [4]
     selecting_alleles: [[1]]
     resistant_factor: [[1]]
@@ -423,23 +425,36 @@ drugInfo:
     
   5: 
     name: "Ferroquine"
-    half_life: 20.0
-    maximum_parasite_killing_rate:  0.95
+    half_life: 15.0
+    maximum_parasite_killing_rate:  0.9
     n: 15
     age_specific_drug_concentration_sd: [0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4]
-    mutation_probability: 0.0005
+    mutation_probability: 0.0000
     affecting_loci: [5]
     selecting_alleles: [[1]]
     resistant_factor: [[1]]
     k: 4
   6: 
     name: "KAF156"
-    half_life: 20.0
-    maximum_parasite_killing_rate:  0.95
+    half_life: 1.8
+    maximum_parasite_killing_rate:  0.995
+    n: 20
+    age_specific_drug_concentration_sd: [0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4]
+    mutation_probability: 0.0000
+    affecting_loci: [6]
+    selecting_alleles: [[1]]
+    resistant_factor: [[1]]
+    k: 4
+    
+  #MQ
+  7: 
+    name: "Mefloquine"
+    half_life: 28.0
+    maximum_parasite_killing_rate: 0.9
     n: 15
     age_specific_drug_concentration_sd: [0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4]
-    mutation_probability: 0.0005
-    affecting_loci: [6]
+    mutation_probability: 0.0000
+    affecting_loci: [4]
     selecting_alleles: [[1]]
     resistant_factor: [[1]]
     k: 4
@@ -453,36 +468,46 @@ artemisinin_drug_id: 0
 tf_testing_day: 28
 TherapyInfo:
   0:    
-    drug_id: [0,1]
+    drug_id: [0]
     dosing_days: 3
   1:
-    drug_id: [0,2]
+    drug_id: [1]
     dosing_days:  3
   2:
-    drug_id: [0,3]
-    dosing_days: 3
-  3:
-    drug_id: [4,3]
-    dosing_days: 3
-  4:
-    drug_id: [0,5]
-    dosing_days: 3
-  5:
-    drug_id: [1]
-    dosing_days: 3
-  6:
     drug_id: [2]
     dosing_days: 3
-  7:
+  3:
     drug_id: [3]
     dosing_days: 3
-  8:
+  4:
     drug_id: [4]
     dosing_days: 3
+  5:
+    drug_id: [5]
+    dosing_days: 3
+  6:
+    drug_id: [6]
+    dosing_days: 3
+  #7: AL
+  7:
+    drug_id: [0,1] 
+    dosing_days: 3
+  #8: AS-AQ
+  8:
+    drug_id: [0,2]
+    dosing_days: 3
+  # DHA-PPQ
   9:
-    #this is a MAC Therapy
-    therapy_ids: [0,0]
-    regimen: [1,7]
+    drug_id: [0,3]
+    dosing_days: 3
+    
+  10:
+    drug_id: [0,3,7]
+    dosing_days: 3
+#  10:
+#    #this is a MAC Therapy
+#    therapy_ids: [0,0]
+#    regimen: [1,7]
 
 # drug-deployment strategy - simply uncomment below to turn on a particular strategy
 StrategyInfo:
@@ -493,7 +518,7 @@ StrategyInfo:
 #  strategyName: AdaptiveCyclingStrategy
 
   SFTStrategy:
-    therapyID: [0]
+    therapyID: [1]
 
   # cycle three ACTs in and out every five years
   CyclingStrategy:
@@ -641,10 +666,10 @@ relapseRate: 4.4721
 
 # minimum update frequency for a host's attributes (esp. parasite density) is every 7 days, or
 # more frequently if other events are occurring at this time
-update_frequency: 7
+update_frequency: 1
 
 #report to GUI and console every 30 days
-report_frequency: 30
+report_frequency: 1
 
 # if an infected and asymptomatic host is bitten and infected by a new 
 # parasite clone, this setting allows the new infection to cause symptoms

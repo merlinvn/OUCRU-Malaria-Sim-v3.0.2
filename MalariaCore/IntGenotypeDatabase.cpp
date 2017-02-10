@@ -20,8 +20,6 @@ IntGenotypeDatabase::IntGenotypeDatabase() {
         temp *= Model::CONFIG->genotype_info().loci_vector[i + 1].alleles.size();
         weight_[i] = temp;
     }
-
-
 }
 
 IntGenotypeDatabase::~IntGenotypeDatabase() {

@@ -373,14 +373,14 @@ void Config::build_drug_db(const YAML::Node& config) {
     EC50_power_n_table_.assign(genotype_db_->db().size(), std::vector<double>());
 
     for (int g_id = 0; g_id < genotype_db_->db().size(); g_id++) {
-        for (int i = 0; i < config["EC50_table"][g_id].size(); i++) {
-            EC50_power_n_table_[g_id].push_back(config["EC50_table"][g_id][i].as<double>());
+        for (int i = 0; i < drug_db_->drug_db().size(); i++) {
+            EC50_power_n_table_[g_id].push_back(drug_db_->drug_db()[i]->inferEC50(genotype_db_->db()[g_id]));
         }
     }
     //    std::cout << "ok " << std::endl;
 
     for (int g_id = 0; g_id < genotype_db_->db().size(); g_id++) {
-        for (int i = 0; i < config["EC50_table"][g_id].size(); i++) {
+        for (int i = 0; i < drug_db_->drug_db().size(); i++) {
             EC50_power_n_table_[g_id][i] = pow(EC50_power_n_table_[g_id][i], drug_db_->get(i)->n());
         }
     }
@@ -505,10 +505,10 @@ DrugType * Config::read_drugtype(const YAML::Node& config, const int& drug_id) {
     }
 
     dt->resistant_factor().clear();
-    dt->resistant_factor().assign(n["affecting_loci"].size(), IntVector());
+    dt->resistant_factor().assign(n["affecting_loci"].size(), DoubleVector());
     for (int i = 0; i < n["affecting_loci"].size(); i++) {
         for (int j = 0; j < n["resistant_factor"][i].size(); j++) {
-            dt->resistant_factor()[i].push_back(n["resistant_factor"][i][j].as<int>());
+            dt->resistant_factor()[i].push_back(n["resistant_factor"][i][j].as<double>());
         }
     }
 

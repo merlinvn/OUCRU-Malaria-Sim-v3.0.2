@@ -43,7 +43,7 @@ public:
 //    VIRTUAL_PROPERTY_REF(IntVector, mutation_positions)
     VIRTUAL_PROPERTY_REF(IntVector, affecting_loci)
     VIRTUAL_PROPERTY_REF(IntVector2, selecting_alleles)
-    VIRTUAL_PROPERTY_REF(IntVector2, resistant_factor)
+    VIRTUAL_PROPERTY_REF(DoubleVector2, resistant_factor)
     
 
 

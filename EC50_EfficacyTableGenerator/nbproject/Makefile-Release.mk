@@ -35,6 +35,8 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/IndividualsFileReporter.o \
+	${OBJECTDIR}/PkPdReporter.o \
 	${OBJECTDIR}/main.o
 
 
@@ -63,6 +65,16 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/ec50_efficacytablegenerator.exe: ../M
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/ec50_efficacytablegenerator.exe: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/ec50_efficacytablegenerator ${OBJECTFILES} ${LDLIBSOPTIONS} -l gsl -l gslcblas -l yaml-cpp
+
+${OBJECTDIR}/IndividualsFileReporter.o: IndividualsFileReporter.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -I../MalariaCore -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/IndividualsFileReporter.o IndividualsFileReporter.cpp
+
+${OBJECTDIR}/PkPdReporter.o: PkPdReporter.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -I../MalariaCore -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/PkPdReporter.o PkPdReporter.cpp
 
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}

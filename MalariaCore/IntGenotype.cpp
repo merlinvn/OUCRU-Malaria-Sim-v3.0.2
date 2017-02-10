@@ -97,12 +97,12 @@ int IntGenotype::select_mutation_allele(const int &mutation_locus, const int &cu
 }
 
 std::ostream& operator<<(std::ostream& os, const IntGenotype& e) {
-    os << e.genotype_id_ << ":\t";
+    os << e.genotype_id_ << "\t";
     for (int i = 0; i < e.gene_expression_.size(); i++) {
         int v = e.gene_expression_[i];
         os << Model::CONFIG->genotype_info().loci_vector[i].alleles[v];
     }
     
-    os << "\t" << e.number_of_resistance_position_;
+//    os << "\t" << e.number_of_resistance_position_;
     return os;
 }

@@ -15,28 +15,138 @@
 #include <iostream>
 #include "Model.h"
 #include "Config.h"
+#include "Person.h"
+#include "Population.h"
+#include "Random.h"
+#include "PkPdReporter.h"
+#include "IndividualsFileReporter.h"
+#include "SCTherapy.h"
+#include "Strategy.h"
+#include "PersonIndexAll.h"
+#include "ImmuneSystem.h"
+#include "ProgressToClinicalEvent.h"
+#include "ModelDataCollector.h"
+
 using namespace std;
+
+double getEfficacyForTherapy(IntGenotype* g, int therapy_id, double inferEC50[], Model* m);
+
+typedef std::tuple<int, int, double, double> EF50Key;
+typedef std::map<EF50Key, double> efficacy_map;
+
+efficacy_map precalculate_efficacies;
 
 /*
  * 
  */
 int main(int argc, char** argv) {
+
     Model* m = new Model();
-    m->set_initial_seed_number(-1);
-    m->config_filename() = "input.yml";
+    m->set_config_filename("input.yml");
     m->initialize();
-    std::cout << "start:" << std::endl;
+
+
+    // initialEC50Table
+    std::vector<std::vector<double> > EC50_table(Model::CONFIG->genotype_db()->db().size(), std::vector<double>(Model::CONFIG->drug_db()->drug_db().size(), 0));
+
+    for (int g_id = 0; g_id < Model::CONFIG->genotype_db()->db().size(); g_id++) {
+        for (int i = 0; i < Model::CONFIG->drug_db()->drug_db().size(); i++) {
+            EC50_table[g_id][i] = Model::CONFIG->drug_db()->drug_db()[i]->inferEC50(Model::CONFIG->genotype_db()->db()[g_id]);
+        }
+    }
+    std::cout << std::setprecision(3);
+
     for (const auto& genotype : Model::CONFIG->genotype_db()->db()) {
         auto g = genotype.second;
-        std::cout << *(g) << "\t"
-                << Model::CONFIG->drug_db()->get(1)->inferEC50(g)
-                << std::endl;
+        //    auto g = Model::CONFIG->genotype_db()->db()[0];
+        std::cout << *(g) << "\t";
+        //        auto max_therapy_id = Model::CONFIG->therapy_db().size()-1;
+        auto max_therapy_id = 9;
+        for (int therapy_id = 0; therapy_id <= max_therapy_id; therapy_id++) {
+
+            SCTherapy* therapy = dynamic_cast<SCTherapy*> (Model::CONFIG->therapy_db()[therapy_id]);
+            double inferEC50[2];
+
+            // print out efficacy
+            EF50Key key;
+            if (therapy->drug_ids().size() > 1) {
+                key = std::make_tuple(therapy->drug_ids()[0], therapy->drug_ids()[1], EC50_table[g->genotype_id()][therapy->drug_ids()[0]], EC50_table[g->genotype_id()][therapy->drug_ids()[1]]);
+                inferEC50[0] = EC50_table[g->genotype_id()][therapy->drug_ids()[0]];
+                inferEC50[1] = EC50_table[g->genotype_id()][therapy->drug_ids()[1]];
+                //                std::cout << inferEC50[0] << "\t" << inferEC50[1] << "\t";
+            } else {
+                key = std::make_tuple(therapy->drug_ids()[0], -1, EC50_table[g->genotype_id()][therapy->drug_ids()[0]], -1);
+                inferEC50[0] = EC50_table[g->genotype_id()][therapy->drug_ids()[0]];
+                //                std::cout << inferEC50[0] << "\t";
+            }
+
+            auto search = precalculate_efficacies.find(key);
+
+            if (search != precalculate_efficacies.end()) {
+                //                std::cout << search->second << std::endl;
+                std::cout << search->second << "\t";
+            } else {
+                //not exist then calculate
+                double efficacy = getEfficacyForTherapy(g, therapy_id, inferEC50, m);
+                std::cout << efficacy << "\t";
+                precalculate_efficacies.insert(std::make_pair(key, efficacy));
+            }
+        }
+        std::cout << std::endl;
+    }
+    delete m;
+    return 0;
+}
+
+double getEfficacyForTherapy(IntGenotype* g, int therapy_id, double inferEC50[], Model* m) {
+
+
+    SCTherapy* scTherapy = dynamic_cast<SCTherapy*> (Model::CONFIG->therapy_db()[therapy_id]);
+    Model::CONFIG->strategy()->therapy_list().clear();
+    Model::CONFIG->strategy()->therapy_list().push_back(scTherapy);
+
+    for (int i = 0; i < scTherapy->drug_ids().size(); i++) {
+        //re-config EC50 table for genotype id and drug_id
+        m->CONFIG->EC50_power_n_table()[g->genotype_id()][scTherapy->drug_ids()[i]] = pow(inferEC50[i], m->CONFIG->drug_db()->get(scTherapy->drug_ids()[i])->n());
     }
 
-    //
-    //    m->run();
-    delete m;
-    m = NULL;
-    return 0;
+    //reset reporter
+    for (auto reporter : m->reporters()) {
+        delete reporter;
+    }
+
+    m->reporters().clear();
+
+    m->add_reporter(new PkPdReporter());
+    m->add_reporter(new IndividualsFileReporter("out.txt"));
+
+    IntGenotype* genotype = Model::CONFIG->genotype_db()->get(g->genotype_id());
+
+    for (auto person : Model::POPULATION->all_persons()->vPerson()) {
+        double density = Model::CONFIG->log_parasite_density_level().log_parasite_density_from_liver;
+        ClonalParasitePopulation* blood_parasite = person->add_new_parasite_to_blood(genotype);
+
+        person->immune_system()->set_increase(true);
+        person->set_host_state(Person::EXPOSED);
+
+        blood_parasite->set_gametocyte_level(Model::CONFIG->gametocyte_level_full());
+        blood_parasite->set_last_update_log10_parasite_density(density);
+
+
+        ProgressToClinicalEvent::schedule_event(Model::SCHEDULER, person, blood_parasite, 1);
+    }
+
+    m->run();
+    double result = 1 - Model::DATA_COLLECTOR->current_TF_by_location()[0];
+
+    //reset
+    delete Model::POPULATION;
+    m->set_population(new Population(m));
+    Model::POPULATION = m->population();
+    m->population()->initialize();
+    Model::SCHEDULER->set_current_time(0);
+    //    cout << "hello" << endl;
+
+    return result;
 }
 
