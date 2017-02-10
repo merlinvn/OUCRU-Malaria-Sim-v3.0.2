@@ -377,6 +377,9 @@ drugInfo:
     selecting_alleles: [[1]]
     resistant_factor: [[1]]
     k: 4
+    EC50:
+       ..0.... : 0.6
+       ..1.... : 1.2
   1:
     name: "lumefantrine"
     half_life: 4.5
@@ -388,6 +391,23 @@ drugInfo:
     selecting_alleles: [[0],[0,2,3]]
     resistant_factor: [[1],[0.5,1,0.5]]
     k: 4
+    EC50:
+       #KNY
+       00..... : 1.125
+       #KYY
+       01..... : 0.95
+       #KNF
+       02..... : 1.3
+       #KYF
+       03..... : 1.125
+       #TNY
+       10..... : 0.775
+       #TYY
+       11..... : 0.6
+       #TNF
+       12..... : 0.95
+       #TYF
+       13..... : 0.775
   2: 
     name: "amodiaquine"
     half_life: 9.0
@@ -397,9 +417,25 @@ drugInfo:
     mutation_probability: 0.0000
     affecting_loci: [0,1]
     selecting_alleles: [[1],[0,1,3]]
-    resistant_factor: [[1],[0.5,1,0.5]]
+    resistant_factor: [[1],[0.25,0.5,0.25]]
     k: 4
-  
+    EC50:
+       #KNY
+       00..... : 0.775
+       #KYY
+       01..... : 0.95
+       #KNF
+       02..... : 0.6
+       #KYF
+       03..... : 0.775
+       #TNY
+       10..... : 1.125
+       #TYY
+       11..... : 1.3
+       #TNF
+       12..... : 0.85
+       #TYF
+       13..... : 1.125
   3: 
     name: "piperaquine"
     half_life: 28.0
@@ -411,6 +447,9 @@ drugInfo:
     selecting_alleles: [[1]]
     resistant_factor: [[1]]
     k: 4
+    EC50:
+       ...0... : 0.6
+       ...1... : 1.6
   4: 
     name: "Hypothetical OZ439"
     half_life: 2.2
@@ -422,7 +461,9 @@ drugInfo:
     selecting_alleles: [[1]]
     resistant_factor: [[1]]
     k: 4
-    
+    EC50:
+       ....0.. : 0.6
+       ....1.. : 1.3
   5: 
     name: "Ferroquine"
     half_life: 15.0
@@ -434,6 +475,9 @@ drugInfo:
     selecting_alleles: [[1]]
     resistant_factor: [[1]]
     k: 4
+    EC50:
+       .....0. : 0.6
+       .....1. : 1.3
   6: 
     name: "KAF156"
     half_life: 1.8
@@ -445,7 +489,9 @@ drugInfo:
     selecting_alleles: [[1]]
     resistant_factor: [[1]]
     k: 4
-    
+    EC50:
+       ......0 : 0.6
+       ......1 : 1.3
   #MQ
   7: 
     name: "Mefloquine"
@@ -454,11 +500,13 @@ drugInfo:
     n: 15
     age_specific_drug_concentration_sd: [0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4]
     mutation_probability: 0.0000
-    affecting_loci: [4]
+    affecting_loci: [0]
     selecting_alleles: [[1]]
     resistant_factor: [[1]]
     k: 4
-  
+    EC50:
+       0...... : 0.6
+       1...... : 1.2
 lumefantrine_drug_id: 2
 artemisinin_drug_id: 0
   

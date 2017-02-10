@@ -54,6 +54,12 @@ int main(int argc, char** argv) {
             EC50_table[g_id][i] = Model::CONFIG->drug_db()->drug_db()[i]->inferEC50(Model::CONFIG->genotype_db()->db()[g_id]);
         }
     }
+
+    //adjust ec50 table
+
+
+
+
     std::cout << std::setprecision(3);
 
     for (const auto& genotype : Model::CONFIG->genotype_db()->db()) {
@@ -73,11 +79,11 @@ int main(int argc, char** argv) {
                 key = std::make_tuple(therapy->drug_ids()[0], therapy->drug_ids()[1], EC50_table[g->genotype_id()][therapy->drug_ids()[0]], EC50_table[g->genotype_id()][therapy->drug_ids()[1]]);
                 inferEC50[0] = EC50_table[g->genotype_id()][therapy->drug_ids()[0]];
                 inferEC50[1] = EC50_table[g->genotype_id()][therapy->drug_ids()[1]];
-                //                std::cout << inferEC50[0] << "\t" << inferEC50[1] << "\t";
+//                std::cout << inferEC50[0] << "\t" << inferEC50[1] << "\t";
             } else {
                 key = std::make_tuple(therapy->drug_ids()[0], -1, EC50_table[g->genotype_id()][therapy->drug_ids()[0]], -1);
                 inferEC50[0] = EC50_table[g->genotype_id()][therapy->drug_ids()[0]];
-                //                std::cout << inferEC50[0] << "\t";
+//                std::cout << inferEC50[0] << "\t";
             }
 
             auto search = precalculate_efficacies.find(key);

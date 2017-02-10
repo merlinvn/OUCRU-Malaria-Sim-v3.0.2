@@ -511,21 +511,21 @@ DrugType * Config::read_drugtype(const YAML::Node& config, const int& drug_id) {
             dt->resistant_factor()[i].push_back(n["resistant_factor"][i][j].as<double>());
         }
     }
+    
+    dt->set_ec50map( n["EC50"].as<std::map < std::string, double>>());
+
+    //    auto ec50Node = n["EC50"];
+    //    for (YAML::const_iterator it = ec50Node.begin(); it != ec50Node.end(); it++) {
+    //        std::string key = it->first.as<std::string>();
+    //        double value = it->second.as<double>();
+    //        std::cout << key << ":::::" << value << std::endl;
+    //    }
+
 
 
 
     dt->set_k(n["k"].as<double>());
-    //    dt->set_resistance_cost_multiple_infection(n["resistance_cost_multiple_infection"].as<double>());
-    //    dt->set_artermisinin_derivative(n["isArtermisininDerivative"].as<int>() == 1 ? true : false);
 
-    //    dt->set_artemisinin_derivative(drug_id == config["artemisinin_drug_id"].as<int>());
-
-    //if drug_id is equal to artermisinin drug id in config file, set 
-    //isArterminsinin to true otherwise set it to false
-
-
-    //if drug_id is equal to piperaquine drug id in config file, set 
-    //isArterminsinin to true otherwise set it to false
 
     if (drug_id == config["artemisinin_drug_id"].as<int>()) {
         dt->set_drug_family(DrugType::Artemisinin);

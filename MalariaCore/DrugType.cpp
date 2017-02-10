@@ -18,7 +18,7 @@
 #define LOG2_10 3.32192809489
 #endif
 
-DrugType::DrugType() : id_(0), n_(1), drug_family_(Other), affecting_loci_() {
+DrugType::DrugType() : id_(0), n_(1), drug_family_(Other), affecting_loci_(), ec50map_() {
 
 
 }
@@ -93,19 +93,46 @@ int DrugType::select_mutation_locus() {
 }
 
 double DrugType::inferEC50(IntGenotype* genotype) {
-    double minEC50 = is_artemisinin() ? 0.6 : 0.6;
-    double maxEC50 = is_artemisinin() ? 1.3 : 1.3;
-    double EC50 = minEC50;
+    //compare genotype.short_name with Ccnfig to get EC50 
 
-    for (int i = 0; i < affecting_loci_.size(); i++) {
-        auto locus = affecting_loci_[i];
-        for (int j = 0; j < selecting_alleles_[i].size(); j++) {
-            auto selected_allele = selecting_alleles_[i][j];
-            if (genotype->gene_expression()[locus] == selected_allele) {
-                EC50 += resistant_factor_[i][j]*(maxEC50 - minEC50) / affecting_loci_.size();
-                break;
-            }
+    for (const auto&item : ec50map_) {
+        // if match then return ec50
+        std::string key = item.first;
+        int i = 0;
+        for (i = 0; i < genotype->gene_expression().size(); i++) {
+            if (key[i] == '.')
+                continue;
+            if ((key[i] - '0') == genotype->gene_expression()[i])
+                continue;
+            break;
+        }
+
+        if (i == genotype->gene_expression().size()) {
+            ///found match
+            return item.second;
         }
     }
-    return EC50;
+
+    //hopefully it will never reach here
+    return 0;
+
+    //
+    //
+    //
+    //
+    //    double minEC50 = is_artemisinin() ? 0.6 : 0.6;
+    //    double maxEC50 = is_artemisinin() ? 1.25 : 1.6;
+    //    double EC50 = minEC50;
+    //
+    //    for (int i = 0; i < affecting_loci_.size(); i++) {
+    //        auto locus = affecting_loci_[i];
+    //        for (int j = 0; j < selecting_alleles_[i].size(); j++) {
+    //            auto selected_allele = selecting_alleles_[i][j];
+    //            if (genotype->gene_expression()[locus] == selected_allele) {
+    //                EC50 += resistant_factor_[i][j]*(maxEC50 - minEC50) / affecting_loci_.size();
+    //                break;
+    //            }
+    //        }
+    //    }
+    //    return EC50;
 }
