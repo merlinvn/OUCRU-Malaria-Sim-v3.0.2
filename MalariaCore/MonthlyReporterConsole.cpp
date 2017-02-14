@@ -10,7 +10,7 @@
 #include "ModelDataCollector.h"
 #include "Config.h"
 
-MonthlyReporterConsole::MonthlyReporterConsole()  {
+MonthlyReporterConsole::MonthlyReporterConsole() {
 
 }
 
@@ -27,7 +27,7 @@ void MonthlyReporterConsole::initialize() {
 }
 
 void MonthlyReporterConsole::before_run() {
-    
+
 }
 
 void MonthlyReporterConsole::begin_time_step() {
@@ -63,10 +63,16 @@ void MonthlyReporterConsole::after_time_step() {
 
             //            std::cout << Model::STATISTIC->cumulative_mutants_by_location()[location] << "\t";
             std::cout << change_in_mutants << "\t";
-            std::cout << Model::DATA_COLLECTOR->current_TF_by_location()[location]<< "\t";
+            std::cout << Model::DATA_COLLECTOR->current_TF_by_location()[location] << "\t";
         }
 
 
+
+        std::cout << "-1111" << "\t";
+        //        std::cout << Model::DATA_COLLECTOR->resistance_tracker().parasite_population_count()[0]<< "\t";
+        //        std::cout << Model::DATA_COLLECTOR->resistance_tracker().parasite_population_count()[16]<< "\t";
+        //        std::cout << Model::DATA_COLLECTOR->resistance_tracker().parasite_population_count()[16]/(double)Model::DATA_COLLECTOR->resistance_tracker().total()<< "\t";
+        //        std::cout << Model::DATA_COLLECTOR->resistance_tracker().parasite_population_count()[80] / (double) Model::DATA_COLLECTOR->resistance_tracker().total() << "\t";
 
         std::cout << Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(Model::DATA_COLLECTOR->resistance_tracker().single_resistance_ids()) << "\t";
         std::cout << Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(Model::DATA_COLLECTOR->resistance_tracker().double_resistance_ids()) << "\t";

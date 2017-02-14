@@ -92,10 +92,13 @@ void ResistanceTracker::initialize() {
     //    
     make_resistance_profile(single_resistance_ids_, 1);
     make_resistance_profile(double_resistance_ids_, 2);
+//    for (auto i : double_resistance_ids_) {
+//        std::cout << i << std::endl;
+//    }
     make_resistance_profile(tripple_resistance_ids_, 3);
     make_resistance_profile(quadruple_resistance_ids_, 4);
     make_resistance_profile(quintuple_resistance_ids_, 5);
-    
+
     //TODO: add 6 or more all resistance pos
 
     make_arterminsinin_resistance_profile(artemisinin_ids_);
