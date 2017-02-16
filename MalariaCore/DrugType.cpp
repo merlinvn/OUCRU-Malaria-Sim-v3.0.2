@@ -94,10 +94,8 @@ int DrugType::select_mutation_locus() {
 
 double DrugType::inferEC50(IntGenotype* genotype) {
     //compare genotype.short_name with Ccnfig to get EC50 
-
-    for (const auto&item : ec50map_) {
-        // if match then return ec50
-        std::string key = item.first;
+    for (ec50map_type::iterator item = ec50map_.begin(); item != ec50map_.end(); ++item) {
+        std::string key = item->first;
         int i = 0;
         for (i = 0; i < genotype->gene_expression().size(); i++) {
             if (key[i] == '.')
@@ -109,10 +107,16 @@ double DrugType::inferEC50(IntGenotype* genotype) {
 
         if (i == genotype->gene_expression().size()) {
             ///found match
-            return item.second;
+            return item->second;
         }
     }
+    //
+    //    for (const auto& item : ec50map_) {
+    //        // if match then return ec50
+    //
+    //    }
 
+    assert(false);
     //hopefully it will never reach here
     return 0;
 

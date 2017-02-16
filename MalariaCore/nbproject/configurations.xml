@@ -649,7 +649,6 @@
         <ccTool>
           <developmentMode>5</developmentMode>
           <architecture>1</architecture>
-          <commandLine>-std=c++11</commandLine>
         </ccTool>
         <fortranCompilerTool>
           <developmentMode>5</developmentMode>

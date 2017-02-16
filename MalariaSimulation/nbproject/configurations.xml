@@ -108,7 +108,6 @@
           <incDir>
             <pElem>../MalariaCore</pElem>
           </incDir>
-          <commandLine>-std=c++11</commandLine>
         </ccTool>
         <fortranCompilerTool>
           <developmentMode>5</developmentMode>

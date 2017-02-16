@@ -23,7 +23,7 @@ TestTreatmentFailureEvent::TestTreatmentFailureEvent(const TestTreatmentFailureE
 }
 
 TestTreatmentFailureEvent::~TestTreatmentFailureEvent() {
-    if (executable() && Model::DATA_COLLECTOR != nullptr) {
+    if (executable() && Model::DATA_COLLECTOR != NULL) {
         Model::DATA_COLLECTOR-> number_of_treatments_with_therapy_ID()[therapyId_] -= 1;
     }
 }
