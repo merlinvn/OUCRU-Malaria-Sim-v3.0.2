@@ -67,8 +67,8 @@ int main(int argc, char** argv) {
         //    auto g = Model::CONFIG->genotype_db()->db()[0];
         std::cout << *(g) << "\t";
         //        auto max_therapy_id = Model::CONFIG->therapy_db().size()-1;
-        auto max_therapy_id = 3;
-        for (int therapy_id = 3; therapy_id <= max_therapy_id; therapy_id++) {
+        auto max_therapy_id = 9;
+        for (int therapy_id = 0; therapy_id <= max_therapy_id; therapy_id++) {
 
             SCTherapy* therapy = dynamic_cast<SCTherapy*> (Model::CONFIG->therapy_db()[therapy_id]);
             double inferEC50[2];
