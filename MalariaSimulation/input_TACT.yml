@@ -12,24 +12,24 @@
 # total number of days the simulation is run, including the burn-in period which we normally set to 4000
 # days; during the burn-in period, no one receives malaria treatement and the system sets into a natural 
 # equilibrium 
-total_time: 29
+total_time: 11350
 
 # length of burn-in period
-start_treatment_day: 0
+start_treatment_day: 4000
 
 # the day at which the simulation's reporting functionality begins collecting data for 
 # the purposes of displaying it
-start_collect_data_day: 0
+start_collect_data_day: 4000
 
 # probability that a symptomatic and infected individual seeks and receives antimalarial treatment
-p_treatment: 1.00000
+p_treatment: 0.700000
 
 # this functionality works, but it was not used in any analyses for the 2015 LGH paper
 number_of_locations: 1
 
 # main scaling parameter for transmission, by location
 # the last four terms are ignored when the number of locations is 1
-beta: [0.0 , 1.4 , 1.4, 1.4, 1]
+beta: [0.065 , 1.4 , 1.4, 1.4, 1]
 
 # this functionality works, but it was not used in any analyses for the 2015 LGH paper
 # seasonality parameters, by location
@@ -39,7 +39,7 @@ seasonal_beta:
   
   
 # the last four terms are ignored when the number of locations is 1
-population_size_by_location: [10000, 1000 , 1000, 1000, 500]
+population_size_by_location: [100000, 1000 , 1000, 1000, 500]
 
 # probability that an infectious bite on a human causes a blood stage malaria infection
 p_infection_from_an_infectious_bite: 0.1
@@ -62,12 +62,11 @@ age_distribution_by_location: [
 ]
 
 # below value indicates 37.25 births per 1000 individuals per year
-#birth_rate: 0.03725
-birth_rate: 0.0
+birth_rate: 0.03725
 
 # annual death rate (probability) by age group
-#death_rate_by_age: [0.053979329, 0.018935757, 0.006867257, 0.001124347, 0.001136455, 0.001606066, 0.001953783, 0.001530096, 0.001299153, 0.001068073, 0.000978264, 0.000978264, 0.0055, 0.0055, 0.04450]
-death_rate_by_age: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+death_rate_by_age: [0.053979329, 0.018935757, 0.006867257, 0.001124347, 0.001136455, 0.001606066, 0.001953783, 0.001530096, 0.001299153, 0.001068073, 0.000978264, 0.000978264, 0.0055, 0.0055, 0.04450]
+
 
 # number of days to keep track total number of parasites in population
 # in other words, the simulation stores 11 days of mosquitoes-biting-on-humans history
@@ -77,8 +76,8 @@ number_of_tracking_days: 11
 
 
 # probability of death for patients who are not treated or patients who experience a treatment failure (due to drug resistance, or otherwise)
-#mortality_when_treatment_fail_by_age: [0.040, 0.020,0.020,0.020,0.020,0.004,0.004,0.004,0.004,0.004,0.004, 0.001, 0.001, 0.001, 0.001]
-mortality_when_treatment_fail_by_age: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+mortality_when_treatment_fail_by_age: [0.040, 0.020,0.020,0.020,0.020,0.004,0.004,0.004,0.004,0.004,0.004, 0.001, 0.001, 0.001, 0.001]
+
 
 genotype_info:
     loci:
@@ -185,6 +184,7 @@ genotype_info:
               short_name: "X"
               can_mutate_to: [0]
               mutation_level: 1           
+  
 
 
 fake_efficacy_table: [
@@ -446,6 +446,7 @@ fake_efficacy_table: [
 [0.249,0.756,0.403,0.219,0.227,0.251,0.223]
 ]
 
+
 #
 # initialize parasite population
 # day-location - id - number
@@ -468,14 +469,12 @@ fake_efficacy_table: [
 initial_parasite_info:
   - location_id: 0
     parasite_info:
-      - parasite_type_id: 0
-        prevalence: 0.0
+      - parasite_type_id: 160
+        prevalence: 0.1
 #      - parasite_type_id: 2
 #        prevalence: 0.1
 #      - parasite_type_id: 4
 #        prevalence: 0.1
-
-
 
 # functional but not used in 2015 LGH paper
 # allows for the introduction of a specific parasite type at a specific time
@@ -503,7 +502,7 @@ introduce_parasite_periodically:
     parasite_info:
       - duration: 7 
         genotype_id: 0
-        number_of_cases: 0
+        number_of_cases: 5
         
         
 
@@ -530,8 +529,6 @@ introduce_parasite_periodically:
 #       - set k=2 or k=4 for a piecewise-linear model where mutation probability increases from high concentrations
 #               to intermediate concentrations, and then decreases linearly from intermediate concentrations to zero
 #
-
-
 drugInfo:
   0:
     name: "artmisinin"
@@ -734,33 +731,32 @@ TherapyInfo:
     drug_id: [0,1,2]
     dosing_days: 3
 
-
 # drug-deployment strategy - simply uncomment below to turn on a particular strategy
 StrategyInfo:
   #strategyName can be SFTStrategy / CyclingStrategy / MFTStrategy / AdaptiveCyclingStrategy
-  strategyName: SFTStrategy
+#  strategyName: SFTStrategy
 #  strategyName: CyclingStrategy
-#  strategyName: MFTStrategy
-#  strategyName: AdaptiveCyclingStrategy
+  strategyName: MFTStrategy
+#  strategyName: AdaptiveCyc lingStrategy
 
   SFTStrategy:
-    therapyID: [1]
+    therapyID: [7]
 
   # cycle three ACTs in and out every five years
   CyclingStrategy:
-    therapyID: [0,1,2]
+    therapyID: [9,8,7]
     cycling_time: 1825
     
   # deploy three ACTs simultaneously
   MFTStrategy:
-    therapyID: [0,1,2]
+    therapyID: [9,8,7]
     distribution: [0.33334,0.33333,0.33333]
 
   # cycle three ACTs in and out - switch between ACTs when the fraction of patients experiencing
   # treatment failure get to the trigger value below
   # there is a one-year delay until the actual switch is made in the field (delay_until_actual_trigger)
   AdaptiveCyclingStrategy:
-    therapyID: [0,1,2]
+    therapyID: [9,8,7]
     trigger_value: 0.1
     delay_until_actual_trigger: 365
     turn_off_days: 365
@@ -892,10 +888,10 @@ relapseRate: 4.4721
 
 # minimum update frequency for a host's attributes (esp. parasite density) is every 7 days, or
 # more frequently if other events are occurring at this time
-update_frequency: 1
+update_frequency: 7
 
 #report to GUI and console every 30 days
-report_frequency: 1
+report_frequency: 30
 
 # if an infected and asymptomatic host is bitten and infected by a new 
 # parasite clone, this setting allows the new infection to cause symptoms

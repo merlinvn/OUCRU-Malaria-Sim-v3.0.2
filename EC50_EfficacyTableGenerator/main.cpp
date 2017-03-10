@@ -67,7 +67,7 @@ int main(int argc, char** argv) {
         //    auto g = Model::CONFIG->genotype_db()->db()[0];
         std::cout << *(g) << "\t";
         //        auto max_therapy_id = Model::CONFIG->therapy_db().size()-1;
-        auto max_therapy_id = 9;
+        auto max_therapy_id = 0;
         for (int therapy_id = 0; therapy_id <= max_therapy_id; therapy_id++) {
 
             SCTherapy* therapy = dynamic_cast<SCTherapy*> (Model::CONFIG->therapy_db()[therapy_id]);

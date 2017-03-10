@@ -31,3 +31,5 @@ _*
 /EC50_EfficacyTableGenerator/build/Release/
 /EC50_EfficacyTableGenerator/dist/Release/
 /EC50_EfficacyTableGenerator/dist/*
+
+EC50_EfficacyTableGenerator/out\.txt

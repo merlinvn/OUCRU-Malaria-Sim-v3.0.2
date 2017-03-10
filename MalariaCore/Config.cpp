@@ -504,14 +504,6 @@ DrugType * Config::read_drugtype(const YAML::Node& config, const int& drug_id) {
         }
     }
 
-    dt->resistant_factor().clear();
-    dt->resistant_factor().assign(n["affecting_loci"].size(), DoubleVector());
-    for (int i = 0; i < n["affecting_loci"].size(); i++) {
-        for (int j = 0; j < n["resistant_factor"][i].size(); j++) {
-            dt->resistant_factor()[i].push_back(n["resistant_factor"][i][j].as<double>());
-        }
-    }
-
     dt->set_ec50map(n["EC50"].as<std::map < std::string, double> >());
 
     //    auto ec50Node = n["EC50"];

@@ -21,8 +21,10 @@ public:
     enum DrugFamily {
         Artemisinin = 0,
         Lumefantrine = 1,
-        Mefloquine = 2,
+        Amodiaquine = 2,
         Piperaquine = 3,
+        Mefloquine = 4,
+        SP = 5,
         Other
     };
     DISALLOW_COPY_AND_ASSIGN_(DrugType)
@@ -39,8 +41,6 @@ public:
 
     VIRTUAL_PROPERTY_REF(IntVector, affecting_loci)
     VIRTUAL_PROPERTY_REF(IntVector2, selecting_alleles)
-    VIRTUAL_PROPERTY_REF(DoubleVector2, resistant_factor)
-
     VIRTUAL_PROPERTY_REF(ec50map_type, ec50map)
 
 

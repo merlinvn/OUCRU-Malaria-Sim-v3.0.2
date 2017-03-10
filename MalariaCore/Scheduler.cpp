@@ -117,13 +117,11 @@ void Scheduler::end_time_step() {
     Model::POPULATION->perform_death_event();
     Model::EXTERNAL_POPULATION->perform_death_event();
     ///for safety remove all dead by calling perform_death_event
-    Model::POPULATION->perform_circulation_event();
+//    Model::POPULATION->perform_circulation_event();
 
-    Model::POPULATION->perform_moving_to_external_population_event();
+//    Model::POPULATION->perform_moving_to_external_population_event();
 
-    //TODO:: TME Scheduler check and perform TMA Action(current_time_)
-
-    Model::TME_SCHEDULER->check_and_perform_TME_Actions();
+    //    Model::TME_SCHEDULER->check_and_perform_TME_Actions();
 
     update_end_of_time_step();
 
