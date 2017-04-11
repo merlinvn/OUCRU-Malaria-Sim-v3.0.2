@@ -16,6 +16,8 @@
 #include "Random.h"
 #include "MonthlyReporter.h"
 #include "MonthlyReporterConsole.h"
+#include "BurninMonthlyReporter.h"
+#include "BurninFarmReporter.h"
 #include <boost/format.hpp>
 #include <string>
 
@@ -49,6 +51,10 @@ Reporter* Reporter::MakeReport(ReportType report_type) {
             return new YearlyReporterV1(file_name1);
         case MONTHLY_REPORTER:
             return new MonthlyReporterConsole();
+        case BURNIN_MONTHLY_REPORTER:
+            return new BurninMonthlyReporter();
+        case BURNIN_FARM_REPORTER:
+            return new BurninFarmReporter();
         default:
             return new ConsoleReporter();
             break;

@@ -41,6 +41,7 @@
     <itemPath>farm2.txt</itemPath>
     <itemPath>farm_beta.txt</itemPath>
     <itemPath>input_TACT.yml</itemPath>
+    <itemPath>override.txt</itemPath>
     <itemPath>tme.txt</itemPath>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
@@ -88,6 +89,8 @@
       <item path="input_TACT.yml" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="override.txt" ex="false" tool="3" flavor2="0">
       </item>
       <item path="tme.txt" ex="false" tool="3" flavor2="0">
       </item>
@@ -145,6 +148,8 @@
       <item path="input_TACT.yml" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="override.txt" ex="false" tool="3" flavor2="0">
       </item>
       <item path="tme.txt" ex="false" tool="3" flavor2="0">
       </item>

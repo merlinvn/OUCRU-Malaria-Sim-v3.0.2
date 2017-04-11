@@ -39,6 +39,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/AdaptiveCyclingStrategy.o \
 	${OBJECTDIR}/BirthdayEvent.o \
 	${OBJECTDIR}/BittingLevelGenerator.o \
+	${OBJECTDIR}/BurninFarmReporter.o \
+	${OBJECTDIR}/BurninMonthlyReporter.o \
 	${OBJECTDIR}/CSVRow.o \
 	${OBJECTDIR}/CirculateToTargetLocationNextDayEvent.o \
 	${OBJECTDIR}/ClinicalUpdateFunction.o \
@@ -164,6 +166,16 @@ ${OBJECTDIR}/BittingLevelGenerator.o: BittingLevelGenerator.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/BittingLevelGenerator.o BittingLevelGenerator.cpp
+
+${OBJECTDIR}/BurninFarmReporter.o: BurninFarmReporter.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/BurninFarmReporter.o BurninFarmReporter.cpp
+
+${OBJECTDIR}/BurninMonthlyReporter.o: BurninMonthlyReporter.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/BurninMonthlyReporter.o BurninMonthlyReporter.cpp
 
 ${OBJECTDIR}/CSVRow.o: CSVRow.cpp 
 	${MKDIR} -p ${OBJECTDIR}

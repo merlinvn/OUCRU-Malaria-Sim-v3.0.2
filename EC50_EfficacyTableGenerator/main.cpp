@@ -67,8 +67,14 @@ int main(int argc, char** argv) {
         //    auto g = Model::CONFIG->genotype_db()->db()[0];
         std::cout << *(g) << "\t";
         //        auto max_therapy_id = Model::CONFIG->therapy_db().size()-1;
-        auto max_therapy_id = 0;
-        for (int therapy_id = 0; therapy_id <= max_therapy_id; therapy_id++) {
+        auto max_therapy_id = 8;
+        auto min_therapy_id = 0;
+        if (argc == 3) {
+            min_therapy_id = atoi(argv[1]);
+            max_therapy_id = atoi(argv[2]);
+        }
+
+        for (int therapy_id = min_therapy_id; therapy_id <= max_therapy_id; therapy_id++) {
 
             SCTherapy* therapy = dynamic_cast<SCTherapy*> (Model::CONFIG->therapy_db()[therapy_id]);
             double inferEC50[2];
@@ -79,11 +85,11 @@ int main(int argc, char** argv) {
                 key = std::make_tuple(therapy->drug_ids()[0], therapy->drug_ids()[1], EC50_table[g->genotype_id()][therapy->drug_ids()[0]], EC50_table[g->genotype_id()][therapy->drug_ids()[1]]);
                 inferEC50[0] = EC50_table[g->genotype_id()][therapy->drug_ids()[0]];
                 inferEC50[1] = EC50_table[g->genotype_id()][therapy->drug_ids()[1]];
-//                std::cout << inferEC50[0] << "\t" << inferEC50[1] << "\t";
+                //                std::cout << inferEC50[0] << "\t" << inferEC50[1] << "\t";
             } else {
                 key = std::make_tuple(therapy->drug_ids()[0], -1, EC50_table[g->genotype_id()][therapy->drug_ids()[0]], -1);
                 inferEC50[0] = EC50_table[g->genotype_id()][therapy->drug_ids()[0]];
-//                std::cout << inferEC50[0] << "\t";
+                //                std::cout << inferEC50[0] << "\t";
             }
 
             auto search = precalculate_efficacies.find(key);

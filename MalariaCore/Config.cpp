@@ -330,7 +330,7 @@ void Config::read_genotype_info(const YAML::Node& config) {
     for (int i = 0; i < config["genotype_info"]["loci"].size(); i++) {
         Locus l;
         l.position = config["genotype_info"]["loci"][i]["position"].as<int>();
-        l.daily_cost_of_resistance = config["genotype_info"]["loci"][i]["daily_cost_of_resistance"].as<double>();
+
 
         for (int j = 0; j < config["genotype_info"]["loci"][i]["alleles"].size(); j++) {
             Allele al;
@@ -338,7 +338,7 @@ void Config::read_genotype_info(const YAML::Node& config) {
             al.name = config["genotype_info"]["loci"][i]["alleles"][j]["allele_name"].as<std::string>();
             al.short_name = config["genotype_info"]["loci"][i]["alleles"][j]["short_name"].as<std::string>();
             al.mutation_level = config["genotype_info"]["loci"][i]["alleles"][j]["mutation_level"].as<int>();
-
+            al.daily_cost_of_resistance = config["genotype_info"]["loci"][i]["alleles"][j]["daily_cost_of_resistance"].as<double>();
             for (int c = 0; c < config["genotype_info"]["loci"][i]["alleles"][j]["can_mutate_to"].size(); c++) {
                 //                al.mutation_value_up.push_back(config["genotype_info"]["loci"][i]["alleles"][j]["mutation_up"][c].as<int>());
                 al.mutation_values.push_back(config["genotype_info"]["loci"][i]["alleles"][j]["can_mutate_to"][c].as<int>());
@@ -873,9 +873,22 @@ void Config::override_1_parameter(const std::string& parameter_name, const std::
 
     if (parameter_name == "daily_cost_of_resistance") {
         modified_daily_cost_of_resistance_ = atof(parameter_value.c_str());
+
         for (int i = 0; i < genotype_info_.loci_vector.size(); i++) {
-            genotype_info_.loci_vector[i].daily_cost_of_resistance = modified_daily_cost_of_resistance_;
+            for (int j = 0; j < genotype_info_.loci_vector[i].alleles.size(); j++) {
+                genotype_info_.loci_vector[i].alleles[j].daily_cost_of_resistance = modified_cost_of_resistance_;
+            }
         }
+        build_parasite_db();
+    }
+
+    if (parameter_name == "daily_cost_of_resistance_copies_pfmdr") {
+        double dcr = atof(parameter_value.c_str());
+        // modify allele 4 5 6 7 of the mdr locus
+        genotype_info_.loci_vector[1].alleles[4].daily_cost_of_resistance = dcr;
+        genotype_info_.loci_vector[1].alleles[5].daily_cost_of_resistance = 1 - (1 - genotype_info_.loci_vector[1].alleles[1].daily_cost_of_resistance)*(1 - dcr);
+        genotype_info_.loci_vector[1].alleles[6].daily_cost_of_resistance = 1 - (1 - genotype_info_.loci_vector[1].alleles[2].daily_cost_of_resistance)*(1 - dcr);
+        genotype_info_.loci_vector[1].alleles[7].daily_cost_of_resistance = 1 - (1 - genotype_info_.loci_vector[1].alleles[3].daily_cost_of_resistance)*(1 - dcr);
         build_parasite_db();
     }
 
@@ -923,9 +936,33 @@ void Config::override_1_parameter(const std::string& parameter_name, const std::
     }
 
     if (parameter_name == "strategy") {
-        YAML::Node config = YAML::LoadFile(Model::MODEL->config_filename());
-        int strategy_type = atoi(parameter_value.c_str());
-        strategy_ = strategy_db_[strategy_type];
+        //        YAML::Node config = YAML::LoadFile(Model::MODEL->config_filename());
+        //        int strategy_type = atoi(parameter_value.c_str());
+        //        strategy_ = strategy_db_[strategy_type];
+        //        
+        std::string svalue = parameter_value;
+        std::replace(svalue.begin(), svalue.end(), ',', ' ');
+
+        //get mft strategy
+        strategy_ = strategy_db_[2];
+        //replace with new info
+        std::istringstream iss(svalue);
+        std::vector<double> value;
+        double d;
+        while (iss >> d) {
+            value.push_back(d);
+        }
+        strategy_->therapy_list().clear();
+        for (int i = 0; i < value.size() / 2; i++) {
+            //            std::cout << value[i] << std::endl;
+            strategy_->therapy_list().push_back(therapy_db_[(int) value[i]]);
+        }
+
+        ((MFTStrategy*) strategy_)->distribution().clear();
+        for (int i = value.size() / 2; i < value.size(); i++) {
+            //            std::cout << value[i] << std::endl;
+            ((MFTStrategy*) strategy_)->distribution().push_back(value[i]);
+        }
     }
 
     if (parameter_name == "dosing_days") {
@@ -948,10 +985,22 @@ void Config::override_1_parameter(const std::string& parameter_name, const std::
         //        std::cout<< Model::CONFIG->drug_db()->drug_db().begin()->second->p_mutation() << std::endl;
     }
 
+    if (parameter_name == "mutation_factor") {
+        double mutation_factor = atof(parameter_value.c_str());
+        for (DrugTypePtrMap::iterator it = drug_db_->drug_db().begin(); it != drug_db_->drug_db().end(); it++) {
+            it->second->set_p_mutation(it->second->p_mutation() * mutation_factor);
+        }
+    }
+
     if (parameter_name == "fraction_non_art_replacement") {
         double fnar = atof(parameter_value.c_str());
         fraction_non_art_replacement_ = fnar;
 
     }
 
+    if (parameter_name == "initial_genotype") {
+        int genotypeId = atoi(parameter_value.c_str());
+        initial_parasite_info_[0].parasite_type_id = genotypeId;        
+        importation_parasite_periodically_info_[0].parasite_type_id = genotypeId;               
+    }
 }

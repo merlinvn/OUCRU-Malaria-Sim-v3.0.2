@@ -44,8 +44,8 @@ OBJECTFILES= \
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=-std=c++11
-CXXFLAGS=-std=c++11
+CCFLAGS=-static -static-libgcc -static-libstdc++
+CXXFLAGS=-static -static-libgcc -static-libstdc++
 
 # Fortran Compiler Flags
 FFLAGS=
@@ -69,17 +69,17 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/ec50_efficacytablegenerator.exe: ${OB
 ${OBJECTDIR}/IndividualsFileReporter.o: IndividualsFileReporter.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -I../MalariaCore -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/IndividualsFileReporter.o IndividualsFileReporter.cpp
+	$(COMPILE.cc) -O2 -I../MalariaCore -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/IndividualsFileReporter.o IndividualsFileReporter.cpp
 
 ${OBJECTDIR}/PkPdReporter.o: PkPdReporter.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -I../MalariaCore -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/PkPdReporter.o PkPdReporter.cpp
+	$(COMPILE.cc) -O2 -I../MalariaCore -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/PkPdReporter.o PkPdReporter.cpp
 
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -I../MalariaCore -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
+	$(COMPILE.cc) -O2 -I../MalariaCore -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
 
 # Subprojects
 .build-subprojects:

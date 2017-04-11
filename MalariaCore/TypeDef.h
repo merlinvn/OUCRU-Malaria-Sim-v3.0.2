@@ -247,6 +247,7 @@ struct Allele {
     std::string short_name;
     IntVector mutation_values;
     int mutation_level;
+    double daily_cost_of_resistance;
 
     friend std::ostream& operator<<(std::ostream& os, const Allele& e) {
         os << e.short_name;
@@ -257,8 +258,6 @@ struct Allele {
 struct Locus {
     std::vector<Allele> alleles;
     int position;
-    double daily_cost_of_resistance;
-
     friend std::ostream& operator<<(std::ostream& os, const Locus& l) {
         for (std::vector<Allele>::const_iterator it = l.alleles.begin(); it != l.alleles.end(); ++it) {
             os << *it;

@@ -25,7 +25,9 @@ class Reporter {
         MULTIPLE_LOCATION,
         AGE_GROUP_2_TO_10,
         YEARLY_REPORTER_V1,
-        MONTHLY_REPORTER
+        MONTHLY_REPORTER,
+        BURNIN_MONTHLY_REPORTER,
+        BURNIN_FARM_REPORTER
     };
 
 

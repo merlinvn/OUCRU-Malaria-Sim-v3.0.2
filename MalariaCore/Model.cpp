@@ -137,8 +137,8 @@ void Model::initialize() {
         if (is_farm_output_) {
             add_reporter(Reporter::MakeReport(Reporter::FARM));
         } else {
-            add_reporter(Reporter::MakeReport(Reporter::FARM));
-            add_reporter(Reporter::MakeReport(Reporter::MONTHLY_REPORTER));
+            add_reporter(Reporter::MakeReport(Reporter::BURNIN_FARM_REPORTER));
+            add_reporter(Reporter::MakeReport(Reporter::BURNIN_MONTHLY_REPORTER));
         }
     } else {
         add_reporter(Reporter::MakeReport(Reporter::GUI));

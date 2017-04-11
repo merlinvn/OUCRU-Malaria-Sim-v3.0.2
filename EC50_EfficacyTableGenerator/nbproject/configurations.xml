@@ -66,10 +66,11 @@
         </cTool>
         <ccTool>
           <developmentMode>5</developmentMode>
+          <standard>8</standard>
           <incDir>
             <pElem>../MalariaCore</pElem>
           </incDir>
-          <commandLine>-std=c++11</commandLine>
+          <commandLine>-static -static-libgcc -static-libstdc++</commandLine>
         </ccTool>
         <fortranCompilerTool>
           <developmentMode>5</developmentMode>

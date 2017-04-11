@@ -116,6 +116,10 @@
     <logicalFolder name="f6" displayName="Reporter" projectFiles="true">
       <itemPath>AMUReporter.cpp</itemPath>
       <itemPath>AMUReporter.h</itemPath>
+      <itemPath>BurninFarmReporter.cpp</itemPath>
+      <itemPath>BurninFarmReporter.h</itemPath>
+      <itemPath>BurninMonthlyReporter.cpp</itemPath>
+      <itemPath>BurninMonthlyReporter.h</itemPath>
       <itemPath>ConsoleReporter.cpp</itemPath>
       <itemPath>ConsoleReporter.h</itemPath>
       <itemPath>FarmReporter.cpp</itemPath>
@@ -246,6 +250,14 @@
       <item path="BittingLevelGenerator.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="BittingLevelGenerator.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="BurninFarmReporter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="BurninFarmReporter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="BurninMonthlyReporter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="BurninMonthlyReporter.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="CSVRow.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -674,6 +686,14 @@
       <item path="BittingLevelGenerator.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="BittingLevelGenerator.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="BurninFarmReporter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="BurninFarmReporter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="BurninMonthlyReporter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="BurninMonthlyReporter.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="CSVRow.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -1104,6 +1124,14 @@
       <item path="BittingLevelGenerator.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="BittingLevelGenerator.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="BurninFarmReporter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="BurninFarmReporter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="BurninMonthlyReporter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="BurninMonthlyReporter.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="CSVRow.cpp" ex="false" tool="1" flavor2="0">
       </item>
