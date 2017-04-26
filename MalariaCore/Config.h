@@ -106,7 +106,6 @@ class Config {
 
     VIRTUAL_PROPERTY_REF(TMEInfo, tme_info)
     POINTER_PROPERTY(Strategy, tme_strategy);
-    VIRTUAL_PROPERTY_REF(double, modified_cost_of_resistance)
     VIRTUAL_PROPERTY_REF(double, modified_mutation_factor)
     VIRTUAL_PROPERTY_REF(double, modified_drug_half_life)
 

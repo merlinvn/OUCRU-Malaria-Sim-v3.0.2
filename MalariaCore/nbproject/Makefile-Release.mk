@@ -35,6 +35,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/ACTIncreaseStrategy.o \
 	${OBJECTDIR}/AMUReporter.o \
 	${OBJECTDIR}/AdaptiveCyclingStrategy.o \
 	${OBJECTDIR}/BirthdayEvent.o \
@@ -146,6 +147,11 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libmalariacore.a: ${OBJECTFILES}
 	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libmalariacore.a
 	${AR} -rv ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libmalariacore.a ${OBJECTFILES} 
 	$(RANLIB) ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libmalariacore.a
+
+${OBJECTDIR}/ACTIncreaseStrategy.o: ACTIncreaseStrategy.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ACTIncreaseStrategy.o ACTIncreaseStrategy.cpp
 
 ${OBJECTDIR}/AMUReporter.o: AMUReporter.cpp 
 	${MKDIR} -p ${OBJECTDIR}

@@ -623,14 +623,19 @@ TherapyInfo:
   10:
     drug_id: [0,1,2]
     dosing_days: 3
+  #CQ but currently is MQ
+  11:
+    drug_id: [4]
+    dosing_days: 3
 
 # drug-deployment strategy - simply uncomment below to turn on a particular strategy
 StrategyInfo:
   #strategyName can be SFTStrategy / CyclingStrategy / MFTStrategy / AdaptiveCyclingStrategy
 #  strategyName: SFTStrategy
 #  strategyName: CyclingStrategy
-  strategyName: MFTStrategy
-#  strategyName: AdaptiveCyc lingStrategy
+#  strategyName: MFTStrategy
+  strategyName: ACTIncreaseStrategy
+#  strategyName: AdaptiveCyclingStrategy
 
   SFTStrategy:
     therapyID: [7]
@@ -653,6 +658,13 @@ StrategyInfo:
     trigger_value: 0.1
     delay_until_actual_trigger: 365
     turn_off_days: 365
+    
+    # deploy three ACTs simultaneously
+  ACTIncreaseStrategy:
+      # AL, SP, AQ, CQ
+      therapyID: [6,5,2,11]
+      start_distribution: [0.05, 0.31666,0.31666,0.31666]
+      end_distribution: [0.4,0.2,0.2,0.2]
     
 
 # this number use to detemine whether a therapy is "useful" or not and it is used to calculate 

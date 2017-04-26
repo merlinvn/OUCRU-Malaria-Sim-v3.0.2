@@ -2,6 +2,8 @@
 <configurationDescriptor version="97">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <logicalFolder name="f5" displayName="Drugs" projectFiles="true">
+      <itemPath>ACTIncreaseStrategy.cpp</itemPath>
+      <itemPath>ACTIncreaseStrategy.h</itemPath>
       <itemPath>AdaptiveCyclingStrategy.cpp</itemPath>
       <itemPath>AdaptiveCyclingStrategy.h</itemPath>
       <itemPath>CyclingStrategy.cpp</itemPath>
@@ -235,6 +237,10 @@
         <archiverTool>
         </archiverTool>
       </compileType>
+      <item path="ACTIncreaseStrategy.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ACTIncreaseStrategy.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="AMUReporter.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="AMUReporter.h" ex="false" tool="3" flavor2="0">
@@ -671,6 +677,10 @@
         <archiverTool>
         </archiverTool>
       </compileType>
+      <item path="ACTIncreaseStrategy.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ACTIncreaseStrategy.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="AMUReporter.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="AMUReporter.h" ex="false" tool="3" flavor2="0">
@@ -1109,6 +1119,10 @@
         <archiverTool>
         </archiverTool>
       </compileType>
+      <item path="ACTIncreaseStrategy.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ACTIncreaseStrategy.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="AMUReporter.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="AMUReporter.h" ex="false" tool="3" flavor2="0">

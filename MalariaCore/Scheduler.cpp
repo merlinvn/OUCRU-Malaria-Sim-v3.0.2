@@ -17,6 +17,7 @@
 #include "TMEScheduler.h"
 #include "ImportationPeriodicallyEvent.h"
 #include "MFTStrategy.h"
+#include "ACTIncreaseStrategy.h"
 #include <boost/foreach.hpp>
 
 Scheduler::Scheduler(Model* model) :
@@ -88,6 +89,10 @@ void Scheduler::run() {
 
         //        std::cout << "Day: " << current_time_ << std::endl;
         begin_time_step();
+        if (current_time_ % 30 == 0) {
+            perform_monthly_update();
+        }
+
         int size = timed_events_list_[current_time_].size();
         for (int i = 0; i < size; i++) {
             timed_events_list_[current_time_][i]->perform_execute();
@@ -117,9 +122,9 @@ void Scheduler::end_time_step() {
     Model::POPULATION->perform_death_event();
     Model::EXTERNAL_POPULATION->perform_death_event();
     ///for safety remove all dead by calling perform_death_event
-//    Model::POPULATION->perform_circulation_event();
+    //    Model::POPULATION->perform_circulation_event();
 
-//    Model::POPULATION->perform_moving_to_external_population_event();
+    //    Model::POPULATION->perform_moving_to_external_population_event();
 
     //    Model::TME_SCHEDULER->check_and_perform_TME_Actions();
 
@@ -156,7 +161,7 @@ bool Scheduler::can_stop() {
     //TODO: put other criteria here
     //    std::cout << current_time_ << "\t" << Model::CONFIG->total_time() << std::endl;
 
-    return (current_time_ > Model::CONFIG->total_time()) || Model::POPULATION->has_0_case() || is_force_stop_;
+    return current_time_ > Model::CONFIG->total_time() || is_force_stop_;
     //        return (current_time_ > Model::CONFIG->total_time()) ||  is_force_stop_;
 }
 
@@ -207,5 +212,12 @@ void Scheduler::perform_check_and_replace_ACT() {
                 ((MFTStrategy *) Model::CONFIG->strategy())->distribution()[i] = (1 - Model::CONFIG->fraction_non_art_replacement()) / (double) (number_of_therapies - 1);
             }
         }
+    }
+}
+
+void Scheduler::perform_monthly_update() {
+    if (dynamic_cast<ACTIncreaseStrategy*> (Model::CONFIG->strategy()) != NULL) {
+        ACTIncreaseStrategy* strategy = dynamic_cast<ACTIncreaseStrategy*> (Model::CONFIG->strategy());
+        strategy->adjustDisttribution(current_time_, Model::CONFIG->total_time());
     }
 }

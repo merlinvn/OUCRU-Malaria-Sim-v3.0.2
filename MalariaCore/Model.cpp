@@ -180,7 +180,6 @@ void Model::initialize() {
 
     //schedule for some special or periodic events
 
-
     for (int i = 0; i < CONFIG->importation_parasite_periodically_info().size(); i++) {
         ImportationPeriodicallyEvent::schedule_event(SCHEDULER, CONFIG->importation_parasite_periodically_info()[i].location, CONFIG->importation_parasite_periodically_info()[i].duration, CONFIG->importation_parasite_periodically_info()[i].parasite_type_id, CONFIG->importation_parasite_periodically_info()[i].number);
     }

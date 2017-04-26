@@ -16,6 +16,7 @@
 #include "AdaptiveCyclingStrategy.h"
 #include "CyclingStrategy.h"
 #include "MFTStrategy.h"
+#include "ACTIncreaseStrategy.h"
 #include "Model.h"
 #include "Random.h"
 #include "MACTherapy.h"
@@ -53,7 +54,6 @@ Config::Config(Model* model) : model_(model), strategy_(NULL), strategy_db_(), t
     birth_rate_ = -1;
     number_of_tracking_days_ = -1;
 
-    modified_cost_of_resistance_ = -1;
     modified_mutation_factor_ = -1;
     tf_window_size_ = -1;
     //    initial_parasite_info_.reserve(1);
@@ -421,6 +421,17 @@ Strategy* Config::read_strategy(const YAML::Node& config, const YAML::Node& n, c
         for (int i = 0; i < n[strategy_name]["distribution"].size(); i++) {
             ((MFTStrategy*) s)->distribution().push_back(n[strategy_name]["distribution"][i].as<double>());
         }
+    } else if (strategy_name == "ACTIncreaseStrategy") {
+        s = new ACTIncreaseStrategy();
+
+        for (int i = 0; i < n[strategy_name]["start_distribution"].size(); i++) {
+            ((ACTIncreaseStrategy*) s)->start_distribution().push_back(n[strategy_name]["start_distribution"][i].as<double>());
+            ((ACTIncreaseStrategy*) s)->distribution().push_back(n[strategy_name]["start_distribution"][i].as<double>());
+        }
+        for (int i = 0; i < n[strategy_name]["end_distribution"].size(); i++) {
+            ((ACTIncreaseStrategy*) s)->end_distribution().push_back(n[strategy_name]["end_distribution"][i].as<double>());
+        }
+
     } else /*  if (strategy_name == "SFTStrategy")*/ {
         s = new SFTStrategy();
     }
@@ -871,12 +882,12 @@ void Config::override_1_parameter(const std::string& parameter_name, const std::
         p_treatment_ = atof(parameter_value.c_str());
     }
 
-    if (parameter_name == "daily_cost_of_resistance") {
+    if (parameter_name == "daily_cost_of_resistance_factor") {
         modified_daily_cost_of_resistance_ = atof(parameter_value.c_str());
 
         for (int i = 0; i < genotype_info_.loci_vector.size(); i++) {
             for (int j = 0; j < genotype_info_.loci_vector[i].alleles.size(); j++) {
-                genotype_info_.loci_vector[i].alleles[j].daily_cost_of_resistance = modified_cost_of_resistance_;
+                genotype_info_.loci_vector[i].alleles[j].daily_cost_of_resistance *= modified_daily_cost_of_resistance_;
             }
         }
         build_parasite_db();
@@ -1000,7 +1011,7 @@ void Config::override_1_parameter(const std::string& parameter_name, const std::
 
     if (parameter_name == "initial_genotype") {
         int genotypeId = atoi(parameter_value.c_str());
-        initial_parasite_info_[0].parasite_type_id = genotypeId;        
-        importation_parasite_periodically_info_[0].parasite_type_id = genotypeId;               
+        initial_parasite_info_[0].parasite_type_id = genotypeId;
+        importation_parasite_periodically_info_[0].parasite_type_id = genotypeId;
     }
 }
