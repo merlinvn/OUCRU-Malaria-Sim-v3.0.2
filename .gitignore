@@ -33,3 +33,6 @@ _*
 /EC50_EfficacyTableGenerator/dist/*
 
 EC50_EfficacyTableGenerator/out\.txt
+/MalariaCore/build/
+/MalariaSimulation/build/
+/MalariaCore/dist/
