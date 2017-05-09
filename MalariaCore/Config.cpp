@@ -294,9 +294,11 @@ void Config::read_strategy_therapy_and_drug_information(const YAML::Node& config
     strategy_db_.insert(std::pair<int, Strategy*>(strategy_->to_int(), strategy_));
 
     strategy_ = read_strategy(config, config["StrategyInfo"], "AdaptiveCyclingStrategy");
-
     strategy_db_.insert(std::pair<int, Strategy*>(strategy_->to_int(), strategy_));
-
+    
+    strategy_ = read_strategy(config, config["StrategyInfo"], "ACTIncreaseStrategy");
+    strategy_db_.insert(std::pair<int, Strategy*>(strategy_->to_int(), strategy_));
+    
     std::string strategyName = config["StrategyInfo"]["strategyName"].as<std::string>();
 
     BOOST_FOREACH(StrategyPtrMap::value_type &i, strategy_db_) {
