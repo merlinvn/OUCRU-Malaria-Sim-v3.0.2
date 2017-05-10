@@ -55,7 +55,7 @@ void SingleHostClonalParasitePopulations::clear() {
 
     for (int i = 0; i < parasites_->size(); i++) {
         if (Model::DATA_COLLECTOR != NULL) {
-            Model::DATA_COLLECTOR->resistance_tracker().decrease(parasites_->at(i)->genotype()->genotype_id());
+            Model::DATA_COLLECTOR->resistance_tracker().decrease(parasites_->at(i)->genotype()->genotype_id(), person_->residence_location());
         }
         delete parasites_->at(i);
     }
@@ -71,7 +71,7 @@ void SingleHostClonalParasitePopulations::add(ClonalParasitePopulation* blood_pa
     assert(parasites_->at(blood_parasite->index()) == blood_parasite);
 
     if (Model::DATA_COLLECTOR != NULL) {
-        Model::DATA_COLLECTOR->resistance_tracker().increase(blood_parasite->genotype()->genotype_id());
+        Model::DATA_COLLECTOR->resistance_tracker().increase(blood_parasite->genotype()->genotype_id(), person_->residence_location());
     }
 }
 
@@ -115,7 +115,7 @@ void SingleHostClonalParasitePopulations::remove(const int& index) {
     //    }
     //    std::cout << parasites_.size() << std::endl;
     if (Model::DATA_COLLECTOR != NULL) {
-        Model::DATA_COLLECTOR->resistance_tracker().decrease(bp->genotype()->genotype_id());
+        Model::DATA_COLLECTOR->resistance_tracker().decrease(bp->genotype()->genotype_id(), person_->residence_location());
     }
 
     delete bp;
@@ -376,7 +376,7 @@ void SingleHostClonalParasitePopulations::update_by_drugs(DrugsInBlood* drugs_in
             }
             if (new_genotype != bloodParasite->genotype()) {
                 //mutation occurs
-                Model::DATA_COLLECTOR->record_1_mutation(person_->location(), bloodParasite->genotype(), new_genotype);
+                Model::DATA_COLLECTOR->record_1_mutation(person_->residence_location(), bloodParasite->genotype(), new_genotype);
                 //                std::cout << bloodParasite->genotype()->genotype_id() << "==>" << new_genotype->genotype_id() << std::endl;
                 bloodParasite->set_genotype(new_genotype);
         }

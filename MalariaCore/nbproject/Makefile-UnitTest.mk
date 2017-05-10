@@ -21,8 +21,8 @@ FC=gfortran
 AS=as
 
 # Macros
-CND_PLATFORM=MinGW-Windows
-CND_DLIB_EXT=dll
+CND_PLATFORM=GNU-MacOSX
+CND_DLIB_EXT=dylib
 CND_CONF=UnitTest
 CND_DISTDIR=dist
 CND_BUILDDIR=build
@@ -38,6 +38,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/AMUReporter.o \
 	${OBJECTDIR}/AdaptiveCyclingStrategy.o \
 	${OBJECTDIR}/AgeGroup2To10Reporter.o \
+	${OBJECTDIR}/Barabasi.o \
 	${OBJECTDIR}/BirthdayEvent.o \
 	${OBJECTDIR}/BittingLevelGenerator.o \
 	${OBJECTDIR}/CSVRow.o \
@@ -58,6 +59,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Event.o \
 	${OBJECTDIR}/ExternalPopulation.o \
 	${OBJECTDIR}/FarmReporter.o \
+	${OBJECTDIR}/GeneralGravity.o \
 	${OBJECTDIR}/GuiReporter.o \
 	${OBJECTDIR}/ImmuneComponent.o \
 	${OBJECTDIR}/ImmuneSystem.o \
@@ -71,6 +73,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/MACTherapy.o \
 	${OBJECTDIR}/MDAAction.o \
 	${OBJECTDIR}/MFTStrategy.o \
+	${OBJECTDIR}/MMC_Zambia.o \
 	${OBJECTDIR}/MatureGametocyteEvent.o \
 	${OBJECTDIR}/Model.o \
 	${OBJECTDIR}/ModelDataCollector.o \
@@ -106,6 +109,10 @@ OBJECTFILES= \
 	${OBJECTDIR}/STCAction.o \
 	${OBJECTDIR}/Scheduler.o \
 	${OBJECTDIR}/SingleHostClonalParasitePopulations.o \
+	${OBJECTDIR}/SpatialCombinedMFTCyclingStrategy.o \
+	${OBJECTDIR}/SpatialDraftReporter.o \
+	${OBJECTDIR}/SpatialMFTStrategy.o \
+	${OBJECTDIR}/SpatialStructure.o \
 	${OBJECTDIR}/Strategy.o \
 	${OBJECTDIR}/SwitchImmuneComponentEvent.o \
 	${OBJECTDIR}/TMEAction.o \
@@ -158,6 +165,11 @@ ${OBJECTDIR}/AgeGroup2To10Reporter.o: AgeGroup2To10Reporter.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -DUNITTEST=\"True\" -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/AgeGroup2To10Reporter.o AgeGroup2To10Reporter.cpp
+
+${OBJECTDIR}/Barabasi.o: Barabasi.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -DUNITTEST=\"True\" -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Barabasi.o Barabasi.cpp
 
 ${OBJECTDIR}/BirthdayEvent.o: BirthdayEvent.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -259,6 +271,11 @@ ${OBJECTDIR}/FarmReporter.o: FarmReporter.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -DUNITTEST=\"True\" -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FarmReporter.o FarmReporter.cpp
 
+${OBJECTDIR}/GeneralGravity.o: GeneralGravity.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -DUNITTEST=\"True\" -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GeneralGravity.o GeneralGravity.cpp
+
 ${OBJECTDIR}/GuiReporter.o: GuiReporter.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -323,6 +340,11 @@ ${OBJECTDIR}/MFTStrategy.o: MFTStrategy.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -DUNITTEST=\"True\" -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MFTStrategy.o MFTStrategy.cpp
+
+${OBJECTDIR}/MMC_Zambia.o: MMC_Zambia.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -DUNITTEST=\"True\" -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MMC_Zambia.o MMC_Zambia.cpp
 
 ${OBJECTDIR}/MatureGametocyteEvent.o: MatureGametocyteEvent.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -498,6 +520,26 @@ ${OBJECTDIR}/SingleHostClonalParasitePopulations.o: SingleHostClonalParasitePopu
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -DUNITTEST=\"True\" -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SingleHostClonalParasitePopulations.o SingleHostClonalParasitePopulations.cpp
+
+${OBJECTDIR}/SpatialCombinedMFTCyclingStrategy.o: SpatialCombinedMFTCyclingStrategy.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -DUNITTEST=\"True\" -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SpatialCombinedMFTCyclingStrategy.o SpatialCombinedMFTCyclingStrategy.cpp
+
+${OBJECTDIR}/SpatialDraftReporter.o: SpatialDraftReporter.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -DUNITTEST=\"True\" -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SpatialDraftReporter.o SpatialDraftReporter.cpp
+
+${OBJECTDIR}/SpatialMFTStrategy.o: SpatialMFTStrategy.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -DUNITTEST=\"True\" -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SpatialMFTStrategy.o SpatialMFTStrategy.cpp
+
+${OBJECTDIR}/SpatialStructure.o: SpatialStructure.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -DUNITTEST=\"True\" -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SpatialStructure.o SpatialStructure.cpp
 
 ${OBJECTDIR}/Strategy.o: Strategy.cpp 
 	${MKDIR} -p ${OBJECTDIR}

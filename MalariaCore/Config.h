@@ -14,18 +14,21 @@
 #include <set>
 #include <yaml-cpp/yaml.h>
 #include "TypeDef.h"
+#include "LocationDatabase.h"
 #include "DrugDatabase.h"
 #include "IntGenotypeDatabase.h"
 
 #include <math.h>
 #include <boost/math/constants/constants.hpp>
 class Strategy;
+class SpatialStructure;
 class Therapy;
 class Model;
 const double PI = boost::math::constants::pi<double>();
 
 typedef std::map<int, Therapy*> TherapyPtrMap;
 typedef std::map<int, Strategy*> StrategyPtrMap;
+typedef std::map<int, SpatialStructure*> SpatialStructurePtrMap;
 
 class Config {
     DISALLOW_COPY_AND_ASSIGN_(Config)
@@ -39,13 +42,24 @@ class Config {
     VIRTUAL_PROPERTY_REF(double, p_treatment)
 
     VIRTUAL_PROPERTY_REF(int, number_of_locations)
+    VIRTUAL_PROPERTY_REF(IntVector2, low_transmission_locations_index)
+    VIRTUAL_PROPERTY_REF(IntVector2, high_transmission_locations_index)
+    VIRTUAL_PROPERTY_REF(int, number_of_provinces)
     VIRTUAL_PROPERTY_REF(int, number_of_age_classes)
     VIRTUAL_PROPERTY_REF(int, number_of_parasite_types)
     VIRTUAL_PROPERTY_REF(std::vector<std::vector<double> >, fake_efficacy_table)
     VIRTUAL_PROPERTY_REF(std::vector<std::vector<double> >, EC50_power_n_table)
+            
+    VIRTUAL_PROPERTY_REF(int, load_coordinate)
+            
+    POINTER_PROPERTY(LocationDatabase, location_db)
+            
+    VIRTUAL_PROPERTY_REF(DoubleVector2, coordinates_by_location)
+    VIRTUAL_PROPERTY_REF(DoubleVector2, v_distance_by_location)
 
     VIRTUAL_PROPERTY_REF(std::vector<double>, beta)
     VIRTUAL_PROPERTY_REF(Seasonality, seasonal_beta)
+    VIRTUAL_PROPERTY_REF(double, mean_beta_lognormal)
 
     VIRTUAL_PROPERTY_REF(double, p_infection_from_an_infectious_bite)
 
@@ -71,11 +85,13 @@ class Config {
     VIRTUAL_PROPERTY_REF(RelativeInfectivity, relative_infectivity);
 
     POINTER_PROPERTY(Strategy, strategy);
+    POINTER_PROPERTY(SpatialStructure, spatial_structure);
     POINTER_PROPERTY(DrugDatabase, drug_db);
     POINTER_PROPERTY(IntGenotypeDatabase, genotype_db);
     VIRTUAL_PROPERTY_REF(GenotypeInfo, genotype_info);
     VIRTUAL_PROPERTY_REF(TherapyPtrMap, therapy_db);
     VIRTUAL_PROPERTY_REF(StrategyPtrMap, strategy_db);
+    VIRTUAL_PROPERTY_REF(SpatialStructurePtrMap, spatial_structure_db);
 
     VIRTUAL_PROPERTY_REF(std::vector<InitialParasiteInfo>, initial_parasite_info)
     VIRTUAL_PROPERTY_REF(std::vector<ImportationParasiteInfo>, importation_parasite_info)
@@ -116,12 +132,23 @@ class Config {
     VIRTUAL_PROPERTY_REF(bool, using_age_dependent_bitting_level)
     VIRTUAL_PROPERTY_REF(bool, using_variable_probability_infectious_bites_cause_infection)
     VIRTUAL_PROPERTY_REF(double, fraction_mosquitoes_interrupted_feeding)
+    
+    VIRTUAL_PROPERTY_REF(int, non_artemisinin_switching_day);
+    VIRTUAL_PROPERTY_REF(IntVector, non_art_therapy_id);
+    VIRTUAL_PROPERTY_REF(double, drug_fraction_non_art_replacement);
+    
+    VIRTUAL_PROPERTY_REF(int, grid_y);
+    VIRTUAL_PROPERTY_REF(double, grid_unit_in_km);
 
 public:
     Config(Model* model = NULL);
     virtual ~Config();
 
     void read_from_file(const std::string& config_file_name = "config.yml");
+    void read_from_file_after_overriding_parameters(const std::string& config_file_name = "config.yml");
+    
+    void build_location_db(const YAML::Node& config);
+    LocationInfo* read_location_info(const YAML::Node& config, const int& location_id);
 
     void read_immune_system_information(const YAML::Node & config);
     void read_parasite_density_level(const YAML::Node & config);
@@ -154,7 +181,13 @@ public:
     double seasonality(const int& current_time, const double& amplitude, const double& phi) {
         return amplitude * cos(2 * PI * (current_time - phi) / 365) + 1;
     };
+    
+    SpatialStructure* read_spatial_structure(const YAML::Node& config, const YAML::Node& n, const std::string& structure_name);
 
+    void evaluate_next_strategy(int sim_id);
+    void fix_pop_size_and_beta(std::vector<int> pop_size, std::vector<double> beta);
+    
+    double get_distance_in_Km_from_LatLon(const std::vector<double>& coordinate1, const std::vector<double>& coordinate2);
 private:
 
 };

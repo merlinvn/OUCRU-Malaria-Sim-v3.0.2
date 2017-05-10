@@ -16,6 +16,7 @@
 #include "Strategy.h"
 #include "TMEScheduler.h"
 #include "ImportationPeriodicallyEvent.h"
+#include "MFTStrategy.h"
 #include <boost/foreach.hpp>
 
 Scheduler::Scheduler(Model* model) :
@@ -83,6 +84,7 @@ void Scheduler::run() {
     current_time_ = 0;
     for (current_time_ = 0; !can_stop(); current_time_++) {
 //        std::cout << "Day: " << current_time_ << std::endl;
+        perform_check_and_replace_ACT();
         begin_time_step();
         int size = timed_events_list_[current_time_].size();
         for (int i = 0; i < size; i++) {
@@ -123,6 +125,7 @@ void Scheduler::end_time_step() {
 
     update_end_of_time_step();
 
+    Model::DATA_COLLECTOR->count_residence_popsize_by_location();
     report_end_of_time_step();
     Model::DATA_COLLECTOR->update_every_year();
 }
@@ -155,6 +158,7 @@ bool Scheduler::can_stop() {
     //    std::cout << current_time_ << "\t" << Model::CONFIG->total_time() << std::endl;
 
     return (current_time_ > Model::CONFIG->total_time()) || Model::POPULATION->has_0_case() || is_force_stop_;
+//    return (current_time_ > 100);
 //        return (current_time_ > Model::CONFIG->total_time()) ||  is_force_stop_;
 }
 
@@ -176,4 +180,38 @@ void Scheduler::update_force_of_infection() {
 
 int Scheduler::current_day_in_year() {
     return (current_time_ - Model::CONFIG->start_collect_data_day()) % 365;
+}
+
+void Scheduler::perform_check_and_replace_ACT() {
+    if (current_time_ == Model::CONFIG->non_artemisinin_switching_day()) {
+        
+        if (Model::CONFIG->drug_fraction_non_art_replacement() > 0.0) {
+            Model::DATA_COLLECTOR->TF_at_15() = Model::DATA_COLLECTOR->current_TF_by_location()[0];
+            Model::DATA_COLLECTOR->single_resistance_frequency_at_15() = Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(Model::DATA_COLLECTOR->resistance_tracker().single_resistance_ids());
+            Model::DATA_COLLECTOR->double_resistance_frequency_at_15() = Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(Model::DATA_COLLECTOR->resistance_tracker().double_resistance_ids());
+            Model::DATA_COLLECTOR->triple_resistance_frequency_at_15() = Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(Model::DATA_COLLECTOR->resistance_tracker().tripple_resistance_ids());
+            Model::DATA_COLLECTOR->quadruple_resistance_frequency_at_15() = Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(Model::DATA_COLLECTOR->resistance_tracker().quadruple_resistance_ids());
+            Model::DATA_COLLECTOR->quintuple_resistance_frequency_at_15() = Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(Model::DATA_COLLECTOR->resistance_tracker().quintuple_resistance_ids());
+            Model::DATA_COLLECTOR->art_resistance_frequency_at_15() = Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(Model::DATA_COLLECTOR->resistance_tracker().artemisinin_ids());
+            Model::DATA_COLLECTOR->total_resistance_frequency_at_15() = Model::DATA_COLLECTOR->resistance_tracker().calculate_total_resistance_frequency();
+            
+            
+            int number_of_therapies = Model::CONFIG->strategy()->therapy_list().size();
+            int number_of_therapies_to_be_replaced = Model::CONFIG->non_art_therapy_id().size();
+            
+            //switch therapy 1, 2 to therapy 3, 4
+            for (int i = 0; i < number_of_therapies_to_be_replaced; i++) {
+                Model::CONFIG->strategy()->therapy_list()[number_of_therapies_to_be_replaced - i] = Model::CONFIG->therapy_db()[Model::CONFIG->non_art_therapy_id()[i]];
+            }
+            
+            //change the distribution  
+            for (int i = 0; i < number_of_therapies_to_be_replaced; i++) {
+                ((MFTStrategy *) Model::CONFIG->strategy())->distribution()[number_of_therapies_to_be_replaced - i] = Model::CONFIG->drug_fraction_non_art_replacement() / (double) number_of_therapies_to_be_replaced;
+            }
+            
+            for (int i = 0; i < number_of_therapies - number_of_therapies_to_be_replaced; i++) {
+                ((MFTStrategy *) Model::CONFIG->strategy())->distribution()[i] = (1 - Model::CONFIG->drug_fraction_non_art_replacement()) / (double) (number_of_therapies - number_of_therapies_to_be_replaced);
+            }
+        }
+    }
 }

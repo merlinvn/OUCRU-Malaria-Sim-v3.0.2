@@ -25,3 +25,6 @@ _*
 /PkPdSimulation/dist/*
 /PkPdSimulation/build/*
 /PkPdSimulation/nbproject/private/
+/MalariaCore/build/
+/MalariaCore/dist/
+/MalariaSimulation/build/

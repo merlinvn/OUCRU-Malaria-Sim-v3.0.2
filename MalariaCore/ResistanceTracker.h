@@ -14,9 +14,16 @@ class ResistanceTracker {
     DISALLOW_COPY_AND_ASSIGN_(ResistanceTracker)
 
     PROPERTY_REF(LongVector, parasite_population_count);
+    PROPERTY_REF(LongVector2, parasite_population_count_by_location);
     PROPERTY_REF(double, total_resistance_frequency);
+    PROPERTY_REF(DoubleVector, total_resistance_frequency_by_location);
     PROPERTY_REF(unsigned long, total);
+    PROPERTY_REF(std::vector<long>, total_by_location);
 
+    PROPERTY_REF(LongVector, single_resistance_parasite_population_total_count);
+    PROPERTY_REF(LongVector, double_resistance_parasite_population_total_count);
+    PROPERTY_REF(LongVector, triple_resistance_parasite_population_total_count);
+    PROPERTY_REF(LongVector, quadruple_resistance_parasite_population_total_count);
     PROPERTY_REF(IntVector, single_resistance_ids);
     PROPERTY_REF(IntVector, double_resistance_ids);
     PROPERTY_REF(IntVector, tripple_resistance_ids);
@@ -37,9 +44,10 @@ class ResistanceTracker {
     PROPERTY_REF(IntVector, any_quintuple_tracking_time);
     PROPERTY_REF(IntVector, all_quintuple_tracking_time);
     PROPERTY_REF(IntVector, total_tracking_time);
+    PROPERTY_REF(IntVector2, total_tracking_time_by_location);
     PROPERTY_REF(IntVector, artemisinin_tracking_time);
 
-
+    
     PROPERTY_REF(IntVector, artemisinin_ids);
 
 public:
@@ -52,9 +60,9 @@ public:
     void update_resistance_tracker();
 
 
-    void increase(const int& id);
-    void decrease(const int& id);
-    void change(const int& from, const int& to);
+    void increase(const int& id, const int& location);
+    void decrease(const int& id, const int& location);
+    void change(const int& from, const int& to, const int& location);
 
     double max_fraction_resistance(const IntVector& resitance_ids);
     double min_fraction_resistance(const IntVector& resitance_ids);
@@ -62,6 +70,9 @@ public:
     void update_time_value(int& tracking_time, const double& value, const double& check_value);
     void make_resistance_profile(std::vector<int>& vResistanceID, const int& size);
     void make_arterminsinin_resistance_profile(std::vector<int>& vResistanceID);
+    
+    double calculate_total_resistance_frequency();
+    std::vector<double> calculate_total_resistance_frequency_for_each_location();
 private:
 
 };

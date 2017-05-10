@@ -15,6 +15,7 @@
 #include "YearlyReporterV1.h"
 #include "Model.h"
 #include "Random.h"
+#include "SpatialDraftReporter.h"
 #include <boost/format.hpp>
 #include <string>
 
@@ -44,6 +45,8 @@ Reporter* Reporter::MakeReport(ReportType report_type) {
             return new MultipleLocationGuiReporter();
         case AGE_GROUP_2_TO_10:
             return new AgeGroup2To10Reporter();
+        case SPATIAL_DRAFT:
+            return new SpatialDraftReporter();
         case YEARLY_REPORTER_V1:
             return new YearlyReporterV1(file_name1);
         default:

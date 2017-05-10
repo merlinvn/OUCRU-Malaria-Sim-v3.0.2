@@ -33,6 +33,7 @@ class ModelDataCollector {
     PROPERTY_REF(IntVector2, popsize_by_location_age_class_by_5)
     PROPERTY_REF(IntVector2, popsize_by_location_hoststate)
 
+    PROPERTY_REF(DoubleVector, number_of_positive_blood_slide_by_location)
     PROPERTY_REF(DoubleVector, blood_slide_prevalence_by_location)
     PROPERTY_REF(DoubleVector2, blood_slide_number_by_location_age_group)
     PROPERTY_REF(DoubleVector2, blood_slide_prevalence_by_location_age_group)
@@ -43,6 +44,7 @@ class ModelDataCollector {
     PROPERTY_REF(LongVector, total_number_of_bites_by_location)
     PROPERTY_REF(LongVector, total_number_of_bites_by_location_year)
     PROPERTY_REF(LongVector, person_days_by_location_year)
+    PROPERTY_REF(LongVector, current_total_number_of_bites_by_location)
 
     PROPERTY_REF(DoubleVector2, EIR_by_location_year)
     PROPERTY_REF(DoubleVector, EIR_by_location)
@@ -118,6 +120,26 @@ class ModelDataCollector {
     PROPERTY_REF(IntVector3, number_of_treatments_by_location_age_therapy_year)
     PROPERTY_REF(IntVector3, number_of_treatment_failures_by_location_age_therapy_year)
     PROPERTY_REF(IntVector2, popsize_by_location_age)
+    
+    PROPERTY_REF(IntVector, total_TF_60_all_locations)
+    
+    PROPERTY_REF(int, collect_person_location)
+    
+    PROPERTY_REF(IntVector, popsize_residence_by_location)
+    PROPERTY_REF(IntVector, current_residents_at_local_residence)
+    
+    PROPERTY_REF(double, TF_at_15)
+    PROPERTY_REF(double, single_resistance_frequency_at_15)
+    PROPERTY_REF(double, double_resistance_frequency_at_15)
+    PROPERTY_REF(double, triple_resistance_frequency_at_15)
+    PROPERTY_REF(double, quadruple_resistance_frequency_at_15)
+    PROPERTY_REF(double, quintuple_resistance_frequency_at_15)
+    PROPERTY_REF(double, art_resistance_frequency_at_15)
+    PROPERTY_REF(double, total_resistance_frequency_at_15)
+    
+    PROPERTY_REF(DoubleVector, incidence_by_location)
+    
+    PROPERTY_REF(IntVector2, test)
 
     static const int number_of_reported_MOI = 8;
 
@@ -132,6 +154,7 @@ public:
     void initialize();
 
     void perform_population_statistic();
+    void perform_population_statistic_after_report_time_step();
 
     void update_every_year();
 
@@ -168,6 +191,8 @@ public:
 
 
     double get_blood_slide_prevalence(const int& location, const int& age_from, const int& age_to);
+    
+    void count_residence_popsize_by_location();
 
 private:
     void update_average_number_bitten(const int& location, const int& birthday, const int& number_of_times_bitten);

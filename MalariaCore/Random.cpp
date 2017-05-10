@@ -112,6 +112,11 @@ int Random::random_normal_truncated(const int& mean, const int& sd) {
     return mean + floor(value + 0.5);
 }
 
+double Random::random_lognormal(const double& mean, const double& sd) {
+    double value = gsl_ran_lognormal(G_RNG, mean, sd);
+    return value;
+}
+
 double Random::random_beta(const double& alpha, const double& beta) {
     //if beta =0, alpha = means
     if (beta == 0)

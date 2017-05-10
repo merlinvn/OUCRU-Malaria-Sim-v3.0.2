@@ -56,11 +56,11 @@ void ImportationPeriodicallyEvent::execute() {
     for (int i = 0; i < number_of_importation_cases; i++) {
 
         int ind_ac = Model::RANDOM->random_uniform(pi->vPerson()[0][0].size());
-        if (pi->vPerson()[0][0][ind_ac].size() == 0) {
+        if (pi->vPerson()[location_][0][ind_ac].size() == 0) {
             continue;
         }
-        int index = Model::RANDOM->random_uniform(pi->vPerson()[0][0][ind_ac].size());
-        Person* p = pi->vPerson()[0][0][ind_ac][index];
+        int index = Model::RANDOM->random_uniform(pi->vPerson()[location_][0][ind_ac].size());
+        Person* p = pi->vPerson()[location_][0][ind_ac][index];
 
         p->immune_system()->set_increase(true);
         p->set_host_state(Person::ASYMPTOMATIC);

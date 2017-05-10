@@ -27,6 +27,9 @@ void handle_option_parser(Model* m, ez::ezOptionParser& opt);
  */
 int main(int argc, const char * argv[]) {
     try {
+//        std::vector<double> beta(100);
+//        std::vector<int> pop_size(100);
+//        for (int count = 0; count < 4; count++) {
         Model* m = new Model();
 
         ez::ezOptionParser opt;
@@ -72,9 +75,14 @@ int main(int argc, const char * argv[]) {
 
         handle_option_parser(m, opt);
 
-        //        m->set_initial_seed_number(1377584145);
+//                m->set_initial_seed_number(3662217827);
 
         m->initialize();
+//        if (count == 0) {
+//            beta = m->get_beta();
+//            pop_size = m->get_pop_size();
+//        }
+//        m->next_run(count, pop_size, beta);
 
 
 
@@ -85,6 +93,7 @@ int main(int argc, const char * argv[]) {
 
 
         delete m;
+//    }
     } catch (const std::exception &e) {
         std::cout << __FUNCTION__ << "-" << e.what() << std::endl;
     }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configurationDescriptor version="97">
+<configurationDescriptor version="95">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <logicalFolder name="f5" displayName="Drugs" projectFiles="true">
       <itemPath>AdaptiveCyclingStrategy.cpp</itemPath>
@@ -14,6 +14,10 @@
       <itemPath>SCTherapy.h</itemPath>
       <itemPath>SFTStrategy.cpp</itemPath>
       <itemPath>SFTStrategy.h</itemPath>
+      <itemPath>SpatialCombinedMFTCyclingStrategy.cpp</itemPath>
+      <itemPath>SpatialCombinedMFTCyclingStrategy.h</itemPath>
+      <itemPath>SpatialMFTStrategy.cpp</itemPath>
+      <itemPath>SpatialMFTStrategy.h</itemPath>
       <itemPath>Strategy.cpp</itemPath>
       <itemPath>Strategy.h</itemPath>
       <itemPath>Therapy.cpp</itemPath>
@@ -75,6 +79,16 @@
       <itemPath>NonInfantImmuneComponent.cpp</itemPath>
       <itemPath>NonInfantImmuneComponent.h</itemPath>
     </logicalFolder>
+    <logicalFolder name="f8" displayName="MovementStructure" projectFiles="true">
+      <itemPath>Barabasi.cpp</itemPath>
+      <itemPath>Barabasi.h</itemPath>
+      <itemPath>GeneralGravity.cpp</itemPath>
+      <itemPath>GeneralGravity.h</itemPath>
+      <itemPath>MMC_Zambia.cpp</itemPath>
+      <itemPath>MMC_Zambia.h</itemPath>
+      <itemPath>SpatialStructure.cpp</itemPath>
+      <itemPath>SpatialStructure.h</itemPath>
+    </logicalFolder>
     <logicalFolder name="f4" displayName="Parasite" projectFiles="true">
       <itemPath>DrugDatabase.cpp</itemPath>
       <itemPath>DrugDatabase.h</itemPath>
@@ -130,6 +144,8 @@
       <itemPath>MultipleLocationGuiReporter.h</itemPath>
       <itemPath>Reporter.cpp</itemPath>
       <itemPath>Reporter.h</itemPath>
+      <itemPath>SpatialDraftReporter.cpp</itemPath>
+      <itemPath>SpatialDraftReporter.h</itemPath>
       <itemPath>YearlyReporterV1.cpp</itemPath>
       <itemPath>YearlyReporterV1.h</itemPath>
     </logicalFolder>
@@ -140,6 +156,12 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="f9" displayName="SpatialLocationInfo" projectFiles="true">
+      <itemPath>LocationDatabase.cpp</itemPath>
+      <itemPath>LocationDatabase.h</itemPath>
+      <itemPath>LocationInfo.cpp</itemPath>
+      <itemPath>LocationInfo.h</itemPath>
     </logicalFolder>
     <logicalFolder name="f7" displayName="TME" projectFiles="true">
       <itemPath>MDAAction.cpp</itemPath>
@@ -230,6 +252,10 @@
       </item>
       <item path="AgeGroup2To10Reporter.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="Barabasi.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Barabasi.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="BirthdayEvent.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="BirthdayEvent.h" ex="false" tool="3" flavor2="0">
@@ -322,6 +348,10 @@
       </item>
       <item path="FarmReporter.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="GeneralGravity.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="GeneralGravity.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="GuiReporter.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="GuiReporter.h" ex="false" tool="3" flavor2="0">
@@ -369,6 +399,14 @@
       </item>
       <item path="IntGenotypeDatabase.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="LocationDatabase.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="LocationDatabase.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="LocationInfo.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="LocationInfo.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="MACTherapy.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="MACTherapy.h" ex="false" tool="3" flavor2="0">
@@ -380,6 +418,10 @@
       <item path="MFTStrategy.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="MFTStrategy.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="MMC_Zambia.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="MMC_Zambia.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="MatureGametocyteEvent.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -575,6 +617,28 @@
             ex="false"
             tool="3"
             flavor2="0">
+      </item>
+      <item path="SpatialCombinedMFTCyclingStrategy.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="SpatialCombinedMFTCyclingStrategy.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="SpatialDraftReporter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SpatialDraftReporter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SpatialMFTStrategy.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SpatialMFTStrategy.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SpatialStructure.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SpatialStructure.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Strategy.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -653,6 +717,10 @@
       </item>
       <item path="AgeGroup2To10Reporter.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="Barabasi.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Barabasi.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="BirthdayEvent.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="BirthdayEvent.h" ex="false" tool="3" flavor2="0">
@@ -745,6 +813,10 @@
       </item>
       <item path="FarmReporter.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="GeneralGravity.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="GeneralGravity.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="GuiReporter.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="GuiReporter.h" ex="false" tool="3" flavor2="0">
@@ -792,6 +864,14 @@
       </item>
       <item path="IntGenotypeDatabase.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="LocationDatabase.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="LocationDatabase.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="LocationInfo.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="LocationInfo.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="MACTherapy.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="MACTherapy.h" ex="false" tool="3" flavor2="0">
@@ -803,6 +883,10 @@
       <item path="MFTStrategy.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="MFTStrategy.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="MMC_Zambia.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="MMC_Zambia.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="MatureGametocyteEvent.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -998,6 +1082,28 @@
             ex="false"
             tool="3"
             flavor2="0">
+      </item>
+      <item path="SpatialCombinedMFTCyclingStrategy.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="SpatialCombinedMFTCyclingStrategy.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="SpatialDraftReporter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SpatialDraftReporter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SpatialMFTStrategy.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SpatialMFTStrategy.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SpatialStructure.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SpatialStructure.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Strategy.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -1079,6 +1185,10 @@
       </item>
       <item path="AgeGroup2To10Reporter.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="Barabasi.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Barabasi.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="BirthdayEvent.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="BirthdayEvent.h" ex="false" tool="3" flavor2="0">
@@ -1171,6 +1281,10 @@
       </item>
       <item path="FarmReporter.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="GeneralGravity.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="GeneralGravity.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="GuiReporter.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="GuiReporter.h" ex="false" tool="3" flavor2="0">
@@ -1218,6 +1332,14 @@
       </item>
       <item path="IntGenotypeDatabase.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="LocationDatabase.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="LocationDatabase.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="LocationInfo.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="LocationInfo.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="MACTherapy.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="MACTherapy.h" ex="false" tool="3" flavor2="0">
@@ -1229,6 +1351,10 @@
       <item path="MFTStrategy.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="MFTStrategy.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="MMC_Zambia.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="MMC_Zambia.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="MatureGametocyteEvent.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -1424,6 +1550,28 @@
             ex="false"
             tool="3"
             flavor2="0">
+      </item>
+      <item path="SpatialCombinedMFTCyclingStrategy.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="SpatialCombinedMFTCyclingStrategy.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="SpatialDraftReporter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SpatialDraftReporter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SpatialMFTStrategy.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SpatialMFTStrategy.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SpatialStructure.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SpatialStructure.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Strategy.cpp" ex="false" tool="1" flavor2="0">
       </item>

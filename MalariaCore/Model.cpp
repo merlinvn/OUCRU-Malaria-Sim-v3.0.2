@@ -131,20 +131,21 @@ void Model::initialize() {
     // modify parameters    
     //modify parameters && update config
     config_->override_parameters(override_parameter_filename_, override_parameter_line_number_);
+//    config_->read_from_file_after_overriding_parameters(config_filename_);
 
     //add reporter here    
     if (gui_type_ == -1) {
         if (is_farm_output_) {
             add_reporter(Reporter::MakeReport(Reporter::FARM));
         } else {
-            add_reporter(Reporter::MakeReport(Reporter::AGE_GROUP_2_TO_10));
+            add_reporter(Reporter::MakeReport(Reporter::SPATIAL_DRAFT));
         }
     } else {
         add_reporter(Reporter::MakeReport(Reporter::GUI));
     }
 
     if (override_parameter_line_number_ != -1) {
-        add_reporter(Reporter::MakeReport(Reporter::YEARLY_REPORTER_V1));
+//        add_reporter(Reporter::MakeReport(Reporter::YEARLY_REPORTER_V1));
     }
 
 
@@ -288,7 +289,8 @@ void Model::report_end_of_time_step() {
         Model::DATA_COLLECTOR->perform_population_statistic();
         BOOST_FOREACH(Reporter* reporter, reporters_) {
             reporter->after_time_step();
-        }       
+        }  
+        Model::DATA_COLLECTOR->perform_population_statistic_after_report_time_step();
     }
 //     if (Model::SCHEDULER->current_time() >= 4000) {
 //        std::cout << "end" << std::endl;
@@ -309,3 +311,18 @@ void Model::add_reporter(Reporter* reporter) {
     reporters_.push_back(reporter);
     reporter->set_model(this);
 }
+
+void Model::next_run(int strategy_id, std::vector<int> pop_size, std::vector<double> beta) {
+    config_->evaluate_next_strategy(strategy_id);
+    config_->fix_pop_size_and_beta(pop_size, beta);
+    
+}
+
+std::vector<double> Model::get_beta() {
+    return config_->beta();
+}
+
+std::vector<int> Model::get_pop_size() {
+    return config_->population_size_by_location();
+}
+

@@ -74,6 +74,9 @@ public:
     void before_run();
     void run();
     void after_run();
+    void next_run(int strategy_id, std::vector<int> pop_size, std::vector<double> beta);
+    std::vector<double> get_beta();
+    std::vector<int> get_pop_size();
 
 
     void release();
