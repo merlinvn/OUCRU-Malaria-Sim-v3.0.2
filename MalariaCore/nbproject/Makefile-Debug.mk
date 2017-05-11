@@ -15,8 +15,8 @@ NM=nm
 CCADMIN=CCadmin
 RANLIB=ranlib
 CC=gcc
-CCC=g++
-CXX=g++
+CCC=~/zapcc-20170313-144905-1.0.1/bin/zapcc++
+CXX=~/zapcc-20170313-144905-1.0.1/bin/zapcc++
 FC=gfortran
 AS=as
 
@@ -127,7 +127,7 @@ CFLAGS=
 
 # CC Compiler Flags
 CCFLAGS=
-CXXFLAGS=
+CXXFLAGS= -std=c++11
 
 # Fortran Compiler Flags
 FFLAGS=

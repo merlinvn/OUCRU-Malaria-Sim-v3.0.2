@@ -14,9 +14,9 @@ GREP=grep
 NM=nm
 CCADMIN=CCadmin
 RANLIB=ranlib
-CC=gcc
-CCC=g++
-CXX=g++
+CC=~/zapcc-20170313-144905-1.0.1/bin/zapcc
+CCC=~/zapcc-20170313-144905-1.0.1/bin/zapcc++
+CXX=~/zapcc-20170313-144905-1.0.1/bin/zapcc++
 FC=gfortran
 AS=as
 
@@ -126,8 +126,8 @@ OBJECTFILES= \
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=-m32
-CXXFLAGS=-m32
+CCFLAGS=
+CXXFLAGS= -std=c++11
 
 # Fortran Compiler Flags
 FFLAGS=
