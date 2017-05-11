@@ -6,12 +6,13 @@
  */
 
 #ifndef TYPEDEF_H
-#define	TYPEDEF_H
+#define TYPEDEF_H
 
 #include <vector>
 #include <list>
 #include <map>
 #include <string>
+#include <iostream>
 
 class Person;
 class PersonIndex;
@@ -27,6 +28,7 @@ typedef std::vector<DoubleVector2> DoubleVector3;
 typedef std::vector<int> IntVector;
 typedef std::vector<int>* IntVectorPtr;
 typedef std::vector<IntVector> IntVector2;
+typedef std::vector<IntVector2> IntVector3;
 typedef std::vector<IntVector*> IntVectorPtrVector;
 typedef std::vector<IntVector>* IntVector2Ptr;
 typedef std::vector<unsigned int> UIntVector;
@@ -99,6 +101,8 @@ struct ParasiteDensityLevel {
     double log_parasite_density_from_liver;
     double log_parasite_density_asymptomatic;
     double log_parasite_density_clinical;
+    double log_parasite_density_clinical_from;
+    double log_parasite_density_clinical_to;
     double log_parasite_density_detectable;
     double log_parasite_density_pyrogenic;
 };
@@ -205,8 +209,6 @@ struct ImportationParasiteInfo {
     //    } 
 };
 
-
-
 struct ImportationParasitePeriodicallyInfo {
     int location;
     int duration;
@@ -239,5 +241,35 @@ struct TMEInfo {
     IntVector MDA_duration;
 };
 
-#endif	/* TYPEDEF_H */
+struct Allele {
+    int value; //we can do char later or map from char to int
+    std::string name;
+    std::string short_name;
+    IntVector mutation_values;
+    int mutation_level;
+    double daily_cost_of_resistance;
+
+    friend std::ostream& operator<<(std::ostream& os, const Allele& e) {
+        os << e.short_name;
+        return os;
+    }
+};
+
+struct Locus {
+    std::vector<Allele> alleles;
+    int position;
+    friend std::ostream& operator<<(std::ostream& os, const Locus& l) {
+        for (std::vector<Allele>::const_iterator it = l.alleles.begin(); it != l.alleles.end(); ++it) {
+            os << *it;
+        }
+
+        return os;
+    }
+};
+
+struct GenotypeInfo {
+    std::vector<Locus> loci_vector;
+};
+
+#endif /* TYPEDEF_H */
 

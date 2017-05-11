@@ -34,7 +34,7 @@ public:
     double get_current_drug_concentration(int currentTime);
 
     double get_mutation_probability();
-    double get_mutation_probability(double currentDrugValue);
+    double get_mutation_probability(double currentDrugConcentration);
 
     void set_number_of_dosing_days(int dosingDays);
 private:

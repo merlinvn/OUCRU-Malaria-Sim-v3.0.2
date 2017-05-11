@@ -6,7 +6,7 @@
  */
 
 #ifndef MODELDATACOLLECTOR_H
-#define	MODELDATACOLLECTOR_H
+#define MODELDATACOLLECTOR_H
 
 #include "PropertyMacro.h"
 #include "TypeDef.h"
@@ -15,7 +15,7 @@
 #include <boost/accumulators/statistics.hpp>
 
 class Model;
-class Genotype;
+class IntGenotype;
 class Person;
 class Therapy;
 class ClonalParasitePopulation;
@@ -82,6 +82,12 @@ class ModelDataCollector {
     PROPERTY_REF(double, AMU_for_clinical_caused_parasite)
     PROPERTY_REF(double, AFU)
 
+    PROPERTY_REF(double, discounted_AMU_per_parasite_pop)
+    PROPERTY_REF(double, discounted_AMU_per_person)
+    PROPERTY_REF(double, discounted_AMU_for_clinical_caused_parasite)
+    PROPERTY_REF(double, discounted_AFU)
+
+
     PROPERTY_REF(IntVector2, multiple_of_infection_by_location)
 
     PROPERTY_REF(DoubleVector, current_EIR_by_location)
@@ -105,9 +111,26 @@ class ModelDataCollector {
 
     PROPERTY_REF(IntVector2, number_of_death_by_location_age_group)
 
+    PROPERTY_REF(IntVector2, number_of_untreated_cases_by_location_age_year)
+    PROPERTY_REF(IntVector2, number_of_treatments_by_location_age_year)
+    PROPERTY_REF(IntVector2, number_of_deaths_by_location_age_year)
+    PROPERTY_REF(IntVector2, number_of_malaria_deaths_by_location_age_year)
+    PROPERTY_REF(IntVector3, number_of_treatments_by_location_age_therapy_year)
+    PROPERTY_REF(IntVector3, number_of_treatment_failures_by_location_age_therapy_year)
+    PROPERTY_REF(IntVector2, popsize_by_location_age)
+    
+    PROPERTY_REF(DoubleVector, cumulative_NTF_15_30_by_location)
+
+    PROPERTY_REF(double, TF_at_15)
+    PROPERTY_REF(double, single_resistance_frequency_at_15)
+    PROPERTY_REF(double, double_resistance_frequency_at_15)
+    PROPERTY_REF(double, triple_resistance_frequency_at_15)
+    PROPERTY_REF(double, quadruple_resistance_frequency_at_15)
+    PROPERTY_REF(double, quintuple_resistance_frequency_at_15)
+    PROPERTY_REF(double, art_resistance_frequency_at_15)
+    PROPERTY_REF(double, total_resistance_frequency_at_15)
+    
     static const int number_of_reported_MOI = 8;
-
-
     mean_acc acc;
 
 public:
@@ -128,20 +151,22 @@ public:
 
     void calculate_EIR();
 
-    void record_1_death(const int& location, const int& birthday, const int& number_of_times_bitten, const int& age_group);
+    void record_1_death(const int& location, const int& birthday, const int& number_of_times_bitten, const int& age_group, const int& age);
+    void record_1_malaria_death(const int& location, const int& age);
     void calculate_percentage_bites_on_top_20();
 
     void record_1_TF(const int& location, const bool& by_drug);
-    void record_1_treatment(const int& location);
-    void record_1_mutation(const int & location, Genotype* from, Genotype* to);
+    void record_1_treatment(const int& location, const int& age, const int& therapy_id);
+    void record_1_non_treated_case(const int& location, const int& age);
+    void record_1_mutation(const int & location, IntGenotype* from, IntGenotype* to);
 
 
     void begin_time_step();
     void end_of_time_step();
     void update_UTL_vector();
 
-    void collect_1_non_resistant_treatment(const int& therapy_id);
-    void record_1_treatment_failure_by_therapy(const int& therapy_id);
+//    void collect_1_non_resistant_treatment(const int& therapy_id);
+    void record_1_treatment_failure_by_therapy(const int& location, const int& age, const int& therapy_id);
     void record_1_treatment_success_by_therapy(const int& therapy_id);
 
     void update_after_run();
@@ -158,5 +183,5 @@ private:
 
 };
 
-#endif	/* MODELDATACOLLECTOR_H */
+#endif /* MODELDATACOLLECTOR_H */
 

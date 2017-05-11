@@ -75,6 +75,8 @@ public:
     void update_relative_effective_parasite_density_using_free_recombination();
     
     void update_relative_effective_parasite_density_without_free_recombination();
+    
+    bool isGameticytaemic();
 private:
 
 };

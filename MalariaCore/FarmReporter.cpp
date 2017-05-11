@@ -12,6 +12,7 @@
 #include "Config.h"
 #include "Strategy.h"
 #include "Therapy.h"
+#include "SCTherapy.h"
 #include "Population.h"
 #include <boost/format.hpp>
 
@@ -32,14 +33,24 @@ void FarmReporter::before_run() {
 }
 
 void FarmReporter::after_run() {
-    Model::DATA_COLLECTOR->update_after_run();
-
     //output parameter
     output_parameters();
 
     //output others indicators
+
     // NTF
     print_ntf_by_location();
+
+    //TF at year 15
+    std::cout << Model::DATA_COLLECTOR->TF_at_15() << "\t";
+    std::cout << Model::DATA_COLLECTOR->single_resistance_frequency_at_15() << "\t";
+    std::cout << Model::DATA_COLLECTOR->double_resistance_frequency_at_15() << "\t";
+    std::cout << Model::DATA_COLLECTOR->triple_resistance_frequency_at_15() << "\t";
+    std::cout << Model::DATA_COLLECTOR->quadruple_resistance_frequency_at_15() << "\t";
+    std::cout << Model::DATA_COLLECTOR->quintuple_resistance_frequency_at_15() << "\t";
+    std::cout << Model::DATA_COLLECTOR->art_resistance_frequency_at_15() << "\t";
+    std::cout << Model::DATA_COLLECTOR->total_resistance_frequency_at_15() << "\t";
+
     // EIR - 20x
     print_EIR_by_location();
 
@@ -94,7 +105,12 @@ void FarmReporter::after_run() {
 
     std::cout << Model::DATA_COLLECTOR->popsize_by_location()[0] << "\t";
 
+    //
+    //    print_popsize_by_age_class();
+
+    //print phi value by 5-age-group
     print_fraction_of_positive_that_are_clinical_by_location_age_class_by_5();
+
 
     print_utl();
 
@@ -105,9 +121,7 @@ void FarmReporter::begin_time_step() {
 }
 
 void FarmReporter::after_time_step() {
-    if (Model::SCHEDULER->current_time() % Model::CONFIG->report_frequency() == 0) {
-        Model::DATA_COLLECTOR->perform_population_statistic();
-    }
+
 }
 
 void FarmReporter::output_parameters() {
@@ -125,15 +139,26 @@ void FarmReporter::output_parameters() {
     }
 
     std::cout << Model::CONFIG->p_treatment() << "\t";
-    std::cout << Model::CONFIG->drug_db()->drug_db().begin()->second->resistance_cost_multiple_infection() << "\t";
+    //    std::cout << Model::CONFIG->genotype_info().loci_vector[0].cost_of_resistance << "\t";
+    std::cout << Model::CONFIG->genotype_info().loci_vector[0].alleles[1].daily_cost_of_resistance << "\t";
     std::cout << Model::CONFIG->immune_system_information().factor_effect_age_mature_immunity << "\t";
     std::cout << Model::CONFIG->immune_system_information().immune_effect_on_progression_to_clinical << "\t";
     std::cout << Model::CONFIG->relative_bitting_information().max_relative_biting_value << "\t";
     std::cout << Model::CONFIG->relative_bitting_information().mean << "\t";
     std::cout << Model::CONFIG->relative_bitting_information().sd << "\t";
     std::cout << Model::CONFIG->drug_db()->drug_db().begin()->second->k() << "\t";
+    std::cout << Model::CONFIG->drug_db()->drug_db().begin()->second->p_mutation() << "\t";
     std::cout << Model::CONFIG->strategy()->to_int() << "\t";
+    std::cout << Model::CONFIG->tf_window_size() << "\t";
 
+    SCTherapy* scTherapy = dynamic_cast<SCTherapy*> (Model::CONFIG->strategy()->get_therapy());
+    if (scTherapy != NULL) {
+        std::cout << scTherapy->dosing_day() << "\t";
+    } else {
+        std::cout << 0 << "\t";
+    }
+    //fraction of non-art replacement
+    std::cout << Model::CONFIG->fraction_non_art_replacement() << "\t";
 }
 
 void FarmReporter::print_ntf_by_location() {
@@ -141,10 +166,16 @@ void FarmReporter::print_ntf_by_location() {
     for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
         double location_discounted_NTF = Model::DATA_COLLECTOR->cumulative_discounted_NTF_by_location()[location] * 100 / (double) Model::DATA_COLLECTOR->popsize_by_location()[location];
         double NTF = Model::DATA_COLLECTOR->cumulative_NTF_by_location()[location] * 100 / (double) Model::DATA_COLLECTOR->popsize_by_location()[location];
+        double NTF15_30 = Model::DATA_COLLECTOR->cumulative_NTF_15_30_by_location()[location]*100 / (double) Model::DATA_COLLECTOR->popsize_by_location()[location];
+
         location_discounted_NTF /= total_time_in_years;
         NTF /= total_time_in_years;
+
+        NTF15_30 /= (Model::SCHEDULER->current_time() - Model::CONFIG->non_artemisinin_switching_day()) / 365.0;
+
         std::cout << location_discounted_NTF << "\t";
         std::cout << NTF << "\t";
+        std::cout << NTF15_30 << "\t";
     }
 }
 
@@ -304,9 +335,9 @@ void FarmReporter::print_treatments_by_therapy() {
         int nTreaments = Model::DATA_COLLECTOR->number_of_treatments_with_therapy_ID()[t_id];
         int nSuccess = Model::DATA_COLLECTOR->number_of_treatments_success_with_therapy_ID()[t_id];
         int nFail = Model::DATA_COLLECTOR->number_of_treatments_fail_with_therapy_ID()[t_id];
-        double pSuccess = (nTreaments == 0) ? 0 : nSuccess * 100.0 / nTreaments;
+        double pSuccess = (nTreaments == 0) ? 0 : nSuccess * 100.0 / (nSuccess+nFail);
 
-        std::cout << t_id << "\t" << nTreaments << "\t" << nFail + nSuccess << "\t" << pSuccess << "\t";
+        std::cout << t_id << "\t" << nFail + nSuccess << "\t" << nSuccess << "\t" << pSuccess << "\t";
 
     }
 }

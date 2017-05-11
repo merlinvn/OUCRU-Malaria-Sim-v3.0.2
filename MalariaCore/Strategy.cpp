@@ -17,9 +17,11 @@ Strategy::Strategy(const Strategy& orig) {
 
 Strategy::~Strategy() {
 
-    BOOST_FOREACH(Therapy* therapy, therapy_list_) {
-        delete therapy;
-    }
+//    BOOST_FOREACH(Therapy* therapy, therapy_list_) {
+//        delete therapy;
+//    }
+    
+    //therapies are managed by therapy_db_, so no need to delete pointer
     therapy_list_.clear();
 }
 

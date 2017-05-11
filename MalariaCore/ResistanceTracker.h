@@ -21,6 +21,7 @@ class ResistanceTracker {
     PROPERTY_REF(IntVector, double_resistance_ids);
     PROPERTY_REF(IntVector, tripple_resistance_ids);
     PROPERTY_REF(IntVector, quadruple_resistance_ids);
+    PROPERTY_REF(IntVector, quintuple_resistance_ids);
     PROPERTY_REF(IntVectorPtrVector, total_resistance_ids);
     PROPERTY_REF(int, all_resistance_id);
 
@@ -33,6 +34,8 @@ class ResistanceTracker {
     PROPERTY_REF(IntVector, all_triple_tracking_time);
     PROPERTY_REF(IntVector, any_quadruple_tracking_time);
     PROPERTY_REF(IntVector, all_quadruple_tracking_time);
+    PROPERTY_REF(IntVector, any_quintuple_tracking_time);
+    PROPERTY_REF(IntVector, all_quintuple_tracking_time);
     PROPERTY_REF(IntVector, total_tracking_time);
     PROPERTY_REF(IntVector, artemisinin_tracking_time);
 
@@ -57,7 +60,10 @@ public:
     double min_fraction_resistance(const IntVector& resitance_ids);
     double sum_fraction_resistance(const IntVector& resitance_ids);
     void update_time_value(int& tracking_time, const double& value, const double& check_value);
-
+    void make_resistance_profile(std::vector<int>& vResistanceID, const int& size);
+    void make_arterminsinin_resistance_profile(std::vector<int>& vResistanceID);
+    
+    double calculate_total_resistance_frequency();
 private:
 
 };

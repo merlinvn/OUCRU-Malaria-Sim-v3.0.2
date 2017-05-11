@@ -8,6 +8,7 @@
 #include "Drug.h"
 #include "DrugType.h"
 #include "Person.h"
+#include "Random.h"
 #include "Population.h"
 #include "Model.h"
 #include "Scheduler.h"
@@ -39,11 +40,19 @@ double Drug::get_current_drug_concentration(int currentTime) {
     }
 
     if (days <= dosing_days_) {
+        if (drug_type()->is_artemisinin()) {
+            //            std::cout << "hello" << std::endl;
+//            double sd = drug_type_->age_group_specific_drug_concentration_sd()[person_drugs_->person()->age_class()];
+//            starting_value_ = Model::RANDOM->random_normal_truncated(1.0, sd);
+            return starting_value_ + Model::RANDOM->random_uniform_double(-0.1, 0.1);
+//            return starting_value_;
+        }
+
+        starting_value_ += Model::RANDOM->random_uniform_double(0, 0.1);
+        //        return starting_value_ + Model::RANDOM->random_uniform_double(-0.1, 0.1);
         return starting_value_;
     } else {
         double temp = drug_type_->drug_half_life() == 0 ? -100 : -(days - dosing_days_) * log(2) / drug_type_->drug_half_life(); //-ai*t = - t* ln2 / tstar
-
-
         if (exp(temp) <= (10.0 / 100.0)) {
             return 0;
         }
@@ -51,16 +60,16 @@ double Drug::get_current_drug_concentration(int currentTime) {
     }
 }
 
-double Drug::get_mutation_probability(double currentDrugValue) {
+double Drug::get_mutation_probability(double currentDrugConcentration) {
     double P = 0;
-    if (currentDrugValue <= 0)
+    if (currentDrugConcentration <= 0)
         return 0;
-    if (currentDrugValue < (0.5))
-        P = 2 * drug_type_->p_mutation() * drug_type_->k() * currentDrugValue;
+    if (currentDrugConcentration < (0.5))
+        P = 2 * drug_type_->p_mutation() * drug_type_->k() * currentDrugConcentration;
 
-    else if (currentDrugValue >= (0.5) && currentDrugValue < 1.0) {
-        P = drug_type_->p_mutation() * (2 * (1 - drug_type_->k()) * currentDrugValue + (2 * drug_type_->k() - 1));
-    } else if (currentDrugValue >= 1.0) {
+    else if (currentDrugConcentration >= (0.5) && currentDrugConcentration < 1.0) {
+        P = drug_type_->p_mutation() * (2 * (1 - drug_type_->k()) * currentDrugConcentration + (2 * drug_type_->k() - 1));
+    } else if (currentDrugConcentration >= 1.0) {
         P = drug_type_->p_mutation();
     }
     //    cout << P << endl;
@@ -68,9 +77,7 @@ double Drug::get_mutation_probability(double currentDrugValue) {
 }
 
 double Drug::get_mutation_probability() {
-    int current_time = Model::SCHEDULER->current_time();
-    double d = get_current_drug_concentration(current_time);
-    return get_mutation_probability(d);
+    return get_mutation_probability(last_update_value_);
 }
 
 void Drug::set_number_of_dosing_days(int dosingDays) {

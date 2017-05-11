@@ -9,7 +9,6 @@
 #include "SingleHostClonalParasitePopulations.h"
 #include "Person.h"
 #include "Therapy.h"
-#include "Genotype.h"
 #include "Model.h"
 #include "Scheduler.h"
 #include "Config.h"
@@ -18,7 +17,7 @@
 OBJECTPOOL_IMPL(ClonalParasitePopulation)
 const double ClonalParasitePopulation::LOG_ZERO_PARASITE_DENSITY = -1000;
 
-ClonalParasitePopulation::ClonalParasitePopulation(Genotype* genotype) : last_update_log10_parasite_density_(LOG_ZERO_PARASITE_DENSITY), gametocyte_level_(0.0), first_date_in_blood_(-1), genotype_(genotype), update_function_(NULL) {
+ClonalParasitePopulation::ClonalParasitePopulation(IntGenotype* genotype) : last_update_log10_parasite_density_(LOG_ZERO_PARASITE_DENSITY), gametocyte_level_(0.0), first_date_in_blood_(-1), genotype_(genotype), update_function_(NULL) {
 }
 
 ClonalParasitePopulation::ClonalParasitePopulation(const ClonalParasitePopulation& orig) {
@@ -41,7 +40,7 @@ double ClonalParasitePopulation::get_current_parasite_density(const int& current
     return update_function_->get_current_parasite_density(this, duration);
 }
 
-void ClonalParasitePopulation::mutate_to(Genotype* genotype) {
+void ClonalParasitePopulation::mutate_to(IntGenotype* genotype) {
     //TODO:: do other statistic things
     set_genotype(genotype);
 }
@@ -51,7 +50,7 @@ double ClonalParasitePopulation::get_log10_relative_density() {
     if ((last_update_log10_parasite_density_ == LOG_ZERO_PARASITE_DENSITY) || (gametocyte_level_ == 0.0))
         return LOG_ZERO_PARASITE_DENSITY;
 
-    return log10(genotype_->relative_fitness_multiple_infection()) + last_update_log10_parasite_density_ + log10(gametocyte_level_);
+    return last_update_log10_parasite_density_ + log10(gametocyte_level_);
 }
 
 double ClonalParasitePopulation::last_update_log10_parasite_density() const {
@@ -78,12 +77,12 @@ void ClonalParasitePopulation::set_gametocyte_level(const double& value) {
     }
 }
 
-Genotype* ClonalParasitePopulation::genotype() const {
+IntGenotype* ClonalParasitePopulation::genotype() const {
 
     return genotype_;
 }
 
-void ClonalParasitePopulation::set_genotype(Genotype* value) {
+void ClonalParasitePopulation::set_genotype(IntGenotype* value) {
     if (genotype_ != value) {
         parasite_population_->remove_all_infection_force();
         genotype_ = value;
@@ -92,25 +91,18 @@ void ClonalParasitePopulation::set_genotype(Genotype* value) {
 }
 
 bool ClonalParasitePopulation::resist_to(Therapy* therapy) {
-    return genotype_->resistant_to(therapy);
+    return genotype_->resist_to(therapy);
 }
 
 bool ClonalParasitePopulation::resist_to(DrugType* dt) {
-    return genotype_->resistant_to(dt);
+    return genotype_->resist_to(dt);
 }
 
 bool ClonalParasitePopulation::resist_to(const int &drug_id) {
-    return genotype_->resistant_to(Model::CONFIG->drug_db()->drug_db()[drug_id]);
+    return genotype_->resist_to(Model::CONFIG->drug_db()->drug_db()[drug_id]);
 }
 
 void ClonalParasitePopulation::update() {
-    if (!(gametocyte_level_ == 0 || gametocyte_level_ == 0.2))
-    {
-        std::cout<<gametocyte_level_ << std::endl;
-        assert(gametocyte_level_ == 0 || gametocyte_level_ == 0.2);
-    }
-    
-    
     set_last_update_log10_parasite_density(get_current_parasite_density(Model::SCHEDULER->current_time()));
 }
 

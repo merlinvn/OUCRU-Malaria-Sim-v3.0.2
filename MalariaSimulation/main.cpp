@@ -194,7 +194,7 @@ void handle_option_parser(Model* m, ez::ezOptionParser& opt) {
     m->set_tme_filename(tme_filename);
 
     std::string override_filename = "";
-    int line_number = 0;
+    int line_number = -1;
     if (opt.isSet("-o")) {
         std::string override_param;
         opt.get("-o")->getString(override_param);

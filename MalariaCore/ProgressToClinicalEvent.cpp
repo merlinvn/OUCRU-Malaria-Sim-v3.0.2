@@ -13,7 +13,7 @@
 #include "Model.h"
 #include "Config.h"
 #include "Strategy.h"
-#include "Therapy.h"
+#include "SCTherapy.h"
 #include "ClonalParasitePopulation.h"
 #include "Random.h"
 #include "ModelDataCollector.h"
@@ -52,7 +52,7 @@ void ProgressToClinicalEvent::execute() {
     //    Random* random = model->random();
     //    Config* config = model->config();
 
-    double density = Model::RANDOM->random_normal_truncated(Model::CONFIG->log_parasite_density_level().log_parasite_density_clinical, 0.1);
+    double density = Model::RANDOM->random_uniform_double(Model::CONFIG->log_parasite_density_level().log_parasite_density_clinical_from, Model::CONFIG->log_parasite_density_level().log_parasite_density_clinical_to);
 
     clinical_caused_parasite_->set_last_update_log10_parasite_density(density);
 
@@ -74,79 +74,51 @@ void ProgressToClinicalEvent::execute() {
     double P = Model::RANDOM->random_flat(0.0, 1.0);
     double P_treatment = (Model::MODEL->scheduler()->current_time() >= Model::CONFIG->start_treatment_day()) ? Model::CONFIG->p_treatment() : -1;
     if (P <= P_treatment) {
-        //        assert(false);
-        //if person is treated
-        //increase total of today
-
-        //Statistic increase today treatments
-        Model::DATA_COLLECTOR->record_1_treatment(person->location());
-
-        //get Therapy from Strategey
-//        std::cout << "Hello" << std::endl;
         Therapy* therapy = Model::CONFIG->strategy()->get_therapy();
-
-
-
-        //this test applied for both resistance and non-resistance to therapy
-        //schedule test treatment failure event so as data_collector can collect treatment failure number
-
-
-        int dosingDays = person->complied_dosing_days(therapy->number_of_dosing_days());
-        person->receive_therapy(therapy, dosingDays);
+        person->receive_therapy(therapy, clinical_caused_parasite_);
+        //Statistic increase today treatments
+        Model::DATA_COLLECTOR->record_1_treatment(person->location(), person->age(), therapy->id());
 
         clinical_caused_parasite_->set_update_function(Model::MODEL->having_drug_update_function());
-        //        clinical_caused_parasite_->set_update_function(NULL); 
 
         // calculate EAMU
         Model::DATA_COLLECTOR->record_AMU_AFU(person, therapy, clinical_caused_parasite_);
         //        calculateEAMU(therapy);
         //
-        person->schedule_update_by_drug_event(clinical_caused_parasite_);
 
+        // death is 90% lower than no treatment
+        if (person->will_progress_to_death_when_recieve_treatment()) {
 
-        //if clinical caused parasite resisted to therapy
-        // Statistic collect information
-        // patient behaves as if he received no treatment and schedule for end clinical
-        //if not resisted schedule for a blood test
-        if (clinical_caused_parasite_->resist_to(therapy)) {
-            //data_collector increase RITF
-            Model::DATA_COLLECTOR->record_1_RITF(person->location());
+            //for each test treatment failure event inside individual 
+            // record treatment failure (not tf)
+            //            person->record_treatment_failure_for_test_treatment_failure_events();
 
             //no treatment routine
             receive_no_treatment_routine(person);
 
+            person->cancel_all_events_except(NULL);
+            person->set_host_state(Person::DEAD);
+            Model::DATA_COLLECTOR->record_1_malaria_death(person->location(), person->age());
             Model::DATA_COLLECTOR->record_1_TF(person->location(), true);
-            Model::DATA_COLLECTOR->record_1_treatment_failure_by_therapy(person->last_therapy_id());
-            // if patient was dead due to none treatment
-            // add up TF and end this event execution
-            if (person->host_state() == Person::DEAD) {
-                //                Model::STATISTIC->record_1_TF(person->location(), true);
-                return;
-            }
-            //schedule EndClinical by resistance event
-            person->schedule_end_clinical_due_to_drug_resistance_event(clinical_caused_parasite_);
-
-            //            person->schedule_test_treatment_failure_event(clinical_caused_parasite_, therapy->testing_day());
-        } else {
-
-            //        //store # of treatment for non-resistence parasite
-            Model::DATA_COLLECTOR->collect_1_non_resistant_treatment(therapy->id());
-            //            person->set_is_tracking_treatment_number(true);
-
-            //
-            person->schedule_end_clinical_event(clinical_caused_parasite_);
-
-            person->schedule_test_treatment_failure_event(clinical_caused_parasite_, therapy->testing_day(), false, therapy->id());
+            Model::DATA_COLLECTOR->record_1_treatment_failure_by_therapy(person->location(), person->age(), therapy->id());
+            return;
         }
+  
+        person->schedule_update_by_drug_event(clinical_caused_parasite_);
+
+        person->schedule_end_clinical_event(clinical_caused_parasite_);
+        person->schedule_test_treatment_failure_event(clinical_caused_parasite_, Model::CONFIG->tf_testing_day(), false, therapy->id());
 
 
     } else {
         //not recieve treatment
         //Statistic store NTF
         Model::DATA_COLLECTOR->record_1_TF(person->location(), false);
+        Model::DATA_COLLECTOR->record_1_non_treated_case(person->location(), person->age());
 
         receive_no_treatment_routine(person);
         if (person->host_state() == Person::DEAD) {
+            Model::DATA_COLLECTOR->record_1_malaria_death(person->location(), person->age());
             return;
         }
         //

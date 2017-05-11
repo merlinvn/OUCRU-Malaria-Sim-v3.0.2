@@ -1,26 +1,28 @@
-/* 
- * File:   AgeGroup2To10Reporter.h
- * Author: Merlin
- *
- * Created on September 15, 2014, 10:18 AM
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 
-#ifndef AGEGROUP2TO10REPORTER_H
-#define	AGEGROUP2TO10REPORTER_H
+/* 
+ * File:   BurinFarmReporter.h
+ * Author: Merlin
+ *
+ * Created on April 11, 2017, 1:45 PM
+ */
+
+#ifndef BURINFARMREPORTER_H
+#define BURINFARMREPORTER_H
 
 #include "Reporter.h"
+#include "PropertyMacro.h"
 
-class AgeGroup2To10Reporter : public Reporter {
-    DISALLOW_COPY_AND_ASSIGN_(AgeGroup2To10Reporter)
-
-    VIRTUAL_PROPERTY_REF(double, last_reported_NTF)
-    VIRTUAL_PROPERTY_REF(int, last_reported_clinical_episodes)
-    VIRTUAL_PROPERTY_REF(int, last_reported_mutants)
-
+class BurninFarmReporter : public Reporter {
+    DISALLOW_COPY_AND_ASSIGN_(BurninFarmReporter)
 public:
-    AgeGroup2To10Reporter();
-    //    AgeGroup2To10Reporter(const AgeGroup2To10Reporter& orig);
-    virtual ~AgeGroup2To10Reporter();
+    BurninFarmReporter();
+    //    FarmReporter(const FarmReporter& orig);
+    virtual ~BurninFarmReporter();
 
 
     virtual void initialize();
@@ -30,12 +32,12 @@ public:
     virtual void after_time_step();
 
     void output_parameters();
-
+    
     void print_ntf_by_location();
     void print_EIR_by_location();
     void print_20x_by_location();
     void print_EAMU();
-
+    
     void print_prevalence_by_location();
     void print_fraction_of_positive_that_are_clinical_by_location();
     void print_mean_immune_by_location();
@@ -51,16 +53,13 @@ public:
     void print_treatments_by_therapy();
     void print_total_utl();
     void print_utl();
-
+    
     void print_mean_immune_by_location_age_class();
-
+    
     void print_moi_distribution();
-
-
-    void print_popsize_by_age_class();
+    
 private:
 
 };
-
-#endif	/* AGEGROUP2TO10REPORTER_H */
+#endif /* BURINFARMREPORTER_H */
 

@@ -59,7 +59,6 @@ void report_number_by_state(const int& location, PersonIndexByLocationStateAgeCl
 
 void ConsoleReporter::after_run() {
     std::cout << "==========================================================================" << std::endl;
-    Model::DATA_COLLECTOR->update_after_run();
 
     //total time
     double total_time_in_years = (Model::SCHEDULER->current_time() - Model::CONFIG->start_collect_data_day()) / 365.0;
@@ -144,7 +143,7 @@ void ConsoleReporter::begin_time_step() {
 void ConsoleReporter::after_time_step() {
 
     if (Model::SCHEDULER->current_time() % Model::CONFIG->report_frequency() == 0) {
-        Model::DATA_COLLECTOR->perform_population_statistic();
+//        Model::DATA_COLLECTOR->perform_population_statistic();
 
         std::cout << std::setw(COLUMN_WIDTH) << Model::SCHEDULER->current_time() << "\t";
 

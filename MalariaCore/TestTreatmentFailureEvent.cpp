@@ -23,6 +23,9 @@ TestTreatmentFailureEvent::TestTreatmentFailureEvent(const TestTreatmentFailureE
 }
 
 TestTreatmentFailureEvent::~TestTreatmentFailureEvent() {
+    if (executable() && Model::DATA_COLLECTOR != NULL) {
+        Model::DATA_COLLECTOR-> number_of_treatments_with_therapy_ID()[therapyId_] -= 1;
+    }
 }
 
 void TestTreatmentFailureEvent::schedule_event(Scheduler* scheduler, Person* p, ClonalParasitePopulation* clinical_caused_parasite, const int& time, const bool& isRes, const int& t_id) {
@@ -42,47 +45,49 @@ void TestTreatmentFailureEvent::schedule_event(Scheduler* scheduler, Person* p, 
 
 void TestTreatmentFailureEvent::execute() {
     Person* person = (Person*) dispatcher();
-    if (person->all_clonal_parasite_populations()->size() == 0) {
-        //parasites might be cleaned by immune system or other things else
-        //        if (person->is_tracking_treatment_number()) {
-        //            Model::STATISTIC->record_1_treatment_success_by_therapy(person->last_therapy_id());
-        //            person->set_is_tracking_treatment_number(false);
-        //        }
+    //    if (person->all_clonal_parasite_populations()->size() == 0) {
+    //        //parasites might be cleaned by immune system or other things else
+    //        //        if (person->is_tracking_treatment_number()) {
+    //        //            Model::STATISTIC->record_1_treatment_success_by_therapy(person->last_therapy_id());
+    //        //            person->set_is_tracking_treatment_number(false);
+    //        //        }
+    //
+    //        if (!isResistance()) {
+    //            Model::DATA_COLLECTOR->record_1_treatment_success_by_therapy(therapyId_);
+    //            //            person->set_is_tracking_treatment_number(false);
+    //        }
+    //        return;
+    //    } else {
+    ////        if (person->has_detectable_parasite()) {
+    ////            Model::DATA_COLLECTOR->record_1_treatment_failure_by_therapy(person->location(), person->age(), therapyId_);
+    ////        }
+    //    }
+    //
+    //    bool tf = false;
+    //    if (person->all_clonal_parasite_populations()->contain(clinical_caused_parasite_)) {
+    //        if (clinical_caused_parasite_->last_update_log10_parasite_density() >= Model::CONFIG->log_parasite_density_level().log_parasite_density_detectable) {
+    //            //treatment failure
+    //            tf = true;
+    //            Model::DATA_COLLECTOR->record_1_TF(person->location(), true);
+    //            if (!isResistance()) {
+    //                Model::DATA_COLLECTOR->record_1_treatment_failure_by_therapy(person->location(), person->age(), therapyId_);
+    //            }
+    //        }
+    //    }
+    //
+    //    if (!tf) {
+    //        if (!isResistance()) {
+    //            Model::DATA_COLLECTOR->record_1_treatment_success_by_therapy(therapyId_);
+    //            //            person->set_is_tracking_treatment_number(false);
+    //        }
+    //    }
 
-        if (!isResistance()) {
-            Model::DATA_COLLECTOR->record_1_treatment_success_by_therapy(therapyId_);
-            //            person->set_is_tracking_treatment_number(false);
-        }
-        return;
+    ///trial
+
+    if (person->has_detectable_parasite()) {
+        Model::DATA_COLLECTOR->record_1_TF(person->location(), true);
+        Model::DATA_COLLECTOR->record_1_treatment_failure_by_therapy(person->location(), person->age(), therapyId_);
     } else {
-        //        if (person->has_detectable_parasite()) {
-        //            Model::STATISTIC->record_1_TF(person->location(), true);
-        //        }
+        Model::DATA_COLLECTOR->record_1_treatment_success_by_therapy(therapyId_);
     }
-
-    bool tf = false;
-    if (person->all_clonal_parasite_populations()->contain(clinical_caused_parasite_)) {
-        if (clinical_caused_parasite_->last_update_log10_parasite_density() >= Model::CONFIG->log_parasite_density_level().log_parasite_density_detectable) {
-            //treatment failure
-            tf = true;
-            Model::DATA_COLLECTOR->record_1_TF(person->location(), true);
-            if (!isResistance()) {
-                Model::DATA_COLLECTOR->record_1_treatment_failure_by_therapy(therapyId_);
-            }
-            //            if (person->is_tracking_treatment_number()) {
-            //                Model::STATISTIC->record_1_treatment_failure_by_therapy(person->last_therapy_id());
-            //                person->set_is_tracking_treatment_number(false);
-            //            }
-
-        }
-    }
-
-    if (!tf) {
-        if (!isResistance()) {
-            Model::DATA_COLLECTOR->record_1_treatment_success_by_therapy(therapyId_);
-            //            person->set_is_tracking_treatment_number(false);
-        }
-    }
-
-
 }

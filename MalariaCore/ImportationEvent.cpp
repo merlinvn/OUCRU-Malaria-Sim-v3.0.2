@@ -58,13 +58,15 @@ void ImportationEvent::execute() {
         p->immune_system()->set_increase(true);
         p->set_host_state(Person::ASYMPTOMATIC);
 
-        ClonalParasitePopulation* blood_parasite = p->add_new_parasite_to_blood(Model::CONFIG->parasite_db()->get(genotype_id_));
+        ClonalParasitePopulation* blood_parasite = p->add_new_parasite_to_blood(Model::CONFIG->genotype_db()->get(genotype_id_));
 
         double size = Model::CONFIG->log_parasite_density_level().log_parasite_density_asymptomatic;
 
-        blood_parasite->set_gametocyte_level(0.2);
+        blood_parasite->set_gametocyte_level(Model::CONFIG->gametocyte_level_full());
         blood_parasite->set_last_update_log10_parasite_density(size);
         blood_parasite->set_update_function(Model::MODEL->immunity_clearance_update_function());
 
+        //        Model::POPULATION->initial_infection(pi->vPerson()[0][0][ind_ac][index], Model::CONFIG->parasite_db()->get(0));
     }
+
 }

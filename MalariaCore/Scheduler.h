@@ -48,6 +48,9 @@ public:
     void report_end_of_time_step();
 
     int current_day_in_year();
+    
+    void perform_check_and_replace_ACT();
+    void perform_monthly_update();
 
 private:
 

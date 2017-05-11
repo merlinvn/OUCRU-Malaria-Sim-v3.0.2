@@ -16,6 +16,7 @@
 #include "PersonIndexByLocationBittingLevelHandler.h"
 #include "PersonIndexByLocationMovingLevelHandler.h"
 #include "PersonIndexByLocationExternalPopulationMovingLevelHandler.h"
+#include "ClonalParasitePopulation.h"
 
 
 class Population;
@@ -82,7 +83,7 @@ public:
     PROPERTY_HEADER(int, external_population_moving_level)
 
     POINTER_PROPERTY(DrugsInBlood, drugs_in_blood);
-    POINTER_PROPERTY(Genotype, liver_parasite_type);
+    POINTER_PROPERTY(IntGenotype, liver_parasite_type);
 
     POINTER_PROPERTY(IntVector, today_infections);
     POINTER_PROPERTY(IntVector, today_target_locations);
@@ -111,7 +112,8 @@ public:
 
     bool is_infant(const int& current_time);
 
-    ClonalParasitePopulation* add_new_parasite_to_blood(Genotype* parasite_type);
+    //    BloodParasite* add_new_parasite_to_blood(Genotype* parasite_type);
+    ClonalParasitePopulation* add_new_parasite_to_blood(IntGenotype* parasite_type);
 
     virtual void notify_change_in_force_of_infection(const double& sign, const int &parasite_type_id, const double &blood_parasite_log_relative_density, const double &log_total_relative_parasite_density);
 
@@ -121,16 +123,18 @@ public:
 
     virtual double get_probability_progress_to_clinical();
     virtual bool will_progress_to_death_when_receive_no_treatment();
+    virtual bool will_progress_to_death_when_recieve_treatment();
 
 
     void cancel_all_other_progress_to_clinical_events_except(Event* event);
     void cancel_all_events_except(Event* event);
+    void record_treatment_failure_for_test_treatment_failure_events();
 
     void change_all_parasite_update_function(ParasiteDensityUpdateFunction* from, ParasiteDensityUpdateFunction* to);
 
     int complied_dosing_days(const int& dosing_day);
 
-    void receive_therapy(Therapy* therapy, const int & dosing_days);
+    void receive_therapy(Therapy* therapy, ClonalParasitePopulation* clincial_caused_parasite_);
     void add_drug_to_blood(DrugType* dt, const int& dosing_days);
 
     void schedule_progress_to_clinical_event_by(ClonalParasitePopulation* blood_parasite);
@@ -142,7 +146,7 @@ public:
     void schedule_end_clinical_by_no_treatment_event(ClonalParasitePopulation* blood_parasite);
     void schedule_relapse_event(ClonalParasitePopulation* clinical_caused_parasite, const int& time_until_relapse);
 
-    void schedule_move_parasite_to_blood(Genotype* genotype, const int& time);
+    void schedule_move_parasite_to_blood(IntGenotype* genotype, const int& time);
     void schedule_mature_gametocyte_event(ClonalParasitePopulation* clinical_caused_parasite);
     void schedule_update_every_K_days_event(const int& time);
 
@@ -176,12 +180,15 @@ public:
     bool is_in_external_population();
     
     bool has_birthday_event();
+    bool has_update_by_having_drug_event();
     
     double get_age_dependent_bitting_factor();
     
     void update_bitting_level();
     
     double p_infection_from_an_infectious_bite();
+    
+    bool isGametocytaemic();
     
 private:
 

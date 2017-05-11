@@ -13,9 +13,8 @@
 #include "Population.h"
 #include "ImmuneSystem.h"
 #include "SingleHostClonalParasitePopulations.h"
-#include "Genotype.h"
 #include "Strategy.h"
-#include "Therapy.h"
+#include "SCTherapy.h"
 #include "ClonalParasitePopulation.h"
 #include <numeric>  
 
@@ -93,6 +92,11 @@ void ModelDataCollector::initialize() {
 
         AFU_ = 0;
 
+        discounted_AMU_per_parasite_pop_ = 0;
+        discounted_AMU_per_person_ = 0;
+        discounted_AMU_for_clinical_caused_parasite_ = 0;
+
+        discounted_AFU_ = 0;
 
         multiple_of_infection_by_location_ = IntVector2(Model::CONFIG->number_of_locations(), IntVector(number_of_reported_MOI, 0));
 
@@ -114,6 +118,25 @@ void ModelDataCollector::initialize() {
         number_of_clinical_by_location_age_group_by_5_ = IntVector2(Model::CONFIG->number_of_locations(), IntVector(Model::CONFIG->number_of_age_classes(), 0));
         number_of_death_by_location_age_group_ = IntVector2(Model::CONFIG->number_of_locations(), IntVector(Model::CONFIG->number_of_age_classes(), 0));
 
+        number_of_untreated_cases_by_location_age_year_ = IntVector2(Model::CONFIG->number_of_locations(), IntVector(80, 0));
+        number_of_treatments_by_location_age_year_ = IntVector2(Model::CONFIG->number_of_locations(), IntVector(80, 0));
+        number_of_deaths_by_location_age_year_ = IntVector2(Model::CONFIG->number_of_locations(), IntVector(80, 0));
+        number_of_malaria_deaths_by_location_age_year_ = IntVector2(Model::CONFIG->number_of_locations(), IntVector(80, 0));
+        number_of_treatments_by_location_age_therapy_year_ = IntVector3(Model::CONFIG->number_of_locations(), IntVector2(80, IntVector(3, 0)));
+        number_of_treatment_failures_by_location_age_therapy_year_ = IntVector3(Model::CONFIG->number_of_locations(), IntVector2(80, IntVector(3, 0)));
+        popsize_by_location_age_ = IntVector2(Model::CONFIG->number_of_locations(), IntVector(80, 0));
+                
+        cumulative_NTF_15_30_by_location_ =  DoubleVector(Model::CONFIG->number_of_locations(), 0.0);
+        TF_at_15_ = 0;
+        single_resistance_frequency_at_15_ = 0;
+        double_resistance_frequency_at_15_ = 0;
+        triple_resistance_frequency_at_15_ = 0;
+        quadruple_resistance_frequency_at_15_ = 0;
+        quintuple_resistance_frequency_at_15_ = 0;
+        art_resistance_frequency_at_15_ = 0;
+        total_resistance_frequency_at_15_ = 0;
+        
+        
     }
 }
 
@@ -167,6 +190,11 @@ void ModelDataCollector::perform_population_statistic() {
             blood_slide_number_by_location_age_group_by_5_[location][ac] = 0.0;
 
         }
+        for (int age = 0; age < 80; age++) {
+            popsize_by_location_age_[location][age] = 0;
+
+        }
+
 
         for (int i = 0; i < number_of_reported_MOI; i++) {
             multiple_of_infection_by_location_[location][i] = 0;
@@ -230,6 +258,11 @@ void ModelDataCollector::perform_population_statistic() {
                         }
                     }
 
+                    if (p->age() < 79) {
+                        popsize_by_location_age_[loc][p->age()] += 1;
+                    } else {
+                        popsize_by_location_age_[loc][79] += 1;
+                    }
                 }
             }
 
@@ -288,8 +321,17 @@ void ModelDataCollector::update_every_year() {
             // and also when the individual change location
             person_days_by_location_year_[loc] = Model::POPULATION->size(loc) * 365;
             total_number_of_bites_by_location_year_[loc] = 0;
+            for (int age = 0; age < 80; age++) {
+                number_of_untreated_cases_by_location_age_year_[loc][age] = 0;
+                number_of_treatments_by_location_age_year_[loc][age] = 0;
+                number_of_deaths_by_location_age_year_[loc][age] = 0;
+                number_of_malaria_deaths_by_location_age_year_[loc][age] = 0;
+                for (int therapy_id = 0; therapy_id < 3; therapy_id++) {
+                    number_of_treatments_by_location_age_therapy_year_[loc][age][therapy_id] = 0;
+                    number_of_treatment_failures_by_location_age_therapy_year_[loc][age][therapy_id] = 0;
+                }
+            }
         }
-
     }
 }
 
@@ -333,11 +375,28 @@ void ModelDataCollector::collect_1_clinical_episode(const int& location, const i
     }
 }
 
-void ModelDataCollector::record_1_death(const int& location, const int& birthday, const int& number_of_times_bitten, const int& age_group) {
+void ModelDataCollector::record_1_death(const int& location, const int& birthday, const int& number_of_times_bitten, const int& age_group, const int& age) {
     if (Model::SCHEDULER->current_time() >= Model::CONFIG->start_collect_data_day()) {
         update_person_days_by_years(location, -(365 - Model::SCHEDULER->current_day_in_year()));
         update_average_number_bitten(location, birthday, number_of_times_bitten);
         number_of_death_by_location_age_group_[location][age_group] += 1;
+        if (age < 79) {
+            number_of_deaths_by_location_age_year_[location][age] += 1;
+        } else {
+            number_of_deaths_by_location_age_year_[location][79] += 1;
+        }
+
+    }
+}
+
+void ModelDataCollector::record_1_malaria_death(const int& location, const int& age) {
+    if (Model::SCHEDULER->current_time() >= Model::CONFIG->start_collect_data_day()) {
+        if (age < 79) {
+            number_of_malaria_deaths_by_location_age_year_[location][age] += 1;
+        } else {
+            number_of_malaria_deaths_by_location_age_year_[location][79] += 1;
+        }
+
     }
 }
 
@@ -390,7 +449,22 @@ void ModelDataCollector::record_1_TF(const int& location, const bool& by_drug) {
         //if treatment failure due to drug (both resistance and not clear)
         if (by_drug) {
             today_TF_by_location_[location] += 1;
+        }
+    }
+    
+    if (Model::SCHEDULER->current_time() >= Model::CONFIG->non_artemisinin_switching_day()) {
+        //TODO: collect NTF15-30
+        cumulative_NTF_15_30_by_location_[location] += 1;
+    }
 
+}
+
+void ModelDataCollector::record_1_non_treated_case(const int& location, const int& age) {
+    if (Model::SCHEDULER->current_time() >= Model::CONFIG->start_collect_data_day()) {
+        if (age <= 79) {
+            number_of_untreated_cases_by_location_age_year_[location][age] += 1;
+        } else {
+            number_of_untreated_cases_by_location_age_year_[location][79] += 1;
         }
     }
 }
@@ -430,7 +504,7 @@ void ModelDataCollector::end_of_time_step() {
         }
 
         //update UTL
-        if (avg_TF <= Model::CONFIG->TF_rate()) {
+        if (avg_TF / (double) Model::CONFIG->number_of_locations() <= Model::CONFIG->TF_rate()) {
             current_utl_duration_ += 1;
         }
 
@@ -440,19 +514,32 @@ void ModelDataCollector::end_of_time_step() {
 
 }
 
-void ModelDataCollector::record_1_treatment(const int& location) {
+void ModelDataCollector::record_1_treatment(const int& location, const int& age, const int& therapy_id) {
     if (Model::SCHEDULER->current_time() >= Model::CONFIG->start_collect_data_day()) {
         today_number_of_treatments_by_location_[location] += 1;
+        number_of_treatments_with_therapy_ID_[therapy_id] += 1;
+        if (age <= 79) {
+            number_of_treatments_by_location_age_year_[location][age] += 1;
+            if (therapy_id < 3) {
+                number_of_treatments_by_location_age_therapy_year_[location][age][therapy_id] += 1;
+            }
+        } else {
+            number_of_treatments_by_location_age_year_[location][79] += 1;
+            if (therapy_id < 3) {
+                number_of_treatments_by_location_age_therapy_year_[location][79][therapy_id] += 1;
+            }
+        }
+
     }
 }
 
-void ModelDataCollector::record_1_mutation(const int& location, Genotype* from, Genotype* to) {
+void ModelDataCollector::record_1_mutation(const int& location, IntGenotype* from, IntGenotype * to) {
 
     if (Model::SCHEDULER->current_time() >= Model::CONFIG->start_collect_data_day()) {
         cumulative_mutants_by_location_[location] += 1;
     }
 
-    resistance_tracker_.change(from->resistance_bit_string().to_ulong(), to->resistance_bit_string().to_ulong());
+    resistance_tracker_.change(from->genotype_id(), to->genotype_id());
 }
 
 void ModelDataCollector::update_UTL_vector() {
@@ -460,12 +547,19 @@ void ModelDataCollector::update_UTL_vector() {
     current_utl_duration_ = 0;
 }
 
-void ModelDataCollector::collect_1_non_resistant_treatment(const int& therapy_id) {
-    number_of_treatments_with_therapy_ID_[therapy_id] += 1;
-}
+//void ModelDataCollector::collect_1_non_resistant_treatment(const int& therapy_id) {
+//    number_of_treatments_with_therapy_ID_[therapy_id] += 1;
+//}
 
-void ModelDataCollector::record_1_treatment_failure_by_therapy(const int& therapy_id) {
+void ModelDataCollector::record_1_treatment_failure_by_therapy(const int& location, const int& age, const int& therapy_id) {
     number_of_treatments_fail_with_therapy_ID_[therapy_id] += 1;
+    if (therapy_id < 3) {
+        if (age < 79) {
+            number_of_treatment_failures_by_location_age_therapy_year_[location][age][therapy_id] += 1;
+        } else {
+            number_of_treatment_failures_by_location_age_therapy_year_[location][79][therapy_id] += 1;
+        }
+    }
 }
 
 void ModelDataCollector::record_1_treatment_success_by_therapy(const int& therapy_id) {
@@ -494,43 +588,32 @@ void ModelDataCollector::record_1_RITF(const int& location) {
     }
 }
 
-void ModelDataCollector::record_AMU_AFU(Person* person, Therapy* therapy, ClonalParasitePopulation* clinical_caused_parasite) {
-    int artId = therapy->get_arteminsinin_id();
-    if (artId != -1) {
-        int numberOfDrugsInTherapy = therapy->drug_ids().size();
-
-        //has artemisinin in therapy
-        if (numberOfDrugsInTherapy == 1) {
-            //monotherapy
-            int number_of_parasite_populations = person->all_clonal_parasite_populations()->size();
-            for (int i = 0; i < number_of_parasite_populations; i++) {
-                if (!person->all_clonal_parasite_populations()->parasites()->at(i)->resist_to(therapy)) {
-                    //if parasite is not resistance to current mono therapy
-                    AMU_per_parasite_pop_ += therapy->number_of_dosing_days() / (double) number_of_parasite_populations;
-                    AMU_per_person_ += therapy->number_of_dosing_days();
-                    if (person->all_clonal_parasite_populations()->parasites()->at(i) == clinical_caused_parasite) {
-                        AMU_for_clinical_caused_parasite_ += therapy->number_of_dosing_days();
-                    }
-                }
-            }
-        } else {
+void ModelDataCollector::record_AMU_AFU(Person* person, Therapy* therapy, ClonalParasitePopulation * clinical_caused_parasite) {
+    SCTherapy* scTherapy = dynamic_cast<SCTherapy*> (therapy);
+    if (scTherapy != NULL) {
+        int artId = scTherapy->get_arteminsinin_id();
+        if (artId != -1 && scTherapy->drug_ids().size() > 1) {
+            int numberOfDrugsInTherapy = scTherapy->drug_ids().size();
+            double discouted_fraction = exp(log(0.97) * floor((Model::SCHEDULER->current_time() - Model::CONFIG->start_treatment_day()) / 365));
             //            assert(false);
             //combine therapy
             for (int i = 0; i < numberOfDrugsInTherapy; i++) {
-                int drugId = therapy->drug_ids()[i];
+                int drugId = scTherapy->drug_ids()[i];
                 if (drugId != artId) {
                     //only check for the remaining chemical drug != artemisinin
-                    int numberOfParasitePopulations = person->all_clonal_parasite_populations()->size();
+                    int parasitePopulationSize = person->all_clonal_parasite_populations()->size();
 
                     bool foundAMU = false;
                     bool foundAFU = false;
-                    for (int j = 0; j < numberOfParasitePopulations; j++) {
+                    for (int j = 0; j < parasitePopulationSize; j++) {
                         ClonalParasitePopulation* bp = person->all_clonal_parasite_populations()->parasites()->at(j);
                         if (bp->resist_to(drugId) && !bp->resist_to(artId)) {
                             foundAMU = true;
-                            AMU_per_parasite_pop_ += therapy->number_of_dosing_days() / (double) numberOfParasitePopulations;
+                            AMU_per_parasite_pop_ += scTherapy->dosing_day() / (double) parasitePopulationSize;
+                            discounted_AMU_per_parasite_pop_ += discouted_fraction * scTherapy->dosing_day() / (double) parasitePopulationSize;
                             if (bp == clinical_caused_parasite) {
-                                AMU_for_clinical_caused_parasite_ += therapy->number_of_dosing_days();
+                                AMU_for_clinical_caused_parasite_ += scTherapy->dosing_day();
+                                discounted_AMU_for_clinical_caused_parasite_ += discouted_fraction * scTherapy->dosing_day();
                             }
                         }
 
@@ -539,15 +622,15 @@ void ModelDataCollector::record_AMU_AFU(Person* person, Therapy* therapy, Clonal
                         }
                     }
                     if (foundAMU) {
-                        AMU_per_person_ += therapy->number_of_dosing_days();
+                        AMU_per_person_ += scTherapy->dosing_day();
+                        discounted_AMU_per_person_ += discouted_fraction * scTherapy->dosing_day();
                     }
 
                     if (foundAFU) {
-                        AFU_ += therapy->number_of_dosing_days();
+                        AFU_ += scTherapy->dosing_day();
+                        discounted_AFU_ += discouted_fraction * scTherapy->dosing_day();
                     }
-
                 }
-
             }
         }
     }
@@ -561,17 +644,11 @@ double ModelDataCollector::get_blood_slide_prevalence(const int& location, const
     if (age_from < 10) {
 
         if (age_to <= 10) {
-
-
             for (int ac = age_from; ac < age_to; ac++) {
                 blood_slide_numbers += blood_slide_number_by_location_age_group_[location][ac];
                 popsize += popsize_by_location_age_class_[location][ac];
             }
-
-
-
         } else {
-
             for (int ac = age_from; ac <= 10; ac++) {
                 blood_slide_numbers += blood_slide_number_by_location_age_group_[location][ac];
                 popsize += popsize_by_location_age_class_[location][ac];
@@ -582,7 +659,6 @@ double ModelDataCollector::get_blood_slide_prevalence(const int& location, const
                 popsize += popsize_by_location_age_class_by_5_[location][ac / 5];
                 ac += 5;
             }
-
         }
     } else {
         int ac = age_from;
@@ -592,11 +668,6 @@ double ModelDataCollector::get_blood_slide_prevalence(const int& location, const
             popsize += popsize_by_location_age_class_by_5_[location][ac / 5];
             ac += 5;
         }
-
-
-
-
-
     }
     return (popsize == 0) ? 0 : blood_slide_numbers / popsize;
     return 0;

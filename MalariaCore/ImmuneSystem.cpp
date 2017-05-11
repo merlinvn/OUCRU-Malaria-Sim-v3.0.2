@@ -12,7 +12,6 @@
 #include "Person.h"
 #include "Model.h"
 #include "Config.h"
-#include "Genotype.h"
 #include "NonInfantImmuneComponent.h"
 #include "InfantImmuneComponent.h"
 #include <math.h>
@@ -77,9 +76,6 @@ double ImmuneSystem::get_current_value() const {
 }
 
 double ImmuneSystem::get_parasite_size_after_t_days(const int& duration, const double &originalSize, const double &fitness) const {
-    //    double value = 0;
-
-    //    double fitness = genotype->relative_fitness_multiple_infection();
 
     double lastImmuneLevel = get_lastest_immune_value();
     double temp = Model::CONFIG->immune_system_information().c_max * (1 - lastImmuneLevel) + Model::CONFIG->immune_system_information().c_min * lastImmuneLevel;

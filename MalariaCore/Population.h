@@ -41,6 +41,7 @@ class Population : public Dispatcher {
     POINTER_PROPERTY(PersonIndexAll, all_persons);
 
     PROPERTY_REF(std::vector< std::vector <double> >, current_force_of_infection_by_location_parasite_type);
+    PROPERTY_REF(std::vector< std::vector <double> >, interupted_feeding_force_of_infection_by_location_parasite_type);
     PROPERTY_REF(std::vector< std::vector< std::vector <double> > >, force_of_infection_for7days_by_location_parasite_type);
 
 
@@ -91,9 +92,9 @@ public:
     template <typename T>
     T* get_person_index();
 
-    void introduce_parasite(const int& location, Genotype* parasite_type, const int& num_of_infections);
+    void introduce_parasite(const int& location, IntGenotype* parasite_type, const int& num_of_infections);
 
-    void initial_infection(Person* p, Genotype* parasite_type);
+    void initial_infection(Person* p, IntGenotype* parasite_type);
 
     virtual void notify_change_in_force_of_infection(const int& location, const int& parasite_type_id, const double& relative_force_of_infection);
 
@@ -115,6 +116,8 @@ public:
     bool has_0_case();
 
     void initialize_person_indices();
+    
+    void perform_interupted_feeding_recombination();
 
 private:
 
