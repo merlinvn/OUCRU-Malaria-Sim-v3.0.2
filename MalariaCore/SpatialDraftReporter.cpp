@@ -78,12 +78,6 @@ void SpatialDraftReporter::after_time_step() {
         
         std::cout << "-1111" << "\t";
         
-        for (int from_loc = 0; from_loc < Model::CONFIG->number_of_locations(); from_loc++) {
-            for (int to_loc = 0; to_loc < Model::CONFIG->number_of_locations(); to_loc++) {
-                std::cout << Model::DATA_COLLECTOR->test()[from_loc][to_loc] << "\t";
-            }
-        }
-        
         std::cout << "-1111" << "\t";
         
         for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {

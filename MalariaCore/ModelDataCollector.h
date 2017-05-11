@@ -138,8 +138,6 @@ class ModelDataCollector {
     PROPERTY_REF(double, total_resistance_frequency_at_15)
     
     PROPERTY_REF(DoubleVector, incidence_by_location)
-    
-    PROPERTY_REF(IntVector2, test)
 
     static const int number_of_reported_MOI = 8;
 
