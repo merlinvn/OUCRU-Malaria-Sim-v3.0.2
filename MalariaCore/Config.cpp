@@ -814,7 +814,8 @@ void Config::read_importation_parasite_periodically_info(const YAML::Node& confi
                 int parasite_type_id = n[i]["parasite_info"][j]["genotype_id"].as<int>();
                 int dur = n[i]["parasite_info"][j]["duration"].as<int>();
                 int num = n[i]["parasite_info"][j]["number_of_cases"].as<int>();
-                importation_parasite_periodically_info_.push_back(ImportationParasitePeriodicallyInfo(location, parasite_type_id, dur, num));
+                int start_day = n[i]["parasite_info"][j]["start_day"].as<int>();
+                importation_parasite_periodically_info_.push_back(ImportationParasitePeriodicallyInfo(location, parasite_type_id, dur, num,start_day));
             }
         }
     }

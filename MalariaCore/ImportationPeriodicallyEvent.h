@@ -18,13 +18,14 @@ class ImportationPeriodicallyEvent : public Event {
     VIRTUAL_PROPERTY_REF(int, duration);
     VIRTUAL_PROPERTY_REF(int, genotype_id);
     VIRTUAL_PROPERTY_REF(int, number_of_cases);
+    VIRTUAL_PROPERTY_REF(int, start_day);
     
 public:
-    ImportationPeriodicallyEvent(const int& location = -1, const int& duration = -1, const int& genotype_id = -1, const int& number_of_cases = -1);
+    ImportationPeriodicallyEvent(const int& location = -1, const int& duration = -1, const int& genotype_id = -1, const int& number_of_cases = -1, const int& start_day = -1);
     //    ImportationEvent(const ImportationEvent& orig);
     virtual ~ImportationPeriodicallyEvent();
 
-    static void schedule_event(Scheduler* scheduler, const int& location, const int& duration, const int& genotype_id, const int& number_of_cases);
+    static void schedule_event(Scheduler* scheduler, const int& location, const int& duration, const int& genotype_id, const int& number_of_cases, const int& start_day);
 
     virtual std::string name() {
         return "ImportationPeriodicallyEvent";
