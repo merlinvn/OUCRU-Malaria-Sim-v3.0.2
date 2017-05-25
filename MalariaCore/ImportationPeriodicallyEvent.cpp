@@ -33,17 +33,17 @@ void ImportationPeriodicallyEvent::schedule_event(Scheduler* scheduler, const in
         ImportationPeriodicallyEvent* e = new ImportationPeriodicallyEvent(location, duration, genotype_id, number_of_cases,start_day);
         e->set_dispatcher(NULL);
         e->set_executable(true);
-        e->set_time(Model::SCHEDULER->current_time() + duration);
+        e->set_time(Model::SCHEDULER->current_time() + 1); // schedule for next day
         scheduler->schedule(e);
     }
 
 }
 
 void ImportationPeriodicallyEvent::execute() {
-    schedule_event(Model::SCHEDULER, location_, 1, genotype_id_, number_of_cases_,start_day_);
+    schedule_event(Model::SCHEDULER, location_, duration_, genotype_id_, number_of_cases_,start_day_);
     if(Model::SCHEDULER->current_time() >= start_day_){
         int number_of_importation_cases = Model::RANDOM->random_poisson((double)number_of_cases_/duration_);
-        if (Model::DATA_COLLECTOR->popsize_by_location_hoststate()[location_][0] < 10) {
+        if (Model::DATA_COLLECTOR->popsize_by_location_hoststate()[location_][0] < number_of_importation_cases) {
             return;
         }
 
