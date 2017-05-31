@@ -124,7 +124,7 @@ Model::~Model() {
 void Model::initialize() {
     //Initialize Random Seed
     random_->initialize(initial_seed_number_);
-
+  
     //Read input file
     config_->read_from_file(config_filename_);
 

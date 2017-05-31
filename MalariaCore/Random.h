@@ -36,7 +36,7 @@ public:
     virtual int random_poisson(const double& poissonMeans);
 
     virtual int random_uniform(const int& range);
-    virtual int random_uniform(const int& from, const int& to);
+    virtual int random_uniform_int(const int& from, const int& to);
     virtual double random_uniform_double(const double& from, const double& to);
     
 

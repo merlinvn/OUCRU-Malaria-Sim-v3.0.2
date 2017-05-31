@@ -1017,4 +1017,13 @@ void Config::override_1_parameter(const std::string& parameter_name, const std::
         initial_parasite_info_[0].parasite_type_id = genotypeId;
         importation_parasite_periodically_info_[0].parasite_type_id = genotypeId;
     }
+    
+    if (parameter_name == "importation_period") {
+         int importation_period = atoi(parameter_value.c_str());
+         for (int i = 0; i < importation_parasite_periodically_info_.size(); i++) {
+            if (importation_parasite_periodically_info_[i].parasite_type_id == -1){
+                importation_parasite_periodically_info_[i].duration = importation_period;
+            }
+        }         
+    }    
 }

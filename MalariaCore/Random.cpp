@@ -73,12 +73,12 @@ int Random::random_uniform(const int& range) {
     return gsl_rng_uniform_int(G_RNG, range);
 }
 
-int Random::random_uniform(const int& from, const int& to) {
+int Random::random_uniform_int(const int& from, const int& to) {
     return from + gsl_rng_uniform_int(G_RNG, to - from);
 }
 
 double Random::random_uniform_double(const double& from, const double& to) {
-//    return from + gsl_rng_uniform_pos(G_RNG)*(to-from);
+    //    return from + gsl_rng_uniform_pos(G_RNG)*(to-from);
     return gsl_ran_flat(G_RNG, from, to);
 }
 

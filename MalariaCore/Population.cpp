@@ -276,7 +276,7 @@ void Population::initialize() {
                     //                    std::cout << i << "\t" << age_class << "\t" << age_from << "\t" << age_to << std::endl;
 
                     //set age will also set ageclass
-                    p->set_age(Model::RANDOM->random_uniform(age_from, age_to));
+                    p->set_age(Model::RANDOM->random_uniform_int(age_from, age_to + 1));
                     //                    std::cout << p->age() << " \t" << p->age_class() << std::endl;
                     //                    p->set_age_class(age_class);
                     p->set_birthday(-Model::RANDOM->random_uniform(365));
@@ -713,7 +713,7 @@ void Population::perform_interupted_feeding_recombination() {
 
     for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
         for (int parasite_type_id = 0; parasite_type_id < Model::CONFIG->number_of_parasite_types(); parasite_type_id++) {
-            interupted_feeding_force_of_infection_by_location_parasite_type_[loc][parasite_type_id] =current_force_of_infection_by_location_parasite_type_[loc][parasite_type_id]; 
+            interupted_feeding_force_of_infection_by_location_parasite_type_[loc][parasite_type_id] = current_force_of_infection_by_location_parasite_type_[loc][parasite_type_id];
             Y[loc][parasite_type_id] = interupted_feeding_force_of_infection_by_location_parasite_type_[loc][parasite_type_id] * (1 - Model::CONFIG->fraction_mosquitoes_interrupted_feeding());
             Z[loc][parasite_type_id] = interupted_feeding_force_of_infection_by_location_parasite_type_[loc][parasite_type_id] * Model::CONFIG->fraction_mosquitoes_interrupted_feeding();
         }
@@ -781,7 +781,7 @@ void Population::perform_interupted_feeding_recombination() {
                 }
             }
         }
-        
+
         for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
             for (int i = 0; i < Model::CONFIG->number_of_parasite_types(); i++) {
                 eafar[loc][i] /= (sumZ * sumZ);
@@ -789,12 +789,12 @@ void Population::perform_interupted_feeding_recombination() {
             }
         }
 
-//        double s = 0;
+        //        double s = 0;
         //normalize eafar 
         for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
             for (int i = 0; i < Model::CONFIG->number_of_parasite_types(); i++) {
                 eafar[loc][i] /= sumEafar;
-//                s += eafar[loc][i];
+                //                s += eafar[loc][i];
             }
         }
         //weight Z with eafar and divide by a and calculate current_force_of_infection
