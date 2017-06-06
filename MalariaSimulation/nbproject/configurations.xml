@@ -48,13 +48,12 @@
   <confs>
     <conf name="Debug" type="1">
       <toolsSet>
-        <compilerSet>MinGW|MinGW</compilerSet>
+        <compilerSet>default</compilerSet>
         <dependencyChecking>true</dependencyChecking>
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <compileType>
         <ccTool>
-          <architecture>1</architecture>
           <incDir>
             <pElem>../MalariaCore</pElem>
           </incDir>
@@ -107,7 +106,6 @@
         </cTool>
         <ccTool>
           <developmentMode>5</developmentMode>
-          <architecture>1</architecture>
           <incDir>
             <pElem>../MalariaCore</pElem>
           </incDir>
@@ -134,7 +132,7 @@
               </makeArtifact>
             </linkerLibProjectItem>
           </linkerLibItems>
-          <commandLine>-l gsl -l gslcblas -l yaml-cpp</commandLine>
+          <commandLine>-l gsl -l gslcblas -static-libstdc++ -l yaml-cpp</commandLine>
         </linkerTool>
       </compileType>
       <item path="ezOptionParser.hpp" ex="false" tool="3" flavor2="0">

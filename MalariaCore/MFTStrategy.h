@@ -33,7 +33,7 @@ public:
     virtual int to_int() const;
     
     virtual void check_and_switch_therapy() ;
-
+    
 private:
 
 };

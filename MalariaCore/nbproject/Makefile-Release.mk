@@ -21,8 +21,8 @@ FC=gfortran
 AS=as
 
 # Macros
-CND_PLATFORM=MinGW-Windows
-CND_DLIB_EXT=dll
+CND_PLATFORM=GNU-MacOSX
+CND_DLIB_EXT=dylib
 CND_CONF=Release
 CND_DISTDIR=dist
 CND_BUILDDIR=build
@@ -38,6 +38,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/ACTIncreaseStrategy.o \
 	${OBJECTDIR}/AMUReporter.o \
 	${OBJECTDIR}/AdaptiveCyclingStrategy.o \
+	${OBJECTDIR}/Barabasi.o \
 	${OBJECTDIR}/BirthdayEvent.o \
 	${OBJECTDIR}/BittingLevelGenerator.o \
 	${OBJECTDIR}/BurninFarmReporter.o \
@@ -48,6 +49,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/ClonalParasitePopulation.o \
 	${OBJECTDIR}/Config.o \
 	${OBJECTDIR}/ConsoleReporter.o \
+	${OBJECTDIR}/CosineSeasonality.o \
 	${OBJECTDIR}/CyclingStrategy.o \
 	${OBJECTDIR}/Dispatcher.o \
 	${OBJECTDIR}/Drug.o \
@@ -60,6 +62,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Event.o \
 	${OBJECTDIR}/ExternalPopulation.o \
 	${OBJECTDIR}/FarmReporter.o \
+	${OBJECTDIR}/GeneralGravity.o \
 	${OBJECTDIR}/GuiReporter.o \
 	${OBJECTDIR}/ImmuneComponent.o \
 	${OBJECTDIR}/ImmuneSystem.o \
@@ -70,9 +73,12 @@ OBJECTFILES= \
 	${OBJECTDIR}/InfantImmuneComponent.o \
 	${OBJECTDIR}/IntGenotype.o \
 	${OBJECTDIR}/IntGenotypeDatabase.o \
+	${OBJECTDIR}/LocationDatabase.o \
+	${OBJECTDIR}/LocationInfo.o \
 	${OBJECTDIR}/MACTherapy.o \
 	${OBJECTDIR}/MDAAction.o \
 	${OBJECTDIR}/MFTStrategy.o \
+	${OBJECTDIR}/MMC_Zambia.o \
 	${OBJECTDIR}/MatureGametocyteEvent.o \
 	${OBJECTDIR}/Model.o \
 	${OBJECTDIR}/ModelDataCollector.o \
@@ -109,7 +115,12 @@ OBJECTFILES= \
 	${OBJECTDIR}/SFTStrategy.o \
 	${OBJECTDIR}/STCAction.o \
 	${OBJECTDIR}/Scheduler.o \
+	${OBJECTDIR}/SeasonalStructure.o \
 	${OBJECTDIR}/SingleHostClonalParasitePopulations.o \
+	${OBJECTDIR}/SpatialCombinedMFTCyclingStrategy.o \
+	${OBJECTDIR}/SpatialDraftReporter.o \
+	${OBJECTDIR}/SpatialMFTStrategy.o \
+	${OBJECTDIR}/SpatialStructure.o \
 	${OBJECTDIR}/Strategy.o \
 	${OBJECTDIR}/SwitchImmuneComponentEvent.o \
 	${OBJECTDIR}/TMEAction.o \
@@ -163,6 +174,11 @@ ${OBJECTDIR}/AdaptiveCyclingStrategy.o: AdaptiveCyclingStrategy.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/AdaptiveCyclingStrategy.o AdaptiveCyclingStrategy.cpp
 
+${OBJECTDIR}/Barabasi.o: Barabasi.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Barabasi.o Barabasi.cpp
+
 ${OBJECTDIR}/BirthdayEvent.o: BirthdayEvent.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -212,6 +228,11 @@ ${OBJECTDIR}/ConsoleReporter.o: ConsoleReporter.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ConsoleReporter.o ConsoleReporter.cpp
+
+${OBJECTDIR}/CosineSeasonality.o: CosineSeasonality.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/CosineSeasonality.o CosineSeasonality.cpp
 
 ${OBJECTDIR}/CyclingStrategy.o: CyclingStrategy.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -273,6 +294,11 @@ ${OBJECTDIR}/FarmReporter.o: FarmReporter.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FarmReporter.o FarmReporter.cpp
 
+${OBJECTDIR}/GeneralGravity.o: GeneralGravity.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GeneralGravity.o GeneralGravity.cpp
+
 ${OBJECTDIR}/GuiReporter.o: GuiReporter.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -323,6 +349,16 @@ ${OBJECTDIR}/IntGenotypeDatabase.o: IntGenotypeDatabase.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/IntGenotypeDatabase.o IntGenotypeDatabase.cpp
 
+${OBJECTDIR}/LocationDatabase.o: LocationDatabase.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/LocationDatabase.o LocationDatabase.cpp
+
+${OBJECTDIR}/LocationInfo.o: LocationInfo.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/LocationInfo.o LocationInfo.cpp
+
 ${OBJECTDIR}/MACTherapy.o: MACTherapy.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -337,6 +373,11 @@ ${OBJECTDIR}/MFTStrategy.o: MFTStrategy.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MFTStrategy.o MFTStrategy.cpp
+
+${OBJECTDIR}/MMC_Zambia.o: MMC_Zambia.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MMC_Zambia.o MMC_Zambia.cpp
 
 ${OBJECTDIR}/MatureGametocyteEvent.o: MatureGametocyteEvent.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -518,10 +559,35 @@ ${OBJECTDIR}/Scheduler.o: Scheduler.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Scheduler.o Scheduler.cpp
 
+${OBJECTDIR}/SeasonalStructure.o: SeasonalStructure.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SeasonalStructure.o SeasonalStructure.cpp
+
 ${OBJECTDIR}/SingleHostClonalParasitePopulations.o: SingleHostClonalParasitePopulations.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SingleHostClonalParasitePopulations.o SingleHostClonalParasitePopulations.cpp
+
+${OBJECTDIR}/SpatialCombinedMFTCyclingStrategy.o: SpatialCombinedMFTCyclingStrategy.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SpatialCombinedMFTCyclingStrategy.o SpatialCombinedMFTCyclingStrategy.cpp
+
+${OBJECTDIR}/SpatialDraftReporter.o: SpatialDraftReporter.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SpatialDraftReporter.o SpatialDraftReporter.cpp
+
+${OBJECTDIR}/SpatialMFTStrategy.o: SpatialMFTStrategy.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SpatialMFTStrategy.o SpatialMFTStrategy.cpp
+
+${OBJECTDIR}/SpatialStructure.o: SpatialStructure.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SpatialStructure.o SpatialStructure.cpp
 
 ${OBJECTDIR}/Strategy.o: Strategy.cpp 
 	${MKDIR} -p ${OBJECTDIR}

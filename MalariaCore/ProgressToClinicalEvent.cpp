@@ -74,6 +74,8 @@ void ProgressToClinicalEvent::execute() {
     double P = Model::RANDOM->random_flat(0.0, 1.0);
     double P_treatment = (Model::MODEL->scheduler()->current_time() >= Model::CONFIG->start_treatment_day()) ? Model::CONFIG->p_treatment() : -1;
     if (P <= P_treatment) {
+	//TODO: consider remove later
+        Model::DATA_COLLECTOR->collect_person_location() = person->location();
         Therapy* therapy = Model::CONFIG->strategy()->get_therapy();
         person->receive_therapy(therapy, clinical_caused_parasite_);
         //Statistic increase today treatments

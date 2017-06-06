@@ -82,6 +82,8 @@ public:
      */
     virtual int size(const int &location = -1, const int &age_class = -1);
     virtual int size(const int &location, const Person::HostStates& hs, const int &age_class);
+    
+    int size_residents_only(const int &location = -1, const int &age_class = -1);   // this counts the number of residents currently reside at that location
 
     virtual void perform_infection_event();
 
@@ -112,13 +114,13 @@ public:
     void perform_moving_to_external_population_event();
 
     void perform_circulation_for_1_location(const int & from_location, const int& target_location, const int& number_of_circulation, std::vector<Person*> &today_circulations);
-
+    
     bool has_0_case();
 
     void initialize_person_indices();
     
     void perform_interupted_feeding_recombination();
-
+  
 private:
 
 };

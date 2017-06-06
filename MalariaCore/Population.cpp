@@ -24,6 +24,8 @@
 #include "SingleHostClonalParasitePopulations.h"
 #include "PersonIndexByLocationExternalPopulationMovingLevel.h"
 #include "MoveToExternalPopulationEvent.h"
+#include "SpatialStructure.h"
+#include "SeasonalStructure.h"
 
 Population::Population(Model* model) : model_(model) {
     person_index_list_ = new PersonIndexPtrList();
@@ -141,6 +143,33 @@ int Population::size(const int& location, const Person::HostStates& hs, const in
     }
 }
 
+int Population::size_residents_only(const int& location, const int& age_class) {
+    if (location == -1) {
+        return all_persons_->size();
+    } else {
+        PersonIndexByLocationStateAgeClass* pi_lsa = get_person_index<PersonIndexByLocationStateAgeClass>();
+        
+        if (pi_lsa == NULL) {
+            return 0;
+        }
+        int temp = 0;
+        if (age_class == -1) {
+            for (int state = 0; state < Person::NUMBER_OF_STATE - 1; state++) {
+                for (int ac = 0; ac < Model::CONFIG->number_of_age_classes(); ac++) {
+                    for (int i = 0; i < pi_lsa->vPerson()[location][state][ac].size(); i++) {
+                        if (pi_lsa->vPerson()[location][state][ac].at(i)->residence_location() == location) {
+                            temp++;
+                        }
+                    }
+                }
+            }
+        } else {
+            
+        }
+        return temp;
+    }
+}
+
 void Population::perform_infection_event() {
     //    std::cout << "Infection Event" << std::endl;
 
@@ -152,7 +181,8 @@ void Population::perform_infection_event() {
                 continue;
 
             //TODO::implement seasonal later * Global::betaBySeasonal[Global::betaBySeasonalIndex];
-            double newBeta = Model::CONFIG->beta()[loc] * Model::CONFIG->seasonality(Model::SCHEDULER->current_time(), Model::CONFIG->seasonal_beta().a[loc], Model::CONFIG->seasonal_beta().phi[loc]);
+//            double newBeta = Model::CONFIG->beta()[loc] * Model::CONFIG->seasonality(Model::SCHEDULER->current_time(), Model::CONFIG->seasonal_beta().a[loc], Model::CONFIG->seasonal_beta().phi_upper[loc], Model::CONFIG->seasonal_beta().phi_lower[loc]);
+            double newBeta = Model::CONFIG->beta()[loc] * Model::CONFIG->seasonal_structure()->get_seasonality();
 
 
             double poisson_means = newBeta * force_of_infection;
@@ -202,12 +232,14 @@ void Population::perform_infection_event() {
                             if (p->host_state() != Person::EXPOSED && p->liver_parasite_type() == NULL) {
                                 p->today_infections()->push_back(parasite_type_id);
                                 today_infections.push_back(p);
+                                Model::DATA_COLLECTOR->incidence_by_location()[loc] += 1;
                             }
                         }
                     } else if (pInfectious <= Model::CONFIG->p_infection_from_an_infectious_bite()) {
                         if (p->host_state() != Person::EXPOSED && p->liver_parasite_type() == NULL) {
                             p->today_infections()->push_back(parasite_type_id);
                             today_infections.push_back(p);
+                            Model::DATA_COLLECTOR->incidence_by_location()[loc] += 1;
                         }
                     }
 
@@ -236,6 +268,7 @@ void Population::initialize() {
 
 
         int number_of_location = Model::CONFIG->number_of_locations();
+        int number_of_provinces = Model::CONFIG->number_of_provinces();
 
         int number_of_parasite_type = Model::CONFIG->number_of_parasite_types();
 
@@ -269,7 +302,7 @@ void Population::initialize() {
                     p->set_location(loc);
                     p->set_residence_location(loc);
                     p->set_host_state(Person::SUSCEPTIBLE);
-
+                    
                     int age_from = (age_class == 0) ? 0 : Model::CONFIG->initial_age_structure()[age_class - 1];
                     int age_to = Model::CONFIG->initial_age_structure()[age_class];
 
@@ -423,7 +456,8 @@ void Population::perform_birth_event() {
     //    std::cout << "Birth Event" << std::endl;
 
     for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
-        double poisson_means = size(loc) * Model::CONFIG->birth_rate() / 365.0;
+//        double poisson_means = size(loc) * Model::CONFIG->birth_rate() / 365.0;
+        double poisson_means = Model::DATA_COLLECTOR->popsize_residence_by_location()[loc] * Model::CONFIG->birth_rate() / 365.0;
         int numberOfBirths = Model::RANDOM->random_poisson(poisson_means);
 
         for (int i = 0; i < numberOfBirths; i++) {
@@ -532,49 +566,42 @@ void Population::perform_circulation_event() {
     // get number of circulations based on size * circulation_percent
     // distributes that number into others location based of other location size
     // for each number in that list select an individual, and schedule a movement event on next day
-    std::vector<Person*> today_circulations;
+    std::vector<Person*> v_todays_nonunique_circulations;
 
-    std::vector<int> v_original_pop_size_by_location(Model::CONFIG->number_of_locations(), 0);
+    std::vector<double> v_numresidents_by_location(Model::CONFIG->number_of_locations(), 0);
     for (int target_location = 0; target_location < Model::CONFIG->number_of_locations(); target_location++) {
-        v_original_pop_size_by_location[target_location] = (size(target_location));
-        //        std::cout << v_original_pop_size_by_location[target_location] << std::endl;
+//        v_original_pop_size_by_location[target_location] = (size(target_location));
+        v_numresidents_by_location[target_location] = Model::DATA_COLLECTOR->popsize_residence_by_location()[target_location];
     }
-
-
 
     for (int from_location = 0; from_location < Model::CONFIG->number_of_locations(); from_location++) {
-        double poisson_means = size(from_location) * Model::CONFIG->spatial_information().circulation_percent;
+        double poisson_means = v_numresidents_by_location[from_location] * Model::CONFIG->spatial_information().circulation_percent;
         if (poisson_means == 0)continue;
-        int total_number_of_circulation = Model::RANDOM->random_poisson(poisson_means);
-        if (total_number_of_circulation == 0) continue;
+        int num_circulating_from_this_location = Model::RANDOM->random_poisson(poisson_means);
+        if (num_circulating_from_this_location == 0) continue;
+        
+        std::vector<double> v_relative_outmovement_to_destination(Model::CONFIG->number_of_locations());    // look at passing by reference for v_distance_by_location later
+        v_relative_outmovement_to_destination = Model::CONFIG->spatial_structure()->get_v_relative_outmovement_to_destination(from_location, Model::CONFIG->v_distance_by_location()[from_location], v_numresidents_by_location);
 
-        std::vector<double> v_pop_size_by_location(Model::CONFIG->number_of_locations(), 0);
-        for (int target_location = 0; target_location < Model::CONFIG->number_of_locations(); target_location++) {
-            if (target_location == from_location) {
-                v_pop_size_by_location[target_location] = 0;
-            } else {
-                v_pop_size_by_location[target_location] = v_original_pop_size_by_location[target_location];
-            }
-        }
-
-        std::vector<unsigned int> v_number_of_circulation_by_location(v_pop_size_by_location.size());
-        Model::RANDOM->random_multinomial(v_pop_size_by_location.size(), total_number_of_circulation, &v_pop_size_by_location[0], &v_number_of_circulation_by_location[0]);
-
+        
+        std::vector<unsigned int> v_num_leavers_to_destination(Model::CONFIG->number_of_locations());
+        Model::RANDOM->random_multinomial(Model::CONFIG->number_of_locations(), num_circulating_from_this_location, &v_relative_outmovement_to_destination[0], &v_num_leavers_to_destination[0]);
+        
         for (int target_location = 0; target_location < Model::CONFIG->number_of_locations(); target_location++) {
             //            std::cout << v_number_of_circulation_by_location[target_location] << std::endl;
-            if (v_number_of_circulation_by_location[target_location] == 0) continue;
+            if (v_num_leavers_to_destination[target_location] == 0) continue;
 
-            perform_circulation_for_1_location(from_location, target_location, v_number_of_circulation_by_location[target_location], today_circulations);
+            perform_circulation_for_1_location(from_location, target_location, v_num_leavers_to_destination[target_location], v_todays_nonunique_circulations);
 
         }
 
     }
-
-    BOOST_FOREACH(Person* p, today_circulations) {
+    
+    BOOST_FOREACH(Person* p, v_todays_nonunique_circulations) {
         p->randomly_choose_target_location();
     }
 
-    today_circulations.clear();
+    v_todays_nonunique_circulations.clear();
 
 }
 
@@ -593,7 +620,7 @@ void Population::perform_circulation_for_1_location(const int& from_location, co
 
     model_->random()->random_multinomial(vLevelDensity.size(), number_of_circulation, &vLevelDensity[0], &vIntNumberOfCirculation[0]);
 
-
+    
     for (int moving_level = 0; moving_level < vIntNumberOfCirculation.size(); moving_level++) {
         int size = pi->vPerson()[from_location][moving_level].size();
         if (size == 0) continue;

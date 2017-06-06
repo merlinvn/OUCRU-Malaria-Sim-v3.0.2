@@ -131,6 +131,7 @@ void Model::initialize() {
     // modify parameters    
     //modify parameters && update config
     config_->override_parameters(override_parameter_filename_, override_parameter_line_number_);
+//    config_->read_from_file_after_overriding_parameters(config_filename_);
 
     //add reporter here    
     if (gui_type_ == -1) {
@@ -139,6 +140,7 @@ void Model::initialize() {
         } else {
             add_reporter(Reporter::MakeReport(Reporter::BURNIN_FARM_REPORTER));
             add_reporter(Reporter::MakeReport(Reporter::BURNIN_MONTHLY_REPORTER));
+            //add_reporter(Reporter::MakeReport(Reporter::SPATIAL_DRAFT));
         }
     } else {
         add_reporter(Reporter::MakeReport(Reporter::GUI));

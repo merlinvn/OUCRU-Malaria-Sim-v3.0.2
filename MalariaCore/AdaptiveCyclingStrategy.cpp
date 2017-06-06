@@ -68,3 +68,7 @@ void AdaptiveCyclingStrategy::check_and_switch_therapy() {
         }
     }
 }
+
+void AdaptiveCyclingStrategy::check_and_switch_non_art_therapy() {
+    
+}

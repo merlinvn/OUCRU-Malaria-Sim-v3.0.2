@@ -37,6 +37,8 @@ public:
     virtual int to_int() const;
     
     virtual void check_and_switch_therapy() ;
+    
+    virtual void check_and_switch_non_art_therapy();
 
 private:
 

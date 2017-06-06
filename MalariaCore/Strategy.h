@@ -20,7 +20,9 @@ public:
         SFT = 0,
         Cycling = 1,
         MFT = 2,
-        AdaptiveCycling = 3
+        AdaptiveCycling = 3,
+        SpatialMFT = 4,
+        SpatialCombinedMFTCycling = 5
     };
 
     DISALLOW_COPY_AND_ASSIGN_(Strategy)
@@ -49,7 +51,7 @@ public:
     virtual int to_int() const = 0;
 
     virtual void check_and_switch_therapy() = 0;
-
+    
 private:
 
 };
