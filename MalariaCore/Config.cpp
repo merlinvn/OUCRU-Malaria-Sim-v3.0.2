@@ -441,25 +441,6 @@ void Config::read_genotype_info(const YAML::Node &config)
     //    }
 }
 
-void Config::build_location_db(const YAML::Node &config)
-{
-    if (using_coordinate_ == 1)
-    {
-        read_location_db_using_coordinate_info(config["Cambodia_info"]);
-    }
-    else
-    {
-        read_location_db_using_normal_info(config);
-    }
-    // //    DeletePointer<LocationDatabase>(location_db_);
-
-    // for (int i = 0; i < config["Cambodia_info"].size(); i++)
-    // {
-    //     LocationInfo *loc_info = read_location_info(config, i);
-    //     location_db_->add(loc_info);
-    // }
-}
-
 void Config::build_drug_db(const YAML::Node &config)
 {
     DeletePointer<DrugDatabase>(drug_db_);
@@ -668,6 +649,18 @@ Therapy *Config::read_therapy(const YAML::Node &config, const int &therapy_id)
     return t;
 }
 
+void Config::build_location_db(const YAML::Node &config)
+{
+    if (using_coordinate_ == 1)
+    {
+        read_location_db_using_coordinate_info(config["Cambodia_info"]);
+    }
+    else
+    {
+        read_location_db_using_normal_info(config);
+    }
+}
+
 void Config::read_location_db_using_normal_info(const YAML::Node &config)
 {
     number_of_locations_ = config["number_of_locations"].as<int>();
@@ -687,6 +680,7 @@ void Config::read_location_db_using_normal_info(const YAML::Node &config)
         location_db_.districts.push_back(d);
     }
 }
+
 void Config::read_location_db_using_coordinate_info(const YAML::Node &config)
 {
     //loop each province
@@ -713,7 +707,6 @@ void Config::read_location_db_using_coordinate_info(const YAML::Node &config)
         }
     }
 }
-
 
 DrugType *Config::read_drugtype(const YAML::Node &config, const int &drug_id)
 {
