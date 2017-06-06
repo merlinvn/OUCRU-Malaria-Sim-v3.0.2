@@ -21,6 +21,7 @@
 #include <math.h>
 #include <boost/math/constants/constants.hpp>
 class Strategy;
+class SeasonalStructure;
 class SpatialStructure;
 class Therapy;
 class Model;
@@ -28,6 +29,7 @@ const double PI = boost::math::constants::pi<double>();
 
 typedef std::map<int, Therapy*> TherapyPtrMap;
 typedef std::map<int, Strategy*> StrategyPtrMap;
+typedef std::map<int, SeasonalStructure*> SeasonalStructurePtrMap;
 typedef std::map<int, SpatialStructure*> SpatialStructurePtrMap;
 
 class Config {
@@ -85,12 +87,14 @@ class Config {
     VIRTUAL_PROPERTY_REF(RelativeInfectivity, relative_infectivity);
 
     POINTER_PROPERTY(Strategy, strategy);
+    POINTER_PROPERTY(SeasonalStructure, seasonal_structure);
     POINTER_PROPERTY(SpatialStructure, spatial_structure);
     POINTER_PROPERTY(DrugDatabase, drug_db);
     POINTER_PROPERTY(IntGenotypeDatabase, genotype_db);
     VIRTUAL_PROPERTY_REF(GenotypeInfo, genotype_info);
     VIRTUAL_PROPERTY_REF(TherapyPtrMap, therapy_db);
     VIRTUAL_PROPERTY_REF(StrategyPtrMap, strategy_db);
+    VIRTUAL_PROPERTY_REF(SeasonalStructurePtrMap, seasonal_structure_db);
     VIRTUAL_PROPERTY_REF(SpatialStructurePtrMap, spatial_structure_db);
 
     VIRTUAL_PROPERTY_REF(std::vector<InitialParasiteInfo>, initial_parasite_info)
@@ -155,6 +159,7 @@ public:
     void read_strategy_therapy_and_drug_information(const YAML::Node & config);
     void read_relative_biting_rate_info(const YAML::Node & config);
     void calculate_relative_biting_density();
+    void read_seasonal_info(const YAML::Node & config);
     void read_spatial_info(const YAML::Node & config);
     void read_spatial_external_population_info(const YAML::Node & config);
 
@@ -178,10 +183,12 @@ public:
     void build_drug_and_parasite_db(const YAML::Node& config);
     void read_genotype_info(const YAML::Node& config);
 
-    double seasonality(const int& current_time, const double& amplitude, const double& phi) {
-        return amplitude * cos(2 * PI * (current_time - phi) / 365) + 1;
+    double seasonality(const int& current_time, const double& amplitude, const double& phi_upper, const double& phi_lower) {
+        return ( ((current_time % 365) > (365/2)) ) ? amplitude * (cos(2 * PI * (current_time + phi_upper) / 365) + 2) : (cos(2 * PI * (current_time + phi_lower) / 365) + 2);
+//        return amplitude * cos(2 * PI * (current_time + phi) / 365) + 2;
     };
     
+    SeasonalStructure* read_seasonal_structure(const YAML::Node& config, const YAML::Node& n, const std::string& structure_name);
     SpatialStructure* read_spatial_structure(const YAML::Node& config, const YAML::Node& n, const std::string& structure_name);
 
     void evaluate_next_strategy(int sim_id);

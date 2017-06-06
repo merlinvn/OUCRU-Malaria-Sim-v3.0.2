@@ -25,6 +25,7 @@
 #include "PersonIndexByLocationExternalPopulationMovingLevel.h"
 #include "MoveToExternalPopulationEvent.h"
 #include "SpatialStructure.h"
+#include "SeasonalStructure.h"
 
 Population::Population(Model* model) : model_(model) {
     person_index_list_ = new PersonIndexPtrList();
@@ -180,7 +181,8 @@ void Population::perform_infection_event() {
                 continue;
 
             //TODO::implement seasonal later * Global::betaBySeasonal[Global::betaBySeasonalIndex];
-            double newBeta = Model::CONFIG->beta()[loc] * Model::CONFIG->seasonality(Model::SCHEDULER->current_time(), Model::CONFIG->seasonal_beta().a[loc], Model::CONFIG->seasonal_beta().phi[loc]);
+//            double newBeta = Model::CONFIG->beta()[loc] * Model::CONFIG->seasonality(Model::SCHEDULER->current_time(), Model::CONFIG->seasonal_beta().a[loc], Model::CONFIG->seasonal_beta().phi_upper[loc], Model::CONFIG->seasonal_beta().phi_lower[loc]);
+            double newBeta = Model::CONFIG->beta()[loc] * Model::CONFIG->seasonal_structure()->get_seasonality();
 
 
             double poisson_means = newBeta * force_of_infection;
@@ -584,10 +586,6 @@ void Population::perform_circulation_event() {
         
         std::vector<unsigned int> v_num_leavers_to_destination(Model::CONFIG->number_of_locations());
         Model::RANDOM->random_multinomial(Model::CONFIG->number_of_locations(), num_circulating_from_this_location, &v_relative_outmovement_to_destination[0], &v_num_leavers_to_destination[0]);
-        
-        for (int i = 0; i < Model::CONFIG->number_of_locations(); i++) {
-            Model::DATA_COLLECTOR->test()[from_location][i] = v_num_leavers_to_destination[i];
-        }
         
         for (int target_location = 0; target_location < Model::CONFIG->number_of_locations(); target_location++) {
             //            std::cout << v_number_of_circulation_by_location[target_location] << std::endl;

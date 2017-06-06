@@ -142,8 +142,6 @@ void ModelDataCollector::initialize() {
         total_resistance_frequency_at_15_ = 0;
         
         incidence_by_location_ = DoubleVector(Model::CONFIG->number_of_locations(), 0.0);
-        
-        test_ = IntVector2(Model::CONFIG->number_of_locations(), IntVector(Model::CONFIG->number_of_locations(), 0));
     }
 }
 

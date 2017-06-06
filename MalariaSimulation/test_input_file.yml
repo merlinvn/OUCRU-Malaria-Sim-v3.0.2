@@ -12,7 +12,7 @@
 # total number of days the simulation is run, including the burn-in period which we normally set to 4000
 # days; during the burn-in period, no one receives malaria treatement and the system sets into a natural 
 # equilibrium 
-total_time: 2920 #8 years
+total_time: 11300 #2920 is 8 years
 
 # length of burn-in period
 start_treatment_day: 1825 #5 years - from 2008 to 2012
@@ -116,13 +116,13 @@ Cambodia_info:
       coordinates_by_district: [[0,0]]
   9:
     province_name: Battambang
-    pop_size: 0 #1058174
-    coordinates: [13.02861111,102.98944444]
+    pop_size: 1058174
+    coordinates: [13.02861111,102.98944444] #googlemap
     beta: 0
-    districts_info:
-      pop_proportion_by_districts: [0.053,0.329,0.618]
-      beta_by_district: [0.1, 0.2, 0.3]
-      coordinates_by_district: [[13.315787,102.365002], [13.028697,102.989616], [13.071506,103.035694]] #Phnum Proek/Batdambang/Banan
+    districts_info: #Battambang, Moung Ruessei, Sampov Loun, Sangkae, Thma Koul
+      pop_proportion_by_districts: [0.347235,0.109936,0.132682,0.175520,0.234627] #citypopulation.de
+      beta_by_district: [0.0, 0.0, 0.0, 0.0, 0.0]
+      coordinates_by_district: [[12.7783217,102.4852183], [12.7740211,103.4428882], [13.3406701,102.4022306], [13.0864923,103.2444842], [13.2718993,103.0711981]]
   10:
     province_name: Pailin
     pop_size: 70486
@@ -134,7 +134,7 @@ Cambodia_info:
       coordinates_by_district: [[0,0]]
   11:
     province_name: Pursat
-    pop_size: 397161
+    pop_size: 0 #397161
     coordinates: [12.53333333,103.91666667]
     beta: 0
     districts_info:
@@ -152,7 +152,7 @@ Cambodia_info:
       coordinates_by_district: [[0,0]]
   13:
     province_name: Koh Kong
-    pop_size: 117481
+    pop_size: 0 #117481
     coordinates: [11.39916667,103.49472222]
     beta: 0
     districts_info:
@@ -277,8 +277,21 @@ sd_beta_lognormal: 0.1
 # this functionality works, but it was not used in any analyses for the 2015 LGH paper
 # seasonality parameters, by location
 seasonal_beta:
-  a: [0, 0, 0, 0, 0, 0, 0, 0, 0]
-  phi: [200, 200, 200, 200, 200, 200, 200, 200, 200]
+    a: 0.7778
+    phi_upper: 92
+    phi_lower: 61
+    
+# this seasonality feature is under-testing by Giang
+seasonality:
+  seasonality_function: CosineSeasonality
+#    seasonality_function: data_driven_approach
+
+  CosineSeasonality:
+    test: 29
+    peak: 2
+    trough: 0.1
+    phi_upper: 92
+    phi_lower: 61
   
   
 # the last four terms are ignored when the number of locations is 1
@@ -889,8 +902,9 @@ spatial_external_population_information:
     sd: 10    
   daily_EIR: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
   seasonal_EIR:
-    a: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-    phi: [200, 200, 200, 200, 200, 200, 200, 200, 200]
+    a: 0
+    phi_upper: 200
+    phi_lower: 100
     
 # this functionality works, but it was not used in any analyses for the 2015 LGH paper
 tme_info:

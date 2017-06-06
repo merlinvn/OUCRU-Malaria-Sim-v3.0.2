@@ -47,6 +47,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/ClonalParasitePopulation.o \
 	${OBJECTDIR}/Config.o \
 	${OBJECTDIR}/ConsoleReporter.o \
+	${OBJECTDIR}/CosineSeasonality.o \
 	${OBJECTDIR}/CyclingStrategy.o \
 	${OBJECTDIR}/Dispatcher.o \
 	${OBJECTDIR}/Drug.o \
@@ -110,6 +111,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/SFTStrategy.o \
 	${OBJECTDIR}/STCAction.o \
 	${OBJECTDIR}/Scheduler.o \
+	${OBJECTDIR}/SeasonalStructure.o \
 	${OBJECTDIR}/SingleHostClonalParasitePopulations.o \
 	${OBJECTDIR}/SpatialCombinedMFTCyclingStrategy.o \
 	${OBJECTDIR}/SpatialDraftReporter.o \
@@ -212,6 +214,11 @@ ${OBJECTDIR}/ConsoleReporter.o: ConsoleReporter.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ConsoleReporter.o ConsoleReporter.cpp
+
+${OBJECTDIR}/CosineSeasonality.o: CosineSeasonality.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/CosineSeasonality.o CosineSeasonality.cpp
 
 ${OBJECTDIR}/CyclingStrategy.o: CyclingStrategy.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -527,6 +534,11 @@ ${OBJECTDIR}/Scheduler.o: Scheduler.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Scheduler.o Scheduler.cpp
+
+${OBJECTDIR}/SeasonalStructure.o: SeasonalStructure.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SeasonalStructure.o SeasonalStructure.cpp
 
 ${OBJECTDIR}/SingleHostClonalParasitePopulations.o: SingleHostClonalParasitePopulations.cpp 
 	${MKDIR} -p ${OBJECTDIR}

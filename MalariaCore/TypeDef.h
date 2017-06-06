@@ -59,7 +59,8 @@ typedef std::map<int, Drug*> DrugPtrMap;
 
 struct Seasonality {
     DoubleVector a;
-    DoubleVector phi;
+    DoubleVector phi_upper;
+    DoubleVector phi_lower;
 };
 
 struct ImmuneSystemInformation {

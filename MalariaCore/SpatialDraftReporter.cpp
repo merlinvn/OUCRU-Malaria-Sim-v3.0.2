@@ -15,6 +15,7 @@
 #include "PersonIndexAll.h"
 #include "SpatialStructure.h"
 #include "Barabasi.h"
+#include "SeasonalStructure.h"
 #include <iostream>
 #include <fstream>
 
@@ -68,21 +69,26 @@ void SpatialDraftReporter::after_time_step() {
         
 //        print_prevalence_by_location();
         
+//        for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
+//            for (int i = 0; i < Model::CONFIG->coordinates_by_location()[loc].size(); i++) {
+//                std::cout << Model::CONFIG->coordinates_by_location()[loc][i] << "\t";
+//            }
+//        }
+//        
 //        std::cout << "-1111" << "\t";
-        
-        for (int from_loc = 0; from_loc < Model::CONFIG->number_of_locations(); from_loc++) {
-            for (int to_loc = 0; to_loc < Model::CONFIG->number_of_locations(); to_loc++) {
-                std::cout << Model::CONFIG->v_distance_by_location()[from_loc][to_loc] << "\t";
+//        
+//        for (int from_loc = 0; from_loc < Model::CONFIG->number_of_locations(); from_loc++) {
+//            for (int to_loc = 0; to_loc < Model::CONFIG->number_of_locations(); to_loc++) {
+//                std::cout << Model::CONFIG->v_distance_by_location()[from_loc][to_loc] << "\t";
+//            }
+//        }
+//        
+//        std::cout << "-1111" << "\t";
+            for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
+                std::cout << Model::DATA_COLLECTOR->incidence_by_location()[loc] << "\t";
             }
-        }
         
-        std::cout << "-1111" << "\t";
-        
-        std::cout << "-1111" << "\t";
-        
-        for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
-            std::cout << Model::DATA_COLLECTOR->incidence_by_location()[loc] << "\t";
-        }
+//        std::cout << Model::CONFIG->seasonal_structure()->get_seasonality() << "\t";
         
         std::cout << std::endl;
     }

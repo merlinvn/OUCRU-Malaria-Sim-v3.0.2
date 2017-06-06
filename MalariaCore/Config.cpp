@@ -21,6 +21,7 @@
 #include "Model.h"
 #include "Random.h"
 #include "MACTherapy.h"
+#include "CosineSeasonality.h"
 #include "GeneralGravity.h"
 #include "MMC_Zambia.h"
 #include "Barabasi.h"
@@ -113,7 +114,8 @@ void Config::read_from_file(const std::string& config_file_name) {
     population_size_by_location_.clear();
     beta_.clear();
     seasonal_beta_.a.clear();
-    seasonal_beta_.phi.clear();
+    seasonal_beta_.phi_upper.clear();
+    seasonal_beta_.phi_lower.clear();
     
     if (load_coordinate_ == 1) {
         build_location_db(config);
@@ -132,15 +134,11 @@ void Config::read_from_file(const std::string& config_file_name) {
                         coordinates_by_location_.push_back(location_db_->location_db().at(i)->coordinates_by_districts()[district_id]);
                         population_size_by_location_.push_back(population_size_by_district[district_id]);
                         beta_.push_back(location_db_->location_db().at(i)->beta_by_districts()[district_id]);
-                        seasonal_beta_.a.push_back(config["seasonal_beta"]["a"][0].as<double>());
-                        seasonal_beta_.phi.push_back(config["seasonal_beta"]["phi"][0].as<double>());
                     }
                 } else {
                     coordinates_by_location_.push_back(location_db_->location_db().at(i)->coordinates());
                     population_size_by_location_.push_back(location_db_->location_db().at(i)->pop_size());
                     beta_.push_back(location_db_->location_db().at(i)->beta());
-                    seasonal_beta_.a.push_back(config["seasonal_beta"]["a"][0].as<double>());
-                    seasonal_beta_.phi.push_back(config["seasonal_beta"]["phi"][0].as<double>());
                 }
             }
         }
@@ -173,10 +171,6 @@ void Config::read_from_file(const std::string& config_file_name) {
         
         for (int i = 0; i < number_of_locations_; i++) {
             beta_.push_back(config["beta"][i].as<double>());
-//            seasonal_beta_.a.push_back(config["seasonal_beta"]["a"][i].as<double>());
-//            seasonal_beta_.phi.push_back(config["seasonal_beta"]["phi"][i].as<double>());
-            seasonal_beta_.a.push_back(config["seasonal_beta"]["a"][0].as<double>());
-            seasonal_beta_.phi.push_back(config["seasonal_beta"]["phi"][0].as<double>());
         }
         // beta drawn from lognormal
 //        mean_beta_lognormal_ = config["mean_beta_lognormal"].as<double>();
@@ -222,6 +216,12 @@ void Config::read_from_file(const std::string& config_file_name) {
                 }
             }
         }
+    }
+    
+    for (int loc = 0; loc < number_of_locations_; loc++) {
+        seasonal_beta_.a.push_back(config["seasonal_beta"]["a"].as<double>());
+        seasonal_beta_.phi_upper.push_back(config["seasonal_beta"]["phi_upper"].as<double>());
+        seasonal_beta_.phi_lower.push_back(config["seasonal_beta"]["phi_lower"].as<double>());
     }
     
     number_of_age_classes_ = config["number_of_age_classes"].as<int>();
@@ -276,6 +276,7 @@ void Config::read_from_file(const std::string& config_file_name) {
 
     read_relative_biting_rate_info(config);
     read_spatial_info(config);
+    read_seasonal_info(config);
     read_spatial_external_population_info(config);
 
     read_initial_parasite_info(config);
@@ -565,6 +566,19 @@ void Config::build_parasite_db() {
 
     genotype_db_->initialize_matting_matrix();
     number_of_parasite_types_ = genotype_db_->genotype_db().size();
+}
+
+SeasonalStructure* Config::read_seasonal_structure(const YAML::Node& config, const YAML::Node& n, const std::string& structure_name) {
+    SeasonalStructure* s;
+    if (structure_name == "CosineSeasonality") {
+        s = new CosineSeasonality();
+        ((CosineSeasonality*) s)->set_test(n[structure_name]["test"].as<int>());
+        ((CosineSeasonality*) s)->set_peak(n[structure_name]["peak"].as<double>());
+        ((CosineSeasonality*) s)->set_trough(n[structure_name]["trough"].as<double>());
+        ((CosineSeasonality*) s)->set_phi_upper(n[structure_name]["phi_upper"].as<int>());
+        ((CosineSeasonality*) s)->set_phi_lower(n[structure_name]["phi_lower"].as<int>());
+    }
+    return s;
 }
 
 SpatialStructure* Config::read_spatial_structure(const YAML::Node& config, const YAML::Node& n, const std::string& structure_name) {
@@ -914,6 +928,19 @@ void Config::read_spatial_info(const YAML::Node& config) {
     }
 }
 
+void Config::read_seasonal_info(const YAML::Node& config) {
+    seasonal_structure_ = read_seasonal_structure(config, config["seasonality"], "CosineSeasonality");
+    seasonal_structure_db_.insert(std::pair<int, SeasonalStructure*>(seasonal_structure_->to_int(), seasonal_structure_));
+    
+    std::string seasonal_structure_name = config["seasonality"]["seasonality_function"].as<std::string>();
+    
+    BOOST_FOREACH(SeasonalStructurePtrMap::value_type &i, seasonal_structure_db_) {
+        if (i.second->to_string() == seasonal_structure_name) {
+            seasonal_structure_ = i.second;
+        }
+    }
+}
+
 void Config::read_spatial_external_population_info(const YAML::Node& config) {
     const YAML::Node& n = config["spatial_external_population_information"];
 
@@ -994,8 +1021,9 @@ void Config::read_spatial_external_population_info(const YAML::Node& config) {
 //        spatial_external_population_information_.seasonal_EIR.a.push_back(n["seasonal_EIR"]["a"][i].as<double>());
 //        spatial_external_population_information_.seasonal_EIR.phi.push_back(n["seasonal_EIR"]["phi"][i].as<double>());
         spatial_external_population_information_.daily_EIR.push_back(n["daily_EIR"][0].as<double>());
-        spatial_external_population_information_.seasonal_EIR.a.push_back(n["seasonal_EIR"]["a"][0].as<double>());
-        spatial_external_population_information_.seasonal_EIR.phi.push_back(n["seasonal_EIR"]["phi"][0].as<double>());
+        spatial_external_population_information_.seasonal_EIR.a.push_back(n["seasonal_EIR"]["a"].as<double>());
+        spatial_external_population_information_.seasonal_EIR.phi_upper.push_back(n["seasonal_EIR"]["phi_upper"].as<double>());
+        spatial_external_population_information_.seasonal_EIR.phi_lower.push_back(n["seasonal_EIR"]["phi_lower"].as<double>());
     }
     //    spatial_external_population_information_.daily_EIR = n["daily_EIR"].as<double>();
 }
