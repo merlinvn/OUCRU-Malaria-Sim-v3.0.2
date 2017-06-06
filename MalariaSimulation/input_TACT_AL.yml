@@ -387,33 +387,15 @@ introduce_parasite:
 introduce_parasite_periodically:
   - location: 0
     parasite_info:
-      - duration: 7 
-        genotype_id: 64
-        number_of_cases: 5
-        start_day: 0
-        
-  - location: 0
-    parasite_info:
-      - duration: 7 
-        genotype_id: 72
-        number_of_cases: 5
-        start_day: 0
-
-  - location: 0
-    parasite_info:
-      - duration: 7 
-        genotype_id: 68
-        number_of_cases: 5
-        start_day: 4380
-        
-  - location: 0
-    parasite_info:
-      - duration: 7 
-        genotype_id: 76
-        number_of_cases: 5
+      - duration: 10
+        # genotype_id -1: fix allele 580Y and x of the last loci, other alleles will be drawed randomly
+        genotype_id: -1
+        number_of_cases: 1
         start_day: 4380
         
 
+        
+        
 
 # drug information below
 #
