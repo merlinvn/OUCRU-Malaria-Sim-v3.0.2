@@ -21,8 +21,8 @@ FC=gfortran
 AS=as
 
 # Macros
-CND_PLATFORM=GNU-MacOSX
-CND_DLIB_EXT=dylib
+CND_PLATFORM=MinGW-Windows
+CND_DLIB_EXT=dll
 CND_CONF=Release
 CND_DISTDIR=dist
 CND_BUILDDIR=build
@@ -73,7 +73,6 @@ OBJECTFILES= \
 	${OBJECTDIR}/InfantImmuneComponent.o \
 	${OBJECTDIR}/IntGenotype.o \
 	${OBJECTDIR}/IntGenotypeDatabase.o \
-	${OBJECTDIR}/LocationDatabase.o \
 	${OBJECTDIR}/LocationInfo.o \
 	${OBJECTDIR}/MACTherapy.o \
 	${OBJECTDIR}/MDAAction.o \
@@ -348,11 +347,6 @@ ${OBJECTDIR}/IntGenotypeDatabase.o: IntGenotypeDatabase.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/IntGenotypeDatabase.o IntGenotypeDatabase.cpp
-
-${OBJECTDIR}/LocationDatabase.o: LocationDatabase.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/LocationDatabase.o LocationDatabase.cpp
 
 ${OBJECTDIR}/LocationInfo.o: LocationInfo.cpp 
 	${MKDIR} -p ${OBJECTDIR}

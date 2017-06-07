@@ -14,7 +14,7 @@
 #include <set>
 #include <yaml-cpp/yaml.h>
 #include "TypeDef.h"
-#include "LocationDatabase.h"
+#include "LocationInfo.h"
 #include "DrugDatabase.h"
 #include "IntGenotypeDatabase.h"
 
@@ -32,8 +32,7 @@ typedef std::map<int, Strategy *> StrategyPtrMap;
 typedef std::map<int, SeasonalStructure *> SeasonalStructurePtrMap;
 typedef std::map<int, SpatialStructure *> SpatialStructurePtrMap;
 
-class Config
-{
+class Config {
     DISALLOW_COPY_AND_ASSIGN_(Config)
 
     POINTER_PROPERTY(Model, model)
@@ -50,12 +49,12 @@ class Config
     VIRTUAL_PROPERTY_REF(int, number_of_provinces)
     VIRTUAL_PROPERTY_REF(int, number_of_age_classes)
     VIRTUAL_PROPERTY_REF(int, number_of_parasite_types)
-    VIRTUAL_PROPERTY_REF(std::vector<std::vector<double>>, fake_efficacy_table)
-    VIRTUAL_PROPERTY_REF(std::vector<std::vector<double>>, EC50_power_n_table)
+    VIRTUAL_PROPERTY_REF(DoubleVector2, fake_efficacy_table)
+    VIRTUAL_PROPERTY_REF(DoubleVector2, EC50_power_n_table)
 
     VIRTUAL_PROPERTY_REF(int, using_coordinate)
 
-    VIRTUAL_PROPERTY_REF(LocationInfo, location_db)
+    POINTER_PROPERTY(LocationInfo, location_db)
 
     VIRTUAL_PROPERTY_REF(DoubleVector2, coordinates_by_location)
     VIRTUAL_PROPERTY_REF(DoubleVector2, v_distance_by_location)
@@ -66,19 +65,19 @@ class Config
 
     VIRTUAL_PROPERTY_REF(double, p_infection_from_an_infectious_bite)
 
-    VIRTUAL_PROPERTY_REF(std::vector<int>, age_structure)
-    VIRTUAL_PROPERTY_REF(std::vector<int>, initial_age_structure)
+    VIRTUAL_PROPERTY_REF(IntVector, age_structure)
+    VIRTUAL_PROPERTY_REF(IntVector, initial_age_structure)
 
-    VIRTUAL_PROPERTY_REF(std::vector<int>, population_size_by_location)
+    VIRTUAL_PROPERTY_REF(IntVector, population_size_by_location)
 
-    VIRTUAL_PROPERTY_REF(std::vector<std::vector<double>>, age_distribution_by_location)
+    VIRTUAL_PROPERTY_REF(DoubleVector2, age_distribution_by_location)
 
     VIRTUAL_PROPERTY_REF(double, birth_rate)
-    VIRTUAL_PROPERTY_REF(std::vector<double>, death_rate_by_age);
+    VIRTUAL_PROPERTY_REF(DoubleVector, death_rate_by_age);
 
     VIRTUAL_PROPERTY_REF(int, number_of_tracking_days);
 
-    VIRTUAL_PROPERTY_REF(std::vector<double>, mortality_when_treatment_fail_by_age_class);
+    VIRTUAL_PROPERTY_REF(DoubleVector, mortality_when_treatment_fail_by_age_class);
 
     VIRTUAL_PROPERTY_REF(ParasiteDensityLevel, log_parasite_density_level);
 
@@ -137,21 +136,17 @@ class Config
     VIRTUAL_PROPERTY_REF(bool, using_variable_probability_infectious_bites_cause_infection)
     VIRTUAL_PROPERTY_REF(double, fraction_mosquitoes_interrupted_feeding)
 
-    VIRTUAL_PROPERTY_REF(int, non_artemisinin_switching_day);
-    VIRTUAL_PROPERTY_REF(IntVector, non_art_therapy_id);
-    VIRTUAL_PROPERTY_REF(double, drug_fraction_non_art_replacement);
+    VIRTUAL_PROPERTY_REF(int, grid_y)
+    VIRTUAL_PROPERTY_REF(double, grid_unit_in_km)
 
-    VIRTUAL_PROPERTY_REF(int, grid_y);
-    VIRTUAL_PROPERTY_REF(double, grid_unit_in_km);
-
-    VIRTUAL_PROPERTY_REF(int, non_artemisinin_switching_day);
-    VIRTUAL_PROPERTY_REF(int, non_art_therapy_id);
-    VIRTUAL_PROPERTY_REF(double, fraction_non_art_replacement);
+    VIRTUAL_PROPERTY_REF(int, non_artemisinin_switching_day)
+    VIRTUAL_PROPERTY_REF(int, non_art_therapy_id)
+    VIRTUAL_PROPERTY_REF(double, fraction_non_art_replacement)
 
     VIRTUAL_PROPERTY_REF(double, modified_daily_cost_of_resistance)
     VIRTUAL_PROPERTY_REF(double, modified_mutation_probability)
 
-  public:
+public:
     Config(Model *model = NULL);
     virtual ~Config();
 
@@ -190,8 +185,7 @@ class Config
     void build_drug_and_parasite_db(const YAML::Node &config);
     void read_genotype_info(const YAML::Node &config);
 
-    double seasonality(const int &current_time, const double &amplitude, const double &phi_upper, const double &phi_lower)
-    {
+    double seasonality(const int &current_time, const double &amplitude, const double &phi_upper, const double &phi_lower) {
         return (((current_time % 365) > (365 / 2))) ? amplitude * (cos(2 * PI * (current_time + phi_upper) / 365) + 2) : (cos(2 * PI * (current_time + phi_lower) / 365) + 2);
         //        return amplitude * cos(2 * PI * (current_time + phi) / 365) + 2;
     };
@@ -200,9 +194,9 @@ class Config
     SpatialStructure *read_spatial_structure(const YAML::Node &config, const YAML::Node &n, const std::string &structure_name);
 
     void evaluate_next_strategy(int sim_id);
-    void fix_pop_size_and_beta(std::vector<int> pop_size, std::vector<double> beta);
+    void fix_pop_size_and_beta(IntVector pop_size, std::vector<double> beta);
 
-  private:
+private:
 };
 
 #endif /* CONFIG_H */

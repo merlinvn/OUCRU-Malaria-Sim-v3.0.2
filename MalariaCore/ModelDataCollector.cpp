@@ -21,7 +21,7 @@
 
 ModelDataCollector::ModelDataCollector(Model* model) : model_(model),
 popsize_by_location_(), popsize_residence_by_location_(), current_residents_at_local_residence_(), number_of_positive_blood_slide_by_location_(), blood_slide_prevalence_by_location_(), fraction_of_positive_that_are_clinical_by_location_(), popsize_by_location_hoststate_(), total_immune_by_location_(), total_immune_by_location_age_class_(),
-current_total_number_of_bites_by_location_(), total_number_of_bites_by_location_(), total_number_of_bites_by_location_year_(), person_days_by_location_year_(), EIR_by_location_year_(), EIR_by_location_(),
+total_number_of_bites_by_location_(), total_number_of_bites_by_location_year_(), person_days_by_location_year_(), EIR_by_location_year_(), EIR_by_location_(),
 cumulative_clinical_episodes_by_location_(), cumulative_clinical_episodes_by_location_age_() {
 }
 
@@ -46,7 +46,7 @@ void ModelDataCollector::initialize() {
         popsize_by_location_hoststate_ = IntVector2(Model::CONFIG->number_of_locations(), IntVector(Person::NUMBER_OF_STATE, 0));
         popsize_by_location_age_class_ = IntVector2(Model::CONFIG->number_of_locations(), IntVector(Model::CONFIG->number_of_age_classes(), 0));
         popsize_by_location_age_class_by_5_ = IntVector2(Model::CONFIG->number_of_locations(), IntVector(Model::CONFIG->number_of_age_classes(), 0));
-        
+
         total_immune_by_location_ = DoubleVector(Model::CONFIG->number_of_locations(), 0.0);
         total_immune_by_location_age_class_ = DoubleVector2(Model::CONFIG->number_of_locations(), DoubleVector(Model::CONFIG->number_of_age_classes(), 0.0));
 
@@ -130,8 +130,8 @@ void ModelDataCollector::initialize() {
         number_of_treatments_by_location_age_therapy_year_ = IntVector3(Model::CONFIG->number_of_locations(), IntVector2(80, IntVector(3, 0)));
         number_of_treatment_failures_by_location_age_therapy_year_ = IntVector3(Model::CONFIG->number_of_locations(), IntVector2(80, IntVector(3, 0)));
         popsize_by_location_age_ = IntVector2(Model::CONFIG->number_of_locations(), IntVector(80, 0));
-                
-        cumulative_NTF_15_30_by_location_ =  DoubleVector(Model::CONFIG->number_of_locations(), 0.0);
+
+        cumulative_NTF_15_30_by_location_ = DoubleVector(Model::CONFIG->number_of_locations(), 0.0);
         TF_at_15_ = 0;
         single_resistance_frequency_at_15_ = 0;
         double_resistance_frequency_at_15_ = 0;
@@ -140,7 +140,7 @@ void ModelDataCollector::initialize() {
         quintuple_resistance_frequency_at_15_ = 0;
         art_resistance_frequency_at_15_ = 0;
         total_resistance_frequency_at_15_ = 0;
-        
+
         incidence_by_location_ = DoubleVector(Model::CONFIG->number_of_locations(), 0.0);
     }
 }
@@ -276,7 +276,7 @@ void ModelDataCollector::perform_population_statistic() {
         }
 
         popsize_by_location_[loc] = pop_sum_location;
-        
+
         //        double number_of_assymptomatic_and_clinical = blood_slide_prevalence_by_location_[loc] + popsize_by_location_hoststate_[loc][Person::CLINICAL];
         //        number_of_positive_by_location_[loc] = popsize_by_location_hoststate_[loc][Person::ASYMPTOMATIC] + popsize_by_location_hoststate_[loc][Person::CLINICAL];
 
@@ -459,7 +459,7 @@ void ModelDataCollector::record_1_TF(const int& location, const bool& by_drug) {
             today_TF_by_location_[location] += 1;
         }
     }
-    
+
     if (Model::SCHEDULER->current_time() >= Model::CONFIG->non_artemisinin_switching_day()) {
         //TODO: collect NTF15-30
         cumulative_NTF_15_30_by_location_[location] += 1;
@@ -482,7 +482,7 @@ void ModelDataCollector::begin_time_step() {
         today_number_of_treatments_by_location_[location] = 0;
         today_RITF_by_location_[location] = 0;
         today_TF_by_location_[location] = 0;
-		incidence_by_location_[location] = 0.0;
+        incidence_by_location_[location] = 0.0;
     }
 }
 
@@ -504,7 +504,7 @@ void ModelDataCollector::end_of_time_step() {
                 tTF60 += total_TF_60_by_location_[location][i];
             }
             total_TF_60_all_locations_[location] = tTF60;
-            
+
             current_RITF_by_location_[location] = (tTreatment60 == 0) ? 0 : (double) tRITF60 / (double) tTreatment60;
             current_TF_by_location_[location] = (tTreatment60 == 0) ? 0 : (double) tTF60 / (double) tTreatment60;
 
@@ -518,7 +518,7 @@ void ModelDataCollector::end_of_time_step() {
         if (avg_TF / (double) Model::CONFIG->number_of_locations() <= Model::CONFIG->TF_rate()) {
             current_utl_duration_ += 1;
         }
-		count_residence_popsize_by_location();
+        count_residence_popsize_by_location();
     }
 
     resistance_tracker_.update_resistance_tracker();

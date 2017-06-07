@@ -58,6 +58,8 @@ typedef std::list<PersonIndex*> PersonIndexPtrList;
 
 typedef std::map<int, Drug*> DrugPtrMap;
 
+typedef std::map<std::string, double> ec50map_type;
+
 struct Seasonality {
     DoubleVector a;
     DoubleVector phi_upper;

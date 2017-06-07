@@ -16,10 +16,6 @@
       <itemPath>SCTherapy.h</itemPath>
       <itemPath>SFTStrategy.cpp</itemPath>
       <itemPath>SFTStrategy.h</itemPath>
-      <itemPath>SpatialCombinedMFTCyclingStrategy.cpp</itemPath>
-      <itemPath>SpatialCombinedMFTCyclingStrategy.h</itemPath>
-      <itemPath>SpatialMFTStrategy.cpp</itemPath>
-      <itemPath>SpatialMFTStrategy.h</itemPath>
       <itemPath>Strategy.cpp</itemPath>
       <itemPath>Strategy.h</itemPath>
       <itemPath>Therapy.cpp</itemPath>
@@ -152,8 +148,6 @@
       <itemPath>MultipleLocationGuiReporter.h</itemPath>
       <itemPath>Reporter.cpp</itemPath>
       <itemPath>Reporter.h</itemPath>
-      <itemPath>SpatialDraftReporter.cpp</itemPath>
-      <itemPath>SpatialDraftReporter.h</itemPath>
       <itemPath>YearlyReporterV1.cpp</itemPath>
       <itemPath>YearlyReporterV1.h</itemPath>
     </logicalFolder>
@@ -172,8 +166,6 @@
                    projectFiles="true">
     </logicalFolder>
     <logicalFolder name="f9" displayName="SpatialLocationInfo" projectFiles="true">
-      <itemPath>LocationDatabase.cpp</itemPath>
-      <itemPath>LocationDatabase.h</itemPath>
       <itemPath>LocationInfo.cpp</itemPath>
       <itemPath>LocationInfo.h</itemPath>
     </logicalFolder>
@@ -188,6 +180,28 @@
       <itemPath>TMEActionFactory.h</itemPath>
       <itemPath>TMEScheduler.cpp</itemPath>
       <itemPath>TMEScheduler.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="TestFiles"
+                   displayName="Test Files"
+                   projectFiles="false"
+                   kind="TEST_LOGICAL_FOLDER">
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+    <logicalFolder name="TestFiles"
+                   displayName="Test Files"
+                   projectFiles="false"
+                   kind="TEST_LOGICAL_FOLDER">
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -435,10 +449,6 @@
       <item path="IntGenotypeDatabase.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="IntGenotypeDatabase.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="LocationDatabase.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="LocationDatabase.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="LocationInfo.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -925,10 +935,6 @@
       <item path="IntGenotypeDatabase.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="IntGenotypeDatabase.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="LocationDatabase.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="LocationDatabase.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="LocationInfo.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -1417,10 +1423,6 @@
       <item path="IntGenotypeDatabase.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="IntGenotypeDatabase.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="LocationDatabase.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="LocationDatabase.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="LocationInfo.cpp" ex="false" tool="1" flavor2="0">
       </item>

@@ -21,8 +21,8 @@ FC=gfortran
 AS=as
 
 # Macros
-CND_PLATFORM=GNU-MacOSX
-CND_DLIB_EXT=dylib
+CND_PLATFORM=MinGW-Windows
+CND_DLIB_EXT=dll
 CND_CONF=UnitTest
 CND_DISTDIR=dist
 CND_BUILDDIR=build
@@ -49,6 +49,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/ClonalParasitePopulation.o \
 	${OBJECTDIR}/Config.o \
 	${OBJECTDIR}/ConsoleReporter.o \
+	${OBJECTDIR}/CosineSeasonality.o \
 	${OBJECTDIR}/CyclingStrategy.o \
 	${OBJECTDIR}/Dispatcher.o \
 	${OBJECTDIR}/Drug.o \
@@ -72,6 +73,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/InfantImmuneComponent.o \
 	${OBJECTDIR}/IntGenotype.o \
 	${OBJECTDIR}/IntGenotypeDatabase.o \
+	${OBJECTDIR}/LocationInfo.o \
 	${OBJECTDIR}/MACTherapy.o \
 	${OBJECTDIR}/MDAAction.o \
 	${OBJECTDIR}/MFTStrategy.o \
@@ -112,6 +114,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/SFTStrategy.o \
 	${OBJECTDIR}/STCAction.o \
 	${OBJECTDIR}/Scheduler.o \
+	${OBJECTDIR}/SeasonalStructure.o \
 	${OBJECTDIR}/SingleHostClonalParasitePopulations.o \
 	${OBJECTDIR}/SpatialCombinedMFTCyclingStrategy.o \
 	${OBJECTDIR}/SpatialDraftReporter.o \
@@ -170,11 +173,11 @@ ${OBJECTDIR}/AdaptiveCyclingStrategy.o: AdaptiveCyclingStrategy.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -DUNITTEST=\"True\" -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/AdaptiveCyclingStrategy.o AdaptiveCyclingStrategy.cpp
 
-
 ${OBJECTDIR}/Barabasi.o: Barabasi.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -DUNITTEST=\"True\" -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Barabasi.o Barabasi.cpp
+
 ${OBJECTDIR}/BirthdayEvent.o: BirthdayEvent.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -224,6 +227,11 @@ ${OBJECTDIR}/ConsoleReporter.o: ConsoleReporter.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -DUNITTEST=\"True\" -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ConsoleReporter.o ConsoleReporter.cpp
+
+${OBJECTDIR}/CosineSeasonality.o: CosineSeasonality.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -DUNITTEST=\"True\" -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/CosineSeasonality.o CosineSeasonality.cpp
 
 ${OBJECTDIR}/CyclingStrategy.o: CyclingStrategy.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -339,6 +347,11 @@ ${OBJECTDIR}/IntGenotypeDatabase.o: IntGenotypeDatabase.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -DUNITTEST=\"True\" -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/IntGenotypeDatabase.o IntGenotypeDatabase.cpp
+
+${OBJECTDIR}/LocationInfo.o: LocationInfo.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -DUNITTEST=\"True\" -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/LocationInfo.o LocationInfo.cpp
 
 ${OBJECTDIR}/MACTherapy.o: MACTherapy.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -539,6 +552,11 @@ ${OBJECTDIR}/Scheduler.o: Scheduler.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -DUNITTEST=\"True\" -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Scheduler.o Scheduler.cpp
+
+${OBJECTDIR}/SeasonalStructure.o: SeasonalStructure.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -DUNITTEST=\"True\" -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SeasonalStructure.o SeasonalStructure.cpp
 
 ${OBJECTDIR}/SingleHostClonalParasitePopulations.o: SingleHostClonalParasitePopulations.cpp 
 	${MKDIR} -p ${OBJECTDIR}

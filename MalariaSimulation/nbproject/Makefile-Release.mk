@@ -42,8 +42,8 @@ OBJECTFILES= \
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=-m32
-CXXFLAGS=-m32
+CCFLAGS=
+CXXFLAGS=
 
 # Fortran Compiler Flags
 FFLAGS=
@@ -62,7 +62,7 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/malariasimulation.exe: ../MalariaCore
 
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/malariasimulation.exe: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
-	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/malariasimulation.exe ${OBJECTFILES} ${LDLIBSOPTIONS} -l gsl -l gslcblas -l yaml-cpp
+	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/malariasimulation.exe ${OBJECTFILES} ${LDLIBSOPTIONS} -l gsl -l gslcblas -static-libstdc++ -l yaml-cpp
 
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
