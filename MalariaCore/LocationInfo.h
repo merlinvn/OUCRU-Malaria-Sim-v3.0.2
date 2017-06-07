@@ -88,6 +88,14 @@ public:
     };
 
     virtual ~LocationInfo() {
+        for (int i = 0; i < districts.size(); i++) {
+            delete districts[i];
+        }
+        districts.clear();
+        for (int i = 0; i < provinces.size(); i++) {
+            delete provinces[i];
+        }
+        provinces.clear();
     };
 };
 
