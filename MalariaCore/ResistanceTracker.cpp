@@ -244,9 +244,9 @@ std::vector<double> ResistanceTracker::calculate_total_resistance_frequency_for_
             }
             total_resistance_frequency_by_location_[loc] += (c + 1) * sub_sum;
             total_resistance_frequency_by_location_[loc] = (total_resistance_frequency_by_location_[loc] / total_by_location_[loc]) / size;
-            return total_resistance_frequency_by_location_;
         }
     }
+    return total_resistance_frequency_by_location_;
 }
 
 double ResistanceTracker::max_fraction_resistance(const IntVector & resitance_ids) {

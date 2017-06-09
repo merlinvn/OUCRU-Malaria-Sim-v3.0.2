@@ -21,8 +21,8 @@ FC=gfortran
 AS=as
 
 # Macros
-CND_PLATFORM=MinGW-Windows
-CND_DLIB_EXT=dll
+CND_PLATFORM=GNU-MacOSX
+CND_DLIB_EXT=dylib
 CND_CONF=Release
 CND_DISTDIR=dist
 CND_BUILDDIR=build
@@ -116,6 +116,9 @@ OBJECTFILES= \
 	${OBJECTDIR}/Scheduler.o \
 	${OBJECTDIR}/SeasonalStructure.o \
 	${OBJECTDIR}/SingleHostClonalParasitePopulations.o \
+	${OBJECTDIR}/SpatialCombinedMFTCyclingStrategy.o \
+	${OBJECTDIR}/SpatialDraftReporter.o \
+	${OBJECTDIR}/SpatialMFTStrategy.o \
 	${OBJECTDIR}/SpatialStructure.o \
 	${OBJECTDIR}/Strategy.o \
 	${OBJECTDIR}/SwitchImmuneComponentEvent.o \
@@ -559,6 +562,21 @@ ${OBJECTDIR}/SingleHostClonalParasitePopulations.o: SingleHostClonalParasitePopu
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SingleHostClonalParasitePopulations.o SingleHostClonalParasitePopulations.cpp
+
+${OBJECTDIR}/SpatialCombinedMFTCyclingStrategy.o: SpatialCombinedMFTCyclingStrategy.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SpatialCombinedMFTCyclingStrategy.o SpatialCombinedMFTCyclingStrategy.cpp
+
+${OBJECTDIR}/SpatialDraftReporter.o: SpatialDraftReporter.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SpatialDraftReporter.o SpatialDraftReporter.cpp
+
+${OBJECTDIR}/SpatialMFTStrategy.o: SpatialMFTStrategy.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SpatialMFTStrategy.o SpatialMFTStrategy.cpp
 
 ${OBJECTDIR}/SpatialStructure.o: SpatialStructure.cpp 
 	${MKDIR} -p ${OBJECTDIR}

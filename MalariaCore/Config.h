@@ -136,7 +136,7 @@ class Config {
     VIRTUAL_PROPERTY_REF(bool, using_variable_probability_infectious_bites_cause_infection)
     VIRTUAL_PROPERTY_REF(double, fraction_mosquitoes_interrupted_feeding)
 
-    VIRTUAL_PROPERTY_REF(int, grid_y)
+    VIRTUAL_PROPERTY_REF(int, number_of_column_in_grid)
     VIRTUAL_PROPERTY_REF(double, grid_unit_in_km)
 
     VIRTUAL_PROPERTY_REF(int, non_artemisinin_switching_day)
