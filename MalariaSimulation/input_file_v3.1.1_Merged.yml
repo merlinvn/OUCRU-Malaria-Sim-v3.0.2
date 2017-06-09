@@ -25,7 +25,7 @@ start_collect_data_day: 1825
 p_treatment: 0.0
 
 # this functionality works, but it was not used in any analyses for the 2015 LGH paper
-number_of_locations: 5
+number_of_locations: 6
 #low_transmission_locations_index: [[0, 33], [37, 43], [47, 53], [57, 63], [67, 100]]
 #high_transmission_locations_index: [[33, 37], [43, 47], [53, 57], [63, 67]]
 
@@ -259,14 +259,8 @@ Cambodia_info:
       beta_by_district: [0]
       coordinates_by_district: [[0,0]]
 
-grid_y: 1
+number_of_column_in_grid: 3
 grid_unit_in_km: 5
-
-number_of_provinces: 1
-number_of_districts: 1
-
-
-
 
 # main scaling parameter for transmission, by location
 # the last four terms are ignored when the number of locations is 1
@@ -361,7 +355,7 @@ genotype_info:
               short_name: "T"
               can_mutate_to: [0]
               mutation_level: 1
-          daily_cost_of_resistance: 0.0005
+              daily_cost_of_resistance: 0.0005
               # here we start defining the second locus
         - locus_name: "pfmdr1"
           position: 1

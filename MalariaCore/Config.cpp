@@ -112,13 +112,15 @@ void Config::read_from_file(const std::string &config_file_name) {
     // load coordinate
     using_coordinate_ = config["load_coordinate"].as<int>();
     build_location_db(config);
-
+   
     for (int i = 0; i < number_of_locations_; i++) {
         population_size_by_location_.push_back(location_db_->districts[i]->pop_size);
+//        std::cout << "popsize:" << location_db_->districts[i]->pop_size << std::endl;
     }
 
     for (int i = 0; i < number_of_locations_; i++) {
         beta_.push_back(location_db_->districts[i]->beta);
+//        std::cout << "beta:" << location_db_->districts[i]->beta << std::endl;
     }
 
     v_distance_by_location_.resize(number_of_locations_);
@@ -130,6 +132,8 @@ void Config::read_from_file(const std::string &config_file_name) {
             } else {
                 v_distance_by_location_[from_location][to_location] = Vector2D::get_Euclidean_distance(location_db_->districts[from_location]->coordinate, location_db_->districts[to_location]->coordinate);
             }
+
+//            std::cout << "distance[" << from_location << "," << to_location << "]: " << v_distance_by_location_[from_location][to_location] << std::endl;
         }
     }
 
@@ -181,6 +185,7 @@ void Config::read_from_file(const std::string &config_file_name) {
     for (int i = 0; i < number_of_age_classes_; i++) {
         mortality_when_treatment_fail_by_age_class_.push_back(config["mortality_when_treatment_fail_by_age"][i].as<double>());
     }
+
 
     read_parasite_density_level(config["parasite_density_level"]);
 
@@ -566,53 +571,63 @@ void Config::build_location_db(const YAML::Node &config) {
     location_db_ = new LocationInfo();
     if (using_coordinate_ == 1) {
         read_location_db_using_coordinate_info(config["Cambodia_info"]);
+        number_of_locations_ = location_db_->districts.size();
     } else {
         read_location_db_using_normal_info(config);
     }
 }
 
 void Config::read_location_db_using_normal_info(const YAML::Node &config) {
+
     number_of_locations_ = config["number_of_locations"].as<int>();
-    grid_y_ = config["grid_y"].as<int>();
+    number_of_column_in_grid_ = config["number_of_column_in_grid"].as<int>();
     grid_unit_in_km_ = config["grid_unit_in_km"].as<double>();
-    int grid_x = number_of_locations_ % grid_y_;
+
     //read popsize & beta
     for (int i = 0; i < number_of_locations_; i++) {
+
         District *d = new District();
         d->pop_size = config["population_size_by_location"][i].as<int>();
         d->beta = config["beta"][i].as<double>();
-        //TODO: review
-        d->coordinate.x = i % grid_x;
-        d->coordinate.y = i / grid_y_;
+
+        d->coordinate.x = (float) (i / number_of_column_in_grid_);
+        d->coordinate.y = (float) (i % number_of_column_in_grid_);
 
         location_db_->districts.push_back(d);
     }
+
 }
 
 void Config::read_location_db_using_coordinate_info(const YAML::Node &config) {
     //loop each province
     int district_id = 0;
+
     for (int i = 0; i < config.size(); i++) {
         Province *p = new Province();
         p->id = i;
-        p->pop_size = config["pop_size"].as<int>();
+        p->pop_size = config[i]["pop_size"].as<int>();
         location_db_->provinces.push_back(p);
+
+
         // double province_beta = n["beta"].as<double>();
         //loop each district
-        for (int i = 0; i < config["districts_info"]["pop_proportion_by_districts"].size(); i++) {
+
+        for (int j = 0; j < config[i]["districts_info"]["pop_proportion_by_districts"].size(); j++) {
             District *d = new District();
             d->id = district_id;
             district_id++;
             d->province_id = p->id;
-            d->pop_size = p->pop_size * config["districts_info"]["pop_proportion_by_districts"][i].as<double>();
-            d->beta = config["districts_info"]["beta_by_district"][i].as<double>();
-            d->coordinate.x = config["districts_info"]["coordinates_by_district"][i][0].as<double>();
-            d->coordinate.y = config["districts_info"]["coordinates_by_district"][i][1].as<double>();
+            d->pop_size = p->pop_size * config[i]["districts_info"]["pop_proportion_by_districts"][j].as<double>();
+            d->beta = config[i]["districts_info"]["beta_by_district"][j].as<double>();
+            d->coordinate.x = config[i]["districts_info"]["coordinates_by_district"][j][0].as<double>();
+            d->coordinate.y = config[i]["districts_info"]["coordinates_by_district"][j][1].as<double>();
 
             p->districts.push_back(d);
             location_db_->districts.push_back(d);
         }
     }
+    
+
 }
 
 DrugType *Config::read_drugtype(const YAML::Node &config, const int &drug_id) {
