@@ -86,6 +86,7 @@ void Scheduler::run() {
     for (current_time_ = 0; !can_stop(); current_time_++) {
         //Check time to replace 1 ACT with non ACT
         perform_check_and_replace_ACT();
+        perform_check_and_replace_TACT();
 
         //        std::cout << "Day: " << current_time_ << std::endl;
         begin_time_step();
@@ -214,6 +215,15 @@ void Scheduler::perform_check_and_replace_ACT() {
         }
     }
 }
+
+void Scheduler::perform_check_and_replace_TACT() {
+    if (current_time_ == Model::CONFIG->TACT_switching_day()) {
+        //by defaults, tact will simply replace the first therapy in the MFT strategy        
+         Model::CONFIG->strategy()->therapy_list()[0] = Model::CONFIG->therapy_db()[Model::CONFIG->TACT_id()];       
+        
+    }
+}
+
 
 void Scheduler::perform_monthly_update() {
     if (dynamic_cast<ACTIncreaseStrategy*> (Model::CONFIG->strategy()) != NULL) {

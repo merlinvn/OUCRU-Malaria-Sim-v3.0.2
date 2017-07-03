@@ -146,6 +146,9 @@ class Config {
     VIRTUAL_PROPERTY_REF(double, modified_daily_cost_of_resistance)
     VIRTUAL_PROPERTY_REF(double, modified_mutation_probability)
 
+    VIRTUAL_PROPERTY_REF(int, TACT_switching_day);
+    VIRTUAL_PROPERTY_REF(int, TACT_id);
+
 public:
     Config(Model *model = NULL);
     virtual ~Config();

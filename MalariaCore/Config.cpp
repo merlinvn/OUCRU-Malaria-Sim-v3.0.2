@@ -72,6 +72,8 @@ Config::Config(Model *model) : model_(model), strategy_(NULL), strategy_db_(), t
 
     modified_daily_cost_of_resistance_ = -1;
     modified_mutation_probability_ = -1;
+    TACT_id_ = -1;
+    TACT_switching_day_ = -1;
 }
 
 Config::Config(const Config &orig) {
@@ -244,6 +246,11 @@ void Config::read_from_file(const std::string &config_file_name) {
     non_artemisinin_switching_day_ = config["non_artemisinin_switching_day"].as<int>();
     non_art_therapy_id_ = config["non_art_therapy_id"].as<int>();
     fraction_non_art_replacement_ = config["fraction_non_art_replacement"].as<double>();
+
+    TACT_switching_day_ = config["TACT_switching_day"].as<int>();
+    TACT_id_ = config["TACT_id"].as<int>();
+
+
 }
 
 void Config::read_parasite_density_level(const YAML::Node &config) {
@@ -1192,7 +1199,14 @@ void Config::override_1_parameter(const std::string &parameter_name, const std::
             if (importation_parasite_periodically_info_[i].parasite_type_id == -1) {
                 importation_parasite_periodically_info_[i].duration = importation_period;
             }
-        }
+    }
+    
+    if (parameter_name == "TACT_switching_day") {
+        TACT_switching_day_ = atoi(parameter_value.c_str());
+    }
+    
+    if (parameter_name == "TACT_id") {
+        TACT_id_ = atoi(parameter_value.c_str());
     }
 
 
