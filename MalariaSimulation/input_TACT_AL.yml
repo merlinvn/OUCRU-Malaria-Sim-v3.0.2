@@ -913,3 +913,7 @@ fraction_mosquitoes_interrupted_feeding: 0.0
 non_artemisinin_switching_day: -1
 non_art_therapy_id: 3
 fraction_non_art_replacement: 0.33333
+
+TACT_switching_day: 5110
+#TACT DHA-PPQ-MQ: 10 AL-AQ: 11
+TACT_id: 11

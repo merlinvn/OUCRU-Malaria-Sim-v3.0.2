@@ -50,6 +50,7 @@ public:
     int current_day_in_year();
     
     void perform_check_and_replace_ACT();
+    void perform_check_and_replace_TACT();
     void perform_monthly_update();
 
 private:

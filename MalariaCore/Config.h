@@ -6,7 +6,7 @@
  */
 
 #ifndef CONFIG_H
-#define	CONFIG_H
+#define CONFIG_H
 
 #include "PropertyMacro.h"
 #include <string>
@@ -119,10 +119,13 @@ class Config {
     VIRTUAL_PROPERTY_REF(int, non_artemisinin_switching_day);
     VIRTUAL_PROPERTY_REF(int, non_art_therapy_id);
     VIRTUAL_PROPERTY_REF(double, fraction_non_art_replacement);
-    
+
     VIRTUAL_PROPERTY_REF(double, modified_daily_cost_of_resistance)
     VIRTUAL_PROPERTY_REF(double, modified_mutation_probability)
-    
+
+    VIRTUAL_PROPERTY_REF(int, TACT_switching_day);
+    VIRTUAL_PROPERTY_REF(int, TACT_id);
+
 public:
     Config(Model* model = NULL);
     virtual ~Config();
@@ -140,7 +143,7 @@ public:
     void read_initial_parasite_info(const YAML::Node & config);
     void read_importation_parasite_info(const YAML::Node & config);
     void read_importation_parasite_periodically_info(const YAML::Node & config);
-    
+
     void read_relative_infectivity_info(const YAML::Node & config);
 
 
@@ -165,5 +168,5 @@ private:
 
 };
 
-#endif	/* CONFIG_H */
+#endif /* CONFIG_H */
 

@@ -61,6 +61,8 @@ Config::Config(Model* model) : model_(model), strategy_(NULL), strategy_db_(), t
 
     modified_daily_cost_of_resistance_ = -1;
     modified_mutation_probability_ = -1;
+    TACT_id_ = -1;
+    TACT_switching_day_ = -1;
 }
 
 Config::Config(const Config& orig) {
@@ -201,6 +203,11 @@ void Config::read_from_file(const std::string& config_file_name) {
     non_artemisinin_switching_day_ = config["non_artemisinin_switching_day"].as<int>();
     non_art_therapy_id_ = config["non_art_therapy_id"].as<int>();
     fraction_non_art_replacement_ = config["fraction_non_art_replacement"].as<double>();
+
+    TACT_switching_day_ = config["TACT_switching_day"].as<int>();
+    TACT_id_ = config["TACT_id"].as<int>();
+
+
 }
 
 void Config::read_parasite_density_level(const YAML::Node& config) {
@@ -295,10 +302,10 @@ void Config::read_strategy_therapy_and_drug_information(const YAML::Node& config
 
     strategy_ = read_strategy(config, config["StrategyInfo"], "AdaptiveCyclingStrategy");
     strategy_db_.insert(std::pair<int, Strategy*>(strategy_->to_int(), strategy_));
-    
+
     strategy_ = read_strategy(config, config["StrategyInfo"], "ACTIncreaseStrategy");
     strategy_db_.insert(std::pair<int, Strategy*>(strategy_->to_int(), strategy_));
-    
+
     std::string strategyName = config["StrategyInfo"]["strategyName"].as<std::string>();
 
     BOOST_FOREACH(StrategyPtrMap::value_type &i, strategy_db_) {
@@ -815,7 +822,7 @@ void Config::read_importation_parasite_periodically_info(const YAML::Node& confi
                 int dur = n[i]["parasite_info"][j]["duration"].as<int>();
                 int num = n[i]["parasite_info"][j]["number_of_cases"].as<int>();
                 int start_day = n[i]["parasite_info"][j]["start_day"].as<int>();
-                importation_parasite_periodically_info_.push_back(ImportationParasitePeriodicallyInfo(location, parasite_type_id, dur, num,start_day));
+                importation_parasite_periodically_info_.push_back(ImportationParasitePeriodicallyInfo(location, parasite_type_id, dur, num, start_day));
             }
         }
     }
@@ -1017,13 +1024,20 @@ void Config::override_1_parameter(const std::string& parameter_name, const std::
         initial_parasite_info_[0].parasite_type_id = genotypeId;
         importation_parasite_periodically_info_[0].parasite_type_id = genotypeId;
     }
-    
+
     if (parameter_name == "importation_period") {
-         int importation_period = atoi(parameter_value.c_str());
-         for (int i = 0; i < importation_parasite_periodically_info_.size(); i++) {
-            if (importation_parasite_periodically_info_[i].parasite_type_id == -1){
+        int importation_period = atoi(parameter_value.c_str());
+        for (int i = 0; i < importation_parasite_periodically_info_.size(); i++) {
+            if (importation_parasite_periodically_info_[i].parasite_type_id == -1) {
                 importation_parasite_periodically_info_[i].duration = importation_period;
             }
-        }         
-    }    
+        }
+    }
+    if (parameter_name == "TACT_switching_day") {
+        TACT_switching_day_ = atoi(parameter_value.c_str());
+    }
+    
+    if (parameter_name == "TACT_id") {
+        TACT_id_ = atoi(parameter_value.c_str());
+    }
 }
