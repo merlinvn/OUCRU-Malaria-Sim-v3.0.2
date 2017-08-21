@@ -6,37 +6,40 @@
  */
 
 #ifndef MFTSTRATEGY_H
-#define	MFTSTRATEGY_H
+#define MFTSTRATEGY_H
 
-#include "Strategy.h"
+#include "IStrategy.h"
 #include "PropertyMacro.h"
 
 class Random;
 
-class MFTStrategy : public Strategy {
+class MFTStrategy : public IStrategy {
     DISALLOW_COPY_AND_ASSIGN_(MFTStrategy)
+    VIRTUAL_PROPERTY_REF(std::vector<Therapy*>, therapy_list)
     VIRTUAL_PROPERTY_REF(std::vector<double>, distribution)
-    POINTER_PROPERTY(Random, random)
+
 public:
     MFTStrategy();
     //    MFTStrategy(const MFTStrategy& orig);
     virtual ~MFTStrategy();
+    
+    virtual std::vector<Therapy*>& get_therapy_list();
+    
+    virtual void add_therapy(Therapy* therapy);
 
     virtual bool is_strategy(const std::string& sName);
-
-    virtual void switch_therapy();
 
     virtual Therapy* get_therapy();
 
     virtual std::string to_string() const;
 
-    virtual int to_int() const;
-    
-    virtual void check_and_switch_therapy() ;
+    virtual IStrategy::StrategyType get_type() const;
+
+    virtual void update_end_of_time_step();
 
 private:
 
 };
 
-#endif	/* MFTSTRATEGY_H */
+#endif /* MFTSTRATEGY_H */
 

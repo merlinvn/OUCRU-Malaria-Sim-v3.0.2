@@ -19,13 +19,14 @@
 
 #include <math.h>
 #include <boost/math/constants/constants.hpp>
-class Strategy;
+
+class IStrategy;
 class Therapy;
 class Model;
 const double PI = boost::math::constants::pi<double>();
 
 typedef std::map<int, Therapy*> TherapyPtrMap;
-typedef std::map<int, Strategy*> StrategyPtrMap;
+typedef std::map<int, IStrategy*> StrategyPtrMap;
 
 class Config {
     DISALLOW_COPY_AND_ASSIGN_(Config)
@@ -70,7 +71,7 @@ class Config {
     VIRTUAL_PROPERTY_REF(RelativeBittingInformation, relative_bitting_information);
     VIRTUAL_PROPERTY_REF(RelativeInfectivity, relative_infectivity);
 
-    POINTER_PROPERTY(Strategy, strategy);
+    POINTER_PROPERTY(IStrategy, strategy);
     POINTER_PROPERTY(DrugDatabase, drug_db);
     POINTER_PROPERTY(IntGenotypeDatabase, genotype_db);
     VIRTUAL_PROPERTY_REF(GenotypeInfo, genotype_info);
@@ -105,7 +106,7 @@ class Config {
     VIRTUAL_PROPERTY_REF(double, TF_rate)
 
     VIRTUAL_PROPERTY_REF(TMEInfo, tme_info)
-    POINTER_PROPERTY(Strategy, tme_strategy);
+    POINTER_PROPERTY(IStrategy, tme_strategy);
     VIRTUAL_PROPERTY_REF(double, modified_mutation_factor)
     VIRTUAL_PROPERTY_REF(double, modified_drug_half_life)
 
@@ -147,7 +148,7 @@ public:
     void read_relative_infectivity_info(const YAML::Node & config);
 
 
-    Strategy* read_strategy(const YAML::Node& config, const YAML::Node& n, const std::string& strategy_name);
+    IStrategy* read_strategy(const YAML::Node& config, const YAML::Node& n, const std::string& strategy_name);
     Therapy* read_therapy(const YAML::Node& config, const int& therapy_id);
 
     DrugType* read_drugtype(const YAML::Node& config, const int& drug_id);

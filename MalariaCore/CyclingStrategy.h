@@ -6,13 +6,14 @@
  */
 
 #ifndef CYCLINGSTRATEGY_H
-#define	CYCLINGSTRATEGY_H
+#define CYCLINGSTRATEGY_H
 
-#include "Strategy.h"
+#include "IStrategy.h"
 #include "PropertyMacro.h"
 
-class CyclingStrategy : public Strategy {
+class CyclingStrategy : public IStrategy {
     DISALLOW_COPY_AND_ASSIGN_(CyclingStrategy)
+    VIRTUAL_PROPERTY_REF(std::vector<Therapy*>, therapy_list)
     VIRTUAL_PROPERTY_REF(int, index)
     VIRTUAL_PROPERTY_REF(int, cycling_time)
 
@@ -20,6 +21,10 @@ public:
     CyclingStrategy();
     //    CyclingStrategy(const CyclingStrategy& orig);
     virtual ~CyclingStrategy();
+
+    virtual std::vector<Therapy*>& get_therapy_list();
+    
+    virtual void add_therapy(Therapy* therapy);
 
     virtual bool is_strategy(const std::string& sName);
 
@@ -29,12 +34,12 @@ public:
 
     virtual std::string to_string() const;
 
-    virtual int to_int() const;
+    virtual IStrategy::StrategyType get_type() const;
 
-    virtual void check_and_switch_therapy() ;
+    virtual void update_end_of_time_step();
 private:
 
 };
 
-#endif	/* CYCLINGSTRATEGY_H */
+#endif /* CYCLINGSTRATEGY_H */
 

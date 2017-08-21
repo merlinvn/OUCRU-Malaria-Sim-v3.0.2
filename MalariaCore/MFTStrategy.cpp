@@ -25,16 +25,19 @@ MFTStrategy::MFTStrategy(const MFTStrategy& orig) {
 MFTStrategy::~MFTStrategy() {
 }
 
+std::vector<Therapy*>& MFTStrategy::get_therapy_list(){
+    return therapy_list_;
+}
+
+void MFTStrategy::add_therapy(Therapy* therapy){
+    therapy_list_.push_back(therapy);
+}
+
 bool MFTStrategy::is_strategy(const std::string& sName) {
     return ("MFTStrategy" == sName);
 }
 
-void MFTStrategy::switch_therapy() {
-    assert(false);
-}
-
 Therapy* MFTStrategy::get_therapy() {
-
 
     double P = Model::RANDOM->random_flat(0.0, 1.0);
 
@@ -53,10 +56,10 @@ std::string MFTStrategy::to_string() const {
     return "MFTStrategy";
 }
 
-int MFTStrategy::to_int() const {
-    return Strategy::MFT;
+IStrategy::StrategyType MFTStrategy::get_type() const {
+    return IStrategy::MFT;
 }
 
-void MFTStrategy::check_and_switch_therapy()  {
+void MFTStrategy::update_end_of_time_step()  {
     //do nothing here
 }

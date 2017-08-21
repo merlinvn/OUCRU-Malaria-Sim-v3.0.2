@@ -8,6 +8,7 @@
       <itemPath>AdaptiveCyclingStrategy.h</itemPath>
       <itemPath>CyclingStrategy.cpp</itemPath>
       <itemPath>CyclingStrategy.h</itemPath>
+      <itemPath>IStrategy.h</itemPath>
       <itemPath>MACTherapy.cpp</itemPath>
       <itemPath>MACTherapy.h</itemPath>
       <itemPath>MFTStrategy.cpp</itemPath>
@@ -16,8 +17,6 @@
       <itemPath>SCTherapy.h</itemPath>
       <itemPath>SFTStrategy.cpp</itemPath>
       <itemPath>SFTStrategy.h</itemPath>
-      <itemPath>Strategy.cpp</itemPath>
-      <itemPath>Strategy.h</itemPath>
       <itemPath>Therapy.cpp</itemPath>
       <itemPath>Therapy.h</itemPath>
     </logicalFolder>
@@ -355,6 +354,8 @@
       </item>
       <item path="HelperFunction.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="IStrategy.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="ImmuneComponent.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="ImmuneComponent.h" ex="false" tool="3" flavor2="0">
@@ -610,10 +611,6 @@
             ex="false"
             tool="3"
             flavor2="0">
-      </item>
-      <item path="Strategy.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="Strategy.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="SwitchImmuneComponentEvent.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -795,6 +792,8 @@
       </item>
       <item path="HelperFunction.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="IStrategy.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="ImmuneComponent.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="ImmuneComponent.h" ex="false" tool="3" flavor2="0">
@@ -1050,10 +1049,6 @@
             ex="false"
             tool="3"
             flavor2="0">
-      </item>
-      <item path="Strategy.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="Strategy.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="SwitchImmuneComponentEvent.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -1237,6 +1232,8 @@
       </item>
       <item path="HelperFunction.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="IStrategy.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="ImmuneComponent.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="ImmuneComponent.h" ex="false" tool="3" flavor2="0">
@@ -1492,10 +1489,6 @@
             ex="false"
             tool="3"
             flavor2="0">
-      </item>
-      <item path="Strategy.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="Strategy.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="SwitchImmuneComponentEvent.cpp" ex="false" tool="1" flavor2="0">
       </item>

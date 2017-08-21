@@ -8,12 +8,12 @@
 #include "ModelDataCollector.h"
 #include "Model.h"
 #include "Config.h"
+#include "IStrategy.h"
 #include "Person.h"
 #include "PersonIndexByLocationStateAgeClass.h"
 #include "Population.h"
 #include "ImmuneSystem.h"
 #include "SingleHostClonalParasitePopulations.h"
-#include "Strategy.h"
 #include "SCTherapy.h"
 #include "ClonalParasitePopulation.h"
 #include <numeric>  
@@ -79,8 +79,8 @@ void ModelDataCollector::initialize() {
         current_utl_duration_ = 0;
         UTL_duration_ = IntVector();
 
-        for (int i = 0; i < Model::CONFIG->strategy()->therapy_list().size(); i++) {
-            int t_id = Model::CONFIG->strategy()->therapy_list()[i]->id();
+        for (int i = 0; i < Model::CONFIG->strategy()->get_therapy_list().size(); i++) {
+            int t_id = Model::CONFIG->strategy()->get_therapy_list()[i]->id();
             number_of_treatments_with_therapy_ID_.insert(std::pair<int, int>(t_id, 0));
             number_of_treatments_success_with_therapy_ID_.insert(std::pair<int, int>(t_id, 0));
             number_of_treatments_fail_with_therapy_ID_.insert(std::pair<int, int>(t_id, 0));

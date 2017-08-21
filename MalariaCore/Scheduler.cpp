@@ -13,7 +13,7 @@
 #include "Config.h"
 #include "Population.h"
 #include "ModelDataCollector.h"
-#include "Strategy.h"
+#include "IStrategy.h"
 #include "TMEScheduler.h"
 #include "ImportationPeriodicallyEvent.h"
 #include "MFTStrategy.h"
@@ -142,16 +142,8 @@ void Scheduler::update_end_of_time_step() {
     //update force of infection
     update_force_of_infection();
 
-
-    //update resistance tracker
-
-    //update person index to reduce memory
-    //    if (current_time_ % Model::CONFIG->update_frequency() == 0) {
-    //        Model::POPULATION->update();
-    //    }
-
     //check to switch strategy
-    Model::CONFIG->strategy()->check_and_switch_therapy();
+    Model::CONFIG->strategy()->update_end_of_time_step();
 }
 
 void Scheduler::report_end_of_time_step() {
@@ -203,9 +195,9 @@ void Scheduler::perform_check_and_replace_ACT() {
 
 
             //switch therapy 2 to therapy 3
-            int number_of_therapies = Model::CONFIG->strategy()->therapy_list().size();
+            int number_of_therapies = Model::CONFIG->strategy()->get_therapy_list().size();
 
-            Model::CONFIG->strategy()->therapy_list()[number_of_therapies - 1] = Model::CONFIG->therapy_db()[Model::CONFIG->non_art_therapy_id()];
+            Model::CONFIG->strategy()->get_therapy_list()[number_of_therapies - 1] = Model::CONFIG->therapy_db()[Model::CONFIG->non_art_therapy_id()];
             //change the distribution         
             ((MFTStrategy *) Model::CONFIG->strategy())->distribution()[number_of_therapies - 1] = Model::CONFIG->fraction_non_art_replacement();
 
@@ -219,15 +211,12 @@ void Scheduler::perform_check_and_replace_ACT() {
 void Scheduler::perform_check_and_replace_TACT() {
     if (current_time_ == Model::CONFIG->TACT_switching_day()) {
         //by defaults, tact will simply replace the first therapy in the MFT strategy        
-         Model::CONFIG->strategy()->therapy_list()[0] = Model::CONFIG->therapy_db()[Model::CONFIG->TACT_id()];       
+         Model::CONFIG->strategy()->get_therapy_list()[0] = Model::CONFIG->therapy_db()[Model::CONFIG->TACT_id()];       
         
     }
 }
 
 
 void Scheduler::perform_monthly_update() {
-    if (dynamic_cast<ACTIncreaseStrategy*> (Model::CONFIG->strategy()) != NULL) {
-        ACTIncreaseStrategy* strategy = dynamic_cast<ACTIncreaseStrategy*> (Model::CONFIG->strategy());
-        strategy->adjustDisttribution(current_time_, Model::CONFIG->total_time());
-    }
+   
 }

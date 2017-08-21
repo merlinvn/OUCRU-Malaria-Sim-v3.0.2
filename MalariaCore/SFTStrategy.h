@@ -6,33 +6,38 @@
  */
 
 #ifndef SFTSTRATEGY_H
-#define	SFTSTRATEGY_H
+#define SFTSTRATEGY_H
 
 #include "PropertyMacro.h"
-#include "Strategy.h"
+#include "IStrategy.h"
 
-class SFTStrategy : public Strategy {
+class SFTStrategy : public IStrategy {
     DISALLOW_COPY_AND_ASSIGN_(SFTStrategy)
+    VIRTUAL_PROPERTY_REF(std::vector<Therapy*>, therapy_list)
 
 public:
     SFTStrategy();
     //    SFTStrategy(const SFTStrategy& orig);
     virtual ~SFTStrategy();
 
-    virtual bool is_strategy(const std::string& sName);
+    virtual std::vector<Therapy*>& get_therapy_list();
 
-    virtual void switch_therapy();
+    virtual void add_therapy(Therapy* therapy);
+
+    virtual bool is_strategy(const std::string& sName);
 
     virtual Therapy* get_therapy();
 
     virtual std::string to_string() const;
 
-    virtual int to_int() const;
+    virtual IStrategy::StrategyType get_type() const;
 
-    virtual void check_and_switch_therapy();
+    virtual void update_end_of_time_step();
+
+
 private:
 
 };
 
-#endif	/* SFTSTRATEGY_H */
+#endif /* SFTSTRATEGY_H */
 

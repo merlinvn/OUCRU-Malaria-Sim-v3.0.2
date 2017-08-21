@@ -12,7 +12,6 @@
 #include "SFTStrategy.h"
 #include "HelperFunction.h"
 #include "SCTherapy.h"
-#include "Strategy.h"
 #include "AdaptiveCyclingStrategy.h"
 #include "CyclingStrategy.h"
 #include "MFTStrategy.h"
@@ -70,7 +69,7 @@ Config::Config(const Config& orig) {
 
 Config::~Config() {
     //    DeletePointer<Strategy>(strategy_);
-    DeletePointer<Strategy>(tme_strategy_);
+    DeletePointer<IStrategy>(tme_strategy_);
     DeletePointer<DrugDatabase>(drug_db_);
     DeletePointer<IntGenotypeDatabase>(genotype_db_);
 
@@ -292,19 +291,19 @@ void Config::read_strategy_therapy_and_drug_information(const YAML::Node& config
     tf_testing_day_ = config["tf_testing_day"].as<int>();
 
     strategy_ = read_strategy(config, config["StrategyInfo"], "SFTStrategy");
-    strategy_db_.insert(std::pair<int, Strategy*>(strategy_->to_int(), strategy_));
+    strategy_db_.insert(std::pair<int, IStrategy*>(strategy_->get_type(), strategy_));
 
     strategy_ = read_strategy(config, config["StrategyInfo"], "CyclingStrategy");
-    strategy_db_.insert(std::pair<int, Strategy*>(strategy_->to_int(), strategy_));
+    strategy_db_.insert(std::pair<int, IStrategy*>(strategy_->get_type(), strategy_));
 
     strategy_ = read_strategy(config, config["StrategyInfo"], "MFTStrategy");
-    strategy_db_.insert(std::pair<int, Strategy*>(strategy_->to_int(), strategy_));
+    strategy_db_.insert(std::pair<int, IStrategy*>(strategy_->get_type(), strategy_));
 
     strategy_ = read_strategy(config, config["StrategyInfo"], "AdaptiveCyclingStrategy");
-    strategy_db_.insert(std::pair<int, Strategy*>(strategy_->to_int(), strategy_));
+    strategy_db_.insert(std::pair<int, IStrategy*>(strategy_->get_type(), strategy_));
 
     strategy_ = read_strategy(config, config["StrategyInfo"], "ACTIncreaseStrategy");
-    strategy_db_.insert(std::pair<int, Strategy*>(strategy_->to_int(), strategy_));
+    strategy_db_.insert(std::pair<int, IStrategy*>(strategy_->get_type(), strategy_));
 
     std::string strategyName = config["StrategyInfo"]["strategyName"].as<std::string>();
 
@@ -415,8 +414,8 @@ void Config::build_parasite_db() {
     number_of_parasite_types_ = genotype_db_->db().size();
 }
 
-Strategy* Config::read_strategy(const YAML::Node& config, const YAML::Node& n, const std::string& strategy_name) {
-    Strategy* s;
+IStrategy* Config::read_strategy(const YAML::Node& config, const YAML::Node& n, const std::string& strategy_name) {
+    IStrategy* s;
     if (strategy_name == "CyclingStrategy") {
         s = new CyclingStrategy();
         ((CyclingStrategy*) s)->set_cycling_time(n[strategy_name]["cycling_time"].as<int>());
@@ -973,10 +972,10 @@ void Config::override_1_parameter(const std::string& parameter_name, const std::
         while (iss >> d) {
             value.push_back(d);
         }
-        strategy_->therapy_list().clear();
+        strategy_->get_therapy_list().clear();
         for (int i = 0; i < value.size() / 2; i++) {
             //            std::cout << value[i] << std::endl;
-            strategy_->therapy_list().push_back(therapy_db_[(int) value[i]]);
+            strategy_->get_therapy_list().push_back(therapy_db_[(int) value[i]]);
         }
 
         ((MFTStrategy*) strategy_)->distribution().clear();

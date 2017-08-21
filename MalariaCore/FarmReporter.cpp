@@ -10,7 +10,7 @@
 #include "Random.h"
 #include "ModelDataCollector.h"
 #include "Config.h"
-#include "Strategy.h"
+#include "IStrategy.h"
 #include "Therapy.h"
 #include "SCTherapy.h"
 #include "Population.h"
@@ -148,7 +148,7 @@ void FarmReporter::output_parameters() {
     std::cout << Model::CONFIG->relative_bitting_information().sd << "\t";
     std::cout << Model::CONFIG->drug_db()->drug_db().begin()->second->k() << "\t";
     std::cout << Model::CONFIG->drug_db()->drug_db().begin()->second->p_mutation() << "\t";
-    std::cout << Model::CONFIG->strategy()->to_int() << "\t";
+    std::cout << Model::CONFIG->strategy()->get_type() << "\t";
     std::cout << Model::CONFIG->tf_window_size() << "\t";
 
     SCTherapy* scTherapy = dynamic_cast<SCTherapy*> (Model::CONFIG->strategy()->get_therapy());
@@ -330,8 +330,8 @@ void FarmReporter::print_resistance_tracker() {
 }
 
 void FarmReporter::print_treatments_by_therapy() {
-    for (int i = 0; i < Model::CONFIG->strategy()->therapy_list().size(); i++) {
-        int t_id = Model::CONFIG->strategy()->therapy_list()[i]->id();
+    for (int i = 0; i < Model::CONFIG->strategy()->get_therapy_list().size(); i++) {
+        int t_id = Model::CONFIG->strategy()->get_therapy_list()[i]->id();
         int nTreaments = Model::DATA_COLLECTOR->number_of_treatments_with_therapy_ID()[t_id];
         int nSuccess = Model::DATA_COLLECTOR->number_of_treatments_success_with_therapy_ID()[t_id];
         int nFail = Model::DATA_COLLECTOR->number_of_treatments_fail_with_therapy_ID()[t_id];

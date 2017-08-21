@@ -25,12 +25,16 @@ ACTIncreaseStrategy::ACTIncreaseStrategy(const ACTIncreaseStrategy& orig) {
 ACTIncreaseStrategy::~ACTIncreaseStrategy() {
 }
 
-bool ACTIncreaseStrategy::is_strategy(const std::string& sName) {
-    return ("ACTIncreaseStrategy" == sName);
+std::vector<Therapy*>& ACTIncreaseStrategy::get_therapy_list(){
+    return therapy_list_;
 }
 
-void ACTIncreaseStrategy::switch_therapy() {
-    assert(false);
+void ACTIncreaseStrategy::add_therapy(Therapy* therapy) {
+    therapy_list_.push_back(therapy);
+}
+
+bool ACTIncreaseStrategy::is_strategy(const std::string& sName) {
+    return ("ACTIncreaseStrategy" == sName);
 }
 
 Therapy* ACTIncreaseStrategy::get_therapy() {
@@ -51,20 +55,24 @@ std::string ACTIncreaseStrategy::to_string() const {
     return "ACTIncreaseStrategy";
 }
 
-int ACTIncreaseStrategy::to_int() const {
-    return Strategy::MFT;
+IStrategy::StrategyType ACTIncreaseStrategy::get_type() const {
+    return IStrategy::MFT;
 }
 
-void ACTIncreaseStrategy::check_and_switch_therapy()  {
-    //do nothing here
+void ACTIncreaseStrategy::update_end_of_time_step() {
+    //TODO: call adjustDistribution
+    if (Model::SCHEDULER->current_time() % 30 == 0) {
+        //TODO: test here
+        adjustDisttribution(Model::SCHEDULER->current_time(), Model::SCHEDULER->total_time());
+    }
 }
 
-void ACTIncreaseStrategy::adjustDisttribution(int time, int totaltime){
-    
-    double dACT = ((end_distribution_[0]-start_distribution_[0])*time)/totaltime + start_distribution_[0];
-    
+void ACTIncreaseStrategy::adjustDisttribution(int time, int totaltime) {
+
+    double dACT = ((end_distribution_[0] - start_distribution_[0]) * time) / totaltime + start_distribution_[0];
+
     distribution_[0] = dACT;
-    double otherD = (1-dACT)/(distribution_.size()-1);
+    double otherD = (1 - dACT) / (distribution_.size() - 1);
     for (int i = 1; i < distribution_.size(); i++) {
         distribution_[i] = otherD;
     }

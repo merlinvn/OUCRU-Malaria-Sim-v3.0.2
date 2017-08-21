@@ -21,12 +21,20 @@ AdaptiveCyclingStrategy::AdaptiveCyclingStrategy(const AdaptiveCyclingStrategy& 
 AdaptiveCyclingStrategy::~AdaptiveCyclingStrategy() {
 }
 
+std::vector<Therapy*>& AdaptiveCyclingStrategy::get_therapy_list(){
+    return therapy_list_;
+}
+
+void AdaptiveCyclingStrategy::add_therapy(Therapy* therapy) {
+    therapy_list_.push_back(therapy);
+}
+
 bool AdaptiveCyclingStrategy::is_strategy(const std::string& sName) {
     return ("AdaptiveCyclingStrategy" == sName);
 }
 
 void AdaptiveCyclingStrategy::switch_therapy() {
-//    std::cout << "Switch from: " << index_ << "\t - to: " << index_ + 1;
+    //    std::cout << "Switch from: " << index_ << "\t - to: " << index_ + 1;
     index_++;
     index_ %= therapy_list().size();
 
@@ -41,11 +49,11 @@ std::string AdaptiveCyclingStrategy::to_string() const {
     return "AdaptiveCyclingStrategy";
 }
 
-int AdaptiveCyclingStrategy::to_int() const {
-    return Strategy::AdaptiveCycling;
+IStrategy::StrategyType AdaptiveCyclingStrategy::get_type() const {
+    return IStrategy::AdaptiveCycling;
 }
 
-void AdaptiveCyclingStrategy::check_and_switch_therapy() {
+void AdaptiveCyclingStrategy::update_end_of_time_step() {
 
     if (Model::SCHEDULER->current_time() > Model::CONFIG->start_treatment_day() + 60) {
         if (Model::SCHEDULER->current_time() == latest_switch_time_) {

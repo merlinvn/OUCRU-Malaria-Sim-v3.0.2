@@ -15,13 +15,14 @@
 #define ACTINCREASESTRATEGY_H
 
 
-#include "Strategy.h"
+#include "IStrategy.h"
 #include "PropertyMacro.h"
 
 class Random;
 
-class ACTIncreaseStrategy : public Strategy {
+class ACTIncreaseStrategy : public IStrategy {
     DISALLOW_COPY_AND_ASSIGN_(ACTIncreaseStrategy)
+    VIRTUAL_PROPERTY_REF(std::vector<Therapy*>, therapy_list)
     VIRTUAL_PROPERTY_REF(std::vector<double>, distribution)
     VIRTUAL_PROPERTY_REF(std::vector<double>, start_distribution)
     VIRTUAL_PROPERTY_REF(std::vector<double>, end_distribution)
@@ -31,18 +32,20 @@ public:
     //    MFTStrategy(const MFTStrategy& orig);
     virtual ~ACTIncreaseStrategy();
 
-    virtual bool is_strategy(const std::string& sName);
+    virtual std::vector<Therapy*>& get_therapy_list();
 
-    virtual void switch_therapy();
+    virtual void add_therapy(Therapy* therapy);
+
+    virtual bool is_strategy(const std::string& sName);
 
     virtual Therapy* get_therapy();
 
     virtual std::string to_string() const;
 
-    virtual int to_int() const;
+    virtual StrategyType get_type() const;
 
-    virtual void check_and_switch_therapy();
-    
+    virtual void update_end_of_time_step();
+
     void adjustDisttribution(int time, int totaltime);
 
 private:

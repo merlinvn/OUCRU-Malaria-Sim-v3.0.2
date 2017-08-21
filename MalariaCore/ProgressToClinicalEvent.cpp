@@ -12,7 +12,7 @@
 #include "Population.h"
 #include "Model.h"
 #include "Config.h"
-#include "Strategy.h"
+#include "IStrategy.h"  
 #include "SCTherapy.h"
 #include "ClonalParasitePopulation.h"
 #include "Random.h"
