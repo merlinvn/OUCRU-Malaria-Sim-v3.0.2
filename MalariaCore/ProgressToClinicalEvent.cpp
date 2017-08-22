@@ -103,11 +103,11 @@ void ProgressToClinicalEvent::execute() {
             Model::DATA_COLLECTOR->record_1_treatment_failure_by_therapy(person->location(), person->age(), therapy->id());
             return;
         }
-  
+
         person->schedule_update_by_drug_event(clinical_caused_parasite_);
 
         person->schedule_end_clinical_event(clinical_caused_parasite_);
-        person->schedule_test_treatment_failure_event(clinical_caused_parasite_, Model::CONFIG->tf_testing_day(), false, therapy->id());
+        person->schedule_test_treatment_failure_event(clinical_caused_parasite_, Model::CONFIG->tf_testing_day(), therapy->id());
 
 
     } else {

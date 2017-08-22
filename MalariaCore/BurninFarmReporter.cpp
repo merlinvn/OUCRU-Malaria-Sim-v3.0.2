@@ -150,18 +150,19 @@ void BurninFarmReporter::output_parameters() {
     std::cout << Model::CONFIG->genotype_info().loci_vector[1].alleles[4].daily_cost_of_resistance << "\t"; // print for mdr 2 copies daily cost of resistance
     std::cout << Model::CONFIG->drug_db()->drug_db().begin()->second->p_mutation() << "\t";
 
-    //TODO: output strategy information
-    
-//    for (int i = 0; i < Model::CONFIG->strategy()->get_therapy_list().size(); i++) {
-//        std::cout << Model::CONFIG->strategy()->get_therapy_list()[i]->id() << "\t";
-//    }
-//
-//    if (dynamic_cast<MFTStrategy*> (Model::CONFIG->strategy()) != NULL) {
-//        MFTStrategy* mft = dynamic_cast<MFTStrategy*> (Model::CONFIG->strategy());
-//        for (int i = 0; i < mft->distribution().size(); i++) {
-//            std::cout << mft->distribution()[i] << "\t";
-//        }
-//    }
+    //output strategy information
+    std::cout << Model::CONFIG->strategy()->id << "\t";
+
+    //    for (int i = 0; i < Model::CONFIG->strategy()->get_therapy_list().size(); i++) {
+    //        std::cout << Model::CONFIG->strategy()->get_therapy_list()[i]->id() << "\t";
+    //    }
+    //
+    //    if (dynamic_cast<MFTStrategy*> (Model::CONFIG->strategy()) != NULL) {
+    //        MFTStrategy* mft = dynamic_cast<MFTStrategy*> (Model::CONFIG->strategy());
+    //        for (int i = 0; i < mft->distribution().size(); i++) {
+    //            std::cout << mft->distribution()[i] << "\t";
+    //        }
+    //    }
 
 }
 
@@ -313,8 +314,7 @@ void BurninFarmReporter::print_resistance_tracker() {
 }
 
 void BurninFarmReporter::print_treatments_by_therapy() {
-    for (int i = 0; i < Model::CONFIG->strategy()->get_therapy_list().size(); i++) {
-        int t_id = Model::CONFIG->strategy()->get_therapy_list()[i]->id();
+    for (int t_id = 0; t_id < Model::CONFIG->therapy_db().size(); t_id++) {
         int nTreaments = Model::DATA_COLLECTOR->number_of_treatments_with_therapy_ID()[t_id];
         int nSuccess = Model::DATA_COLLECTOR->number_of_treatments_success_with_therapy_ID()[t_id];
         int nFail = Model::DATA_COLLECTOR->number_of_treatments_fail_with_therapy_ID()[t_id];

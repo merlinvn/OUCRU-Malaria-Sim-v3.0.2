@@ -32,8 +32,6 @@ int Therapy::get_arteminsinin_id() {
     return -1;
 }
 
-//TODO:: seem obsolate
-//
 //int Therapy::get_therapy_duration(int dosing_day) {
 //    int result = 0;
 //

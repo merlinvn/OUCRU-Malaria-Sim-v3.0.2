@@ -147,6 +147,7 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>IStrategy.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="f7" displayName="TME" projectFiles="true">
       <itemPath>MDAAction.cpp</itemPath>
@@ -353,6 +354,8 @@
       <item path="GuiReporter.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="HelperFunction.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="IStrategy.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="IStrategy.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -791,6 +794,8 @@
       <item path="GuiReporter.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="HelperFunction.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="IStrategy.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="IStrategy.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -1231,6 +1236,8 @@
       <item path="GuiReporter.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="HelperFunction.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="IStrategy.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="IStrategy.h" ex="false" tool="3" flavor2="0">
       </item>

@@ -19,7 +19,7 @@ class TestTreatmentFailureEvent : public Event {
     DISALLOW_COPY_AND_ASSIGN_(TestTreatmentFailureEvent);
     OBJECTPOOL(TestTreatmentFailureEvent)
     POINTER_PROPERTY(ClonalParasitePopulation, clinical_caused_parasite);
-    PROPERTY_REF(bool, isResistance);
+//    PROPERTY_REF(bool, isResistance);
     PROPERTY_REF(int, therapyId);
 
 public:
@@ -27,7 +27,7 @@ public:
     //    TestTreatmentFailureEvent(const TestTreatmentFailureEvent& orig);
     virtual ~TestTreatmentFailureEvent();
 
-    static void schedule_event(Scheduler* scheduler, Person* p, ClonalParasitePopulation* clinical_caused_parasite, const int& time, const bool& isRes = true, const int& t_id = 0);
+    static void schedule_event(Scheduler* scheduler, Person* p, ClonalParasitePopulation* clinical_caused_parasite, const int& time, const int& t_id = 0);
 
     virtual std::string name() {
         return "TestTreatmentFailureEvent";

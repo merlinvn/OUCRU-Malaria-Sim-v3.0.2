@@ -128,7 +128,7 @@ public:
 
     void cancel_all_other_progress_to_clinical_events_except(Event* event);
     void cancel_all_events_except(Event* event);
-    void record_treatment_failure_for_test_treatment_failure_events();
+//    void record_treatment_failure_for_test_treatment_failure_events();
 
     void change_all_parasite_update_function(ParasiteDensityUpdateFunction* from, ParasiteDensityUpdateFunction* to);
 
@@ -139,7 +139,7 @@ public:
 
     void schedule_progress_to_clinical_event_by(ClonalParasitePopulation* blood_parasite);
     void schedule_end_clinical_due_to_drug_resistance_event(ClonalParasitePopulation* blood_parasite);
-    void schedule_test_treatment_failure_event(ClonalParasitePopulation* blood_parasite, const int& testing_day, const bool& isRes = true, const int& t_id = 0);
+    void schedule_test_treatment_failure_event(ClonalParasitePopulation* blood_parasite, const int& testing_day, const int& t_id = 0);
 
     void schedule_update_by_drug_event(ClonalParasitePopulation* blood_parasite);
     void schedule_end_clinical_event(ClonalParasitePopulation* blood_parasite);

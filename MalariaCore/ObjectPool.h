@@ -17,7 +17,7 @@
  */
 
 #ifndef OBJECTPOOL_H
-#define	OBJECTPOOL_H
+#define OBJECTPOOL_H
 
 #include <vector>
 #include <exception>
@@ -128,5 +128,5 @@ void ObjectPool<T>::ExpandFreeList() {
     //    std::cout << typeid (T).name() << " - Size: " << allObjects.size() * expansionSize << std::endl;
 }
 
-#endif	/* //OBJECTPOOL_H */
+#endif /* //OBJECTPOOL_H */
 

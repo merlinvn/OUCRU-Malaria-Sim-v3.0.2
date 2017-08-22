@@ -158,7 +158,7 @@ void Model::initialize() {
 
 
     //initialize scheduler
-    scheduler_->initialize(config_->total_time() + 4000);
+    scheduler_->initialize(config_->total_time() + 2000);
 
     tme_scheduler_->initialize();
     if (CONFIG->tme_info().tme_starting_day != 0) {
@@ -193,7 +193,6 @@ void Model::initialize_object_pool(const int& size) {
     BirthdayEvent::InitializeObjectPool(size);
     ProgressToClinicalEvent::InitializeObjectPool(size);
     EndClinicalDueToDrugResistanceEvent::InitializeObjectPool(size);
-    TestTreatmentFailureEvent::InitializeObjectPool(size);
     UpdateWhenDrugIsPresentEvent::InitializeObjectPool(size);
     EndClinicalEvent::InitializeObjectPool(size);
     EndClinicalByNoTreatmentEvent::InitializeObjectPool(size);
@@ -207,6 +206,7 @@ void Model::initialize_object_pool(const int& size) {
     ReturnToNormalPopulationEvent::InitializeObjectPool(size);
     ImportationPeriodicallyEvent::InitializeObjectPool(size);
     ImportationEvent::InitializeObjectPool(size);
+    TestTreatmentFailureEvent::InitializeObjectPool(size);
 
     ClonalParasitePopulation::InitializeObjectPool(size);
     SingleHostClonalParasitePopulations::InitializeObjectPool();
@@ -237,6 +237,7 @@ void Model::release_object_pool() {
     SingleHostClonalParasitePopulations::ReleaseObjectPool();
     ClonalParasitePopulation::ReleaseObjectPool();
 
+    TestTreatmentFailureEvent::ReleaseObjectPool();
     ImportationEvent::ReleaseObjectPool();
     ImportationPeriodicallyEvent::ReleaseObjectPool();
     ReturnToNormalPopulationEvent::ReleaseObjectPool();
@@ -250,7 +251,6 @@ void Model::release_object_pool() {
     EndClinicalByNoTreatmentEvent::ReleaseObjectPool();
     EndClinicalEvent::ReleaseObjectPool();
     UpdateWhenDrugIsPresentEvent::ReleaseObjectPool();
-    TestTreatmentFailureEvent::ReleaseObjectPool();
     EndClinicalDueToDrugResistanceEvent::ReleaseObjectPool();
     ProgressToClinicalEvent::ReleaseObjectPool();
     BirthdayEvent::ReleaseObjectPool();

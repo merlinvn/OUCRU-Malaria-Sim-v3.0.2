@@ -28,14 +28,17 @@ TestTreatmentFailureEvent::~TestTreatmentFailureEvent() {
     }
 }
 
-void TestTreatmentFailureEvent::schedule_event(Scheduler* scheduler, Person* p, ClonalParasitePopulation* clinical_caused_parasite, const int& time, const bool& isRes, const int& t_id) {
+void TestTreatmentFailureEvent::schedule_event(Scheduler* scheduler, Person* p, ClonalParasitePopulation* clinical_caused_parasite, const int& time,  const int& t_id) {
+    if (scheduler == NULL) {
+        std::cout << "error null" << std::endl;
+        assert(false);
+    }
     if (scheduler != NULL) {
         TestTreatmentFailureEvent* e = new TestTreatmentFailureEvent();
         e->set_dispatcher(p);
         e->set_clinical_caused_parasite(clinical_caused_parasite);
         e->set_executable(true);
         e->set_time(time);
-        e->set_isResistance(isRes);
         e->set_therapyId(t_id);
 
         p->add(e);

@@ -73,15 +73,15 @@ Config::~Config() {
     DeletePointer<DrugDatabase>(drug_db_);
     DeletePointer<IntGenotypeDatabase>(genotype_db_);
 
-    BOOST_FOREACH(StrategyPtrMap::value_type &i, strategy_db_) {
-        delete i.second;
+    BOOST_FOREACH(IStrategy* &i, strategy_db_) {
+        delete i;
     }
     strategy_db_.clear();
 
     strategy_ = NULL;
 
-    BOOST_FOREACH(TherapyPtrMap::value_type &i, therapy_db_) {
-        delete i.second;
+    BOOST_FOREACH(Therapy* &i, therapy_db_) {
+        delete i;
     }
     therapy_db_.clear();
 }
@@ -280,38 +280,107 @@ void Config::read_immune_system_information(const YAML::Node& config) {
 void Config::read_strategy_therapy_and_drug_information(const YAML::Node& config) {
     read_genotype_info(config);
     build_drug_and_parasite_db(config);
+    
+    // read tf_testing_day
+    tf_testing_day_ = config["tf_testing_day"].as<int>();
+    
     //    read_all_therapy
-
     for (int i = 0; i < config["TherapyInfo"].size(); i++) {
-        Therapy* t = read_therapy(config, i);
-        therapy_db_.insert(std::pair<int, Therapy*>(i, t));
+        Therapy* t = read_therapy(config["TherapyInfo"], i);
+        therapy_db_.push_back(t);
     }
 
-    //read tf_testing_day
-    tf_testing_day_ = config["tf_testing_day"].as<int>();
+    for (int i = 0; i < config["StrategyInfo"].size(); i++) {
+        IStrategy* s = read_strategy(config["StrategyInfo"], i);
+        strategy_db_.push_back(s);
+    }
 
-    strategy_ = read_strategy(config, config["StrategyInfo"], "SFTStrategy");
-    strategy_db_.insert(std::pair<int, IStrategy*>(strategy_->get_type(), strategy_));
+    strategy_ = strategy_db_[config["main_strategy_id"].as<int>()];
 
-    strategy_ = read_strategy(config, config["StrategyInfo"], "CyclingStrategy");
-    strategy_db_.insert(std::pair<int, IStrategy*>(strategy_->get_type(), strategy_));
 
-    strategy_ = read_strategy(config, config["StrategyInfo"], "MFTStrategy");
-    strategy_db_.insert(std::pair<int, IStrategy*>(strategy_->get_type(), strategy_));
+   
+    //
+    //    strategy_ = read_strategy(config, config["StrategyInfo"], "SFTStrategy");
+    //    strategy_db_.push_back(strategy_);
+    //
+    //    strategy_ = read_strategy(config, config["StrategyInfo"], "CyclingStrategy");
+    //    strategy_db_.push_back(strategy_);
+    //
+    //    strategy_ = read_strategy(config, config["StrategyInfo"], "MFTStrategy");
+    //    strategy_db_.push_back(strategy_);
+    //
+    //    strategy_ = read_strategy(config, config["StrategyInfo"], "AdaptiveCyclingStrategy");
+    //    strategy_db_.push_back(strategy_);
+    //
+    //    strategy_ = read_strategy(config, config["StrategyInfo"], "ACTIncreaseStrategy");
+    //    strategy_db_.push_back(strategy_);
+    //
+    //    std::string strategyName = config["StrategyInfo"]["strategyName"].as<std::string>();
 
-    strategy_ = read_strategy(config, config["StrategyInfo"], "AdaptiveCyclingStrategy");
-    strategy_db_.insert(std::pair<int, IStrategy*>(strategy_->get_type(), strategy_));
+    //    BOOST_FOREACH(IStrategy* &i, strategy_db_) {
+    //        if (i->to_string() == strategyName) {
+    //            strategy_ = i;
+    //        }
+    //    }
+}
 
-    strategy_ = read_strategy(config, config["StrategyInfo"], "ACTIncreaseStrategy");
-    strategy_db_.insert(std::pair<int, IStrategy*>(strategy_->get_type(), strategy_));
+IStrategy* Config::read_strategy(const YAML::Node& n, const int& strategy_id) {
+    std::string s_id = NumberToString<int>(strategy_id);
 
-    std::string strategyName = config["StrategyInfo"]["strategyName"].as<std::string>();
+    const YAML::Node& ns = n[s_id];
+    IStrategy::StrategyType type = IStrategy::StrategyTypeMap[ns["type"].as<std::string>()];
 
-    BOOST_FOREACH(StrategyPtrMap::value_type &i, strategy_db_) {
-        if (i.second->to_string() == strategyName) {
-            strategy_ = i.second;
+    IStrategy* result;
+
+    switch (type) {
+        case IStrategy::SFT:
+            result = new SFTStrategy();
+            result->id = strategy_id;
+            result->name = ns["name"].as<std::string>();
+            result->add_therapy(therapy_db()[ns["therapyID"].as<int>()]);
+
+            break;
+        default:
+            return NULL;
+    }
+    std::cout << result->to_string() << std::endl;
+    return result;
+}
+
+Therapy* Config::read_therapy(const YAML::Node& n, const int& therapy_id) {
+    std::string t_id = NumberToString<int>(therapy_id);
+    Therapy* t = NULL;
+    if (n[t_id]["drug_id"]) {
+        t = new SCTherapy();
+
+        for (int i = 0; i < n[t_id]["drug_id"].size(); i++) {
+            int drug_id = n[t_id]["drug_id"][i].as<int>();
+            //        std::cout << therapy_id << "-" << drug_id << std::endl;
+            ((SCTherapy*) t)->add_drug(drug_id);
+        }
+
+        int dosing_days = n[t_id]["dosing_days"].as<int>();
+        ((SCTherapy*) t)->set_dosing_day(dosing_days);
+    } else {
+        if (n[t_id]["therapy_ids"]) {
+            t = new MACTherapy();
+
+            for (int i = 0; i < n[t_id]["therapy_ids"].size(); i++) {
+                int therapy_id = n[t_id]["therapy_ids"][i].as<int>();
+                //        std::cout << therapy_id << "-" << drug_id << std::endl;
+                ((MACTherapy*) t)->add_therapy_id(therapy_id);
+            }
+            for (int i = 0; i < n[t_id]["regimen"].size(); i++) {
+                int starting_day = n[t_id]["regimen"][i].as<int>();
+                //        std::cout << therapy_id << "-" << drug_id << std::endl;
+                ((MACTherapy*) t)->add_schedule(starting_day);
+            }
         }
     }
+
+    t->set_id(therapy_id);
+    return t;
+
 }
 
 void Config::build_drug_and_parasite_db(const YAML::Node& config) {
@@ -449,44 +518,6 @@ IStrategy* Config::read_strategy(const YAML::Node& config, const YAML::Node& n, 
         s->add_therapy(therapy_db_[n[strategy_name]["therapyID"][i].as<int>()]);
     }
     return s;
-}
-
-Therapy* Config::read_therapy(const YAML::Node& config, const int& therapy_id) {
-    const YAML::Node& n = config["TherapyInfo"];
-
-    std::string t_id = NumberToString<int>(therapy_id);
-    Therapy* t = NULL;
-    if (n[t_id]["drug_id"]) {
-        t = new SCTherapy();
-
-        for (int i = 0; i < n[t_id]["drug_id"].size(); i++) {
-            int drug_id = n[t_id]["drug_id"][i].as<int>();
-            //        std::cout << therapy_id << "-" << drug_id << std::endl;
-            ((SCTherapy*) t)->add_drug(drug_id);
-        }
-
-        int dosing_days = n[t_id]["dosing_days"].as<int>();
-        ((SCTherapy*) t)->set_dosing_day(dosing_days);
-    } else {
-        if (n[t_id]["therapy_ids"]) {
-            t = new MACTherapy();
-
-            for (int i = 0; i < n[t_id]["therapy_ids"].size(); i++) {
-                int therapy_id = n[t_id]["therapy_ids"][i].as<int>();
-                //        std::cout << therapy_id << "-" << drug_id << std::endl;
-                ((MACTherapy*) t)->add_therapy_id(therapy_id);
-            }
-            for (int i = 0; i < n[t_id]["regimen"].size(); i++) {
-                int starting_day = n[t_id]["regimen"][i].as<int>();
-                //        std::cout << therapy_id << "-" << drug_id << std::endl;
-                ((MACTherapy*) t)->add_schedule(starting_day);
-            }
-        }
-    }
-
-    t->set_id(therapy_id);
-    return t;
-
 }
 
 DrugType * Config::read_drugtype(const YAML::Node& config, const int& drug_id) {
@@ -957,37 +988,37 @@ void Config::override_1_parameter(const std::string& parameter_name, const std::
 
     if (parameter_name == "strategy") {
         //TODO: rework it later
-        
-//        std::string svalue = parameter_value;
-//        std::replace(svalue.begin(), svalue.end(), ',', ' ');
-//
-//        //get mft strategy
-//        strategy_ = strategy_db_[2];
-//        //replace with new info
-//        std::istringstream iss(svalue);
-//        std::vector<double> value;
-//        double d;
-//        while (iss >> d) {
-//            value.push_back(d);
-//        }
-//        strategy_->get_therapy_list().clear();
-//        for (int i = 0; i < value.size() / 2; i++) {
-//            //            std::cout << value[i] << std::endl;
-//            strategy_->get_therapy_list().push_back(therapy_db_[(int) value[i]]);
-//        }
-//
-//        ((MFTStrategy*) strategy_)->distribution().clear();
-//        for (int i = value.size() / 2; i < value.size(); i++) {
-//            //            std::cout << value[i] << std::endl;
-//            ((MFTStrategy*) strategy_)->distribution().push_back(value[i]);
-//        }
+
+        //        std::string svalue = parameter_value;
+        //        std::replace(svalue.begin(), svalue.end(), ',', ' ');
+        //
+        //        //get mft strategy
+        //        strategy_ = strategy_db_[2];
+        //        //replace with new info
+        //        std::istringstream iss(svalue);
+        //        std::vector<double> value;
+        //        double d;
+        //        while (iss >> d) {
+        //            value.push_back(d);
+        //        }
+        //        strategy_->get_therapy_list().clear();
+        //        for (int i = 0; i < value.size() / 2; i++) {
+        //            //            std::cout << value[i] << std::endl;
+        //            strategy_->get_therapy_list().push_back(therapy_db_[(int) value[i]]);
+        //        }
+        //
+        //        ((MFTStrategy*) strategy_)->distribution().clear();
+        //        for (int i = value.size() / 2; i < value.size(); i++) {
+        //            //            std::cout << value[i] << std::endl;
+        //            ((MFTStrategy*) strategy_)->distribution().push_back(value[i]);
+        //        }
     }
 
     if (parameter_name == "dosing_days") {
         int dosing_days = atof(parameter_value.c_str());
-        for (TherapyPtrMap::iterator it = therapy_db_.begin(); it != therapy_db_.end(); it++) {
+        for (TherapyPtrVector::iterator it = therapy_db_.begin(); it != therapy_db_.end(); it++) {
 
-            SCTherapy* scTherapy = dynamic_cast<SCTherapy*> (it->second);
+            SCTherapy* scTherapy = dynamic_cast<SCTherapy*> (*it);
             if (scTherapy != NULL) {
                 scTherapy->set_dosing_day(dosing_days);
             }
@@ -1033,7 +1064,7 @@ void Config::override_1_parameter(const std::string& parameter_name, const std::
     if (parameter_name == "TACT_switching_day") {
         TACT_switching_day_ = atoi(parameter_value.c_str());
     }
-    
+
     if (parameter_name == "TACT_id") {
         TACT_id_ = atoi(parameter_value.c_str());
     }

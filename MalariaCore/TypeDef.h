@@ -19,6 +19,8 @@ class PersonIndex;
 class Event;
 class Reporter;
 class Drug;
+class IStrategy;
+class Therapy;
 
 typedef unsigned long ul;
 
@@ -57,6 +59,10 @@ typedef std::vector<Reporter*> ReporterPtrVector;
 typedef std::list<PersonIndex*> PersonIndexPtrList;
 
 typedef std::map<int, Drug*> DrugPtrMap;
+
+typedef std::vector<Therapy*> TherapyPtrVector;
+typedef std::vector<IStrategy*> StrategyPtrVector;
+
 
 struct Seasonality {
     DoubleVector a;

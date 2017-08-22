@@ -16,6 +16,8 @@
 #include <string>
 #include <vector>
 #include "PropertyMacro.h"
+#include <map>
+
 class Therapy;
 
 class IStrategy {
@@ -27,10 +29,15 @@ public:
         MFT = 2,
         AdaptiveCycling = 3
     };
+    static std::map<std::string, StrategyType> StrategyTypeMap;
 
     DISALLOW_COPY_AND_ASSIGN_(IStrategy)
-    VIRTUAL_PROPERTY_REF(int, id)
 public:
+    int id;
+    std::string name;
+
+public:
+
     IStrategy() {
     }
 
@@ -55,6 +62,8 @@ public:
     virtual void update_end_of_time_step() = 0;
 
 };
+
+
 
 #endif /* ISTRATEGY_H */
 

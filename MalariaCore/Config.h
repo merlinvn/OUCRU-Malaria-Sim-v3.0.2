@@ -20,13 +20,8 @@
 #include <math.h>
 #include <boost/math/constants/constants.hpp>
 
-class IStrategy;
-class Therapy;
 class Model;
 const double PI = boost::math::constants::pi<double>();
-
-typedef std::map<int, Therapy*> TherapyPtrMap;
-typedef std::map<int, IStrategy*> StrategyPtrMap;
 
 class Config {
     DISALLOW_COPY_AND_ASSIGN_(Config)
@@ -77,8 +72,8 @@ class Config {
     VIRTUAL_PROPERTY_REF(GenotypeInfo, genotype_info);
 
     //TODO: convert to Vector instead of Map
-    VIRTUAL_PROPERTY_REF(TherapyPtrMap, therapy_db);
-    VIRTUAL_PROPERTY_REF(StrategyPtrMap, strategy_db);
+    VIRTUAL_PROPERTY_REF(TherapyPtrVector, therapy_db);
+    VIRTUAL_PROPERTY_REF(StrategyPtrVector, strategy_db);
 
     VIRTUAL_PROPERTY_REF(std::vector<InitialParasiteInfo>, initial_parasite_info)
     VIRTUAL_PROPERTY_REF(std::vector<ImportationParasiteInfo>, importation_parasite_info)
@@ -151,6 +146,9 @@ public:
 
 
     IStrategy* read_strategy(const YAML::Node& config, const YAML::Node& n, const std::string& strategy_name);
+    IStrategy* read_strategy(const YAML::Node& n, const int& strategy_id);
+    
+    
     Therapy* read_therapy(const YAML::Node& config, const int& therapy_id);
 
     DrugType* read_drugtype(const YAML::Node& config, const int& drug_id);

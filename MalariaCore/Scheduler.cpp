@@ -31,14 +31,16 @@ Scheduler::Scheduler(const Scheduler& orig) {
 
 Scheduler::~Scheduler() {
 
-    BOOST_FOREACH(EventPtrVector events_list, timed_events_list_) {
-
-        BOOST_FOREACH(Event* event, events_list) {
-            DeletePointer<Event>(event);
-        }
-        events_list.clear();
-    }
-    timed_events_list_.clear();
+    //    BOOST_FOREACH(EventPtrVector events_list, timed_events_list_) {
+    //
+    //        BOOST_FOREACH(Event* event, events_list) {
+    //            DeletePointer<Event>(event);
+    //        }
+    //        events_list.clear();
+    //    }
+    //    timed_events_list_.clear();
+    //    
+    clear_all_events();
 }
 
 void Scheduler::clear_all_events() {
@@ -70,11 +72,16 @@ void Scheduler::set_total_time(const int& value) {
 }
 
 void Scheduler::schedule(Event* event) {
-    //TODO:: implement exception here 
+    // Schedule event in the future
     //1. Compare current time with event time
-    //2. Event time cannot exceed total time
-    timed_events_list_[event->time()].push_back(event);
-    event->set_scheduler(this);
+    //2. Event time cannot exceed total time or less than and equal to current time
+    if (event->time() > total_time_ || event->time() <= current_time_) {
+        std::cout << "Error to schedule event " << std::endl;
+        DeletePointer<Event>(event);
+    } else {
+        timed_events_list_[event->time()].push_back(event);
+        event->set_scheduler(this);
+    }
 }
 
 void Scheduler::cancel(Event* event) {
@@ -140,13 +147,13 @@ void Scheduler::update_end_of_time_step() {
 
     //check to switch strategy
     Model::CONFIG->strategy()->update_end_of_time_step();
-    
+
     //TODO: those 2 call will be embedded in update_end_of_time_step
     //
     //perform_check_and_replace_ACT();
     //perform_check_and_replace_TACT();
-    
-    
+
+
 }
 
 void Scheduler::report_end_of_time_step() {

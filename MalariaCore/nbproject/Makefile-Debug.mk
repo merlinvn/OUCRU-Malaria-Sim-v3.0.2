@@ -61,6 +61,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/ExternalPopulation.o \
 	${OBJECTDIR}/FarmReporter.o \
 	${OBJECTDIR}/GuiReporter.o \
+	${OBJECTDIR}/IStrategy.o \
 	${OBJECTDIR}/ImmuneComponent.o \
 	${OBJECTDIR}/ImmuneSystem.o \
 	${OBJECTDIR}/ImmunityClearanceUpdateFunction.o \
@@ -276,6 +277,11 @@ ${OBJECTDIR}/GuiReporter.o: GuiReporter.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GuiReporter.o GuiReporter.cpp
+
+${OBJECTDIR}/IStrategy.o: IStrategy.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/IStrategy.o IStrategy.cpp
 
 ${OBJECTDIR}/ImmuneComponent.o: ImmuneComponent.cpp 
 	${MKDIR} -p ${OBJECTDIR}

@@ -9,6 +9,7 @@
 #include "SFTStrategy.h"
 #include "Therapy.h"
 #include "IStrategy.h"
+#include <sstream>
 
 SFTStrategy::SFTStrategy() {
 }
@@ -19,7 +20,7 @@ SFTStrategy::SFTStrategy(const SFTStrategy& orig) {
 SFTStrategy::~SFTStrategy() {
 }
 
-std::vector<Therapy*>& SFTStrategy::get_therapy_list(){
+std::vector<Therapy*>& SFTStrategy::get_therapy_list() {
     return therapy_list_;
 }
 
@@ -28,7 +29,7 @@ void SFTStrategy::add_therapy(Therapy* therapy) {
 }
 
 bool SFTStrategy::is_strategy(const std::string& sName) {
-    return ("SFTStrategy" == sName);
+    return (IStrategy::name == sName);
 }
 
 Therapy* SFTStrategy::get_therapy() {
@@ -36,7 +37,9 @@ Therapy* SFTStrategy::get_therapy() {
 }
 
 std::string SFTStrategy::to_string() const {
-    return "SFTStrategy";
+    std::stringstream sstm;
+    sstm << IStrategy::id << "-" << IStrategy::name << "-" << therapy_list_[0]->id();
+    return sstm.str();
 }
 
 IStrategy::StrategyType SFTStrategy::get_type() const {

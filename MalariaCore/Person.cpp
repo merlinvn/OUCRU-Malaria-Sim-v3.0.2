@@ -68,7 +68,7 @@ Person::Person(const Person& orig) {
 }
 
 Person::~Person() {
-    //    Dispatcher::clear_events();
+//    Dispatcher::clear_events();
     DeletePointer<ImmuneSystem>(immune_system_);
     DeletePointer<SingleHostClonalParasitePopulations>(all_clonal_parasite_populations_);
     DeletePointer<DrugsInBlood>(drugs_in_blood_);
@@ -293,17 +293,17 @@ void Person::cancel_all_events_except(Event* event) {
     }
 }
 
-void Person::record_treatment_failure_for_test_treatment_failure_events() {
-
-    BOOST_FOREACH(Event* e, *events()) {
-        if (dynamic_cast<TestTreatmentFailureEvent*> (e) != NULL && e->executable()) {
-            //            e->set_dispatcher(NULL);
-            //record treatment failure
-            Model::DATA_COLLECTOR->record_1_treatment_failure_by_therapy(location_, age_, ((TestTreatmentFailureEvent*) e)->therapyId());
-
-        }
-    }
-}
+//void Person::record_treatment_failure_for_test_treatment_failure_events() {
+//
+//    BOOST_FOREACH(Event* e, *events()) {
+//        if (dynamic_cast<TestTreatmentFailureEvent*> (e) != NULL && e->executable()) {
+//            //            e->set_dispatcher(NULL);
+//            //record treatment failure
+//            Model::DATA_COLLECTOR->record_1_treatment_failure_by_therapy(location_, age_, ((TestTreatmentFailureEvent*) e)->therapyId());
+//
+//        }
+//    }
+//}
 
 void Person::change_all_parasite_update_function(ParasiteDensityUpdateFunction* from, ParasiteDensityUpdateFunction* to) {
     all_clonal_parasite_populations_->change_all_parasite_update_function(from, to);
@@ -344,9 +344,8 @@ void Person::schedule_end_clinical_due_to_drug_resistance_event(ClonalParasitePo
     EndClinicalDueToDrugResistanceEvent::schedule_event(Model::SCHEDULER, this, blood_parasite, Model::SCHEDULER->current_time() + dClinical);
 }
 
-void Person::schedule_test_treatment_failure_event(ClonalParasitePopulation* blood_parasite, const int& testing_day, const bool& isRes, const int& t_id) {
-
-    TestTreatmentFailureEvent::schedule_event(Model::SCHEDULER, this, blood_parasite, Model::SCHEDULER->current_time() + testing_day, isRes, t_id);
+void Person::schedule_test_treatment_failure_event(ClonalParasitePopulation* blood_parasite, const int& testing_day, const int& t_id) {
+    TestTreatmentFailureEvent::schedule_event(Model::SCHEDULER, this, blood_parasite, Model::SCHEDULER->current_time() + testing_day, t_id);
 }
 
 int Person::complied_dosing_days(const int& dosing_day) {

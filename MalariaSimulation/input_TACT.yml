@@ -12,7 +12,7 @@
 # total number of days the simulation is run, including the burn-in period which we normally set to 4000
 # days; during the burn-in period, no one receives malaria treatement and the system sets into a natural 
 # equilibrium 
-total_time: 8760
+total_time: 2000
 
 # length of burn-in period
 start_treatment_day: 100
@@ -39,7 +39,7 @@ seasonal_beta:
   
   
 # the last four terms are ignored when the number of locations is 1
-population_size_by_location: [100000, 1000 , 1000, 1000, 500]
+population_size_by_location: [10000, 1000 , 1000, 1000, 500]
 
 # probability that an infectious bite on a human causes a blood stage malaria infection
 p_infection_from_an_infectious_bite: 0.1
@@ -617,6 +617,7 @@ artemisinin_drug_id: 0
 # the drug_ids that make up the therapy, and the number of days that the therapy is prescribed for 
 # testing day tells you the follow-up point at which it is determined if treatment failed or not
 tf_testing_day: 28
+
 TherapyInfo:
   #mono as
   0:    
@@ -673,41 +674,71 @@ TherapyInfo:
 
 # drug-deployment strategy - simply uncomment below to turn on a particular strategy
 StrategyInfo:
-  #strategyName can be SFTStrategy / CyclingStrategy / MFTStrategy / AdaptiveCyclingStrategy
-#  strategyName: SFTStrategy
-#  strategyName: CyclingStrategy
-#  strategyName: MFTStrategy
-  strategyName: ACTIncreaseStrategy
-#  strategyName: AdaptiveCyclingStrategy
+    0:
+        name: SFTStrategy
+        type: SFT
+        therapyID: 7
+#    1:
+#        name: CyclingStrategy
+#        type: Cycling
+#        therapyID: [9,8,7]
+#        cycling_time: 1825
+#    2:
+#        name: MFTStrategy
+#        type: MFT
+#        therapyID: [5,6]
+#        distribution: [0.5,0.5]
+#    3:
+#        name: AdaptiveCyclingStrategy
+#        type: AdaptiveCycling
+#        therapyID: [9,8,7]
+#        trigger_value: 0.1
+#        delay_until_actual_trigger: 365
+#        turn_off_days: 365
+#        
+#    4:
+#        name: ACTIncreaseStrategy
+#        therapyID: [6,5,2,12]
+#        start_distribution: [0.05, 0.31666,0.31666,0.31666]
+#        end_distribution: [0.8,0.066666,0.066666,0.066667]
+ 
+main_strategy_id: 0
 
-  SFTStrategy:
-    therapyID: [7]
-
-  # cycle three ACTs in and out every five years
-  CyclingStrategy:
-    therapyID: [9,8,7]
-    cycling_time: 1825
-    
-  # deploy three ACTs simultaneously
-  MFTStrategy:
-    therapyID: [5,6]
-    distribution: [0.5,0.5]
-
-  # cycle three ACTs in and out - switch between ACTs when the fraction of patients experiencing
-  # treatment failure get to the trigger value below
-  # there is a one-year delay until the actual switch is made in the field (delay_until_actual_trigger)
-  AdaptiveCyclingStrategy:
-    therapyID: [9,8,7]
-    trigger_value: 0.1
-    delay_until_actual_trigger: 365
-    turn_off_days: 365
-    
-    # deploy three ACTs simultaneously
-  ACTIncreaseStrategy:
-      # AL, SP, AQ, CQ
-      therapyID: [6,5,2,12]
-      start_distribution: [0.05, 0.31666,0.31666,0.31666]
-      end_distribution: [0.8,0.066666,0.066666,0.066667]
+#  #strategyName can be SFTStrategy / CyclingStrategy / MFTStrategy / AdaptiveCyclingStrategy
+##  strategyName: SFTStrategy
+##  strategyName: CyclingStrategy
+##  strategyName: MFTStrategy
+#    strategyName: ACTIncreaseStrategy
+#  #  strategyName: AdaptiveCyclingStrategy
+#
+#    SFTStrategy:
+#      therapyID: [7]
+#
+#    # cycle three ACTs in and out every five years
+#    CyclingStrategy:
+#      therapyID: [9,8,7]
+#      cycling_time: 1825
+#
+#    # deploy three ACTs simultaneously
+#    MFTStrategy:
+#      therapyID: [5,6]
+#      distribution: [0.5,0.5]
+#
+#    # cycle three ACTs in and out - switch between ACTs when the fraction of patients experiencing
+#    # treatment failure get to the trigger value below
+#    # there is a one-year delay until the actual switch is made in the field (delay_until_actual_trigger)
+#    AdaptiveCyclingStrategy:
+#      therapyID: [9,8,7]
+#      trigger_value: 0.1
+#      delay_until_actual_trigger: 365
+#      turn_off_days: 365
+#
+#      # deploy three ACTs simultaneously
+#    ACTIncreaseStrategy:
+#        # AL, SP, AQ, CQ
+#        therapyID: [6,5,2,12]
+#        start_distribution: [0.05, 0.31666,0.31666,0.31666]
+#        end_distribution: [0.8,0.066666,0.066666,0.066667]
     
 
 # this number use to detemine whether a therapy is "useful" or not and it is used to calculate 
