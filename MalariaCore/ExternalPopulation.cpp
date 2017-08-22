@@ -102,7 +102,6 @@ void ExternalPopulation::notify_change_in_force_of_infection(const int& location
 }
 
 double ExternalPopulation::get_current_daily_EIR_by_location(const int& current_time, const int& location, const int& parasite_type_id) {
-    //TODO::read from config class
     if (parasite_type_id != 0) {
         return 0;
     }

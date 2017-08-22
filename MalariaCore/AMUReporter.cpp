@@ -138,7 +138,7 @@ void AMUReporter::begin_time_step() {
 void AMUReporter::after_time_step() {
 
     if (Model::SCHEDULER->current_time() % Model::CONFIG->report_frequency() == 0) {
-//        Model::DATA_COLLECTOR->perform_population_statistic();
+        //        Model::DATA_COLLECTOR->perform_population_statistic();
 
         std::cout << Model::SCHEDULER->current_time() << "\t";
         std::cout << Model::DATA_COLLECTOR->AMU_per_parasite_pop() << "\t";
@@ -373,9 +373,9 @@ void AMUReporter::print_resistance_tracker() {
 }
 
 void AMUReporter::print_treatments_by_therapy() {
-    
-    for (int i = 0; i < Model::CONFIG->strategy()->get_therapy_list().size(); i++) {
-        int t_id = Model::CONFIG->strategy()->get_therapy_list()[i]->id();
+
+    for (int t_id = 0; t_id < Model::CONFIG->therapy_db().size(); t_id++) {
+
         int nTreaments = Model::DATA_COLLECTOR->number_of_treatments_with_therapy_ID()[t_id];
         int nSuccess = Model::DATA_COLLECTOR->number_of_treatments_success_with_therapy_ID()[t_id];
         int nFail = Model::DATA_COLLECTOR->number_of_treatments_fail_with_therapy_ID()[t_id];

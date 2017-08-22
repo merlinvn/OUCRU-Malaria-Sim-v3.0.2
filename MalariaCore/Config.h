@@ -75,6 +75,8 @@ class Config {
     POINTER_PROPERTY(DrugDatabase, drug_db);
     POINTER_PROPERTY(IntGenotypeDatabase, genotype_db);
     VIRTUAL_PROPERTY_REF(GenotypeInfo, genotype_info);
+
+    //TODO: convert to Vector instead of Map
     VIRTUAL_PROPERTY_REF(TherapyPtrMap, therapy_db);
     VIRTUAL_PROPERTY_REF(StrategyPtrMap, strategy_db);
 
@@ -162,6 +164,7 @@ public:
     void read_genotype_info(const YAML::Node& config);
 
     double seasonality(const int& current_time, const double& amplitude, const double& phi) {
+        if (amplitude == 0) return 1;
         return amplitude * cos(2 * PI * (current_time - phi) / 365) + 1;
     };
 

@@ -26,18 +26,11 @@ void SCTherapy::add_drug(int drug_id) {
 }
 
 int SCTherapy::get_arteminsinin_id() {
-    //    for (int i = 0; i < drug_ids_.size(); i++) {
-    //        DrugType* dt = Model::CONFIG->drug_db()->get(drug_ids_[i]);
-    //        if (dt->is_artemisinin()) {
-    //            return dt->id();
-    //        }
-    //    }
-    //    return -1;
+   
     return artemisinin_id_;
 }
 
-//TODO:: seem obsolate
-//
+
 //int Therapy::get_therapy_duration(int dosing_day) {
 //    int result = 0;
 //

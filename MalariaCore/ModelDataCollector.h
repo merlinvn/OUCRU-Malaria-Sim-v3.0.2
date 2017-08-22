@@ -73,9 +73,9 @@ class ModelDataCollector {
     PROPERTY_REF(int, current_utl_duration)
     PROPERTY_REF(IntVector, UTL_duration)
 
-    PROPERTY_REF(IntIntMap, number_of_treatments_with_therapy_ID)
-    PROPERTY_REF(IntIntMap, number_of_treatments_success_with_therapy_ID)
-    PROPERTY_REF(IntIntMap, number_of_treatments_fail_with_therapy_ID)
+    PROPERTY_REF(IntVector, number_of_treatments_with_therapy_ID)
+    PROPERTY_REF(IntVector, number_of_treatments_success_with_therapy_ID)
+    PROPERTY_REF(IntVector, number_of_treatments_fail_with_therapy_ID)
 
     PROPERTY_REF(double, AMU_per_parasite_pop)
     PROPERTY_REF(double, AMU_per_person)

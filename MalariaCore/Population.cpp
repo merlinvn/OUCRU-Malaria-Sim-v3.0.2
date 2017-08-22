@@ -151,10 +151,8 @@ void Population::perform_infection_event() {
             if (force_of_infection <= 0.000001)
                 continue;
 
-            //TODO::implement seasonal later * Global::betaBySeasonal[Global::betaBySeasonalIndex];
             double newBeta = Model::CONFIG->beta()[loc] * Model::CONFIG->seasonality(Model::SCHEDULER->current_time(), Model::CONFIG->seasonal_beta().a[loc], Model::CONFIG->seasonal_beta().phi[loc]);
-
-
+            
             double poisson_means = newBeta * force_of_infection;
 
             int number_of_bites = Model::RANDOM->random_poisson(poisson_means);

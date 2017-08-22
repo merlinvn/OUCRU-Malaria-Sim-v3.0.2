@@ -294,7 +294,7 @@ void GuiReporter::send_mono_resistance_chart_data(const int& location) {
 
     }
 
-    //    //TODO::send double
+
     //    DrugTypePtrMap::iterator it1;
     //    for (it1 = Model::CONFIG->drug_db()->drug_db().begin(); it1 != Model::CONFIG->drug_db()->drug_db().end(); it++) {
     //        DrugTypePtrMap::iterator it2;
@@ -347,7 +347,6 @@ void GuiReporter::send_double_resistance_chart_data(const int& location) {
     }
 
 
-    //    //TODO::send double
     //    DrugTypePtrMap::iterator it1;
     //    for (it1 = Model::CONFIG->drug_db()->drug_db().begin(); it1 != Model::CONFIG->drug_db()->drug_db().end(); it++) {
     //        DrugTypePtrMap::iterator it2;

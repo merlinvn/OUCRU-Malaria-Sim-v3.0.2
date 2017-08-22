@@ -330,8 +330,7 @@ void FarmReporter::print_resistance_tracker() {
 }
 
 void FarmReporter::print_treatments_by_therapy() {
-    for (int i = 0; i < Model::CONFIG->strategy()->get_therapy_list().size(); i++) {
-        int t_id = Model::CONFIG->strategy()->get_therapy_list()[i]->id();
+    for (int t_id = 0; t_id < Model::CONFIG->therapy_db().size(); t_id++) {
         int nTreaments = Model::DATA_COLLECTOR->number_of_treatments_with_therapy_ID()[t_id];
         int nSuccess = Model::DATA_COLLECTOR->number_of_treatments_success_with_therapy_ID()[t_id];
         int nFail = Model::DATA_COLLECTOR->number_of_treatments_fail_with_therapy_ID()[t_id];

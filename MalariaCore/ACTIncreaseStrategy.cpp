@@ -59,8 +59,7 @@ IStrategy::StrategyType ACTIncreaseStrategy::get_type() const {
     return IStrategy::MFT;
 }
 
-void ACTIncreaseStrategy::update_end_of_time_step() {
-    //TODO: call adjustDistribution
+void ACTIncreaseStrategy::update_end_of_time_step() {   
     if (Model::SCHEDULER->current_time() % 30 == 0) {
         //TODO: test here
         adjustDisttribution(Model::SCHEDULER->current_time(), Model::SCHEDULER->total_time());

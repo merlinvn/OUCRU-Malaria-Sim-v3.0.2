@@ -30,7 +30,7 @@ public:
 
     int get_arteminsinin_id();
 
-    int get_therapy_duration(int dosing_day);
+//    int get_therapy_duration(int dosing_day);
 
 private:
 

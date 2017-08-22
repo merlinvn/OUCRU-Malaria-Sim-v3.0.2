@@ -257,8 +257,6 @@ void Model::release_object_pool() {
 #endif
 }
 
-//TODO: model override Config from override file
-
 void Model::run() {
     before_run();
     scheduler_->run();

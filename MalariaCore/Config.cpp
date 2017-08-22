@@ -956,33 +956,31 @@ void Config::override_1_parameter(const std::string& parameter_name, const std::
     }
 
     if (parameter_name == "strategy") {
-        //        YAML::Node config = YAML::LoadFile(Model::MODEL->config_filename());
-        //        int strategy_type = atoi(parameter_value.c_str());
-        //        strategy_ = strategy_db_[strategy_type];
-        //        
-        std::string svalue = parameter_value;
-        std::replace(svalue.begin(), svalue.end(), ',', ' ');
-
-        //get mft strategy
-        strategy_ = strategy_db_[2];
-        //replace with new info
-        std::istringstream iss(svalue);
-        std::vector<double> value;
-        double d;
-        while (iss >> d) {
-            value.push_back(d);
-        }
-        strategy_->get_therapy_list().clear();
-        for (int i = 0; i < value.size() / 2; i++) {
-            //            std::cout << value[i] << std::endl;
-            strategy_->get_therapy_list().push_back(therapy_db_[(int) value[i]]);
-        }
-
-        ((MFTStrategy*) strategy_)->distribution().clear();
-        for (int i = value.size() / 2; i < value.size(); i++) {
-            //            std::cout << value[i] << std::endl;
-            ((MFTStrategy*) strategy_)->distribution().push_back(value[i]);
-        }
+        //TODO: rework it later
+        
+//        std::string svalue = parameter_value;
+//        std::replace(svalue.begin(), svalue.end(), ',', ' ');
+//
+//        //get mft strategy
+//        strategy_ = strategy_db_[2];
+//        //replace with new info
+//        std::istringstream iss(svalue);
+//        std::vector<double> value;
+//        double d;
+//        while (iss >> d) {
+//            value.push_back(d);
+//        }
+//        strategy_->get_therapy_list().clear();
+//        for (int i = 0; i < value.size() / 2; i++) {
+//            //            std::cout << value[i] << std::endl;
+//            strategy_->get_therapy_list().push_back(therapy_db_[(int) value[i]]);
+//        }
+//
+//        ((MFTStrategy*) strategy_)->distribution().clear();
+//        for (int i = value.size() / 2; i < value.size(); i++) {
+//            //            std::cout << value[i] << std::endl;
+//            ((MFTStrategy*) strategy_)->distribution().push_back(value[i]);
+//        }
     }
 
     if (parameter_name == "dosing_days") {

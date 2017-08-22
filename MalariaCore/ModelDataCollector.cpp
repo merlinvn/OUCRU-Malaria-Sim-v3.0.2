@@ -79,12 +79,9 @@ void ModelDataCollector::initialize() {
         current_utl_duration_ = 0;
         UTL_duration_ = IntVector();
 
-        for (int i = 0; i < Model::CONFIG->strategy()->get_therapy_list().size(); i++) {
-            int t_id = Model::CONFIG->strategy()->get_therapy_list()[i]->id();
-            number_of_treatments_with_therapy_ID_.insert(std::pair<int, int>(t_id, 0));
-            number_of_treatments_success_with_therapy_ID_.insert(std::pair<int, int>(t_id, 0));
-            number_of_treatments_fail_with_therapy_ID_.insert(std::pair<int, int>(t_id, 0));
-        }
+        number_of_treatments_with_therapy_ID_ = IntVector(Model::CONFIG->therapy_db().size(), 0);
+        number_of_treatments_success_with_therapy_ID_ = IntVector(Model::CONFIG->therapy_db().size(), 0);
+        number_of_treatments_fail_with_therapy_ID_ = IntVector(Model::CONFIG->therapy_db().size(), 0);
 
         AMU_per_parasite_pop_ = 0;
         AMU_per_person_ = 0;
@@ -125,8 +122,8 @@ void ModelDataCollector::initialize() {
         number_of_treatments_by_location_age_therapy_year_ = IntVector3(Model::CONFIG->number_of_locations(), IntVector2(80, IntVector(3, 0)));
         number_of_treatment_failures_by_location_age_therapy_year_ = IntVector3(Model::CONFIG->number_of_locations(), IntVector2(80, IntVector(3, 0)));
         popsize_by_location_age_ = IntVector2(Model::CONFIG->number_of_locations(), IntVector(80, 0));
-                
-        cumulative_NTF_15_30_by_location_ =  DoubleVector(Model::CONFIG->number_of_locations(), 0.0);
+
+        cumulative_NTF_15_30_by_location_ = DoubleVector(Model::CONFIG->number_of_locations(), 0.0);
         TF_at_15_ = 0;
         single_resistance_frequency_at_15_ = 0;
         double_resistance_frequency_at_15_ = 0;
@@ -135,8 +132,8 @@ void ModelDataCollector::initialize() {
         quintuple_resistance_frequency_at_15_ = 0;
         art_resistance_frequency_at_15_ = 0;
         total_resistance_frequency_at_15_ = 0;
-        
-        
+
+
     }
 }
 
@@ -451,9 +448,8 @@ void ModelDataCollector::record_1_TF(const int& location, const bool& by_drug) {
             today_TF_by_location_[location] += 1;
         }
     }
-    
+
     if (Model::SCHEDULER->current_time() >= Model::CONFIG->non_artemisinin_switching_day()) {
-        //TODO: collect NTF15-30
         cumulative_NTF_15_30_by_location_[location] += 1;
     }
 
