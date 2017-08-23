@@ -83,6 +83,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/MoveToExternalPopulationEvent.o \
 	${OBJECTDIR}/MultipleLocationGuiReporter.o \
 	${OBJECTDIR}/NonInfantImmuneComponent.o \
+	${OBJECTDIR}/NovelNonACTSwitchingStrategy.o \
 	${OBJECTDIR}/ParasiteDensityUpdateFunction.o \
 	${OBJECTDIR}/Person.o \
 	${OBJECTDIR}/PersonIndex.o \
@@ -113,6 +114,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/SingleHostClonalParasitePopulations.o \
 	${OBJECTDIR}/StrategyBuilder.o \
 	${OBJECTDIR}/SwitchImmuneComponentEvent.o \
+	${OBJECTDIR}/TACTSwitchingStrategy.o \
 	${OBJECTDIR}/TMEAction.o \
 	${OBJECTDIR}/TMEActionFactory.o \
 	${OBJECTDIR}/TMEScheduler.o \
@@ -390,6 +392,11 @@ ${OBJECTDIR}/NonInfantImmuneComponent.o: NonInfantImmuneComponent.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -DUNITTEST=\"True\" -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/NonInfantImmuneComponent.o NonInfantImmuneComponent.cpp
 
+${OBJECTDIR}/NovelNonACTSwitchingStrategy.o: NovelNonACTSwitchingStrategy.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -DUNITTEST=\"True\" -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/NovelNonACTSwitchingStrategy.o NovelNonACTSwitchingStrategy.cpp
+
 ${OBJECTDIR}/ParasiteDensityUpdateFunction.o: ParasiteDensityUpdateFunction.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -539,6 +546,11 @@ ${OBJECTDIR}/SwitchImmuneComponentEvent.o: SwitchImmuneComponentEvent.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -DUNITTEST=\"True\" -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SwitchImmuneComponentEvent.o SwitchImmuneComponentEvent.cpp
+
+${OBJECTDIR}/TACTSwitchingStrategy.o: TACTSwitchingStrategy.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -DUNITTEST=\"True\" -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/TACTSwitchingStrategy.o TACTSwitchingStrategy.cpp
 
 ${OBJECTDIR}/TMEAction.o: TMEAction.cpp 
 	${MKDIR} -p ${OBJECTDIR}

@@ -12,6 +12,7 @@
 #include "PropertyMacro.h"
 
 class Random;
+class Therapy;
 
 class MFTStrategy : public IStrategy {
     DISALLOW_COPY_AND_ASSIGN_(MFTStrategy)

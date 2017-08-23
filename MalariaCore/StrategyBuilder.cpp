@@ -20,6 +20,8 @@
 #include "AdaptiveCyclingStrategy.h"
 #include "MFTStrategy.h"
 #include "ACTIncreaseStrategy.h"
+#include "NovelNonACTSwitchingStrategy.h"
+#include "TACTSwitchingStrategy.h"
 
 StrategyBuilder::StrategyBuilder() {
 }
@@ -42,9 +44,12 @@ IStrategy* StrategyBuilder::build(const YAML::Node& ns, const int& strategy_id) 
             return buildAdaptiveCyclingStrategy(ns, strategy_id);
         case IStrategy::MFT:
             return buildMFTStrategy(ns, strategy_id);
-
         case IStrategy::ACTIncreaseOvertime:
             return buildACTIncreaseStrategy(ns, strategy_id);
+        case IStrategy::NovelNonACTSwitching:
+            return buildNovelNonACTSwitchingStrategy(ns, strategy_id);
+        case IStrategy::TACTSwitching:
+            return buildTACTSwitchingStrategy(ns, strategy_id);
         default:
             return NULL;
     }
@@ -125,4 +130,41 @@ IStrategy* StrategyBuilder::buildACTIncreaseStrategy(const YAML::Node& ns, const
     return result;
 }
 
+IStrategy* StrategyBuilder::buildNovelNonACTSwitchingStrategy(const YAML::Node& ns, const int& strategy_id) {
+    IStrategy* result = new NovelNonACTSwitchingStrategy();
+    result->id = strategy_id;
+    result->name = ns["name"].as<std::string>();
+
+    add_distributions(ns["distribution"], ((MFTStrategy*) result)->distribution());
+    add_therapies(ns, result);
+
+    //     non_artemisinin_switching_day: -1
+    //        non_art_therapy_id: 3
+    //        fraction_non_art_replacement: 0.33333
+    ((NovelNonACTSwitchingStrategy*) result)->set_non_artemisinin_switching_day(ns["non_artemisinin_switching_day"].as<int>());
+    ((NovelNonACTSwitchingStrategy*) result)->set_non_art_therapy_id(ns["non_art_therapy_id"].as<int>());
+    ((NovelNonACTSwitchingStrategy*) result)->set_fraction_non_art_replacement(ns["fraction_non_art_replacement"].as<double>());
+
+
+    return result;
+}
+
+IStrategy* StrategyBuilder::buildTACTSwitchingStrategy(const YAML::Node& ns, const int& strategy_id) {
+    IStrategy* result = new TACTSwitchingTStrategy();
+    result->id = strategy_id;
+    result->name = ns["name"].as<std::string>();
+
+
+    add_distributions(ns["start_distribution"], ((ACTIncreaseStrategy*) result)->start_distribution());
+    add_distributions(ns["start_distribution"], ((ACTIncreaseStrategy*) result)->distribution());
+    add_distributions(ns["end_distribution"], ((ACTIncreaseStrategy*) result)->end_distribution());
+
+    add_therapies(ns, result);
+    
+    ((TACTSwitchingTStrategy*) result)->set_TACT_switching_day(ns["TACT_switching_day"].as<int>());
+    ((TACTSwitchingTStrategy*) result)->set_TACT_id(ns["TACT_id"].as<int>());
+    
+    
+    return result;
+}
 

@@ -16,6 +16,7 @@
 #include "Model.h"
 #include <assert.h>
 #include "Therapy.h"
+#include "Config.h"
 #include <sstream>
 
 ACTIncreaseStrategy::ACTIncreaseStrategy() {
@@ -86,8 +87,8 @@ IStrategy::StrategyType ACTIncreaseStrategy::get_type() const {
 
 void ACTIncreaseStrategy::update_end_of_time_step() {
     if (Model::SCHEDULER->current_time() % 30 == 0) {
-        //TODO: test here
-        adjustDisttribution(Model::SCHEDULER->current_time(), Model::SCHEDULER->total_time());
+        adjustDisttribution(Model::SCHEDULER->current_time(), Model::CONFIG->total_time());
+//        std::cout << to_string() << std::endl;
     }
 }
 
