@@ -15,6 +15,8 @@
 #include "Random.h"
 #include "Model.h"
 #include <assert.h>
+#include "Therapy.h"
+#include <sstream>
 
 ACTIncreaseStrategy::ACTIncreaseStrategy() {
 }
@@ -25,7 +27,7 @@ ACTIncreaseStrategy::ACTIncreaseStrategy(const ACTIncreaseStrategy& orig) {
 ACTIncreaseStrategy::~ACTIncreaseStrategy() {
 }
 
-std::vector<Therapy*>& ACTIncreaseStrategy::get_therapy_list(){
+std::vector<Therapy*>& ACTIncreaseStrategy::get_therapy_list() {
     return therapy_list_;
 }
 
@@ -52,14 +54,37 @@ Therapy* ACTIncreaseStrategy::get_therapy() {
 }
 
 std::string ACTIncreaseStrategy::to_string() const {
-    return "ACTIncreaseStrategy";
+    std::stringstream sstm;
+    sstm << IStrategy::id << "-" << IStrategy::name << "-";
+    for (int i = 0; i < therapy_list_.size() - 1; i++) {
+        sstm << therapy_list_[i]->id() << ",";
+    }
+    sstm << therapy_list_[therapy_list_.size() - 1]->id() << "-";
+
+    for (int i = 0; i < start_distribution_.size() - 1; i++) {
+        sstm << start_distribution_[i] << ",";
+    }
+    sstm << start_distribution_[therapy_list_.size() - 1] << "-";
+
+
+    for (int i = 0; i < end_distribution_.size() - 1; i++) {
+        sstm << end_distribution_[i] << ",";
+    }
+    sstm << end_distribution_[therapy_list_.size() - 1] << "-";
+
+    for (int i = 0; i < distribution_.size() - 1; i++) {
+        sstm << distribution_[i] << ",";
+    }
+    sstm << distribution_[therapy_list_.size() - 1];
+
+    return sstm.str();
 }
 
 IStrategy::StrategyType ACTIncreaseStrategy::get_type() const {
-    return IStrategy::MFT;
+    return IStrategy::ACTIncreaseOvertime;
 }
 
-void ACTIncreaseStrategy::update_end_of_time_step() {   
+void ACTIncreaseStrategy::update_end_of_time_step() {
     if (Model::SCHEDULER->current_time() % 30 == 0) {
         //TODO: test here
         adjustDisttribution(Model::SCHEDULER->current_time(), Model::SCHEDULER->total_time());

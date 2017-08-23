@@ -144,8 +144,6 @@ public:
 
     void read_relative_infectivity_info(const YAML::Node & config);
 
-
-    IStrategy* read_strategy(const YAML::Node& config, const YAML::Node& n, const std::string& strategy_name);
     IStrategy* read_strategy(const YAML::Node& n, const int& strategy_id);
     
     

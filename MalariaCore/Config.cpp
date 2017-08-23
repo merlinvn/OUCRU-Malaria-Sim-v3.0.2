@@ -9,16 +9,13 @@
 #include <iostream>
 #include <boost/foreach.hpp>
 #include <gsl/gsl_cdf.h>
-#include "SFTStrategy.h"
 #include "HelperFunction.h"
-#include "SCTherapy.h"
-#include "AdaptiveCyclingStrategy.h"
-#include "CyclingStrategy.h"
-#include "MFTStrategy.h"
-#include "ACTIncreaseStrategy.h"
+#include "IStrategy.h"
 #include "Model.h"
 #include "Random.h"
+#include "SCTherapy.h"
 #include "MACTherapy.h"
+#include "StrategyBuilder.h"
 #include <math.h>
 #include <fstream>
 #include <boost/algorithm/string.hpp>
@@ -280,10 +277,10 @@ void Config::read_immune_system_information(const YAML::Node& config) {
 void Config::read_strategy_therapy_and_drug_information(const YAML::Node& config) {
     read_genotype_info(config);
     build_drug_and_parasite_db(config);
-    
+
     // read tf_testing_day
     tf_testing_day_ = config["tf_testing_day"].as<int>();
-    
+
     //    read_all_therapy
     for (int i = 0; i < config["TherapyInfo"].size(); i++) {
         Therapy* t = read_therapy(config["TherapyInfo"], i);
@@ -297,52 +294,13 @@ void Config::read_strategy_therapy_and_drug_information(const YAML::Node& config
 
     strategy_ = strategy_db_[config["main_strategy_id"].as<int>()];
 
-
-   
-    //
-    //    strategy_ = read_strategy(config, config["StrategyInfo"], "SFTStrategy");
-    //    strategy_db_.push_back(strategy_);
-    //
-    //    strategy_ = read_strategy(config, config["StrategyInfo"], "CyclingStrategy");
-    //    strategy_db_.push_back(strategy_);
-    //
-    //    strategy_ = read_strategy(config, config["StrategyInfo"], "MFTStrategy");
-    //    strategy_db_.push_back(strategy_);
-    //
-    //    strategy_ = read_strategy(config, config["StrategyInfo"], "AdaptiveCyclingStrategy");
-    //    strategy_db_.push_back(strategy_);
-    //
-    //    strategy_ = read_strategy(config, config["StrategyInfo"], "ACTIncreaseStrategy");
-    //    strategy_db_.push_back(strategy_);
-    //
-    //    std::string strategyName = config["StrategyInfo"]["strategyName"].as<std::string>();
-
-    //    BOOST_FOREACH(IStrategy* &i, strategy_db_) {
-    //        if (i->to_string() == strategyName) {
-    //            strategy_ = i;
-    //        }
-    //    }
 }
 
 IStrategy* Config::read_strategy(const YAML::Node& n, const int& strategy_id) {
     std::string s_id = NumberToString<int>(strategy_id);
-
     const YAML::Node& ns = n[s_id];
-    IStrategy::StrategyType type = IStrategy::StrategyTypeMap[ns["type"].as<std::string>()];
+    IStrategy* result = StrategyBuilder::build(ns, strategy_id);
 
-    IStrategy* result;
-
-    switch (type) {
-        case IStrategy::SFT:
-            result = new SFTStrategy();
-            result->id = strategy_id;
-            result->name = ns["name"].as<std::string>();
-            result->add_therapy(therapy_db()[ns["therapyID"].as<int>()]);
-
-            break;
-        default:
-            return NULL;
-    }
     std::cout << result->to_string() << std::endl;
     return result;
 }
@@ -481,43 +439,6 @@ void Config::build_parasite_db() {
 
     genotype_db_->initialize_matting_matrix();
     number_of_parasite_types_ = genotype_db_->db().size();
-}
-
-IStrategy* Config::read_strategy(const YAML::Node& config, const YAML::Node& n, const std::string& strategy_name) {
-    IStrategy* s;
-    if (strategy_name == "CyclingStrategy") {
-        s = new CyclingStrategy();
-        ((CyclingStrategy*) s)->set_cycling_time(n[strategy_name]["cycling_time"].as<int>());
-    } else if (strategy_name == "AdaptiveCyclingStrategy") {
-        s = new AdaptiveCyclingStrategy();
-        ((AdaptiveCyclingStrategy*) s)->set_trigger_value(n[strategy_name]["trigger_value"].as<double>());
-        ((AdaptiveCyclingStrategy*) s)->set_delay_until_actual_trigger(n[strategy_name]["delay_until_actual_trigger"].as<int>());
-        ((AdaptiveCyclingStrategy*) s)->set_turn_off_days(n[strategy_name]["turn_off_days"].as<int>());
-    } else if (strategy_name == "MFTStrategy") {
-        s = new MFTStrategy();
-        for (int i = 0; i < n[strategy_name]["distribution"].size(); i++) {
-            ((MFTStrategy*) s)->distribution().push_back(n[strategy_name]["distribution"][i].as<double>());
-        }
-    } else if (strategy_name == "ACTIncreaseStrategy") {
-        s = new ACTIncreaseStrategy();
-
-        for (int i = 0; i < n[strategy_name]["start_distribution"].size(); i++) {
-            ((ACTIncreaseStrategy*) s)->start_distribution().push_back(n[strategy_name]["start_distribution"][i].as<double>());
-            ((ACTIncreaseStrategy*) s)->distribution().push_back(n[strategy_name]["start_distribution"][i].as<double>());
-        }
-        for (int i = 0; i < n[strategy_name]["end_distribution"].size(); i++) {
-            ((ACTIncreaseStrategy*) s)->end_distribution().push_back(n[strategy_name]["end_distribution"][i].as<double>());
-        }
-
-    } else /*  if (strategy_name == "SFTStrategy")*/ {
-        s = new SFTStrategy();
-    }
-
-    for (int i = 0; i < n[strategy_name]["therapyID"].size(); i++) {
-        //        Therapy* therapy = read_therapy(config, n[strategy_name]["therapyID"][i].as<int>());
-        s->add_therapy(therapy_db_[n[strategy_name]["therapyID"][i].as<int>()]);
-    }
-    return s;
 }
 
 DrugType * Config::read_drugtype(const YAML::Node& config, const int& drug_id) {

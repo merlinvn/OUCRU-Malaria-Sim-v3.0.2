@@ -18,6 +18,7 @@
 #include "IStrategy.h"
 #include "PropertyMacro.h"
 
+
 class Random;
 
 class ACTIncreaseStrategy : public IStrategy {

@@ -6,10 +6,13 @@
  */
 
 #include "CyclingStrategy.h"
-#include "Therapy.h"
 #include "Model.h"
 #include "Config.h"
 #include "ModelDataCollector.h"
+#include <sstream>
+#include "IStrategy.h"
+#include "Therapy.h"
+
 
 CyclingStrategy::CyclingStrategy() : index_(0), cycling_time_(0) {
 }
@@ -20,12 +23,11 @@ CyclingStrategy::CyclingStrategy(const CyclingStrategy& orig) {
 CyclingStrategy::~CyclingStrategy() {
 }
 
-std::vector<Therapy*>& CyclingStrategy::get_therapy_list(){
+std::vector<Therapy*>& CyclingStrategy::get_therapy_list() {
     return therapy_list_;
 }
 
-
-void CyclingStrategy::add_therapy(Therapy* therapy){
+void CyclingStrategy::add_therapy(Therapy* therapy) {
     therapy_list_.push_back(therapy);
 }
 
@@ -34,7 +36,7 @@ bool CyclingStrategy::is_strategy(const std::string& sName) {
 }
 
 void CyclingStrategy::switch_therapy() {
-//    std::cout << "Switch from: " << index_ << "\t - to: " << index_ + 1;
+    //    std::cout << "Switch from: " << index_ << "\t - to: " << index_ + 1;
     index_++;
     index_ %= therapy_list().size();
     Model::DATA_COLLECTOR->update_UTL_vector();
@@ -47,7 +49,13 @@ Therapy* CyclingStrategy::get_therapy() {
 }
 
 std::string CyclingStrategy::to_string() const {
-    return "CyclingStrategy";
+    std::stringstream sstm;
+    sstm << IStrategy::id << "-" << IStrategy::name << "-";
+    for (int i = 0; i < therapy_list_.size() - 1; i++) {
+        sstm << therapy_list_[i]->id() << ",";
+    }
+    sstm << therapy_list_[therapy_list_.size() - 1]->id();
+    return sstm.str();
 }
 
 IStrategy::StrategyType CyclingStrategy::get_type() const {

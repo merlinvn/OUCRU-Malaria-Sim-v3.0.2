@@ -111,6 +111,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/STCAction.o \
 	${OBJECTDIR}/Scheduler.o \
 	${OBJECTDIR}/SingleHostClonalParasitePopulations.o \
+	${OBJECTDIR}/StrategyBuilder.o \
 	${OBJECTDIR}/SwitchImmuneComponentEvent.o \
 	${OBJECTDIR}/TMEAction.o \
 	${OBJECTDIR}/TMEActionFactory.o \
@@ -527,6 +528,11 @@ ${OBJECTDIR}/SingleHostClonalParasitePopulations.o: SingleHostClonalParasitePopu
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SingleHostClonalParasitePopulations.o SingleHostClonalParasitePopulations.cpp
+
+${OBJECTDIR}/StrategyBuilder.o: StrategyBuilder.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/StrategyBuilder.o StrategyBuilder.cpp
 
 ${OBJECTDIR}/SwitchImmuneComponentEvent.o: SwitchImmuneComponentEvent.cpp 
 	${MKDIR} -p ${OBJECTDIR}

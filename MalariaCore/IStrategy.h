@@ -27,7 +27,8 @@ public:
         SFT = 0,
         Cycling = 1,
         MFT = 2,
-        AdaptiveCycling = 3
+        AdaptiveCycling = 3,
+        ACTIncreaseOvertime
     };
     static std::map<std::string, StrategyType> StrategyTypeMap;
 

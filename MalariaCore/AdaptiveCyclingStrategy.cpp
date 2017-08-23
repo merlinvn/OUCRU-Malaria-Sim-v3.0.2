@@ -10,6 +10,9 @@
 #include "ModelDataCollector.h"
 #include "Config.h"
 #include <iostream>
+#include <sstream>
+#include "IStrategy.h"
+#include "Therapy.h"
 
 AdaptiveCyclingStrategy::AdaptiveCyclingStrategy() : trigger_value_(0), delay_until_actual_trigger_(0), turn_off_days_(0), latest_switch_time_(0) {
     set_index(0);
@@ -21,7 +24,7 @@ AdaptiveCyclingStrategy::AdaptiveCyclingStrategy(const AdaptiveCyclingStrategy& 
 AdaptiveCyclingStrategy::~AdaptiveCyclingStrategy() {
 }
 
-std::vector<Therapy*>& AdaptiveCyclingStrategy::get_therapy_list(){
+std::vector<Therapy*>& AdaptiveCyclingStrategy::get_therapy_list() {
     return therapy_list_;
 }
 
@@ -46,7 +49,13 @@ Therapy* AdaptiveCyclingStrategy::get_therapy() {
 }
 
 std::string AdaptiveCyclingStrategy::to_string() const {
-    return "AdaptiveCyclingStrategy";
+    std::stringstream sstm;
+    sstm << IStrategy::id << "-" << IStrategy::name << "-";
+    for (int i = 0; i < therapy_list_.size() - 1; i++) {
+        sstm << therapy_list_[i]->id() << ",";
+    }
+    sstm << therapy_list_[therapy_list_.size() - 1]->id();
+    return sstm.str();
 }
 
 IStrategy::StrategyType AdaptiveCyclingStrategy::get_type() const {

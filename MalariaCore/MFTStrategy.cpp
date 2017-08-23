@@ -9,6 +9,9 @@
 #include "Random.h"
 #include "Model.h"
 #include <assert.h>
+#include <sstream>
+#include "IStrategy.h"
+#include "Therapy.h"
 
 MFTStrategy::MFTStrategy() : distribution_() {
     //    if (config != NULL) {
@@ -25,11 +28,11 @@ MFTStrategy::MFTStrategy(const MFTStrategy& orig) {
 MFTStrategy::~MFTStrategy() {
 }
 
-std::vector<Therapy*>& MFTStrategy::get_therapy_list(){
+std::vector<Therapy*>& MFTStrategy::get_therapy_list() {
     return therapy_list_;
 }
 
-void MFTStrategy::add_therapy(Therapy* therapy){
+void MFTStrategy::add_therapy(Therapy* therapy) {
     therapy_list_.push_back(therapy);
 }
 
@@ -53,13 +56,26 @@ Therapy* MFTStrategy::get_therapy() {
 }
 
 std::string MFTStrategy::to_string() const {
-    return "MFTStrategy";
+    std::stringstream sstm;
+    sstm << IStrategy::id << "-" << IStrategy::name << "-";
+    
+    for (int i = 0; i < therapy_list_.size() - 1; i++) {
+        sstm << therapy_list_[i]->id() << ",";
+    }
+    sstm << therapy_list_[therapy_list_.size() - 1]->id() << "-";
+    
+    for (int i = 0; i < distribution_.size() - 1; i++) {
+        sstm << distribution_[i] << ",";
+    }
+    sstm << distribution_[therapy_list_.size() - 1];
+
+    return sstm.str();
 }
 
 IStrategy::StrategyType MFTStrategy::get_type() const {
     return IStrategy::MFT;
 }
 
-void MFTStrategy::update_end_of_time_step()  {
+void MFTStrategy::update_end_of_time_step() {
     //do nothing here
 }

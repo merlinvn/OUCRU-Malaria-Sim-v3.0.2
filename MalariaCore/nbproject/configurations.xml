@@ -17,6 +17,8 @@
       <itemPath>SCTherapy.h</itemPath>
       <itemPath>SFTStrategy.cpp</itemPath>
       <itemPath>SFTStrategy.h</itemPath>
+      <itemPath>StrategyBuilder.cpp</itemPath>
+      <itemPath>StrategyBuilder.h</itemPath>
       <itemPath>Therapy.cpp</itemPath>
       <itemPath>Therapy.h</itemPath>
     </logicalFolder>
@@ -615,6 +617,10 @@
             tool="3"
             flavor2="0">
       </item>
+      <item path="StrategyBuilder.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="StrategyBuilder.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="SwitchImmuneComponentEvent.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="SwitchImmuneComponentEvent.h" ex="false" tool="3" flavor2="0">
@@ -1054,6 +1060,10 @@
             ex="false"
             tool="3"
             flavor2="0">
+      </item>
+      <item path="StrategyBuilder.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="StrategyBuilder.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="SwitchImmuneComponentEvent.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -1496,6 +1506,10 @@
             ex="false"
             tool="3"
             flavor2="0">
+      </item>
+      <item path="StrategyBuilder.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="StrategyBuilder.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="SwitchImmuneComponentEvent.cpp" ex="false" tool="1" flavor2="0">
       </item>
