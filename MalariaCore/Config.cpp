@@ -14,8 +14,8 @@
 #include "Model.h"
 #include "Random.h"
 #include "SCTherapy.h"
-#include "MACTherapy.h"
 #include "StrategyBuilder.h"
+#include "TherapyBuilder.h"
 #include <math.h>
 #include <fstream>
 #include <boost/algorithm/string.hpp>
@@ -298,8 +298,8 @@ void Config::read_strategy_therapy_and_drug_information(const YAML::Node& config
 
 IStrategy* Config::read_strategy(const YAML::Node& n, const int& strategy_id) {
     std::string s_id = NumberToString<int>(strategy_id);
-    const YAML::Node& ns = n[s_id];
-    IStrategy* result = StrategyBuilder::build(ns, strategy_id);
+    
+    IStrategy* result = StrategyBuilder::build(n[s_id], strategy_id);
 
     std::cout << result->to_string() << std::endl;
     return result;
@@ -307,38 +307,9 @@ IStrategy* Config::read_strategy(const YAML::Node& n, const int& strategy_id) {
 
 Therapy* Config::read_therapy(const YAML::Node& n, const int& therapy_id) {
     std::string t_id = NumberToString<int>(therapy_id);
-    Therapy* t = NULL;
-    if (n[t_id]["drug_id"]) {
-        t = new SCTherapy();
+    Therapy* t = TherapyBuilder::build(n[t_id],therapy_id);
 
-        for (int i = 0; i < n[t_id]["drug_id"].size(); i++) {
-            int drug_id = n[t_id]["drug_id"][i].as<int>();
-            //        std::cout << therapy_id << "-" << drug_id << std::endl;
-            ((SCTherapy*) t)->add_drug(drug_id);
-        }
-
-        int dosing_days = n[t_id]["dosing_days"].as<int>();
-        ((SCTherapy*) t)->set_dosing_day(dosing_days);
-    } else {
-        if (n[t_id]["therapy_ids"]) {
-            t = new MACTherapy();
-
-            for (int i = 0; i < n[t_id]["therapy_ids"].size(); i++) {
-                int therapy_id = n[t_id]["therapy_ids"][i].as<int>();
-                //        std::cout << therapy_id << "-" << drug_id << std::endl;
-                ((MACTherapy*) t)->add_therapy_id(therapy_id);
-            }
-            for (int i = 0; i < n[t_id]["regimen"].size(); i++) {
-                int starting_day = n[t_id]["regimen"][i].as<int>();
-                //        std::cout << therapy_id << "-" << drug_id << std::endl;
-                ((MACTherapy*) t)->add_schedule(starting_day);
-            }
-        }
-    }
-
-    t->set_id(therapy_id);
     return t;
-
 }
 
 void Config::build_drug_and_parasite_db(const YAML::Node& config) {

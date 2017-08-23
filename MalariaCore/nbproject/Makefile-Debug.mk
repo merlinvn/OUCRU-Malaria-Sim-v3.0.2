@@ -118,6 +118,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/TMEScheduler.o \
 	${OBJECTDIR}/TestTreatmentFailureEvent.o \
 	${OBJECTDIR}/Therapy.o \
+	${OBJECTDIR}/TherapyBuilder.o \
 	${OBJECTDIR}/UpdateEveryKDaysEvent.o \
 	${OBJECTDIR}/UpdateWhenDrugIsPresentEvent.o \
 	${OBJECTDIR}/YearlyReporterV1.o
@@ -563,6 +564,11 @@ ${OBJECTDIR}/Therapy.o: Therapy.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Therapy.o Therapy.cpp
+
+${OBJECTDIR}/TherapyBuilder.o: TherapyBuilder.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/TherapyBuilder.o TherapyBuilder.cpp
 
 ${OBJECTDIR}/UpdateEveryKDaysEvent.o: UpdateEveryKDaysEvent.cpp 
 	${MKDIR} -p ${OBJECTDIR}

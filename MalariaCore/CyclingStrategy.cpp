@@ -13,7 +13,6 @@
 #include "IStrategy.h"
 #include "Therapy.h"
 
-
 CyclingStrategy::CyclingStrategy() : index_(0), cycling_time_(0) {
 }
 
@@ -66,7 +65,6 @@ void CyclingStrategy::update_end_of_time_step() {
 
     if (Model::SCHEDULER->current_time() > Model::CONFIG->start_treatment_day()) {
         if (((Model::SCHEDULER->current_time() - Model::CONFIG->start_treatment_day()) % cycling_time_) == 0) {
-
             switch_therapy();
         }
     }

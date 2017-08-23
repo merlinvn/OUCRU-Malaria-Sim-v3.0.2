@@ -21,6 +21,8 @@
       <itemPath>StrategyBuilder.h</itemPath>
       <itemPath>Therapy.cpp</itemPath>
       <itemPath>Therapy.h</itemPath>
+      <itemPath>TherapyBuilder.cpp</itemPath>
+      <itemPath>TherapyBuilder.h</itemPath>
     </logicalFolder>
     <logicalFolder name="f2" displayName="Events" projectFiles="true">
       <itemPath>BirthdayEvent.cpp</itemPath>
@@ -645,6 +647,10 @@
       </item>
       <item path="Therapy.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="TherapyBuilder.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="TherapyBuilder.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="TypeDef.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="UpdateEveryKDaysEvent.cpp" ex="false" tool="1" flavor2="0">
@@ -1088,6 +1094,10 @@
       <item path="Therapy.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Therapy.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="TherapyBuilder.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="TherapyBuilder.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="TypeDef.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -1534,6 +1544,10 @@
       <item path="Therapy.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Therapy.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="TherapyBuilder.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="TherapyBuilder.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="TypeDef.h" ex="false" tool="3" flavor2="0">
       </item>
