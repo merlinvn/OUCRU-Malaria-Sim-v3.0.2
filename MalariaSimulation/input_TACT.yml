@@ -12,7 +12,7 @@
 # total number of days the simulation is run, including the burn-in period which we normally set to 4000
 # days; during the burn-in period, no one receives malaria treatement and the system sets into a natural 
 # equilibrium 
-total_time: 200
+total_time: 4000
 
 # length of burn-in period
 start_treatment_day: 100
@@ -691,7 +691,7 @@ StrategyInfo:
     3:
         name: AdaptiveCyclingStrategy
         type: AdaptiveCycling
-        therapyID: [9,8,7]
+        therapyID: [6,7,8]
         trigger_value: 0.1
         delay_until_actual_trigger: 365
         turn_off_days: 365
@@ -719,7 +719,7 @@ StrategyInfo:
         #TACT DHA-PPQ-MQ: 10 AL-AQ: 11
         TACT_id: 10
  
-main_strategy_id: 5
+main_strategy_id: 3
 
 #  #strategyName can be SFTStrategy / CyclingStrategy / MFTStrategy / AdaptiveCyclingStrategy
 ##  strategyName: SFTStrategy

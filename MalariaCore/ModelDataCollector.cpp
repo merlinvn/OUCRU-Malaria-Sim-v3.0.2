@@ -134,6 +134,11 @@ void ModelDataCollector::initialize() {
         total_resistance_frequency_at_15_ = 0;
 
 
+        total_number_of_treatments_60_by_therapy_ = IntVector2(Model::CONFIG->therapy_db().size(), IntVector(Model::CONFIG->tf_window_size(), 0));
+        total_TF_60_by_therapy_ = IntVector2(Model::CONFIG->therapy_db().size(), IntVector(Model::CONFIG->tf_window_size(), 0));
+        current_TF_by_therapy_ = DoubleVector(Model::CONFIG->number_of_locations(), 0.0);
+        today_TF_by_therapy_ = IntVector(Model::CONFIG->therapy_db().size(), 0.0);
+        today_number_of_treatments_by_therapy_ = IntVector(Model::CONFIG->therapy_db().size(), 0.0);
     }
 }
 
@@ -435,26 +440,6 @@ void ModelDataCollector::calculate_percentage_bites_on_top_20() {
 
 }
 
-void ModelDataCollector::record_1_TF(const int& location, const bool& by_drug) {
-    if (Model::SCHEDULER->current_time() >= Model::CONFIG->start_collect_data_day()) {
-
-        double current_discounted_tf = exp(log(0.97) * floor((Model::SCHEDULER->current_time() - Model::CONFIG->start_collect_data_day()) / 365));
-
-        cumulative_discounted_NTF_by_location_[location] += current_discounted_tf;
-        cumulative_NTF_by_location_[location] += 1;
-
-        //if treatment failure due to drug (both resistance and not clear)
-        if (by_drug) {
-            today_TF_by_location_[location] += 1;
-        }
-    }
-
-    if (Model::SCHEDULER->current_time() >= Model::CONFIG->non_artemisinin_switching_day()) {
-        cumulative_NTF_15_30_by_location_[location] += 1;
-    }
-
-}
-
 void ModelDataCollector::record_1_non_treated_case(const int& location, const int& age) {
     if (Model::SCHEDULER->current_time() >= Model::CONFIG->start_collect_data_day()) {
         if (age <= 79) {
@@ -471,6 +456,12 @@ void ModelDataCollector::begin_time_step() {
         today_RITF_by_location_[location] = 0;
         today_TF_by_location_[location] = 0;
     }
+
+    for (int therapy_id = 0; therapy_id < Model::CONFIG->therapy_db().size(); therapy_id++) {
+        today_number_of_treatments_by_therapy_[therapy_id] = 0;
+        today_TF_by_therapy_[therapy_id] = 0;
+    }
+
 }
 
 void ModelDataCollector::end_of_time_step() {
@@ -503,6 +494,20 @@ void ModelDataCollector::end_of_time_step() {
         if (avg_TF / (double) Model::CONFIG->number_of_locations() <= Model::CONFIG->TF_rate()) {
             current_utl_duration_ += 1;
         }
+        for (int therapy_id = 0; therapy_id < Model::CONFIG->therapy_db().size(); therapy_id++) {
+            total_number_of_treatments_60_by_therapy_[therapy_id][Model::SCHEDULER->current_time() % Model::CONFIG->tf_window_size()] = today_number_of_treatments_by_therapy_[therapy_id];
+            total_TF_60_by_therapy_[therapy_id][Model::SCHEDULER->current_time() % Model::CONFIG->tf_window_size()] = today_TF_by_therapy_[therapy_id];
+
+            int tTreatment60 = 0;
+            int tTF60 = 0;
+            for (int i = 0; i < Model::CONFIG->tf_window_size(); i++) {
+                tTreatment60 += total_number_of_treatments_60_by_therapy_[therapy_id][i];
+                tTF60 += total_TF_60_by_therapy_[therapy_id][i];
+            }
+
+            current_TF_by_therapy_[therapy_id] = (tTreatment60 == 0) ? 0 : (double) tTF60 / (double) tTreatment60;
+            current_TF_by_therapy_[therapy_id] = (current_TF_by_therapy_[therapy_id]) > 1 ? 1 : current_TF_by_therapy_[therapy_id];
+        }
 
     }
 
@@ -513,6 +518,8 @@ void ModelDataCollector::end_of_time_step() {
 void ModelDataCollector::record_1_treatment(const int& location, const int& age, const int& therapy_id) {
     if (Model::SCHEDULER->current_time() >= Model::CONFIG->start_collect_data_day()) {
         today_number_of_treatments_by_location_[location] += 1;
+        today_number_of_treatments_by_therapy_[therapy_id] += 1;
+
         number_of_treatments_with_therapy_ID_[therapy_id] += 1;
         if (age <= 79) {
             number_of_treatments_by_location_age_year_[location][age] += 1;
@@ -547,8 +554,30 @@ void ModelDataCollector::update_UTL_vector() {
 //    number_of_treatments_with_therapy_ID_[therapy_id] += 1;
 //}
 
+void ModelDataCollector::record_1_TF(const int& location, const bool& by_drug) {
+    if (Model::SCHEDULER->current_time() >= Model::CONFIG->start_collect_data_day()) {
+
+        double current_discounted_tf = exp(log(0.97) * floor((Model::SCHEDULER->current_time() - Model::CONFIG->start_collect_data_day()) / 365));
+
+        cumulative_discounted_NTF_by_location_[location] += current_discounted_tf;
+        cumulative_NTF_by_location_[location] += 1;
+
+        //if treatment failure due to drug (both resistance and not clear)
+        if (by_drug) {
+            today_TF_by_location_[location] += 1;
+        }
+    }
+
+    if (Model::SCHEDULER->current_time() >= Model::CONFIG->non_artemisinin_switching_day()) {
+        cumulative_NTF_15_30_by_location_[location] += 1;
+    }
+
+}
+
 void ModelDataCollector::record_1_treatment_failure_by_therapy(const int& location, const int& age, const int& therapy_id) {
     number_of_treatments_fail_with_therapy_ID_[therapy_id] += 1;
+    today_TF_by_therapy_[therapy_id] += 1;
+
     if (therapy_id < 3) {
         if (age < 79) {
             number_of_treatment_failures_by_location_age_therapy_year_[location][age][therapy_id] += 1;

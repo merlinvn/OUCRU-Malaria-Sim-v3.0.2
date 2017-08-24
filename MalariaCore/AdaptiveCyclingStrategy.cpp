@@ -69,17 +69,11 @@ void AdaptiveCyclingStrategy::update_end_of_time_step() {
             //            std::cout << "swith therapy" << std::endl;
             switch_therapy();
         } else {
-            //average TF60
-            double avg = 0;
-            for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
-                avg += Model::DATA_COLLECTOR->current_TF_by_location()[location];
-            }
-            avg = avg / Model::CONFIG->number_of_locations();
 
-            if (avg > trigger_value_) {
+            if (Model::DATA_COLLECTOR->current_TF_by_therapy()[get_therapy()->id()] > trigger_value_) {
                 if (Model::SCHEDULER->current_time() > (latest_switch_time_ + turn_off_days_)) {
                     latest_switch_time_ = Model::SCHEDULER->current_time() + delay_until_actual_trigger_;
-                    //                    std::cout << "switch at: " << latest_switch_time_ << std::endl;
+//                    std::cout << "switch at: " << latest_switch_time_ << std::endl;
                 }
             }
         }

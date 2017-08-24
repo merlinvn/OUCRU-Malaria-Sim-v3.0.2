@@ -118,7 +118,7 @@ class ModelDataCollector {
     PROPERTY_REF(IntVector3, number_of_treatments_by_location_age_therapy_year)
     PROPERTY_REF(IntVector3, number_of_treatment_failures_by_location_age_therapy_year)
     PROPERTY_REF(IntVector2, popsize_by_location_age)
-    
+
     PROPERTY_REF(DoubleVector, cumulative_NTF_15_30_by_location)
 
     PROPERTY_REF(double, TF_at_15)
@@ -129,6 +129,12 @@ class ModelDataCollector {
     PROPERTY_REF(double, quintuple_resistance_frequency_at_15)
     PROPERTY_REF(double, art_resistance_frequency_at_15)
     PROPERTY_REF(double, total_resistance_frequency_at_15)
+
+    PROPERTY_REF(IntVector, today_TF_by_therapy)
+    PROPERTY_REF(IntVector, today_number_of_treatments_by_therapy)
+    PROPERTY_REF(DoubleVector, current_TF_by_therapy)
+    PROPERTY_REF(IntVector2, total_number_of_treatments_60_by_therapy)
+    PROPERTY_REF(IntVector2, total_TF_60_by_therapy)
     
     static const int number_of_reported_MOI = 8;
     mean_acc acc;
@@ -165,7 +171,7 @@ public:
     void end_of_time_step();
     void update_UTL_vector();
 
-//    void collect_1_non_resistant_treatment(const int& therapy_id);
+    //    void collect_1_non_resistant_treatment(const int& therapy_id);
     void record_1_treatment_failure_by_therapy(const int& location, const int& age, const int& therapy_id);
     void record_1_treatment_success_by_therapy(const int& therapy_id);
 
