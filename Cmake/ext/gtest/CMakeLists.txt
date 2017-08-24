@@ -1,3 +1,6 @@
+#SET(CMAKE_C_COMPILER /home/ubuntu/zapcc-20170802-175507/bin/zapcc)
+#SET(CMAKE_CXX_COMPILER /home/ubuntu/zapcc-20170802-175507/bin/zapcc++)
+
 cmake_minimum_required(VERSION 2.8.8)
 project(gtest_builder C CXX)
 include(ExternalProject)

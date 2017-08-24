@@ -1,7 +1,10 @@
+#SET(CMAKE_C_COMPILER /home/ubuntu/zapcc-20170802-175507/bin/zapcc)
+#SET(CMAKE_CXX_COMPILER /home/ubuntu/zapcc-20170802-175507/bin/zapcc++)
+
 cmake_minimum_required(VERSION 3.2)
 project (POMS)
-set(EXT_PROJECTS_DIR ${PROJECT_SOURCE_DIR}/ext)
 
+set(EXT_PROJECTS_DIR ${PROJECT_SOURCE_DIR}/ext)
 
 #includes Gtest
 add_subdirectory(${EXT_PROJECTS_DIR}/gtest)
@@ -11,10 +14,6 @@ add_subdirectory(${EXT_PROJECTS_DIR}/gtest)
 
 add_subdirectory(${EXT_PROJECTS_DIR}/yaml-cpp)
 include_directories(${YAML_CPP_INCLUDE_DIRS})
-
-#SET(CMAKE_C_COMPILER mpicc)
-#SET(CMAKE_CXX_COMPILER mpicxx)
-
 
 find_package(GSL REQUIRED)
 if(GSL_FOUND)
