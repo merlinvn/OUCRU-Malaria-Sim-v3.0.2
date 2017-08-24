@@ -1,0 +1,6 @@
+build
+bin
+.idea
+.vscode
+node_modules
+Testing
