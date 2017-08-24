@@ -71,7 +71,7 @@ void AdaptiveCyclingStrategy::update_end_of_time_step() {
         } else {
             // std::cout << Model::SCHEDULER->current_time()<<"-";
             // std::cout << Model::DATA_COLLECTOR->current_TF_by_location()[0] <<"-" <<get_therapy()->id() << "-" << 
-            Model::DATA_COLLECTOR->current_TF_by_therapy()[get_therapy()->id()] << std::endl;
+            // Model::DATA_COLLECTOR->current_TF_by_therapy()[get_therapy()->id()] << std::endl;
             if (Model::DATA_COLLECTOR->current_TF_by_therapy()[get_therapy()->id()] > trigger_value_) {
                 if (Model::SCHEDULER->current_time() > (latest_switch_time_ + turn_off_days_)) {
                     latest_switch_time_ = Model::SCHEDULER->current_time() + delay_until_actual_trigger_;
