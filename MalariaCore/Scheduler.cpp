@@ -148,12 +148,6 @@ void Scheduler::update_end_of_time_step() {
     //check to switch strategy
     Model::CONFIG->strategy()->update_end_of_time_step();
 
-    //TODO: those 2 call will be embedded in update_end_of_time_step
-    //
-    //perform_check_and_replace_ACT();
-    //perform_check_and_replace_TACT();
-
-
 }
 
 void Scheduler::report_end_of_time_step() {
@@ -184,48 +178,6 @@ void Scheduler::update_force_of_infection() {
 
 int Scheduler::current_day_in_year() {
     return (current_time_ - Model::CONFIG->start_collect_data_day()) % 365;
-}
-
-void Scheduler::perform_check_and_replace_ACT() {
-    //TODO: Implement novel Non ACT strategy 
-
-    //    if (current_time_ == Model::CONFIG->non_artemisinin_switching_day()) {
-    //
-    //        if (Model::CONFIG->fraction_non_art_replacement() > 0.0) {
-    //            //collect the current TF
-    //            //TODO: multiple location
-    //            Model::DATA_COLLECTOR->TF_at_15() = Model::DATA_COLLECTOR->current_TF_by_location()[0];
-    //            Model::DATA_COLLECTOR->single_resistance_frequency_at_15() = Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(Model::DATA_COLLECTOR->resistance_tracker().single_resistance_ids());
-    //            Model::DATA_COLLECTOR->double_resistance_frequency_at_15() = Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(Model::DATA_COLLECTOR->resistance_tracker().double_resistance_ids());
-    //            Model::DATA_COLLECTOR->triple_resistance_frequency_at_15() = Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(Model::DATA_COLLECTOR->resistance_tracker().tripple_resistance_ids());
-    //            Model::DATA_COLLECTOR->quadruple_resistance_frequency_at_15() = Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(Model::DATA_COLLECTOR->resistance_tracker().quadruple_resistance_ids());
-    //            Model::DATA_COLLECTOR->quintuple_resistance_frequency_at_15() = Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(Model::DATA_COLLECTOR->resistance_tracker().quintuple_resistance_ids());
-    //            Model::DATA_COLLECTOR->art_resistance_frequency_at_15() = Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(Model::DATA_COLLECTOR->resistance_tracker().artemisinin_ids());
-    //            Model::DATA_COLLECTOR->total_resistance_frequency_at_15() = Model::DATA_COLLECTOR->resistance_tracker().calculate_total_resistance_frequency();
-    //
-    //
-    //            //switch therapy 2 to therapy 3
-    //            int number_of_therapies = Model::CONFIG->strategy()->get_therapy_list().size();
-    //
-    //            Model::CONFIG->strategy()->get_therapy_list()[number_of_therapies - 1] = Model::CONFIG->therapy_db()[Model::CONFIG->non_art_therapy_id()];
-    //            //change the distribution         
-    //            ((MFTStrategy *) Model::CONFIG->strategy())->distribution()[number_of_therapies - 1] = Model::CONFIG->fraction_non_art_replacement();
-    //
-    //            for (int i = 0; i < number_of_therapies - 1; i++) {
-    //                ((MFTStrategy *) Model::CONFIG->strategy())->distribution()[i] = (1 - Model::CONFIG->fraction_non_art_replacement()) / (double) (number_of_therapies - 1);
-    //            }
-    //        }
-    //    }
-}
-
-void Scheduler::perform_check_and_replace_TACT() {
-    //TODO: implement TACT Switching strategy
-
-    //    if (current_time_ == Model::CONFIG->TACT_switching_day()) {
-    //        //by defaults, tact will simply replace the first therapy in the MFT strategy        
-    //         Model::CONFIG->strategy()->get_therapy_list()[0] = Model::CONFIG->therapy_db()[Model::CONFIG->TACT_id()];       
-    //        
-    //    }
 }
 
 void Scheduler::perform_monthly_update() {

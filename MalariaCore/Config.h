@@ -71,7 +71,6 @@ class Config {
     POINTER_PROPERTY(IntGenotypeDatabase, genotype_db);
     VIRTUAL_PROPERTY_REF(GenotypeInfo, genotype_info);
 
-    //TODO: convert to Vector instead of Map
     VIRTUAL_PROPERTY_REF(TherapyPtrVector, therapy_db);
     VIRTUAL_PROPERTY_REF(StrategyPtrVector, strategy_db);
 
@@ -115,14 +114,10 @@ class Config {
     VIRTUAL_PROPERTY_REF(double, fraction_mosquitoes_interrupted_feeding)
 
     VIRTUAL_PROPERTY_REF(int, non_artemisinin_switching_day);
-    VIRTUAL_PROPERTY_REF(int, non_art_therapy_id);
-    VIRTUAL_PROPERTY_REF(double, fraction_non_art_replacement);
 
     VIRTUAL_PROPERTY_REF(double, modified_daily_cost_of_resistance)
     VIRTUAL_PROPERTY_REF(double, modified_mutation_probability)
 
-    VIRTUAL_PROPERTY_REF(int, TACT_switching_day);
-    VIRTUAL_PROPERTY_REF(int, TACT_id);
 
 public:
     Config(Model* model = NULL);

@@ -16,6 +16,7 @@
 #include "SCTherapy.h"
 #include "StrategyBuilder.h"
 #include "TherapyBuilder.h"
+#include "NovelNonACTSwitchingStrategy.h"
 #include <math.h>
 #include <fstream>
 #include <boost/algorithm/string.hpp>
@@ -57,8 +58,7 @@ Config::Config(Model* model) : model_(model), strategy_(NULL), strategy_db_(), t
 
     modified_daily_cost_of_resistance_ = -1;
     modified_mutation_probability_ = -1;
-    TACT_id_ = -1;
-    TACT_switching_day_ = -1;
+
 }
 
 Config::Config(const Config& orig) {
@@ -195,15 +195,6 @@ void Config::read_from_file(const std::string& config_file_name) {
     using_age_dependent_bitting_level_ = config["using_age_dependent_bitting_level"].as<bool>();
     using_variable_probability_infectious_bites_cause_infection_ = config["using_variable_probability_infectious_bites_cause_infection"].as<bool>();
     fraction_mosquitoes_interrupted_feeding_ = config["fraction_mosquitoes_interrupted_feeding"].as<double>();
-
-    non_artemisinin_switching_day_ = config["non_artemisinin_switching_day"].as<int>();
-    non_art_therapy_id_ = config["non_art_therapy_id"].as<int>();
-    fraction_non_art_replacement_ = config["fraction_non_art_replacement"].as<double>();
-
-    TACT_switching_day_ = config["TACT_switching_day"].as<int>();
-    TACT_id_ = config["TACT_id"].as<int>();
-
-
 }
 
 void Config::read_parasite_density_level(const YAML::Node& config) {
@@ -298,7 +289,7 @@ void Config::read_strategy_therapy_and_drug_information(const YAML::Node& config
 
 IStrategy* Config::read_strategy(const YAML::Node& n, const int& strategy_id) {
     std::string s_id = NumberToString<int>(strategy_id);
-    
+
     IStrategy* result = StrategyBuilder::build(n[s_id], strategy_id);
 
     std::cout << result->to_string() << std::endl;
@@ -307,7 +298,7 @@ IStrategy* Config::read_strategy(const YAML::Node& n, const int& strategy_id) {
 
 Therapy* Config::read_therapy(const YAML::Node& n, const int& therapy_id) {
     std::string t_id = NumberToString<int>(therapy_id);
-    Therapy* t = TherapyBuilder::build(n[t_id],therapy_id);
+    Therapy* t = TherapyBuilder::build(n[t_id], therapy_id);
 
     return t;
 }
@@ -879,35 +870,13 @@ void Config::override_1_parameter(const std::string& parameter_name, const std::
     }
 
     if (parameter_name == "strategy") {
-        //TODO: rework it later
-
-        //        std::string svalue = parameter_value;
-        //        std::replace(svalue.begin(), svalue.end(), ',', ' ');
-        //
-        //        //get mft strategy
-        //        strategy_ = strategy_db_[2];
-        //        //replace with new info
-        //        std::istringstream iss(svalue);
-        //        std::vector<double> value;
-        //        double d;
-        //        while (iss >> d) {
-        //            value.push_back(d);
-        //        }
-        //        strategy_->get_therapy_list().clear();
-        //        for (int i = 0; i < value.size() / 2; i++) {
-        //            //            std::cout << value[i] << std::endl;
-        //            strategy_->get_therapy_list().push_back(therapy_db_[(int) value[i]]);
-        //        }
-        //
-        //        ((MFTStrategy*) strategy_)->distribution().clear();
-        //        for (int i = value.size() / 2; i < value.size(); i++) {
-        //            //            std::cout << value[i] << std::endl;
-        //            ((MFTStrategy*) strategy_)->distribution().push_back(value[i]);
-        //        }
+        //override with the id from the override.txt
+        int strategy_id = atoi(parameter_value.c_str());
+        strategy_ = strategy_db_[strategy_id];
     }
 
     if (parameter_name == "dosing_days") {
-        int dosing_days = atof(parameter_value.c_str());
+        double dosing_days = atof(parameter_value.c_str());
         for (TherapyPtrVector::iterator it = therapy_db_.begin(); it != therapy_db_.end(); it++) {
 
             SCTherapy* scTherapy = dynamic_cast<SCTherapy*> (*it);
@@ -933,12 +902,6 @@ void Config::override_1_parameter(const std::string& parameter_name, const std::
         }
     }
 
-    if (parameter_name == "fraction_non_art_replacement") {
-        double fnar = atof(parameter_value.c_str());
-        fraction_non_art_replacement_ = fnar;
-
-    }
-
     if (parameter_name == "initial_genotype") {
         int genotypeId = atoi(parameter_value.c_str());
         initial_parasite_info_[0].parasite_type_id = genotypeId;
@@ -953,11 +916,14 @@ void Config::override_1_parameter(const std::string& parameter_name, const std::
             }
         }
     }
-    if (parameter_name == "TACT_switching_day") {
-        TACT_switching_day_ = atoi(parameter_value.c_str());
+    if (parameter_name == "fraction_non_art_replacement") {
+        double fnar = atof(parameter_value.c_str());
+        NovelNonACTSwitchingStrategy* s = dynamic_cast<NovelNonACTSwitchingStrategy*> (Model::CONFIG->strategy());
+        if (s != NULL) {
+            s->set_fraction_non_art_replacement(fnar);
+        }
     }
 
-    if (parameter_name == "TACT_id") {
-        TACT_id_ = atoi(parameter_value.c_str());
-    }
+    // TACT id and switching day will be modify by create new strategy in the .yml input file 
+
 }

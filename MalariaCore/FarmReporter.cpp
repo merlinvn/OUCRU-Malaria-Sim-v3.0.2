@@ -14,6 +14,7 @@
 #include "Therapy.h"
 #include "SCTherapy.h"
 #include "Population.h"
+#include "NovelNonACTSwitchingStrategy.h"
 #include <boost/format.hpp>
 
 FarmReporter::FarmReporter() {
@@ -158,7 +159,8 @@ void FarmReporter::output_parameters() {
         std::cout << 0 << "\t";
     }
     //fraction of non-art replacement
-    std::cout << Model::CONFIG->fraction_non_art_replacement() << "\t";
+    //    std::cout << Model::CONFIG->fraction_non_art_replacement() << "\t";
+
 }
 
 void FarmReporter::print_ntf_by_location() {
@@ -334,7 +336,7 @@ void FarmReporter::print_treatments_by_therapy() {
         int nTreaments = Model::DATA_COLLECTOR->number_of_treatments_with_therapy_ID()[t_id];
         int nSuccess = Model::DATA_COLLECTOR->number_of_treatments_success_with_therapy_ID()[t_id];
         int nFail = Model::DATA_COLLECTOR->number_of_treatments_fail_with_therapy_ID()[t_id];
-        double pSuccess = (nTreaments == 0) ? 0 : nSuccess * 100.0 / (nSuccess+nFail);
+        double pSuccess = (nTreaments == 0) ? 0 : nSuccess * 100.0 / (nSuccess + nFail);
 
         std::cout << t_id << "\t" << nFail + nSuccess << "\t" << nSuccess << "\t" << pSuccess << "\t";
 
