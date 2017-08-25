@@ -32,10 +32,6 @@ void AdaptiveCyclingStrategy::add_therapy(Therapy* therapy) {
     therapy_list_.push_back(therapy);
 }
 
-bool AdaptiveCyclingStrategy::is_strategy(const std::string& sName) {
-    return ("AdaptiveCyclingStrategy" == sName);
-}
-
 void AdaptiveCyclingStrategy::switch_therapy() {
     //    std::cout << "Switch from: " << index_ << "\t - to: " << index_ + 1;
     index_++;

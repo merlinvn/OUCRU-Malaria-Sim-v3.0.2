@@ -30,7 +30,9 @@ public:
         AdaptiveCycling = 3,
         ACTIncreaseOvertime = 4,
         NovelNonACTSwitching = 5,
-        TACTSwitching = 6
+        TACTSwitching = 6,
+        SmartMFT = 7,
+        NestedSwitching = 8
     };
     static std::map<std::string, StrategyType> StrategyTypeMap;
 
@@ -47,11 +49,7 @@ public:
     virtual ~IStrategy() {
     }
 
-    virtual std::vector<Therapy*>& get_therapy_list() = 0;
-
     virtual void add_therapy(Therapy* therapy) = 0;
-
-    virtual bool is_strategy(const std::string& sName) = 0;
 
     virtual Therapy* get_therapy() = 0;
 

@@ -45,7 +45,7 @@ void MultipleLocationGuiReporter::before_run() {
 
     CreateWindowsTab("NewTab", "List", simulationInfoTab, "Simulation Info");
     CreateWindowsTab("NewTab", "Tree", simulationEventInfoTab, "Event Info");
-    if (Model::CONFIG->strategy()->is_strategy("CyclingStrategy") || Model::CONFIG->strategy()->is_strategy("AdaptiveCyclingStrategy")) {
+    if (Model::CONFIG->strategy()->get_type() == IStrategy::Cycling || Model::CONFIG->strategy()->get_type() == IStrategy::AdaptiveCycling) {
         CreateWindowsTableTab("NewTab", "Table", simulationUTLTab, "UTL Duration", "True");
     }
 
@@ -98,9 +98,9 @@ void MultipleLocationGuiReporter::send_tme_chart_data(const int& location) {
     SendLineChartData(chart_name, "qPCR", NumberToString<int>(Model::SCHEDULER->current_time()), NumberToString<double>(qPCR), "0");
     SendLineChartData(chart_name, "Microscopy", NumberToString<int>(Model::SCHEDULER->current_time()), NumberToString<double>(Model::DATA_COLLECTOR->blood_slide_prevalence_by_location()[location]), "0");
     SendLineChartData(chart_name, "RDT", NumberToString<int>(Model::SCHEDULER->current_time()), NumberToString<double>(RDT), "0");
-    
+
     //    SendLineChartData(chart_name, "Clinical", NumberToString<int>(Model::SCHEDULER->current_time()), NumberToString<double>(Model::STATISTIC->fraction_of_positive_that_are_clinical_by_location()[location]), "0");
 
     //TODO::change it later
-    SendLineChartData(chart_name, "EIR", NumberToString<int>(Model::SCHEDULER->current_time()), NumberToString<double>(Model::DATA_COLLECTOR->current_EIR_by_location()[location]/(double)Model::CONFIG->report_frequency()), "1");
+    SendLineChartData(chart_name, "EIR", NumberToString<int>(Model::SCHEDULER->current_time()), NumberToString<double>(Model::DATA_COLLECTOR->current_EIR_by_location()[location] / (double) Model::CONFIG->report_frequency()), "1");
 }

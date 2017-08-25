@@ -677,34 +677,34 @@ StrategyInfo:
     0:
         name: SFTStrategy
         type: SFT
-        therapyID: 7
+        therapy_id: 7
     1:
         name: CyclingStrategy
         type: Cycling
-        therapyID: [9,8,7]
+        therapy_ids: [9,8,7]
         cycling_time: 1825
     2:
         name: MFTStrategy
         type: MFT
-        therapyID: [5,6]
+        therapy_ids: [5,6]
         distribution: [0.5,0.5]
     3:
         name: AdaptiveCyclingStrategy
         type: AdaptiveCycling
-        therapyID: [6,7,8]
+        therapy_ids: [6,7,8]
         trigger_value: 0.1
         delay_until_actual_trigger: 365
         turn_off_days: 365
     4:
         name: ACTIncreaseStrategy
         type: ACTIncreaseOvertime
-        therapyID: [6,5,2,12]
+        therapy_ids: [6,5,2,12]
         start_distribution: [0.05, 0.31666,0.31666,0.31666]
         end_distribution: [0.8,0.066666,0.066666,0.066667]        
     5:
         name: NovelNonACTSwitchingStrategy
         type: NovelNonACTSwitching
-        therapyID: [9,8,7]
+        therapy_ids: [9,8,7]
         distribution: [0.333333,0.333333,0.333334]
         non_artemisinin_switching_day: 120
         non_art_therapy_id: 3
@@ -712,13 +712,53 @@ StrategyInfo:
     6:
         name: TACTSwitchingStrategy
         type: TACTSwitching
-        therapyID: [6,5,2,12]
+        therapy_ids: [6,5,2,12]
         start_distribution: [0.05, 0.31666,0.31666,0.31666]
         end_distribution: [0.8,0.066666,0.066666,0.066667]
         TACT_switching_day: 5110
         #TACT DHA-PPQ-MQ: 10 AL-AQ: 11
         TACT_id: 10
- 
+    7:
+        name: SP-AQ-CQ-MFTStrategy
+        type: MFT
+        therapy_ids: [5,2,12]
+        distribution: [0.333333,0.333333,0.333334]
+    8:
+        name: AL-SFTStrategy
+        type: SFT
+        therapy_id: 6
+    9:
+        name: AL-ASAQ-DP-MFTStrategy
+        type: MFT
+        therapy_ids: [6,7,8]
+        distribution: [0.333333,0.333333,0.333334]
+    10:
+        name: AL-ASAQ-DP-CyclingStrategy
+        type: Cycling
+        therapy_ids: [6,7,8]
+        cycling_time: 1825
+    11:
+        name: AL-ASAQ-DP-AdaptiveCyclingStrategy
+        type: AdaptiveCycling
+        therapy_ids: [6,7,8]
+        trigger_value: 0.1
+        delay_until_actual_trigger: 365
+        turn_off_days: 365
+    12:
+        name: AL-ASAQ-DP-SmartMFTStrategy
+        type: SmartMFT
+        therapy_ids: [6,7,8]
+        distribution: [0.333333,0.333333,0.333334]
+        update_distribution_duration: 730
+    13:
+        name: Switch_AL_to_MFTStrategy
+        type: NestedSwitching
+        strategy_ids: [7,8]
+        start_distribution: [0.05, 0.95]
+        end_distribution: [0.8,0.2]
+        strategy_switching_day: 5110
+        switch_to_strategy_id: 9
+
 main_strategy_id: 3
 
 #  #strategyName can be SFTStrategy / CyclingStrategy / MFTStrategy / AdaptiveCyclingStrategy

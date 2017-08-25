@@ -82,6 +82,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/MoveParasiteToBloodEvent.o \
 	${OBJECTDIR}/MoveToExternalPopulationEvent.o \
 	${OBJECTDIR}/MultipleLocationGuiReporter.o \
+	${OBJECTDIR}/NestedSwitchingStrategy.o \
 	${OBJECTDIR}/NonInfantImmuneComponent.o \
 	${OBJECTDIR}/NovelNonACTSwitchingStrategy.o \
 	${OBJECTDIR}/ParasiteDensityUpdateFunction.o \
@@ -112,6 +113,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/STCAction.o \
 	${OBJECTDIR}/Scheduler.o \
 	${OBJECTDIR}/SingleHostClonalParasitePopulations.o \
+	${OBJECTDIR}/SmartMFTStrategy.o \
 	${OBJECTDIR}/StrategyBuilder.o \
 	${OBJECTDIR}/SwitchImmuneComponentEvent.o \
 	${OBJECTDIR}/TACTSwitchingStrategy.o \
@@ -387,6 +389,11 @@ ${OBJECTDIR}/MultipleLocationGuiReporter.o: MultipleLocationGuiReporter.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -DUNITTEST=\"True\" -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MultipleLocationGuiReporter.o MultipleLocationGuiReporter.cpp
 
+${OBJECTDIR}/NestedSwitchingStrategy.o: NestedSwitchingStrategy.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -DUNITTEST=\"True\" -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/NestedSwitchingStrategy.o NestedSwitchingStrategy.cpp
+
 ${OBJECTDIR}/NonInfantImmuneComponent.o: NonInfantImmuneComponent.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -536,6 +543,11 @@ ${OBJECTDIR}/SingleHostClonalParasitePopulations.o: SingleHostClonalParasitePopu
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -DUNITTEST=\"True\" -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SingleHostClonalParasitePopulations.o SingleHostClonalParasitePopulations.cpp
+
+${OBJECTDIR}/SmartMFTStrategy.o: SmartMFTStrategy.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -DUNITTEST=\"True\" -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SmartMFTStrategy.o SmartMFTStrategy.cpp
 
 ${OBJECTDIR}/StrategyBuilder.o: StrategyBuilder.cpp 
 	${MKDIR} -p ${OBJECTDIR}

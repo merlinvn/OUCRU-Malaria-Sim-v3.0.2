@@ -14,12 +14,16 @@
       <itemPath>MACTherapy.h</itemPath>
       <itemPath>MFTStrategy.cpp</itemPath>
       <itemPath>MFTStrategy.h</itemPath>
+      <itemPath>NestedSwitchingStrategy.cpp</itemPath>
+      <itemPath>NestedSwitchingStrategy.h</itemPath>
       <itemPath>NovelNonACTSwitchingStrategy.cpp</itemPath>
       <itemPath>NovelNonACTSwitchingStrategy.h</itemPath>
       <itemPath>SCTherapy.cpp</itemPath>
       <itemPath>SCTherapy.h</itemPath>
       <itemPath>SFTStrategy.cpp</itemPath>
       <itemPath>SFTStrategy.h</itemPath>
+      <itemPath>SmartMFTStrategy.cpp</itemPath>
+      <itemPath>SmartMFTStrategy.h</itemPath>
       <itemPath>StrategyBuilder.cpp</itemPath>
       <itemPath>StrategyBuilder.h</itemPath>
       <itemPath>TACTSwitchingStrategy.cpp</itemPath>
@@ -452,6 +456,10 @@
       </item>
       <item path="MultipleLocationGuiReporter.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="NestedSwitchingStrategy.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="NestedSwitchingStrategy.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="NonInfantImmuneComponent.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="NonInfantImmuneComponent.h" ex="false" tool="3" flavor2="0">
@@ -626,6 +634,10 @@
             ex="false"
             tool="3"
             flavor2="0">
+      </item>
+      <item path="SmartMFTStrategy.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SmartMFTStrategy.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="StrategyBuilder.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -908,6 +920,10 @@
       </item>
       <item path="MultipleLocationGuiReporter.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="NestedSwitchingStrategy.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="NestedSwitchingStrategy.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="NonInfantImmuneComponent.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="NonInfantImmuneComponent.h" ex="false" tool="3" flavor2="0">
@@ -1082,6 +1098,10 @@
             ex="false"
             tool="3"
             flavor2="0">
+      </item>
+      <item path="SmartMFTStrategy.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SmartMFTStrategy.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="StrategyBuilder.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -1366,6 +1386,10 @@
       </item>
       <item path="MultipleLocationGuiReporter.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="NestedSwitchingStrategy.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="NestedSwitchingStrategy.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="NonInfantImmuneComponent.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="NonInfantImmuneComponent.h" ex="false" tool="3" flavor2="0">
@@ -1540,6 +1564,10 @@
             ex="false"
             tool="3"
             flavor2="0">
+      </item>
+      <item path="SmartMFTStrategy.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SmartMFTStrategy.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="StrategyBuilder.cpp" ex="false" tool="1" flavor2="0">
       </item>

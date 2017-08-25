@@ -25,6 +25,11 @@ NovelNonACTSwitchingStrategy::NovelNonACTSwitchingStrategy() {
 NovelNonACTSwitchingStrategy::~NovelNonACTSwitchingStrategy() {
 }
 
+IStrategy::StrategyType NovelNonACTSwitchingStrategy::get_type() const {
+    return IStrategy::NovelNonACTSwitching;
+}
+
+
 std::string NovelNonACTSwitchingStrategy::to_string() const {
     std::stringstream sstm;
     sstm << MFTStrategy::to_string() << "-";
