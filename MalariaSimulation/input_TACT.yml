@@ -717,16 +717,16 @@ StrategyInfo:
         end_distribution: [0.8,0.066666,0.066666,0.066667]
         TACT_switching_day: 5110
         #TACT DHA-PPQ-MQ: 10 AL-AQ: 11
-        TACT_id: 10
+        TACT_id: 10    
     7:
-        name: SP-AQ-CQ-MFTStrategy
-        type: MFT
-        therapy_ids: [5,2,12]
-        distribution: [0.333333,0.333333,0.333334]
-    8:
         name: AL-SFTStrategy
         type: SFT
         therapy_id: 6
+    8:
+        name: SP-AQ-CQ-MFTStrategy
+        type: MFT
+        therapy_ids: [5,2,12]
+        distribution: [0.333333,0.333333,0.333334]    
     9:
         name: AL-ASAQ-DP-MFTStrategy
         type: MFT
