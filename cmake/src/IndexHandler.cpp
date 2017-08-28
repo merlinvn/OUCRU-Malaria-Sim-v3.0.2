@@ -11,9 +11,6 @@ IndexHandler::IndexHandler():index_(-1) {
     
 }
 
-IndexHandler::IndexHandler(const IndexHandler& orig) {
-}
-
 IndexHandler::~IndexHandler() {
 }
 
