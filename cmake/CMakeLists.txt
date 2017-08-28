@@ -7,12 +7,15 @@ project (POMS)
 set(EXT_PROJECTS_DIR ${PROJECT_SOURCE_DIR}/ext)
 
 #includes Gtest
-add_subdirectory(${EXT_PROJECTS_DIR}/gtest)
+#add_subdirectory(${EXT_PROJECTS_DIR}/gtest)
 
 #${COMMON_INCLUDES}
 #include dependent libs
 
 add_subdirectory(${EXT_PROJECTS_DIR}/yaml-cpp)
+set(YAML_CPP_INCLUDE_DIRS ${EXT_PROJECTS_DIR}/yaml-cpp/include)
+set(YAML_CPP_LIBS_DIR ${CMAKE_BINARY_DIR}/ext/yaml-cpp)
+
 include_directories(${YAML_CPP_INCLUDE_DIRS})
 
 find_package(GSL REQUIRED)
