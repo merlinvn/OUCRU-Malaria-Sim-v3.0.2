@@ -28,16 +28,8 @@ ACTIncreaseStrategy::ACTIncreaseStrategy(const ACTIncreaseStrategy& orig) {
 ACTIncreaseStrategy::~ACTIncreaseStrategy() {
 }
 
-std::vector<Therapy*>& ACTIncreaseStrategy::get_therapy_list() {
-    return therapy_list_;
-}
-
 void ACTIncreaseStrategy::add_therapy(Therapy* therapy) {
     therapy_list_.push_back(therapy);
-}
-
-bool ACTIncreaseStrategy::is_strategy(const std::string& sName) {
-    return ("ACTIncreaseStrategy" == sName);
 }
 
 Therapy* ACTIncreaseStrategy::get_therapy() {

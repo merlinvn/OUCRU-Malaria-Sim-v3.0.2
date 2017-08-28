@@ -22,6 +22,8 @@
 #include "ACTIncreaseStrategy.h"
 #include "NovelNonACTSwitchingStrategy.h"
 #include "TACTSwitchingStrategy.h"
+#include "NestedSwitchingStrategy.h"
+#include "SmartMFTStrategy.h"
 
 StrategyBuilder::StrategyBuilder() {
 }
@@ -34,7 +36,6 @@ StrategyBuilder::~StrategyBuilder() {
 
 IStrategy* StrategyBuilder::build(const YAML::Node& ns, const int& strategy_id) {
     IStrategy::StrategyType type = IStrategy::StrategyTypeMap[ns["type"].as<std::string>()];
-
     switch (type) {
         case IStrategy::SFT:
             return buildSFTStrategy(ns, strategy_id);
@@ -50,6 +51,10 @@ IStrategy* StrategyBuilder::build(const YAML::Node& ns, const int& strategy_id) 
             return buildNovelNonACTSwitchingStrategy(ns, strategy_id);
         case IStrategy::TACTSwitching:
             return buildTACTSwitchingStrategy(ns, strategy_id);
+        case IStrategy::SmartMFT:
+            return buildSmartMFTStrategy(ns, strategy_id);
+        case IStrategy::NestedSwitching:
+            return buildNestedSwitchingStrategy(ns, strategy_id);
         default:
             return NULL;
     }
@@ -58,8 +63,8 @@ IStrategy* StrategyBuilder::build(const YAML::Node& ns, const int& strategy_id) 
 }
 
 void StrategyBuilder::add_therapies(const YAML::Node& ns, IStrategy*& result) {
-    for (int i = 0; i < ns["therapyID"].size(); i++) {
-        result->add_therapy(Model::CONFIG->therapy_db()[ns["therapyID"][i].as<int>()]);
+    for (int i = 0; i < ns["therapy_ids"].size(); i++) {
+        result->add_therapy(Model::CONFIG->therapy_db()[ns["therapy_ids"][i].as<int>()]);
     }
 }
 
@@ -73,7 +78,7 @@ IStrategy* StrategyBuilder::buildSFTStrategy(const YAML::Node& ns, const int& st
     IStrategy* result = new SFTStrategy();
     result->id = strategy_id;
     result->name = ns["name"].as<std::string>();
-    result->add_therapy(Model::CONFIG->therapy_db()[ns["therapyID"].as<int>()]);
+    result->add_therapy(Model::CONFIG->therapy_db()[ns["therapy_id"].as<int>()]);
     return result;
 }
 
@@ -84,9 +89,7 @@ IStrategy* StrategyBuilder::buildCyclingStrategy(const YAML::Node& ns, const int
 
     ((CyclingStrategy*) result)->set_cycling_time(ns["cycling_time"].as<int>());
 
-    for (int i = 0; i < ns["therapyID"].size(); i++) {
-        result->add_therapy(Model::CONFIG->therapy_db()[ns["therapyID"][i].as<int>()]);
-    }
+    add_therapies(ns, result);
 
     return result;
 }
@@ -110,7 +113,6 @@ IStrategy* StrategyBuilder::buildMFTStrategy(const YAML::Node& ns, const int& st
     result->name = ns["name"].as<std::string>();
 
     add_distributions(ns["distribution"], ((MFTStrategy*) result)->distribution());
-
     add_therapies(ns, result);
     return result;
 }
@@ -144,8 +146,8 @@ IStrategy* StrategyBuilder::buildNovelNonACTSwitchingStrategy(const YAML::Node& 
     ((NovelNonACTSwitchingStrategy*) result)->set_non_artemisinin_switching_day(ns["non_artemisinin_switching_day"].as<int>());
     ((NovelNonACTSwitchingStrategy*) result)->set_non_art_therapy_id(ns["non_art_therapy_id"].as<int>());
     ((NovelNonACTSwitchingStrategy*) result)->set_fraction_non_art_replacement(ns["fraction_non_art_replacement"].as<double>());
-    
-    Model::CONFIG->set_non_artemisinin_switching_day( ((NovelNonACTSwitchingStrategy*) result)->non_artemisinin_switching_day());
+
+    Model::CONFIG->set_non_artemisinin_switching_day(((NovelNonACTSwitchingStrategy*) result)->non_artemisinin_switching_day());
 
     return result;
 }
@@ -161,11 +163,43 @@ IStrategy* StrategyBuilder::buildTACTSwitchingStrategy(const YAML::Node& ns, con
     add_distributions(ns["end_distribution"], ((ACTIncreaseStrategy*) result)->end_distribution());
 
     add_therapies(ns, result);
-    
+
     ((TACTSwitchingTStrategy*) result)->set_TACT_switching_day(ns["TACT_switching_day"].as<int>());
     ((TACTSwitchingTStrategy*) result)->set_TACT_id(ns["TACT_id"].as<int>());
-    
-    
+
+
     return result;
 }
 
+IStrategy* StrategyBuilder::buildNestedSwitchingStrategy(const YAML::Node& ns, const int& strategy_id) {
+    IStrategy* result = new NestedSwitchingStrategy();
+    result->id = strategy_id;
+    result->name = ns["name"].as<std::string>();
+
+    add_distributions(ns["start_distribution"], ((NestedSwitchingStrategy*) result)->start_distribution());
+    add_distributions(ns["start_distribution"], ((NestedSwitchingStrategy*) result)->distribution());
+    add_distributions(ns["end_distribution"], ((NestedSwitchingStrategy*) result)->end_distribution());
+
+    for (int i = 0; i < ns["strategy_ids"].size(); i++) {
+        ((NestedSwitchingStrategy*) result)->add_strategy(Model::CONFIG->strategy_db()[ns["strategy_ids"][i].as<int>()]);
+    }
+
+    ((NestedSwitchingStrategy*) result)->set_strategy_switching_day(ns["strategy_switching_day"].as<int>());
+    ((NestedSwitchingStrategy*) result)->set_switch_to_strategy_id(ns["switch_to_strategy_id"].as<int>());
+
+
+    return result;
+}
+
+IStrategy* StrategyBuilder::buildSmartMFTStrategy(const YAML::Node& ns, const int& strategy_id) {
+    IStrategy* result = new SmartMFTStrategy();
+    result->id = strategy_id;
+    result->name = ns["name"].as<std::string>();
+
+    add_distributions(ns["distribution"], ((SmartMFTStrategy*) result)->distribution());
+    add_therapies(ns, result);
+    
+    ((SmartMFTStrategy*) result)->set_update_distribution_duration(ns["update_distribution_duration"].as<int>());
+    
+    return result;
+}

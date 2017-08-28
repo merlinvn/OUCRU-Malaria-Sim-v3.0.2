@@ -67,7 +67,7 @@ void GuiReporter::before_run() {
 
     CreateWindowsTab("NewTab", "List", simulationInfoTab, "Simulation Info");
     CreateWindowsTab("NewTab", "Tree", simulationEventInfoTab, "Event Info");
-    if (Model::CONFIG->strategy()->is_strategy("CyclingStrategy") || Model::CONFIG->strategy()->is_strategy("AdaptiveCyclingStrategy")) {
+    if (Model::CONFIG->strategy()->get_type() == IStrategy::Cycling || Model::CONFIG->strategy()->get_type() == IStrategy::AdaptiveCycling) {
         CreateWindowsTableTab("NewTab", "Table", simulationUTLTab, "UTL Duration", "True");
     }
 
@@ -116,7 +116,7 @@ void GuiReporter::HandleGuiCommand(const std::string &command) {
 
 void GuiReporter::after_time_step() {
     if (Model::SCHEDULER->current_time() % Model::CONFIG->report_frequency() == 0) {
-//        Model::DATA_COLLECTOR->perform_population_statistic();
+        //        Model::DATA_COLLECTOR->perform_population_statistic();
 
         send_prevalence_chart_data_for_location(0);
         //        send_age_class_chart_data(0);
@@ -332,9 +332,9 @@ void GuiReporter::send_double_resistance_chart_data(const int& location) {
     //    SendLineChartData(double_chart_name, "Non Resistance", NumberToString<int>(Model::SCHEDULER->current_time()), NumberToString<double>(Model::POPULATION->current_force_of_infection_by_location_parasite_type()[location][0]), "0");
 
 
-//    GenotypePtrMap::iterator it;
+    //    GenotypePtrMap::iterator it;
     IntGenotypePtrMap::iterator it;
-//    for (it = Model::CONFIG->parasite_db()->genotype_db().begin(); it != Model::CONFIG->parasite_db()->genotype_db().end(); it++) {
+    //    for (it = Model::CONFIG->parasite_db()->genotype_db().begin(); it != Model::CONFIG->parasite_db()->genotype_db().end(); it++) {
     for (it = Model::CONFIG->genotype_db()->db().begin(); it != Model::CONFIG->genotype_db()->db().end(); it++) {
         if (it->second->number_of_resistance_position() == 2) {
             int d_id = it->second->genotype_id();
@@ -384,7 +384,7 @@ void GuiReporter::send_triple_resistance_chart_data(const int& location) {
     //    SendLineChartData(double_chart_name, "Non Resistance", NumberToString<int>(Model::SCHEDULER->current_time()), NumberToString<double>(Model::POPULATION->current_force_of_infection_by_location_parasite_type()[location][0]), "0");
 
 
-//    GenotypePtrMap::iterator it;
+    //    GenotypePtrMap::iterator it;
     IntGenotypePtrMap::iterator it;
     for (it = Model::CONFIG->genotype_db()->db().begin(); it != Model::CONFIG->genotype_db()->db().end(); it++) {
         if (it->second->number_of_resistance_position() == 3) {

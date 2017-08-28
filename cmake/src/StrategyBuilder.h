@@ -33,10 +33,11 @@ public:
     static IStrategy* buildCyclingStrategy(const YAML::Node& ns, const int& strategy_id);
     static IStrategy* buildAdaptiveCyclingStrategy(const YAML::Node& ns, const int& strategy_id);
     static IStrategy* buildMFTStrategy(const YAML::Node& ns, const int& strategy_id);
+    static IStrategy* buildSmartMFTStrategy(const YAML::Node& ns, const int& strategy_id);
     static IStrategy* buildACTIncreaseStrategy(const YAML::Node& ns, const int& strategy_id);
     static IStrategy* buildNovelNonACTSwitchingStrategy(const YAML::Node& ns, const int& strategy_id);
     static IStrategy* buildTACTSwitchingStrategy(const YAML::Node& ns, const int& strategy_id);
-
+    static IStrategy* buildNestedSwitchingStrategy(const YAML::Node& ns, const int& strategy_id);
 
 private:
 

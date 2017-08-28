@@ -26,7 +26,7 @@ public:
     //    NovelNonACTSwitchingStrategy(const NovelNonACTSwitchingStrategy& orig);
     virtual ~NovelNonACTSwitchingStrategy();
 
-
+    virtual IStrategy::StrategyType get_type() const;
 
     virtual std::string to_string() const;
 

@@ -22,11 +22,7 @@ public:
     //    CyclingStrategy(const CyclingStrategy& orig);
     virtual ~CyclingStrategy();
 
-    virtual std::vector<Therapy*>& get_therapy_list();
-    
     virtual void add_therapy(Therapy* therapy);
-
-    virtual bool is_strategy(const std::string& sName);
 
     virtual void switch_therapy();
 

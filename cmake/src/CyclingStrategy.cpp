@@ -22,17 +22,10 @@ CyclingStrategy::CyclingStrategy(const CyclingStrategy& orig) {
 CyclingStrategy::~CyclingStrategy() {
 }
 
-std::vector<Therapy*>& CyclingStrategy::get_therapy_list() {
-    return therapy_list_;
-}
-
 void CyclingStrategy::add_therapy(Therapy* therapy) {
     therapy_list_.push_back(therapy);
 }
 
-bool CyclingStrategy::is_strategy(const std::string& sName) {
-    return ("CyclingStrategy" == sName);
-}
 
 void CyclingStrategy::switch_therapy() {
     //    std::cout << "Switch from: " << index_ << "\t - to: " << index_ + 1;

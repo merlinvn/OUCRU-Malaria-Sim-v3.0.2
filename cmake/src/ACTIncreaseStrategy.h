@@ -32,11 +32,7 @@ public:
     //    MFTStrategy(const MFTStrategy& orig);
     virtual ~ACTIncreaseStrategy();
 
-    virtual std::vector<Therapy*>& get_therapy_list();
-
     virtual void add_therapy(Therapy* therapy);
-
-    virtual bool is_strategy(const std::string& sName);
 
     virtual Therapy* get_therapy();
 

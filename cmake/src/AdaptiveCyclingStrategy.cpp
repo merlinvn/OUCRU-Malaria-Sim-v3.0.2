@@ -32,10 +32,6 @@ void AdaptiveCyclingStrategy::add_therapy(Therapy* therapy) {
     therapy_list_.push_back(therapy);
 }
 
-bool AdaptiveCyclingStrategy::is_strategy(const std::string& sName) {
-    return ("AdaptiveCyclingStrategy" == sName);
-}
-
 void AdaptiveCyclingStrategy::switch_therapy() {
     //    std::cout << "Switch from: " << index_ << "\t - to: " << index_ + 1;
     index_++;
@@ -66,16 +62,14 @@ void AdaptiveCyclingStrategy::update_end_of_time_step() {
 
     if (Model::SCHEDULER->current_time() > Model::CONFIG->start_treatment_day() + 60) {
         if (Model::SCHEDULER->current_time() == latest_switch_time_) {
-            // std::cout << "swith therapy" << std::endl;
+            //            std::cout << "swith therapy" << std::endl;
             switch_therapy();
         } else {
-            // std::cout << Model::SCHEDULER->current_time()<<"-";
-            // std::cout << Model::DATA_COLLECTOR->current_TF_by_location()[0] <<"-" <<get_therapy()->id() << "-" << 
-            // Model::DATA_COLLECTOR->current_TF_by_therapy()[get_therapy()->id()] << std::endl;
+
             if (Model::DATA_COLLECTOR->current_TF_by_therapy()[get_therapy()->id()] > trigger_value_) {
                 if (Model::SCHEDULER->current_time() > (latest_switch_time_ + turn_off_days_)) {
                     latest_switch_time_ = Model::SCHEDULER->current_time() + delay_until_actual_trigger_;
-                    // std::cout << "switch at: " << latest_switch_time_ << std::endl;
+//                    std::cout << "switch at: " << latest_switch_time_ << std::endl;
                 }
             }
         }

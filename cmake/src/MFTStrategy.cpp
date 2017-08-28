@@ -28,16 +28,9 @@ MFTStrategy::MFTStrategy(const MFTStrategy& orig) {
 MFTStrategy::~MFTStrategy() {
 }
 
-std::vector<Therapy*>& MFTStrategy::get_therapy_list() {
-    return therapy_list_;
-}
 
 void MFTStrategy::add_therapy(Therapy* therapy) {
     therapy_list_.push_back(therapy);
-}
-
-bool MFTStrategy::is_strategy(const std::string& sName) {
-    return ("MFTStrategy" == sName);
 }
 
 Therapy* MFTStrategy::get_therapy() {

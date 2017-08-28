@@ -136,7 +136,7 @@ void ModelDataCollector::initialize() {
 
         total_number_of_treatments_60_by_therapy_ = IntVector2(Model::CONFIG->therapy_db().size(), IntVector(Model::CONFIG->tf_window_size(), 0));
         total_TF_60_by_therapy_ = IntVector2(Model::CONFIG->therapy_db().size(), IntVector(Model::CONFIG->tf_window_size(), 0));
-        current_TF_by_therapy_ = DoubleVector(Model::CONFIG->number_of_locations(), 0.0);
+        current_TF_by_therapy_ = DoubleVector(Model::CONFIG->therapy_db().size(), 0.0);
         today_TF_by_therapy_ = IntVector(Model::CONFIG->therapy_db().size(), 0.0);
         today_number_of_treatments_by_therapy_ = IntVector(Model::CONFIG->therapy_db().size(), 0.0);
     }

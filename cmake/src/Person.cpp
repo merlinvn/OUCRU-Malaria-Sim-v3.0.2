@@ -674,7 +674,7 @@ void Person::move_to_population(Population* target_population) {
 
 void Person::move_to_external_population() {
     //TODO:: remove all other circulation events of this person???
-    move_to_population(Model::EXTERNAL_POPULATION);
+//    move_to_population(Model::EXTERNAL_POPULATION);
 }
 
 void Person::return_to_normal_population() {
