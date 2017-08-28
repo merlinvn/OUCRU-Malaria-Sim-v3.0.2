@@ -67,7 +67,7 @@ void SmartMFTStrategy::update_end_of_time_step() {
             distribution()[i] = distribution()[i] / sum;
         }
 
-        std::cout << to_string() << std::endl;
+//        std::cout << to_string() << std::endl;
     }
 }
 
