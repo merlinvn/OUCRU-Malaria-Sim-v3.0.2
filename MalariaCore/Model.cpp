@@ -49,7 +49,7 @@ Scheduler* Model::SCHEDULER = NULL;
 TMEScheduler* Model::TME_SCHEDULER = NULL;
 ModelDataCollector* Model::DATA_COLLECTOR = NULL;
 Population* Model::POPULATION = NULL;
-Population* Model::EXTERNAL_POPULATION = NULL;
+//Population* Model::EXTERNAL_POPULATION = NULL;
 
 Model::Model(const int &object_pool_size) {
     initialize_object_pool(object_pool_size);
@@ -58,7 +58,7 @@ Model::Model(const int &object_pool_size) {
     scheduler_ = new Scheduler(this);
     tme_scheduler_ = new TMEScheduler(this);
     population_ = new Population(this);
-    external_population_ = new ExternalPopulation(this);
+//    external_population_ = new ExternalPopulation(this);
     data_collector_ = new ModelDataCollector(this);
 
     progress_to_clinical_update_function_ = new ClinicalUpdateFunction(this);
@@ -73,7 +73,7 @@ Model::Model(const int &object_pool_size) {
     RANDOM = random_;
     DATA_COLLECTOR = data_collector_;
     POPULATION = population_;
-    EXTERNAL_POPULATION = external_population_;
+//    EXTERNAL_POPULATION = external_population_;
 
     reporters_ = std::vector<Reporter*>();
 
@@ -97,7 +97,7 @@ Model::~Model() {
     DeletePointer<ImmunityClearanceUpdateFunction>(clinical_update_function_);
 
     DeletePointer<Population>(population_);
-    DeletePointer<ExternalPopulation>(external_population_);
+//    DeletePointer<ExternalPopulation>(external_population_);
     DeletePointer<Scheduler>(scheduler_);
     DeletePointer<ModelDataCollector>(data_collector_);
 
@@ -116,7 +116,7 @@ Model::~Model() {
     RANDOM = NULL;
     DATA_COLLECTOR = NULL;
     POPULATION = NULL;
-    EXTERNAL_POPULATION = NULL;
+//    EXTERNAL_POPULATION = NULL;
 
     release_object_pool();
 }
@@ -175,7 +175,7 @@ void Model::initialize() {
     population_->introduce_initial_cases();
 
     //initialize external population
-    external_population_->initialize();
+//    external_population_->initialize();
 
 
     //schedule for some special or periodic events
@@ -202,8 +202,8 @@ void Model::initialize_object_pool(const int& size) {
     CirculateToTargetLocationNextDayEvent::InitializeObjectPool(size);
     ReturnToResidenceEvent::InitializeObjectPool(size);
     SwitchImmuneComponentEvent::InitializeObjectPool(size);
-    MoveToExternalPopulationEvent::InitializeObjectPool(size);
-    ReturnToNormalPopulationEvent::InitializeObjectPool(size);
+//    MoveToExternalPopulationEvent::InitializeObjectPool(size);
+//    ReturnToNormalPopulationEvent::InitializeObjectPool(size);
     ImportationPeriodicallyEvent::InitializeObjectPool(size);
     ImportationEvent::InitializeObjectPool(size);
     TestTreatmentFailureEvent::InitializeObjectPool(size);
@@ -240,8 +240,8 @@ void Model::release_object_pool() {
     TestTreatmentFailureEvent::ReleaseObjectPool();
     ImportationEvent::ReleaseObjectPool();
     ImportationPeriodicallyEvent::ReleaseObjectPool();
-    ReturnToNormalPopulationEvent::ReleaseObjectPool();
-    MoveToExternalPopulationEvent::ReleaseObjectPool();
+//    ReturnToNormalPopulationEvent::ReleaseObjectPool();
+//    MoveToExternalPopulationEvent::ReleaseObjectPool();
     SwitchImmuneComponentEvent::ReleaseObjectPool();
     ReturnToResidenceEvent::ReleaseObjectPool();
     CirculateToTargetLocationNextDayEvent::ReleaseObjectPool();
@@ -281,7 +281,7 @@ void Model::after_run() {
 
 void Model::perform_infection_event() {
     population_->perform_infection_event();
-    external_population_->perform_infection_event();
+//    external_population_->perform_infection_event();
 }
 
 void Model::report_end_of_time_step() {

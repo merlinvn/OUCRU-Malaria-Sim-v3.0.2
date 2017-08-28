@@ -25,33 +25,31 @@ ExternalPopulation::ExternalPopulation(const ExternalPopulation& orig) {
 }
 
 ExternalPopulation::~ExternalPopulation() {
-    //release memory for all persons
-    if (all_persons() != NULL) {
-        for (int i = 0; i < all_persons()->vPerson().size(); i++) {
-            DeletePointer<Person>(all_persons()->vPerson()[i]);
-        }
-        all_persons()->vPerson().clear();
-        set_all_persons(NULL);
-    }
-    //release person_indexes
-
-    if (person_index_list() != NULL) {
-
-        BOOST_FOREACH(PersonIndex* person_index, *person_index_list()) {
-            DeletePointer<PersonIndex>(person_index);
-        }
-
-        person_index_list()->clear();
-
-        delete person_index_list();
-        set_person_index_list(NULL);
-    }
-
-
+//    //release memory for all persons
+//    if (all_persons() != NULL) {
+//        for (int i = 0; i < all_persons()->vPerson().size(); i++) {
+//            DeletePointer<Person>(all_persons()->vPerson()[i]);
+//        }
+//        all_persons()->vPerson().clear();
+//        set_all_persons(NULL);
+//    }
+//    //release person_indexes
+//
+//    if (person_index_list() != NULL) {
+//
+//        BOOST_FOREACH(PersonIndex* person_index, *person_index_list()) {
+//            DeletePointer<PersonIndex>(person_index);
+//        }
+//
+//        person_index_list()->clear();
+//
+//        delete person_index_list();
+//        set_person_index_list(NULL);
+//    }
 }
 
 void ExternalPopulation::initialize() {
-    if (model() != NULL) {
+        if (model() != NULL) {
         int number_of_location = Model::CONFIG->number_of_locations();
         int number_of_hoststate = Person::NUMBER_OF_STATE;
         int number_of_ageclasses = Model::CONFIG->number_of_age_classes();

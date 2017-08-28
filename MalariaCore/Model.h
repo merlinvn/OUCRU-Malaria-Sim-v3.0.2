@@ -32,7 +32,7 @@ class Model {
     POINTER_PROPERTY(Scheduler, scheduler);
     POINTER_PROPERTY(TMEScheduler, tme_scheduler);
     POINTER_PROPERTY(Population, population);
-    POINTER_PROPERTY(ExternalPopulation, external_population);
+//    POINTER_PROPERTY(ExternalPopulation, external_population);
     POINTER_PROPERTY(Random, random);
     POINTER_PROPERTY(ModelDataCollector, data_collector);
 
@@ -59,7 +59,7 @@ class Model {
     static TMEScheduler* TME_SCHEDULER;
     static ModelDataCollector* DATA_COLLECTOR;
     static Population* POPULATION;
-    static Population* EXTERNAL_POPULATION;
+//    static Population* EXTERNAL_POPULATION;
 
 public:
     Model(const int& object_pool_size = 100000);
