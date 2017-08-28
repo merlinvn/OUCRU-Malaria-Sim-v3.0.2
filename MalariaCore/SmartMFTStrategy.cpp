@@ -50,8 +50,8 @@ std::string SmartMFTStrategy::to_string() const {
 
 void SmartMFTStrategy::update_end_of_time_step() {
 
-    if (Model::SCHEDULER->current_time() > Model::CONFIG->start_treatment_day() + update_distribution_duration_
-            && Model::SCHEDULER->current_time() % update_distribution_duration_ == 0) {
+    if (Model::SCHEDULER->current_time() > (Model::CONFIG->start_treatment_day() + Model::CONFIG->tf_window_size())
+            && (Model::SCHEDULER->current_time() + Model::CONFIG->start_treatment_day()) % update_distribution_duration_ == 0) {
         //adjustDisttribution();
         double sum = 0;
         for (int i = 0; i < distribution().size(); i++) {
@@ -66,6 +66,8 @@ void SmartMFTStrategy::update_end_of_time_step() {
         for (int i = 0; i < distribution().size(); i++) {
             distribution()[i] = distribution()[i] / sum;
         }
+
+        std::cout << to_string() << std::endl;
     }
 }
 
