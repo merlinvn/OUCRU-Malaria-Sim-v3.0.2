@@ -16,8 +16,8 @@ OBJECTPOOL_IMPL(InfantImmuneComponent)
 InfantImmuneComponent::InfantImmuneComponent(ImmuneSystem* immune_system) : ImmuneComponent(immune_system) {
 }
 
-InfantImmuneComponent::InfantImmuneComponent(const InfantImmuneComponent& orig) {
-}
+// InfantImmuneComponent::InfantImmuneComponent(const InfantImmuneComponent& orig) {
+// }
 
 InfantImmuneComponent::~InfantImmuneComponent() {
 }

@@ -12,10 +12,11 @@
 #include "ObjectPool.h"
 
 class NonInfantImmuneComponent : public ImmuneComponent {
+    DISALLOW_COPY_AND_ASSIGN_(NonInfantImmuneComponent)
     OBJECTPOOL(NonInfantImmuneComponent)
 public:
-    NonInfantImmuneComponent();
-    NonInfantImmuneComponent(const NonInfantImmuneComponent& orig);
+    NonInfantImmuneComponent(ImmuneSystem* immune_system = NULL);
+    // NonInfantImmuneComponent(const NonInfantImmuneComponent& orig);
     virtual ~NonInfantImmuneComponent();
 
     virtual double get_decay_rate(const int &age = 0) const;

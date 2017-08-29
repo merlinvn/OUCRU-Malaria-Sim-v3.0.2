@@ -212,11 +212,12 @@ void Model::initialize_object_pool(const int& size) {
     SingleHostClonalParasitePopulations::InitializeObjectPool();
 
     Drug::InitializeObjectPool(size);
-    DrugsInBlood::InitializeObjectPool();
+    DrugsInBlood::InitializeObjectPool(size);
 
     InfantImmuneComponent::InitializeObjectPool(size);
     NonInfantImmuneComponent::InitializeObjectPool(size);
-    ImmuneSystem::InitializeObjectPool();
+
+    ImmuneSystem::InitializeObjectPool(size);
     Person::InitializeObjectPool(size);
 }
 
@@ -228,8 +229,10 @@ void Model::release_object_pool() {
     Person::ReleaseObjectPool();
 
     ImmuneSystem::ReleaseObjectPool();
-    NonInfantImmuneComponent::ReleaseObjectPool();
+
+    // TODO: Investigate why?
     InfantImmuneComponent::ReleaseObjectPool();
+    NonInfantImmuneComponent::ReleaseObjectPool();
 
     DrugsInBlood::ReleaseObjectPool();
     Drug::ReleaseObjectPool();

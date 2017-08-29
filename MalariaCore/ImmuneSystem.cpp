@@ -28,17 +28,8 @@ ImmuneSystem::ImmuneSystem(const ImmuneSystem& orig) {
 
 ImmuneSystem::~ImmuneSystem() {
 
-    //    BOOST_FOREACH(ImmuneComponent* immune_component, *immune_components_) {
-    //        delete immune_component;
-    //    }
-    //
-    //    delete immune_components_;
-    //    immune_components_ = NULL;
-
     if (immune_component_ != NULL) {
-        assert(immune_component_ != NULL);
         DeletePointer<ImmuneComponent>(immune_component_);
-        assert(immune_component_ == NULL);
     }
     assert(immune_component_ == NULL);
     person_ = NULL;

@@ -12,11 +12,11 @@
 
 OBJECTPOOL_IMPL(NonInfantImmuneComponent)
 
-NonInfantImmuneComponent::NonInfantImmuneComponent():ImmuneComponent() {
+NonInfantImmuneComponent::NonInfantImmuneComponent(ImmuneSystem* immune_system):ImmuneComponent(immune_system) {
 }
 
-NonInfantImmuneComponent::NonInfantImmuneComponent(const NonInfantImmuneComponent& orig) {
-}
+// NonInfantImmuneComponent::NonInfantImmuneComponent(const NonInfantImmuneComponent& orig) {
+// }
 
 NonInfantImmuneComponent::~NonInfantImmuneComponent() {
 }
