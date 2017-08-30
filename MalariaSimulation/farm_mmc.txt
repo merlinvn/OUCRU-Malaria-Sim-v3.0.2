@@ -1,0 +1,3 @@
+population_size	beta	f strategy
+500000  0.065   0.5 9
+500000  0.065   0.5 10
