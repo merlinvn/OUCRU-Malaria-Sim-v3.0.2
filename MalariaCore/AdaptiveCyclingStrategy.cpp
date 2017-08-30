@@ -60,16 +60,15 @@ IStrategy::StrategyType AdaptiveCyclingStrategy::get_type() const {
 
 void AdaptiveCyclingStrategy::update_end_of_time_step() {
 
-    if (Model::SCHEDULER->current_time() > Model::CONFIG->start_treatment_day() + 60) {
+    if (Model::SCHEDULER->current_time() > Model::CONFIG->start_treatment_day() + Model::CONFIG->tf_window_size()) {
         if (Model::SCHEDULER->current_time() == latest_switch_time_) {
-            //            std::cout << "swith therapy" << std::endl;
             switch_therapy();
+            //            std::cout << to_string() << std::endl;
         } else {
-
             if (Model::DATA_COLLECTOR->current_TF_by_therapy()[get_therapy()->id()] > trigger_value_) {
                 if (Model::SCHEDULER->current_time() > (latest_switch_time_ + turn_off_days_)) {
                     latest_switch_time_ = Model::SCHEDULER->current_time() + delay_until_actual_trigger_;
-//                    std::cout << "switch at: " << latest_switch_time_ << std::endl;
+                    //                    std::cout << "TF: " << Model::DATA_COLLECTOR->current_TF_by_therapy()[get_therapy()->id()] << std::endl;
                 }
             }
         }

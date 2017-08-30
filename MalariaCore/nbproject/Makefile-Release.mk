@@ -73,6 +73,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/IntGenotypeDatabase.o \
 	${OBJECTDIR}/MACTherapy.o \
 	${OBJECTDIR}/MDAAction.o \
+	${OBJECTDIR}/MFTRebalancingStrategy.o \
 	${OBJECTDIR}/MFTStrategy.o \
 	${OBJECTDIR}/MatureGametocyteEvent.o \
 	${OBJECTDIR}/Model.o \
@@ -113,7 +114,6 @@ OBJECTFILES= \
 	${OBJECTDIR}/STCAction.o \
 	${OBJECTDIR}/Scheduler.o \
 	${OBJECTDIR}/SingleHostClonalParasitePopulations.o \
-	${OBJECTDIR}/SmartMFTStrategy.o \
 	${OBJECTDIR}/StrategyBuilder.o \
 	${OBJECTDIR}/SwitchImmuneComponentEvent.o \
 	${OBJECTDIR}/TACTSwitchingStrategy.o \
@@ -344,6 +344,11 @@ ${OBJECTDIR}/MDAAction.o: MDAAction.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MDAAction.o MDAAction.cpp
 
+${OBJECTDIR}/MFTRebalancingStrategy.o: MFTRebalancingStrategy.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MFTRebalancingStrategy.o MFTRebalancingStrategy.cpp
+
 ${OBJECTDIR}/MFTStrategy.o: MFTStrategy.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -543,11 +548,6 @@ ${OBJECTDIR}/SingleHostClonalParasitePopulations.o: SingleHostClonalParasitePopu
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SingleHostClonalParasitePopulations.o SingleHostClonalParasitePopulations.cpp
-
-${OBJECTDIR}/SmartMFTStrategy.o: SmartMFTStrategy.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SmartMFTStrategy.o SmartMFTStrategy.cpp
 
 ${OBJECTDIR}/StrategyBuilder.o: StrategyBuilder.cpp 
 	${MKDIR} -p ${OBJECTDIR}

@@ -47,6 +47,8 @@ public:
     virtual void update_end_of_time_step();
 
     void adjustDisttribution(int time, int totaltime);
+    
+    void initialize_update_time();
 
 private:
 

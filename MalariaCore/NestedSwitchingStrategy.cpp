@@ -16,6 +16,9 @@
 #include "Model.h"
 #include "Random.h"
 #include "Scheduler.h"
+#include "MFTRebalancingStrategy.h"
+#include "CyclingStrategy.h"
+#include "AdaptiveCyclingStrategy.h"
 
 NestedSwitchingStrategy::NestedSwitchingStrategy() {
 }
@@ -62,12 +65,16 @@ void NestedSwitchingStrategy::update_end_of_time_step() {
     if (Model::SCHEDULER->current_time() == strategy_switching_day_) {
         //        std::cout << to_string() << std::endl;   
         strategy_list_[0] = Model::CONFIG->strategy_db()[switch_to_strategy_id_];
-        //        std::cout << to_string() << std::endl;
+//        std::cout << to_string() << std::endl;
     }
 
     if (Model::SCHEDULER->current_time() % 30 == 0) {
         adjustDisttribution(Model::SCHEDULER->current_time(), Model::CONFIG->total_time());
         //        std::cout << to_string() << std::endl;
+    }
+    // update each strategy in the nest
+    for (int i = 0; i < strategy_list_.size(); i++) {
+        strategy_list_[i]->update_end_of_time_step();
     }
 }
 
@@ -79,5 +86,27 @@ void NestedSwitchingStrategy::adjustDisttribution(int time, int totaltime) {
     double otherD = (1 - dACT) / (distribution_.size() - 1);
     for (int i = 1; i < distribution_.size(); i++) {
         distribution_[i] = otherD;
+    }
+}
+
+void NestedSwitchingStrategy::initialize_update_time() {
+
+    // when switch to MFTBalancing
+    if (Model::CONFIG->strategy_db()[switch_to_strategy_id_]->get_type() == IStrategy::MFTRebalancing) {
+        //        std::cout << "hello" << std::endl;
+        ((MFTRebalancingStrategy*) Model::CONFIG->strategy_db()[switch_to_strategy_id_])->set_next_update_time(-1);
+        ((MFTRebalancingStrategy*) Model::CONFIG->strategy_db()[switch_to_strategy_id_])->set_latest_adjust_distribution_time(strategy_switching_day_);
+    }
+    // when switch to Cycling
+    if (Model::CONFIG->strategy_db()[switch_to_strategy_id_]->get_type() == IStrategy::Cycling) {
+
+        ((CyclingStrategy*) Model::CONFIG->strategy_db()[switch_to_strategy_id_])->set_next_switching_day(strategy_switching_day_ +
+                ((CyclingStrategy*) Model::CONFIG->strategy_db()[switch_to_strategy_id_])->cycling_time());
+    }
+    // when switch to AdaptiveCycling
+    if (Model::CONFIG->strategy_db()[switch_to_strategy_id_]->get_type() == IStrategy::AdaptiveCycling) {
+        ((AdaptiveCyclingStrategy*) Model::CONFIG->strategy_db()[switch_to_strategy_id_])->set_latest_switch_time(strategy_switching_day_);
+        ((AdaptiveCyclingStrategy*) Model::CONFIG->strategy_db()[switch_to_strategy_id_])->set_index(-1);
+
     }
 }

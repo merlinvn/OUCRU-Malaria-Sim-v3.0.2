@@ -12,6 +12,8 @@
       <itemPath>IStrategy.h</itemPath>
       <itemPath>MACTherapy.cpp</itemPath>
       <itemPath>MACTherapy.h</itemPath>
+      <itemPath>MFTRebalancingStrategy.cpp</itemPath>
+      <itemPath>MFTRebalancingStrategy.h</itemPath>
       <itemPath>MFTStrategy.cpp</itemPath>
       <itemPath>MFTStrategy.h</itemPath>
       <itemPath>NestedSwitchingStrategy.cpp</itemPath>
@@ -22,8 +24,6 @@
       <itemPath>SCTherapy.h</itemPath>
       <itemPath>SFTStrategy.cpp</itemPath>
       <itemPath>SFTStrategy.h</itemPath>
-      <itemPath>SmartMFTStrategy.cpp</itemPath>
-      <itemPath>SmartMFTStrategy.h</itemPath>
       <itemPath>StrategyBuilder.cpp</itemPath>
       <itemPath>StrategyBuilder.h</itemPath>
       <itemPath>TACTSwitchingStrategy.cpp</itemPath>
@@ -420,6 +420,10 @@
       </item>
       <item path="MDAAction.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="MFTRebalancingStrategy.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="MFTRebalancingStrategy.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="MFTStrategy.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="MFTStrategy.h" ex="false" tool="3" flavor2="0">
@@ -634,10 +638,6 @@
             ex="false"
             tool="3"
             flavor2="0">
-      </item>
-      <item path="SmartMFTStrategy.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="SmartMFTStrategy.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="StrategyBuilder.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -884,6 +884,10 @@
       </item>
       <item path="MDAAction.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="MFTRebalancingStrategy.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="MFTRebalancingStrategy.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="MFTStrategy.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="MFTStrategy.h" ex="false" tool="3" flavor2="0">
@@ -1098,10 +1102,6 @@
             ex="false"
             tool="3"
             flavor2="0">
-      </item>
-      <item path="SmartMFTStrategy.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="SmartMFTStrategy.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="StrategyBuilder.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -1350,6 +1350,10 @@
       </item>
       <item path="MDAAction.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="MFTRebalancingStrategy.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="MFTRebalancingStrategy.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="MFTStrategy.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="MFTStrategy.h" ex="false" tool="3" flavor2="0">
@@ -1564,10 +1568,6 @@
             ex="false"
             tool="3"
             flavor2="0">
-      </item>
-      <item path="SmartMFTStrategy.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="SmartMFTStrategy.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="StrategyBuilder.cpp" ex="false" tool="1" flavor2="0">
       </item>

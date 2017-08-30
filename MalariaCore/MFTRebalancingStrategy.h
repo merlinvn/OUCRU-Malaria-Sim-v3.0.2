@@ -17,13 +17,19 @@
 #include "MFTStrategy.h"
 #include "PropertyMacro.h"
 
-class SmartMFTStrategy : public MFTStrategy {
-    DISALLOW_COPY_AND_ASSIGN_(SmartMFTStrategy)
-    VIRTUAL_PROPERTY_REF(int, update_distribution_duration)
+class MFTRebalancingStrategy : public MFTStrategy {
+    DISALLOW_COPY_AND_ASSIGN_(MFTRebalancingStrategy)
+    VIRTUAL_PROPERTY_REF(int, update_duration_after_rebalancing)
+
+    VIRTUAL_PROPERTY_REF(int, latest_adjust_distribution_time)
+    VIRTUAL_PROPERTY_REF(int, delay_until_actual_trigger)
+    VIRTUAL_PROPERTY_REF(int, next_update_time)
+    VIRTUAL_PROPERTY_REF(std::vector<double>, next_distribution)
+    
 public:
-    SmartMFTStrategy();
+    MFTRebalancingStrategy();
     //        SmartMFTStrategy(const SmartMFTStrategy & orig);
-    virtual ~SmartMFTStrategy();
+    virtual ~MFTRebalancingStrategy();
 
 
     virtual std::string to_string() const;

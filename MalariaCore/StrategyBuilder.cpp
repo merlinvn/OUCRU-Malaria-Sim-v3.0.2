@@ -23,7 +23,7 @@
 #include "NovelNonACTSwitchingStrategy.h"
 #include "TACTSwitchingStrategy.h"
 #include "NestedSwitchingStrategy.h"
-#include "SmartMFTStrategy.h"
+#include "MFTRebalancingStrategy.h"
 
 StrategyBuilder::StrategyBuilder() {
 }
@@ -51,8 +51,8 @@ IStrategy* StrategyBuilder::build(const YAML::Node& ns, const int& strategy_id) 
             return buildNovelNonACTSwitchingStrategy(ns, strategy_id);
         case IStrategy::TACTSwitching:
             return buildTACTSwitchingStrategy(ns, strategy_id);
-        case IStrategy::SmartMFT:
-            return buildSmartMFTStrategy(ns, strategy_id);
+        case IStrategy::MFTRebalancing:
+            return buildMFTRebalancingStrategy(ns, strategy_id);
         case IStrategy::NestedSwitching:
             return buildNestedSwitchingStrategy(ns, strategy_id);
         default:
@@ -88,6 +88,7 @@ IStrategy* StrategyBuilder::buildCyclingStrategy(const YAML::Node& ns, const int
     result->name = ns["name"].as<std::string>();
 
     ((CyclingStrategy*) result)->set_cycling_time(ns["cycling_time"].as<int>());
+    ((CyclingStrategy*) result)->set_next_switching_day(Model::CONFIG->start_treatment_day() + ns["cycling_time"].as<int>());
 
     add_therapies(ns, result);
 
@@ -191,15 +192,19 @@ IStrategy* StrategyBuilder::buildNestedSwitchingStrategy(const YAML::Node& ns, c
     return result;
 }
 
-IStrategy* StrategyBuilder::buildSmartMFTStrategy(const YAML::Node& ns, const int& strategy_id) {
-    IStrategy* result = new SmartMFTStrategy();
+IStrategy* StrategyBuilder::buildMFTRebalancingStrategy(const YAML::Node& ns, const int& strategy_id) {
+    IStrategy* result = new MFTRebalancingStrategy();
     result->id = strategy_id;
     result->name = ns["name"].as<std::string>();
 
-    add_distributions(ns["distribution"], ((SmartMFTStrategy*) result)->distribution());
+    add_distributions(ns["distribution"], ((MFTRebalancingStrategy*) result)->distribution());
+    add_distributions(ns["distribution"], ((MFTRebalancingStrategy*) result)->next_distribution());
+
     add_therapies(ns, result);
-    
-    ((SmartMFTStrategy*) result)->set_update_distribution_duration(ns["update_distribution_duration"].as<int>());
-    
+
+    ((MFTRebalancingStrategy*) result)->set_update_duration_after_rebalancing(ns["update_duration_after_rebalancing"].as<int>());
+    ((MFTRebalancingStrategy*) result)->set_delay_until_actual_trigger(ns["delay_until_actual_trigger"].as<int>());
+    ((MFTRebalancingStrategy*) result)->set_latest_adjust_distribution_time(Model::CONFIG->start_treatment_day());
+
     return result;
 }

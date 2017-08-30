@@ -12,7 +12,7 @@
 # total number of days the simulation is run, including the burn-in period which we normally set to 4000
 # days; during the burn-in period, no one receives malaria treatement and the system sets into a natural 
 # equilibrium 
-total_time: 4000
+total_time: 11000
 
 # length of burn-in period
 start_treatment_day: 100
@@ -723,10 +723,10 @@ StrategyInfo:
         type: SFT
         therapy_id: 6
     8:
-        name: SP-AQ-CQ-MFTStrategy
+        name: SP-AQ-CQ-AL-MFTStrategy
         type: MFT
-        therapy_ids: [5,2,12]
-        distribution: [0.333333,0.333333,0.333334]    
+        therapy_ids: [5,2,12,6]
+        distribution: [0.3,0.3,0.3,0.1]    
     9:
         name: AL-ASAQ-DP-MFTStrategy
         type: MFT
@@ -746,20 +746,21 @@ StrategyInfo:
         turn_off_days: 365
     12:
         name: AL-ASAQ-DP-SmartMFTStrategy
-        type: SmartMFT
+        type: MFTRebalancing
         therapy_ids: [6,7,8]
         distribution: [0.333333,0.333333,0.333334]
-        update_distribution_duration: 730
+        delay_until_actual_trigger: 365
+        update_duration_after_rebalancing: 730
     13:
-        name: Switch_AL_to_MFTStrategy
+        name: Switch_AL_to_MFTBalancingStrategy
         type: NestedSwitching
         strategy_ids: [7,8]
         start_distribution: [0.05, 0.95]
         end_distribution: [0.8,0.2]
         strategy_switching_day: 5110
-        switch_to_strategy_id: 9
+        switch_to_strategy_id: 11
 
-main_strategy_id: 3
+main_strategy_id: 13
 
 #  #strategyName can be SFTStrategy / CyclingStrategy / MFTStrategy / AdaptiveCyclingStrategy
 ##  strategyName: SFTStrategy
