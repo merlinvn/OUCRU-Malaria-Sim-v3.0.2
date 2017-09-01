@@ -391,7 +391,7 @@ introduce_parasite_periodically:
         # genotype_id -1: fix allele 580Y and x of the last loci, other alleles will be drawed randomly
         genotype_id: -1
         number_of_cases: 1
-        start_day: 4380
+        start_day: 5110
         
 
         
@@ -690,20 +690,20 @@ StrategyInfo:
     3:
         name: CyclingStrategy
         type: Cycling
-        therapy_ids: [7,8,9]
+        therapy_ids: [8,7,6]
         cycling_time: 1825
     4:
-        name: MFTStrategy
-        type: MFT
-        therapy_ids: [7,8,9]
-        distribution: [0.5,0.5]
-    5:
         name: AdaptiveCyclingStrategy
         type: AdaptiveCycling
-        therapy_ids: [7,8,9]
+        therapy_ids: [8,7,6]
         trigger_value: 0.1
         delay_until_actual_trigger: 365
-        turn_off_days: 365 
+        turn_off_days: 365         
+    5:
+        name: MFTStrategy
+        type: MFT
+        therapy_ids: [8,7,6]
+        distribution: [0.5,0.5] 
     6:
         name: AL-ASAQ-DP-MFTRebalancingStrategy1
         type: MFTRebalancing
@@ -756,7 +756,7 @@ StrategyInfo:
         start_distribution: [0.05, 0.95]
         end_distribution: [0.8,0.2]
         strategy_switching_day: 5110
-        switch_to_strategy_id: 5   
+        switch_to_strategy_id: 4   
     13:
         name: Switch_AL_to_MFTStrategy
         type: NestedSwitching
@@ -764,7 +764,7 @@ StrategyInfo:
         start_distribution: [0.05, 0.95]
         end_distribution: [0.8,0.2]
         strategy_switching_day: 5110
-        switch_to_strategy_id: 4 
+        switch_to_strategy_id: 5 
     14:
         name: Switch_AL_to_MFTRebalanceStrategy1
         type: NestedSwitching
