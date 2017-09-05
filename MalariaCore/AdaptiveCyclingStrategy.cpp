@@ -33,7 +33,7 @@ void AdaptiveCyclingStrategy::add_therapy(Therapy* therapy) {
 }
 
 void AdaptiveCyclingStrategy::switch_therapy() {
-    //    std::cout << "Switch from: " << index_ << "\t - to: " << index_ + 1;
+//    std::cout << "Switch from: " << index_ << "\t - to: " << index_ + 1;
     index_++;
     index_ %= therapy_list().size();
 

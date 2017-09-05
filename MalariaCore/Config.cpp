@@ -285,7 +285,7 @@ void Config::read_strategy_therapy_and_drug_information(const YAML::Node& config
     }
 
     strategy_ = strategy_db_[config["main_strategy_id"].as<int>()];
-
+    
     if (strategy_->get_type() == IStrategy::NestedSwitching) {
         ((NestedSwitchingStrategy*) strategy_)->initialize_update_time();
     }
@@ -877,6 +877,9 @@ void Config::override_1_parameter(const std::string& parameter_name, const std::
         //override with the id from the override.txt
         int strategy_id = atoi(parameter_value.c_str());
         strategy_ = strategy_db_[strategy_id];
+        if (strategy_->get_type() == IStrategy::NestedSwitching) {
+            ((NestedSwitchingStrategy*) strategy_)->initialize_update_time();
+        }
     }
 
     if (parameter_name == "dosing_days") {

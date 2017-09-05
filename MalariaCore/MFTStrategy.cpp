@@ -28,7 +28,6 @@ MFTStrategy::MFTStrategy(const MFTStrategy& orig) {
 MFTStrategy::~MFTStrategy() {
 }
 
-
 void MFTStrategy::add_therapy(Therapy* therapy) {
     therapy_list_.push_back(therapy);
 }
@@ -40,7 +39,7 @@ Therapy* MFTStrategy::get_therapy() {
     double sum = 0;
     for (int i = 0; i < distribution_.size(); i++) {
         sum += distribution_[i];
-        if (P <= sum) {
+        if (P <= sum) {       
             return therapy_list()[i];
         }
     }
@@ -51,12 +50,12 @@ Therapy* MFTStrategy::get_therapy() {
 std::string MFTStrategy::to_string() const {
     std::stringstream sstm;
     sstm << IStrategy::id << "-" << IStrategy::name << "-";
-    
+
     for (int i = 0; i < therapy_list_.size() - 1; i++) {
         sstm << therapy_list_[i]->id() << ",";
     }
     sstm << therapy_list_[therapy_list_.size() - 1]->id() << "-";
-    
+
     for (int i = 0; i < distribution_.size() - 1; i++) {
         sstm << distribution_[i] << ",";
     }

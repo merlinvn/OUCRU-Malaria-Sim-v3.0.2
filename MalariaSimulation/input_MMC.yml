@@ -703,7 +703,7 @@ StrategyInfo:
         name: MFTStrategy
         type: MFT
         therapy_ids: [8,7,6]
-        distribution: [0.5,0.5] 
+        distribution: [0.333333,0.333333,0.333334]
     6:
         name: AL-ASAQ-DP-MFTRebalancingStrategy1
         type: MFTRebalancing

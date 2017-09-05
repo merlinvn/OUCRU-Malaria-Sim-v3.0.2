@@ -19,6 +19,7 @@
 #include "MFTRebalancingStrategy.h"
 #include "CyclingStrategy.h"
 #include "AdaptiveCyclingStrategy.h"
+#include "Therapy.h"
 
 NestedSwitchingStrategy::NestedSwitchingStrategy() {
 }
@@ -40,10 +41,9 @@ Therapy* NestedSwitchingStrategy::get_therapy() {
     for (int i = 0; i < distribution_.size(); i++) {
         sum += distribution_[i];
         if (P <= sum) {
-            return strategy_list_[i]->get_therapy();
+            return  strategy_list_[i]->get_therapy();
         }
     }
-
     return strategy_list_[strategy_list_.size() - 1]->get_therapy();
 }
 
@@ -65,7 +65,7 @@ void NestedSwitchingStrategy::update_end_of_time_step() {
     if (Model::SCHEDULER->current_time() == strategy_switching_day_) {
         //        std::cout << to_string() << std::endl;   
         strategy_list_[0] = Model::CONFIG->strategy_db()[switch_to_strategy_id_];
-//        std::cout << to_string() << std::endl;
+        //        std::cout << to_string() << std::endl;
     }
 
     if (Model::SCHEDULER->current_time() % 30 == 0) {
@@ -99,7 +99,7 @@ void NestedSwitchingStrategy::initialize_update_time() {
     }
     // when switch to Cycling
     if (Model::CONFIG->strategy_db()[switch_to_strategy_id_]->get_type() == IStrategy::Cycling) {
-
+        //        std::cout << "hello" << std::endl;
         ((CyclingStrategy*) Model::CONFIG->strategy_db()[switch_to_strategy_id_])->set_next_switching_day(strategy_switching_day_ +
                 ((CyclingStrategy*) Model::CONFIG->strategy_db()[switch_to_strategy_id_])->cycling_time());
     }
@@ -107,6 +107,5 @@ void NestedSwitchingStrategy::initialize_update_time() {
     if (Model::CONFIG->strategy_db()[switch_to_strategy_id_]->get_type() == IStrategy::AdaptiveCycling) {
         ((AdaptiveCyclingStrategy*) Model::CONFIG->strategy_db()[switch_to_strategy_id_])->set_latest_switch_time(strategy_switching_day_);
         ((AdaptiveCyclingStrategy*) Model::CONFIG->strategy_db()[switch_to_strategy_id_])->set_index(-1);
-
     }
 }
