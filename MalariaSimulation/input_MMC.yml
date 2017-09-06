@@ -804,7 +804,7 @@ StrategyInfo:
         start_distribution: [0.05, 0.95]
         end_distribution: [0.8,0.2]
         strategy_switching_day: 5110
-        switch_to_strategy_id: 5   
+        switch_to_strategy_id: 4   
     19:
         name: Switch_ASAQ_to_MFTStrategy
         type: NestedSwitching
@@ -812,7 +812,7 @@ StrategyInfo:
         start_distribution: [0.05, 0.95]
         end_distribution: [0.8,0.2]
         strategy_switching_day: 5110
-        switch_to_strategy_id: 4 
+        switch_to_strategy_id: 5 
     20:
         name: Switch_ASAQ_to_MFTRebalanceStrategy1
         type: NestedSwitching
