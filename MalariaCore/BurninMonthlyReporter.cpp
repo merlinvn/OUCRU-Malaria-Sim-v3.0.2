@@ -15,6 +15,9 @@
 #include "Model.h"
 #include "ModelDataCollector.h"
 #include "Config.h"
+#include "IStrategy.h"
+#include "NestedSwitchingStrategy.h"
+#include "MFTRebalancingStrategy.h"
 
 BurninMonthlyReporter::BurninMonthlyReporter() {
 
@@ -79,6 +82,18 @@ void BurninMonthlyReporter::after_time_step() {
         for (int i = 0; i < Model::CONFIG->number_of_parasite_types(); i++) {
             std::cout << Model::DATA_COLLECTOR->resistance_tracker().parasite_population_count()[i] << "\t";
         }
+
+        //output for MFT rebalencing
+        if (Model::CONFIG->strategy()->get_type() == IStrategy::NestedSwitching) {
+            if (Model::CONFIG->strategy_db()[((NestedSwitchingStrategy*) Model::CONFIG->strategy())->switch_to_strategy_id()]->get_type()== IStrategy::MFTRebalancing) {
+                std::cout << "-1111" << "\t";
+                MFTRebalancingStrategy* s = (MFTRebalancingStrategy*) (Model::CONFIG->strategy_db()[((NestedSwitchingStrategy*) Model::CONFIG->strategy())->switch_to_strategy_id()]);
+                for (int i = 0; i < s->distribution().size(); i++) {
+                    std::cout << s->distribution()[i] << "\t";
+                }
+            }
+        }
+
 
         std::cout << std::endl;
     }
