@@ -709,22 +709,22 @@ StrategyInfo:
         type: MFTRebalancing
         therapy_ids: [8,7,6]
         distribution: [0.333333,0.333333,0.333334]
-        delay_until_actual_trigger: 365
-        update_duration_after_rebalancing: 365
+        delay_until_actual_trigger: 360
+        update_duration_after_rebalancing: 360
     7:
         name: AL-ASAQ-DP-MFTRebalancingStrategy2
         type: MFTRebalancing
         therapy_ids: [8,7,6]
         distribution: [0.333333,0.333333,0.333334]
-        delay_until_actual_trigger: 365
-        update_duration_after_rebalancing: 730
+        delay_until_actual_trigger: 360
+        update_duration_after_rebalancing: 720
     8:
         name: AL-ASAQ-DP-MFTRebalancingStrategy4
         type: MFTRebalancing
         therapy_ids: [8,7,6]
         distribution: [0.333333,0.333333,0.333334]
-        delay_until_actual_trigger: 365
-        update_duration_after_rebalancing: 1460
+        delay_until_actual_trigger: 360
+        update_duration_after_rebalancing: 1440
     9:
         name: AL-BaseLineStrategy
         type: NestedSwitching
