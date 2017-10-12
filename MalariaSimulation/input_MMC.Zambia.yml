@@ -12,7 +12,7 @@
 # total number of days the simulation is run, including the burn-in period which we normally set to 4000
 # days; during the burn-in period, no one receives malaria treatement and the system sets into a natural 
 # equilibrium 
-total_time: 8760
+total_time: 12410
 
 # length of burn-in period
 start_treatment_day: 100
@@ -29,7 +29,7 @@ number_of_locations: 1
 
 # main scaling parameter for transmission, by location
 # the last four terms are ignored when the number of locations is 1
-beta: [0.065 , 1.4 , 1.4, 1.4, 1]
+beta: [0.15 , 1.4 , 1.4, 1.4, 1]
 
 # this functionality works, but it was not used in any analyses for the 2015 LGH paper
 # seasonality parameters, by location
@@ -39,7 +39,7 @@ seasonal_beta:
   
   
 # the last four terms are ignored when the number of locations is 1
-population_size_by_location: [500000, 1000 , 1000, 1000, 500]
+population_size_by_location: [10000, 1000 , 1000, 1000, 500]
 
 # probability that an infectious bite on a human causes a blood stage malaria infection
 p_infection_from_an_infectious_bite: 0.1
@@ -387,31 +387,13 @@ introduce_parasite:
 introduce_parasite_periodically:
   - location: 0
     parasite_info:
-      - duration: 7 
-        genotype_id: 64
-        number_of_cases: 5
-        start_day: 0
+      - duration: 10
+        # genotype_id -1: fix allele 580Y and x of the last loci, other alleles will be drawed randomly
+        genotype_id: -1
+        number_of_cases: 1
+        start_day: 5110
         
-  - location: 0
-    parasite_info:
-      - duration: 7 
-        genotype_id: 72
-        number_of_cases: 5
-        start_day: 0
 
-  - location: 0
-    parasite_info:
-      - duration: 7 
-        genotype_id: 68
-        number_of_cases: 5
-        start_day: 4380
-        
-  - location: 0
-    parasite_info:
-      - duration: 7 
-        genotype_id: 76
-        number_of_cases: 5
-        start_day: 4380
         
 
 
@@ -635,6 +617,7 @@ artemisinin_drug_id: 0
 # the drug_ids that make up the therapy, and the number of days that the therapy is prescribed for 
 # testing day tells you the follow-up point at which it is determined if treatment failed or not
 tf_testing_day: 28
+
 TherapyInfo:
   #mono as
   0:    
@@ -691,41 +674,192 @@ TherapyInfo:
 
 # drug-deployment strategy - simply uncomment below to turn on a particular strategy
 StrategyInfo:
-  #strategyName can be SFTStrategy / CyclingStrategy / MFTStrategy / AdaptiveCyclingStrategy
-#  strategyName: SFTStrategy
-#  strategyName: CyclingStrategy
-#  strategyName: MFTStrategy
-  strategyName: ACTIncreaseStrategy
-#  strategyName: AdaptiveCyclingStrategy
+    0:
+        name: SP-monoART-AL-MFTStrategy
+        type: MFT
+        therapy_ids: [5,0,6]
+        distribution: [0.9118,0.0022,0.086]
+    1:
+        name: AL-SFTStrategy
+        type: SFT
+        therapy_id: 6
+    2:
+        name: ASAQ-SFTStrategy
+        type: SFT
+        therapy_id: 7
+    3:
+        name: CyclingStrategy
+        type: Cycling
+        therapy_ids: [8,7,6]
+        cycling_time: 1825
+    4:
+        name: AdaptiveCyclingStrategy
+        type: AdaptiveCycling
+        therapy_ids: [8,7,6]
+        trigger_value: 0.1
+        delay_until_actual_trigger: 365
+        turn_off_days: 365         
+    5:
+        name: MFTStrategy
+        type: MFT
+        therapy_ids: [8,7,6]
+        distribution: [0.333333,0.333333,0.333334]
+    6:
+        name: AL-ASAQ-DP-MFTRebalancingStrategy1
+        type: MFTRebalancing
+        therapy_ids: [8,7,6]
+        distribution: [0.333333,0.333333,0.333334]
+        delay_until_actual_trigger: 360
+        update_duration_after_rebalancing: 360
+    7:
+        name: AL-ASAQ-DP-MFTRebalancingStrategy2
+        type: MFTRebalancing
+        therapy_ids: [8,7,6]
+        distribution: [0.333333,0.333333,0.333334]
+        delay_until_actual_trigger: 360
+        update_duration_after_rebalancing: 720
+    8:
+        name: AL-ASAQ-DP-MFTRebalancingStrategy4
+        type: MFTRebalancing
+        therapy_ids: [8,7,6]
+        distribution: [0.333333,0.333333,0.333334]
+        delay_until_actual_trigger: 360
+        update_duration_after_rebalancing: 1440
+    9:
+        name: AL-BaseLine2006-2020
+        type: NestedSwitching
+        strategy_ids: [1,0]
+        start_distribution: [0.003, 0.95]
+        end_distribution: [1.452,0.2]
+        strategy_switching_day: 100000000
+        switch_to_strategy_id: 1    
+    10:
+        name: AL-BaseLine2020-2040
+        type: NestedSwitching
+        strategy_ids: [1,0]
+        start_distribution: [0.46, 0.55]
+        end_distribution: [0.8,0.2]
+        strategy_switching_day: 100000000
+        switch_to_strategy_id: 1    
+    11:
+        name: AL-BaseLineStrategy
+        type: NestedSwitching
+        strategy_ids: [9,0]
+        start_distribution: [1, 0]
+        end_distribution: [1, 0]
+        strategy_switching_day: 5110
+        switch_to_strategy_id: 10
+    12:
+        name: AL_to_CyclingStrategy2020-2040
+        type: NestedSwitching
+        strategy_ids: [3,0]
+        start_distribution: [0.45, 0.55]
+        end_distribution: [0.8,0.2]
+        strategy_switching_day: 100000000
+        switch_to_strategy_id: 3 
+    13:
+        name: AL-CyclingStrategy
+        type: NestedSwitching
+        strategy_ids: [9,0]
+        start_distribution: [1, 0]
+        end_distribution: [1, 0]
+        strategy_switching_day: 5110
+        switch_to_strategy_id: 12
+    14:
+        name: AL_to_AdaptiveCyclingStrategy2020-2040
+        type: NestedSwitching
+        strategy_ids: [4,0]
+        start_distribution: [0.45, 0.55]
+        end_distribution: [0.8,0.2]
+        strategy_switching_day: 100000000
+        switch_to_strategy_id: 4 
+    15:
+        name: AL-AdaptiveCycling
+        type: NestedSwitching
+        strategy_ids: [9,0]
+        start_distribution: [1, 0]
+        end_distribution: [1, 0]
+        strategy_switching_day: 5110
+        switch_to_strategy_id: 14 
+    16:
+        name: AL_to_MFTStrategy2020-2040
+        type: NestedSwitching
+        strategy_ids: [5,0]
+        start_distribution: [0.45, 0.55]
+        end_distribution: [0.8,0.2]
+        strategy_switching_day: 100000000
+        switch_to_strategy_id: 5 
+    17:
+        name: AL-MFTStrategy
+        type: NestedSwitching
+        strategy_ids: [9,0]
+        start_distribution: [1, 0]
+        end_distribution: [1, 0]
+        strategy_switching_day: 5110
+        switch_to_strategy_id: 16  
+    18:
+        name: AL_to_MFTRebalanceStrategy42020-2040
+        type: NestedSwitching
+        strategy_ids: [8,0]
+        start_distribution: [0.45, 0.55]
+        end_distribution: [0.8,0.2]
+        strategy_switching_day: 100000000
+        switch_to_strategy_id: 8 
+    19:
+        name: AL-MFTRebalanceStrategy4
+        type: NestedSwitching
+        strategy_ids: [9,0]
+        start_distribution: [1, 0]
+        end_distribution: [1, 0]
+        strategy_switching_day: 5110
+        switch_to_strategy_id: 18    
+    20:
+        name: DPM-SFTStrategy
+        type: SFT
+        therapy_id: 10
+    21:
+        name: AL-AQ-SFTStrategy
+        type: SFT
+        therapy_id: 11
+    22:
+        name: AL_to_DPM2020-2040
+        type: NestedSwitching
+        strategy_ids: [20,0]
+        start_distribution: [0.45, 0.55]
+        end_distribution: [0.8,0.2]
+        strategy_switching_day: 100000000
+        switch_to_strategy_id: 20
+    23:
+        name: AL-DPM
+        type: NestedSwitching
+        strategy_ids: [9,0]
+        start_distribution: [1, 0]
+        end_distribution: [1, 0]
+        strategy_switching_day: 5110
+        switch_to_strategy_id: 22 
+    24:
+        name: AL_to_ALAQ2020-2040
+        type: NestedSwitching
+        strategy_ids: [21,0]
+        start_distribution: [0.45, 0.55]
+        end_distribution: [0.8,0.2]
+        strategy_switching_day: 100000000
+        switch_to_strategy_id: 21
+    25:
+        name: AL-ASAQ
+        type: NestedSwitching
+        strategy_ids: [9,0]
+        start_distribution: [1, 0]
+        end_distribution: [1, 0]
+        strategy_switching_day: 5110
+        switch_to_strategy_id: 24 
+        
+        
+   
+#11,13,15,17,19,23,25        
 
-  SFTStrategy:
-    therapyID: [7]
+main_strategy_id: 11
 
-  # cycle three ACTs in and out every five years
-  CyclingStrategy:
-    therapyID: [9,8,7]
-    cycling_time: 1825
-    
-  # deploy three ACTs simultaneously
-  MFTStrategy:
-    therapyID: [5,6]
-    distribution: [0.5,0.5]
-
-  # cycle three ACTs in and out - switch between ACTs when the fraction of patients experiencing
-  # treatment failure get to the trigger value below
-  # there is a one-year delay until the actual switch is made in the field (delay_until_actual_trigger)
-  AdaptiveCyclingStrategy:
-    therapyID: [9,8,7]
-    trigger_value: 0.1
-    delay_until_actual_trigger: 365
-    turn_off_days: 365
-    
-    # deploy three ACTs simultaneously
-  ACTIncreaseStrategy:
-      # AL, SP, AQ, CQ
-      therapyID: [7,5,2,12]
-      start_distribution: [0.05, 0.31666,0.31666,0.31666]
-      end_distribution: [0.8,0.066666,0.066666,0.066667]
     
 
 # this number use to detemine whether a therapy is "useful" or not and it is used to calculate 
@@ -927,11 +1061,3 @@ using_age_dependent_bitting_level: false
 using_variable_probability_infectious_bites_cause_infection: false
 
 fraction_mosquitoes_interrupted_feeding: 0.0
-
-non_artemisinin_switching_day: -1
-non_art_therapy_id: 3
-fraction_non_art_replacement: 0.33333
-
-TACT_switching_day: 5110
-#TACT DHA-PPQ-MQ: 10 AL-AQ: 11
-TACT_id: 11

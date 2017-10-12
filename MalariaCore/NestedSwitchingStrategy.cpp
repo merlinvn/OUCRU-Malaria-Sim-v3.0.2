@@ -41,7 +41,7 @@ Therapy* NestedSwitchingStrategy::get_therapy() {
     for (int i = 0; i < distribution_.size(); i++) {
         sum += distribution_[i];
         if (P <= sum) {
-            return  strategy_list_[i]->get_therapy();
+            return strategy_list_[i]->get_therapy();
         }
     }
     return strategy_list_[strategy_list_.size() - 1]->get_therapy();
@@ -58,6 +58,10 @@ IStrategy::StrategyType NestedSwitchingStrategy::get_type() const {
 std::string NestedSwitchingStrategy::to_string() const {
     std::stringstream sstm;
     sstm << IStrategy::id << "-" << IStrategy::name << "-";
+
+    for (int i = 0; i < distribution_.size(); i++) {
+        sstm << distribution_[i] << "::";
+    }
     return sstm.str();
 }
 
@@ -65,6 +69,9 @@ void NestedSwitchingStrategy::update_end_of_time_step() {
     if (Model::SCHEDULER->current_time() == strategy_switching_day_) {
         //        std::cout << to_string() << std::endl;   
         strategy_list_[0] = Model::CONFIG->strategy_db()[switch_to_strategy_id_];
+        if (Model::CONFIG->strategy_db()[switch_to_strategy_id_]->get_type() == IStrategy::NestedSwitching) {
+            ((NestedSwitchingStrategy*) Model::CONFIG->strategy_db()[switch_to_strategy_id_])->adjustDisttribution(Model::SCHEDULER->current_time(), Model::CONFIG->total_time());
+        }
         //        std::cout << to_string() << std::endl;
     }
 
@@ -79,7 +86,6 @@ void NestedSwitchingStrategy::update_end_of_time_step() {
 }
 
 void NestedSwitchingStrategy::adjustDisttribution(int time, int totaltime) {
-
     double dACT = ((end_distribution_[0] - start_distribution_[0]) * time) / totaltime + start_distribution_[0];
 
     distribution_[0] = dACT;
@@ -87,6 +93,7 @@ void NestedSwitchingStrategy::adjustDisttribution(int time, int totaltime) {
     for (int i = 1; i < distribution_.size(); i++) {
         distribution_[i] = otherD;
     }
+//    std::cout << to_string() << std::endl;
 }
 
 void NestedSwitchingStrategy::initialize_update_time() {
