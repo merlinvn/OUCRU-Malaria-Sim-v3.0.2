@@ -622,7 +622,7 @@ TherapyInfo:
   #mono as
   0:    
     drug_id: [0]
-    dosing_days: 3
+    dosing_days: 5
   #mono Lumefaltrine
   1:
     drug_id: [1]
