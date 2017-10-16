@@ -23,7 +23,6 @@
 #include "ImmuneSystem.h"
 #include "IndividualsFileReporter.h"
 #include <string>
-#include "Strategy.h"
 #include "SCTherapy.h"
 
 using namespace std;
@@ -37,8 +36,7 @@ void Usage(ez::ezOptionParser& opt) {
 };
 
 std::string individuals_output_file = "individuals.txt";
-int genotype_id = 0;
-int dosing_day = 3;
+int genotype_id = 52;
 
 /*
  * 
@@ -59,48 +57,19 @@ int main(int argc, const char * argv[]) {
     //infect all individual and schedule progress to clinical at day 0
     //    IntGenotype* genotype = Model::CONFIG->genotype_db()->get(12);
     IntGenotype* genotype = Model::CONFIG->genotype_db()->get(genotype_id);
-
-    for (int i = 0; i < Model::CONFIG->strategy()->therapy_list().size(); i++) {
-        SCTherapy* scTherapy = dynamic_cast<SCTherapy*> (Model::CONFIG->strategy()->therapy_list()[i]);
-        if (scTherapy != NULL) {
-            scTherapy->set_dosing_day(dosing_day);
-        }
-    }
-
-    //    std::cout << Model::CONFIG->drug_db()->get(1)->get_parasite_killing_rate_by_concentration(1, genotype) << std::endl;
-    //    std::cout << Model::CONFIG->drug_db()->get(2)->get_parasite_killing_rate_by_concentration(1, genotype) << std::endl;
-    //    std::cout << Model::CONFIG->drug_db()->get(3)->get_parasite_killing_rate_by_concentration(1, genotype) << std::endl;
-    //
-    //    std::cout << Model::CONFIG->drug_db()->get(1)->get_parasite_killing_rate_by_concentration(0.9, genotype) << std::endl;
-    //    std::cout << Model::CONFIG->drug_db()->get(2)->get_parasite_killing_rate_by_concentration(0.9, genotype) << std::endl;
-    //    std::cout << Model::CONFIG->drug_db()->get(3)->get_parasite_killing_rate_by_concentration(0.9, genotype) << std::endl;
-    //
-    //    std::cout << Model::CONFIG->drug_db()->get(1)->get_parasite_killing_rate_by_concentration(0.8, genotype) << std::endl;
-    //    std::cout << Model::CONFIG->drug_db()->get(2)->get_parasite_killing_rate_by_concentration(0.8, genotype) << std::endl;
-    //    std::cout << Model::CONFIG->drug_db()->get(3)->get_parasite_killing_rate_by_concentration(0.8, genotype) << std::endl;
-    // 
-    //    std::cout << Model::CONFIG->drug_db()->get(1)->get_parasite_killing_rate_by_concentration(0.7, genotype) << std::endl;
-    //    std::cout << Model::CONFIG->drug_db()->get(2)->get_parasite_killing_rate_by_concentration(0.7, genotype) << std::endl;
-    //    std::cout << Model::CONFIG->drug_db()->get(3)->get_parasite_killing_rate_by_concentration(0.7, genotype) << std::endl;
-
-    //    double density = Model::CONFIG->log_parasite_density_level().log_parasite_density_clinical;
+  
 
     BOOST_FOREACH(Person* person, Model::POPULATION->all_persons()->vPerson()) {
         double density = Model::RANDOM->random_uniform_double(Model::CONFIG->log_parasite_density_level().log_parasite_density_clinical_from, Model::CONFIG->log_parasite_density_level().log_parasite_density_clinical_to);
         ClonalParasitePopulation* blood_parasite = person->add_new_parasite_to_blood(genotype);
-        //        BloodParasite* blood_parasite1 = person->add_new_parasite_to_blood(genotype);
-        //        BloodParasite* blood_parasite2 = person->add_new_parasite_to_blood(genotype);
         person->immune_system()->set_increase(true);
         person->set_host_state(Person::EXPOSED);
 //            std::cout << "hello"<< std::endl;
         blood_parasite->set_gametocyte_level(Model::CONFIG->gametocyte_level_full());
         blood_parasite->set_last_update_log10_parasite_density(density);
-        //        blood_parasite1->set_last_update_log10_parasite_density(density);
-        //        blood_parasite2->set_last_update_log10_parasite_density(density);
 
         ProgressToClinicalEvent::schedule_event(Model::SCHEDULER, person, blood_parasite, 1);
     }
-
 
 
     m->run();
@@ -232,7 +201,5 @@ void handle_option_parser(Model* m, int argc, const char * argv[]) {
     if (opt.isSet("-genotype_id")) {
         opt.get("-genotype_id")->getInt(genotype_id);
     }
-    if (opt.isSet("-dosing_day")) {
-        opt.get("-dosing_day")->getInt(dosing_day);
-    }
+
 }

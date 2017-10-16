@@ -60,8 +60,9 @@
           <runcommandpicklistitem>"${OUTPUT_PATH}"</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" -i basic_config.yml</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" -i sample_input_file.yml</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -i input_TACT.yml</runcommandpicklistitem>
         </runcommandpicklist>
-        <runcommand>"${OUTPUT_PATH}" -i sample_input_file.yml</runcommand>
+        <runcommand>"${OUTPUT_PATH}" -i input_TACT.yml</runcommand>
         <rundir></rundir>
         <buildfirst>true</buildfirst>
         <console-type>2</console-type>

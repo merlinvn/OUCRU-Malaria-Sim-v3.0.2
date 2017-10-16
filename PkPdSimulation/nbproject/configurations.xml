@@ -42,6 +42,7 @@
     </logicalFolder>
     <itemPath>basic_config.yml</itemPath>
     <itemPath>ezOptionParser.hpp</itemPath>
+    <itemPath>input_TACT.yml</itemPath>
     <itemPath>sample_input_file.yml</itemPath>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
@@ -65,6 +66,8 @@
       <item path="basic_config.yml" ex="false" tool="3" flavor2="0">
       </item>
       <item path="ezOptionParser.hpp" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="input_TACT.yml" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -122,6 +125,8 @@
       <item path="basic_config.yml" ex="false" tool="3" flavor2="0">
       </item>
       <item path="ezOptionParser.hpp" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="input_TACT.yml" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>

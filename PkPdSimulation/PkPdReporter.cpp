@@ -118,5 +118,6 @@ void PkPdReporter::after_run() {
     Model::DATA_COLLECTOR->update_after_run();
 
     std::cout << Model::DATA_COLLECTOR->current_TF_by_location()[0]<< std::endl;
+    std::cout << 1- Model::DATA_COLLECTOR->current_TF_by_location()[0]<< std::endl;
 //    std::cout << Model::STATISTIC->total_number_of_treatments_60_by_location()[0][1] << std::endl;
 }
