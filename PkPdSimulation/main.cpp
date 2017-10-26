@@ -36,7 +36,7 @@ void Usage(ez::ezOptionParser& opt) {
 };
 
 std::string individuals_output_file = "individuals.txt";
-int genotype_id = 52;
+int genotype_id = 0;
 
 /*
  * 

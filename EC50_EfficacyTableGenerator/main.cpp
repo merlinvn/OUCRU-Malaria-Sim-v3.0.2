@@ -21,8 +21,9 @@
 #include "PkPdReporter.h"
 #include "IndividualsFileReporter.h"
 #include "SCTherapy.h"
-#include "Strategy.h"
 #include "PersonIndexAll.h"
+#include "IStrategy.h"
+#include "SFTStrategy.h"
 #include "ImmuneSystem.h"
 #include "ProgressToClinicalEvent.h"
 #include "ModelDataCollector.h"
@@ -31,7 +32,7 @@ using namespace std;
 
 double getEfficacyForTherapy(IntGenotype* g, int therapy_id, double inferEC50[], Model* m);
 
-typedef std::tuple<int, int, double, double> EF50Key;
+typedef std::tuple<int, int, int, double, double, double> EF50Key;
 typedef std::map<EF50Key, double> efficacy_map;
 
 efficacy_map precalculate_efficacies;
@@ -67,7 +68,7 @@ int main(int argc, char** argv) {
         //    auto g = Model::CONFIG->genotype_db()->db()[0];
         std::cout << *(g) << "\t";
         //        auto max_therapy_id = Model::CONFIG->therapy_db().size()-1;
-        auto max_therapy_id = 8;
+        auto max_therapy_id = 0;
         auto min_therapy_id = 0;
         if (argc == 3) {
             min_therapy_id = atoi(argv[1]);
@@ -77,17 +78,23 @@ int main(int argc, char** argv) {
         for (int therapy_id = min_therapy_id; therapy_id <= max_therapy_id; therapy_id++) {
 
             SCTherapy* therapy = dynamic_cast<SCTherapy*> (Model::CONFIG->therapy_db()[therapy_id]);
-            double inferEC50[2];
+            double inferEC50[3];
 
             // print out efficacy
             EF50Key key;
-            if (therapy->drug_ids().size() > 1) {
-                key = std::make_tuple(therapy->drug_ids()[0], therapy->drug_ids()[1], EC50_table[g->genotype_id()][therapy->drug_ids()[0]], EC50_table[g->genotype_id()][therapy->drug_ids()[1]]);
+            if (therapy->drug_ids().size() == 3) {
+                key = std::make_tuple(therapy->drug_ids()[0], therapy->drug_ids()[1], therapy->drug_ids()[1], EC50_table[g->genotype_id()][therapy->drug_ids()[0]], EC50_table[g->genotype_id()][therapy->drug_ids()[1]], EC50_table[g->genotype_id()][therapy->drug_ids()[2]]);
+                inferEC50[0] = EC50_table[g->genotype_id()][therapy->drug_ids()[0]];
+                inferEC50[1] = EC50_table[g->genotype_id()][therapy->drug_ids()[1]];
+                inferEC50[2] = EC50_table[g->genotype_id()][therapy->drug_ids()[2]];
+                //                std::cout << inferEC50[0] << "\t" << inferEC50[1] << "\t";
+            } else if (therapy->drug_ids().size() == 2) {
+                key = std::make_tuple(therapy->drug_ids()[0], therapy->drug_ids()[1], -1, EC50_table[g->genotype_id()][therapy->drug_ids()[0]], EC50_table[g->genotype_id()][therapy->drug_ids()[1]], -1);
                 inferEC50[0] = EC50_table[g->genotype_id()][therapy->drug_ids()[0]];
                 inferEC50[1] = EC50_table[g->genotype_id()][therapy->drug_ids()[1]];
                 //                std::cout << inferEC50[0] << "\t" << inferEC50[1] << "\t";
             } else {
-                key = std::make_tuple(therapy->drug_ids()[0], -1, EC50_table[g->genotype_id()][therapy->drug_ids()[0]], -1);
+                key = std::make_tuple(therapy->drug_ids()[0], -1, -1, EC50_table[g->genotype_id()][therapy->drug_ids()[0]], -1, -1);
                 inferEC50[0] = EC50_table[g->genotype_id()][therapy->drug_ids()[0]];
                 //                std::cout << inferEC50[0] << "\t";
             }
@@ -114,8 +121,8 @@ double getEfficacyForTherapy(IntGenotype* g, int therapy_id, double inferEC50[],
 
 
     SCTherapy* scTherapy = dynamic_cast<SCTherapy*> (Model::CONFIG->therapy_db()[therapy_id]);
-    Model::CONFIG->strategy()->therapy_list().clear();
-    Model::CONFIG->strategy()->therapy_list().push_back(scTherapy);
+    ((SFTStrategy*) Model::CONFIG->strategy())->get_therapy_list().clear();
+    ((SFTStrategy*) Model::CONFIG->strategy())->add_therapy(scTherapy);
 
     for (int i = 0; i < scTherapy->drug_ids().size(); i++) {
         //re-config EC50 table for genotype id and drug_id
@@ -151,12 +158,19 @@ double getEfficacyForTherapy(IntGenotype* g, int therapy_id, double inferEC50[],
     m->run();
     double result = 1 - Model::DATA_COLLECTOR->current_TF_by_location()[0];
 
+
     //reset
+
     delete Model::POPULATION;
+    delete Model::SCHEDULER;
     m->set_population(new Population(m));
     Model::POPULATION = m->population();
+    m->set_scheduler(new Scheduler(m));
+    Model::SCHEDULER = m->scheduler();
+
+    m->scheduler()->initialize(Model::CONFIG->total_time() + 2000);
     m->population()->initialize();
-    Model::SCHEDULER->set_current_time(0);
+
     //    cout << "hello" << endl;
 
     return result;

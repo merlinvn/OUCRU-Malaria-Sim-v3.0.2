@@ -688,7 +688,7 @@ StrategyInfo:
     1:
         name: AL-SFTStrategy
         type: SFT
-        therapy_id: 6
+        therapy_id: 10
     2:
         name: ASAQ-SFTStrategy
         type: SFT

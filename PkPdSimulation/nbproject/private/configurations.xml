@@ -57,10 +57,16 @@
       </nativedebugger>
       <runprofile version="9">
         <runcommandpicklist>
-          <runcommandpicklistitem>"${OUTPUT_PATH}"</runcommandpicklistitem>
-          <runcommandpicklistitem>"${OUTPUT_PATH}" -i basic_config.yml</runcommandpicklistitem>
-          <runcommandpicklistitem>"${OUTPUT_PATH}" -i sample_input_file.yml</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" -i input_TACT.yml</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -i input_TACT.yml -genotype_id 127</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -i input_TACT.yml -genotype_id 72</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -i input_TACT.yml -genotype_id 64</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -i input_TACT.yml -genotype_id 52</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -i input_TACT.yml -genotype_id 6</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -i input_TACT.yml -genotype_id 2</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -i input_TACT.yml -genotype_id 0</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -i input_TACT.yml -genotype_id 63</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -i input_TACT.yml </runcommandpicklistitem>
         </runcommandpicklist>
         <runcommand>"${OUTPUT_PATH}" -i input_TACT.yml</runcommand>
         <rundir></rundir>
