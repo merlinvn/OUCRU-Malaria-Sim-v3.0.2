@@ -48,7 +48,7 @@ or
   
 `apt-get install libboost-dev`
   
-depending on what permissions you have on your system.  If the above doesn't work for some reason, try installing "libboost-all-dev".
+depending on what permissions you have on your system.  If the above doesn't work for some reason, try installing `libboost-all-dev`.
 
 On Mac, you can install the BOOST libraries with HomeBrew.
 
@@ -113,52 +113,26 @@ and this should display some messages to the console telling you how the executa
 #### ::::::::::
 
 
-7. If you're a this stage, you're in luck.  Everything should work.
+#### 7. If you're a this stage, you're in luck.  Everything should work.
 
-  go into the MalariaSimulation folder (off of the root folder) and choose one of the .yml files.  These are input files that contain all of the simulation's parameters.
+Go into the MalariaSimulation folder (off of the root folder) and choose one of the .yml files.  These are input files that contain all of the simulation's parameters.
   
-  copy your chosen input file into the same folder as the "MaSim" executable.
+Copy your chosen input file into the same folder as the `MaSim` executable.
   
-  type
-
-
-
-6
-
-  ./dist/Release/GNU-Linux-x86/malariasimulation
-  
-and this will show you a list of usage modes.
-
 Type
 
-  ./dist/Release/GNU-Linux-x86/malariasimulation -c sample_input_file.yml 
-  
-to run the simulation with the sample input set of parameters provided.  This runs the simulation for two years (after a burn-in stage of 11 years) on a population of 100,000 individuals.  This should take between 1 and 4 minutes, depending on your hardware.
+`./MaSim -c input_file.yml > output.txt`
 
-Note that many of the variables are not reported during the burn-in stage (first 4000 days) when the dynamics settle to an endemic equilibrium.  The first line of the output is the random number seed, and the last line is a list of summary statistics.  The remainder of the output is divided into these twenty columns.
+And this will write the output of the simulation to the file output.txt.
 
-1. 	time (day)
-2. 	days of Artemisinin Monotherapy Use (AMU) - note that this can be a non-integer; see supplementary materials in 2015 LGH paper
-3. 	Number of Treatment Failures (NTF) - discounted
-4. 	NTF - non-discounted
-5. 	NTF over the last 30 days - discounted
-6. 	Clinical episodes over the last 30 days
-7. 	Number of drug-resistance mutation events that occured in the last 30 days
-8.  	fraction of clonal parasite populations that have exactly one resistance mutation
-9.	fraction of clonal parasite populations that have exactly two resistance mutations
-10.	fraction of clonal parasite populations that have exactly three resistance mutations
-11.	fraction of clonal parasite populations that have exactly four resistance mutations
-12.	fraction of clonal parasite populations that have the artemisinin resistance mutation
-13.	"total resistance" - a number between zero and one that gives you the probability that a parasite population will be resistant to an individual drug, if the parasite population and the drug are chosen randomly (see supplementary appendix to 2015 LGH paper)
+The first line of the output is the random number seed, and the last line is a list of summary statistics.  You should delete these lines if you plan on using this file for plot trajectories.
 
-14.	Placeholder text
+Column 1 in the output is the day of the simulation.  By default, output is recorded every 30 days.
 
-15.	Blood-slide prevalence, across all ages
-16.	Blood-slide prevalence, 2-10 age group
-17.	Blood-slide prevalence, 10-15 age group
-18.	Blood-slide prevalence, 15-45 age group
+Some columns show `-1111`.  These are divider columns.
 
-19.	EIR over the past 365 days (this will be zero for the first year of the simulation)
-20.	Multiplicity of Infection (MOI) - this is the mean MOI over infected hosts
+After the first divider column, you will have two easy-to-plot columns: the blood-slide prevalence (percentage of the population, across all age groups, that are blood-slide positive for malaria) and the treatment failure rate (the fraction of all individuals over the past 60 days that have been recorded as a "treatment failure" 28 days after being treated for malaria).
+
+
 
 
