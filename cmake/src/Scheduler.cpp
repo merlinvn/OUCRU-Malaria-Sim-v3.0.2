@@ -76,7 +76,7 @@ void Scheduler::schedule(Event* event) {
     //1. Compare current time with event time
     //2. Event time cannot exceed total time or less than and equal to current time
     if (event->time() > total_time_ || event->time() <= current_time_) {
-        std::cout << "Error to schedule event " << std::endl;
+        std::cout << "Error to schedule event " << event->name() << " at " << event->time() << "with current_time: " << current_time_ << std::endl;
         DeletePointer<Event>(event);
     } else {
         timed_events_list_[event->time()].push_back(event);
@@ -124,7 +124,7 @@ void Scheduler::end_time_step() {
 
     Model::POPULATION->perform_birth_event();
     Model::POPULATION->perform_death_event();
-//    Model::EXTERNAL_POPULATION->perform_death_event();
+    //    Model::EXTERNAL_POPULATION->perform_death_event();
     ///for safety remove all dead by calling perform_death_event
     //    Model::POPULATION->perform_circulation_event();
 

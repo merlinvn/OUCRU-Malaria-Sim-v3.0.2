@@ -26,17 +26,19 @@ void CyclingStrategy::add_therapy(Therapy* therapy) {
     therapy_list_.push_back(therapy);
 }
 
-
 void CyclingStrategy::switch_therapy() {
     //    std::cout << "Switch from: " << index_ << "\t - to: " << index_ + 1;
     index_++;
     index_ %= therapy_list().size();
     Model::DATA_COLLECTOR->update_UTL_vector();
+
+    next_switching_day_ = Model::SCHEDULER->current_time() + cycling_time_;
 }
 
 Therapy* CyclingStrategy::get_therapy() {
 
     //int index = ((Global::scheduler->currentTime - Global::startTreatmentDay) / circleTime) % therapyList.size();
+    //    std::cout << therapy_list()[index_]->id() << std::endl;
     return therapy_list()[index_];
 }
 
@@ -56,9 +58,11 @@ IStrategy::StrategyType CyclingStrategy::get_type() const {
 
 void CyclingStrategy::update_end_of_time_step() {
 
-    if (Model::SCHEDULER->current_time() > Model::CONFIG->start_treatment_day()) {
-        if (((Model::SCHEDULER->current_time() - Model::CONFIG->start_treatment_day()) % cycling_time_) == 0) {
+    if (Model::SCHEDULER->current_time() >= Model::CONFIG->start_treatment_day()) {
+
+        if (Model::SCHEDULER->current_time() == next_switching_day_) {
             switch_therapy();
+            //            std::cout << to_string() << std::endl;
         }
     }
 

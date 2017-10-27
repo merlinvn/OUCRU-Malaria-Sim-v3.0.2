@@ -16,6 +16,7 @@ class CyclingStrategy : public IStrategy {
     VIRTUAL_PROPERTY_REF(std::vector<Therapy*>, therapy_list)
     VIRTUAL_PROPERTY_REF(int, index)
     VIRTUAL_PROPERTY_REF(int, cycling_time)
+    VIRTUAL_PROPERTY_REF(int, next_switching_day)
 
 public:
     CyclingStrategy();

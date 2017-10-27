@@ -88,7 +88,7 @@ ObjectPool<T>::ObjectPool(const size_t& size /*= EXPANSION_SIZE*/) {
 template <class T>
 ObjectPool<T>::~ObjectPool(void) {
     // std::cout << typeid (T).name() << "\tall: " << allObjects.size() * expansionSize << "\tfree: " << freeList.size() << std::endl;
-    
+
     if (allObjects.size() * expansionSize != freeList.size()) {
         std::cout << typeid (T).name() << "\tall: " << allObjects.size() * expansionSize << "\tfree: " << freeList.size() << std::endl;
         assert(false);
@@ -96,10 +96,10 @@ ObjectPool<T>::~ObjectPool(void) {
 
     // TODO: Investigate why? Infant and NonInfantImmune delete segmentation dump
 
-    // for (int i = 0; i < (int) allObjects.size(); i++) {
-    //     std::cout<< typeid (T).name() << ": delete " << i << "-" << allObjects.size() << std::endl;
-    //     delete[] allObjects[i];
-    // }
+    for (int i = 0; i < (int) allObjects.size(); i++) {
+//        std::cout << typeid (T).name() << ": delete " << i << "-" << allObjects.size() << std::endl;
+        delete[] allObjects[i];
+    }
 
     //for_each(allObjects.begin(), allObjects.end(), ArrayDeleteObject); 
 }
@@ -119,8 +119,8 @@ T* ObjectPool<T>::Alloc() {
 
 template <class T>
 void ObjectPool<T>::Free(T * someElement) {
-    if(someElement == NULL){
-        std::cout<< typeid (T).name() << " Free failed!!!"  << std::endl;
+    if (someElement == NULL) {
+        std::cout << typeid (T).name() << " Free failed!!!" << std::endl;
         assert(false);
     }
 

@@ -31,7 +31,7 @@ public:
         ACTIncreaseOvertime = 4,
         NovelNonACTSwitching = 5,
         TACTSwitching = 6,
-        SmartMFT = 7,
+        MFTRebalancing = 7,
         NestedSwitching = 8
     };
     static std::map<std::string, StrategyType> StrategyTypeMap;

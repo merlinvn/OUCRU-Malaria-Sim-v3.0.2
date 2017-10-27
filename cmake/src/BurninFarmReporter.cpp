@@ -153,17 +153,6 @@ void BurninFarmReporter::output_parameters() {
     //output strategy information
     std::cout << Model::CONFIG->strategy()->id << "\t";
 
-    //    for (int i = 0; i < Model::CONFIG->strategy()->get_therapy_list().size(); i++) {
-    //        std::cout << Model::CONFIG->strategy()->get_therapy_list()[i]->id() << "\t";
-    //    }
-    //
-    //    if (dynamic_cast<MFTStrategy*> (Model::CONFIG->strategy()) != NULL) {
-    //        MFTStrategy* mft = dynamic_cast<MFTStrategy*> (Model::CONFIG->strategy());
-    //        for (int i = 0; i < mft->distribution().size(); i++) {
-    //            std::cout << mft->distribution()[i] << "\t";
-    //        }
-    //    }
-
 }
 
 void BurninFarmReporter::print_ntf_by_location() {
