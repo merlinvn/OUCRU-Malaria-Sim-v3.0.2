@@ -76,13 +76,16 @@ and use HomeBrew on Mac.
 
 and use HomeBrew on Mac.
 
-#### 6.  You should now be able to build the executable with the following steps
+##### 6.  You should now be able to build the executable with the following steps
 
 6a. After you have cloned or downloaded the source code repository, in the main root folder type
 
   `cd cmake
+  
   mkdir build
+  
   cd build
+  
   cmake ..`
   
 and this should generate the makefiles that you will need for compilation
@@ -96,6 +99,7 @@ You can substitute `-j 2` or `-j 3` above if you want to use more than one proce
 6c. Now type
 
   `cd bin
+  
   ./MaSim`
   
 and this should display some messages to the console telling you how the executable file `MaSim` should be used and what options you can place on the command line.
