@@ -14,7 +14,7 @@ To see newer versions of the simulation, click on the 'Braches' button on the ma
 
 POMS is an individual-based microsimulation of malaria transmission developed in C++.  The folders MalariaCore and MalariaSimulation contain the source code and input files that are needed to compile and run the simulation.  The simulation was designed to compare multiple different ways of distributing antimalarial drugs in a human population.
 
-##### Most recent update to this file - Oct 27 2017
+#### Most recent update to this file - Oct 27 2017
 
 The most recent version of the simulation includes transmission between hosts (without explicit implementation of mosquitoes), within-host parasite development, explicit modeling of parasite density and its effects on transmission, multi-clonal infections in hosts, basic pharmacokinetics, basic pharmacodynamics, mutation to multiple types of drug-resistant genotypes, symptomatic and asymptomatic infection, age-dependent immune acquisition, variation in host biting rates (without explicit implementation of mosquitoes), and multiple types of population-level drug deployment strategies. 
 
@@ -22,21 +22,21 @@ Below, you will find instructions for compiling and running the simulation.  Ple
 
 
 
-##### ::::::::::
+#### ::::::::::
 
 ### COMPILING
 
-##### ::::::::::
+#### ::::::::::
 
 
 
 The simulation uses a the cmake library to create make files for Linux, Mac, and Windows.  The instructions below are for Linux compilation and you will need to adjust some things for Windows or Mac compiling.
 
-##### 1. C++ compiler
+#### 1. C++ compiler
 
 You need to have a C++ compiler installed.  We recommend the GNU g++ compiler.
 
-##### 2. Install BOOST libraries
+#### 2. Install BOOST libraries
 
 You will need to install the BOOST libraries (www.boost.org).  We used version 1.57 of the BOOST libraries for development, but there should not be any compatibility issues with future versions.  Please let us know if you find any.
 
@@ -52,7 +52,7 @@ depending on what permissions you have on your system.  If the above doesn't wor
 
 On Mac, you can install the BOOST libraries with HomeBrew.
 
-##### 3. Install YAML library 
+#### 3. Install YAML library 
 
 You will need to install the YAML markup language library
 
@@ -62,7 +62,7 @@ On Linux,
   
 And on Mac use HomeBrew.
 
-##### 4. Install GSL library 
+#### 4. Install GSL library 
 
 You will need to install the GSL library (www.gnu.org/software/gsl/).  Again, for Linux:
 
@@ -70,13 +70,13 @@ You will need to install the GSL library (www.gnu.org/software/gsl/).  Again, fo
 
 and use HomeBrew on Mac.
 
-##### 5.  Install cmake Library
+#### 5.  Install cmake Library
 
 `sudo apt-get install cmake`
 
 and use HomeBrew on Mac.
 
-##### 6.  You should now be able to build the executable with the following steps
+#### 6.  You should now be able to build the executable with the following steps
 
 **6a.** After you have cloned or downloaded the source code repository, in the main root folder type
 
@@ -96,23 +96,21 @@ and this should generate the makefiles that you will need for compilation
 
 You can substitute `-j 2` or `-j 3` above if you want to use more than one processor for building the project.  The build should just take a few minutes.  Hopefully, you will not see any error messages.
 
-6c. Now type
+**6c.** Now type
 
-  `cd bin
+  `cd bin`
   
-  ./MaSim`
+  `./MaSim`
   
 and this should display some messages to the console telling you how the executable file `MaSim` should be used and what options you can place on the command line.
 
 
 
+#### ::::::::::
 
+### RUNNING
 
-::::::::::
-
-RUNNING
-
-::::::::::
+#### ::::::::::
 
 
 7. If you're a this stage, you're in luck.  Everything should work.
