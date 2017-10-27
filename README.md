@@ -2,13 +2,13 @@
 
 "OUCRU Malaria Sim" is an individual-based microsimulation of malaria transmission developed in C++.  The folders MalariaCore and MalariaSimulation contain the source code and input files that are needed to compile and run the simulation.  The simulation was designed to compare multiple different ways of distributing antimalarial drugs in a human population.
 
-This version of the simulation includes transmission between hosts (without explicit implementation of mosquitoes), within-host parasite development, explicit modeling of parasite density and its effects on transmission, multi-clonal infections in hosts, pharmacokinetics, pharmacodynamics, mutation to multiple types of drug-resistant genotypes, symptomatic and asymptomatic infection, age-dependent immune acquisition, variation in host biting rates (without explicit implementation of mosquitoes), and multiple types of population-level drug deployment strategies. 
+This version of the simulation includes transmission between hosts (without explicit implementation of mosquitoes), within-host parasite development, explicit modeling of parasite density and its effects on transmission, multi-clonal infections in hosts, basic pharmacokinetics, basic pharmacodynamics, mutation to multiple types of drug-resistant genotypes, symptomatic and asymptomatic infection, age-dependent immune acquisition, variation in host biting rates (without explicit implementation of mosquitoes), and multiple types of population-level drug deployment strategies. 
 
 This version of the simulation was used to generate the results published in 
 
    Optimal population‐level deployment of artemisinin combination therapies.
    Nguyen TD, Olliaro P, Dondorp AM, Baird JK, Lam HM, Farrar J, Thwaites GE, White NJ, Boni MF.
-   Lancet Global Heath, in press, 2015.
+   Lancet Global Heath, 3(12)-e758-e766, 2015.
    
 In the individual Figure folders in this repository you will find the raw simulation outputs that were used to generate the figures in this paper.
 
@@ -22,18 +22,21 @@ COMPILING
 ::::::::::
 
 
-The simulation will only run on Mac and Linux/Unix systems.  
+The simulation uses a the cmake library to create make files for Linux, Mac, and Windows.  The instructions below are for Linux compilation and you will need to adjust some things for Windows or Mac compiling.
 
-1. You need to have the system c++ compiler installed.  We recommend the GNU g++ compiler.
+1. You need to have the system C++ compiler installed.  We recommend the GNU g++ compiler.
 
 2. You will need to install the BOOST libraries (www.boost.org).  We used version 1.57 of the BOOST libraries for development, but there should not be any compatibility issues with future versions.  Please let us know if you find any.
 
 On Linux, if you have the apt tool insalled (Ubuntu has this by default), you can install BOOST by 
  
   sudo apt-get install libboost-dev
+  
+  or
+  
   apt-get install libboost-dev
   
-depending on what permissions you have on your system.
+depending on what permissions you have on your system.  If the above doesn't work for some reason, try installing "libboost-all-dev".
 
 On Mac, you can install the BOOST libraries with HomeBrew.
 
@@ -47,20 +50,43 @@ And on Mac use HomeBrew,
 
 4.  You will need to install the GSL library (www.gnu.org/software/gsl/).  Again, for Linux:
 
-  sudo apt-get install libgsl0-dev
+  sudo apt-get install libgsl-dev
+
+and use HomeBrew on Mac.
+
+5.  You will need to install the cmake library.  Again, for Linux:
+
+  sudo apt-get install cmake
 
 and use HomeBrew on Mac.
 
 
-5.  You should now be able to build the executable by navigating to the 'MalariaSimulation' directory with
+6.  You should now be able to build the executable with the following steps
 
-  cd MalariaSimulation
-  
-and typing
+6a. After you have cloned or downloaded the source code repository, in the main root folder type
 
-  make -j 1 CONF=Release
+
+  cd cmake
+  mkdir build
+  cd build
+  cmake ..
   
-which is a case sensitive command.  You can substitute "-j 2" or "-j 3" above if you want to use more than one processor for building the project.  The build should just take a few minutes.
+and this should generate the makefiles that you will need for compilation
+
+6b. Now type
+
+  make -j 1
+
+You can substitute "-j 2" or "-j 3" above if you want to use more than one processor for building the project.  The build should just take a few minutes.  Hopefully, you will not see any error messages.
+
+6c. Now type
+
+  cd bin
+  ./MaSim
+  
+and this should display some messages to the console telling you how the executable file "MaSim" should be used and what options you can place on the command line.
+
+
 
 
 
@@ -71,7 +97,17 @@ RUNNING
 ::::::::::
 
 
-6.  To check if the simulation compiled correctly, type
+7. If you're a this stage, you're in luck.  Everything should work.
+
+  go into the MalariaSimulation folder (off of the root folder) and choose one of the .yml files.  These are input files that contain all of the simulation's parameters.
+  
+  copy your chosen input file into the same folder as the "MaSim" executable.
+  
+  type
+
+
+
+6
 
   ./dist/Release/GNU-Linux-x86/malariasimulation
   
