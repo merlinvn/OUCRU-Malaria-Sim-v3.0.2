@@ -113,7 +113,7 @@ and this should display some messages to the console telling you how the executa
 #### ::::::::::
 
 
-#### 7. If you're a this stage, you're in luck.  Everything should work.
+#### 7. If you're at this stage, you're in luck.  Everything should work.
 
 Go into the MalariaSimulation folder (off of the root folder) and choose one of the .yml files.  These are input files that contain all of the simulation's parameters.
   
@@ -123,9 +123,9 @@ Type
 
 `./MaSim -c input_file.yml > output.txt`
 
-And this will write the output of the simulation to the file output.txt.
+And this will write the output of the simulation to the file `output.txt`.
 
-The first line of the output is the random number seed, and the last line is a list of summary statistics.  You should delete these lines if you plan on using this file for plot trajectories.
+The first line of the output is the random number seed, and the last line is a list of summary statistics.  You should delete these lines if you plan on using this file to plot trajectories.
 
 Column 1 in the output is the day of the simulation.  By default, output is recorded every 30 days.
 
@@ -133,6 +133,6 @@ Some columns show `-1111`.  These are divider columns.
 
 After the first divider column, you will have two easy-to-plot columns: the blood-slide prevalence (percentage of the population, across all age groups, that are blood-slide positive for malaria) and the treatment failure rate (the fraction of all individuals over the past 60 days that have been recorded as a "treatment failure" 28 days after being treated for malaria).
 
-
+We will be updating many branches over the next few months.  Please contact us if you are using any of these versions and need help with the output, compilation, or anything else.
 
 
