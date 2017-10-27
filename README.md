@@ -42,11 +42,11 @@ You will need to install the BOOST libraries (www.boost.org).  We used version 1
 
 On Linux, if you have the apt tool insalled (Ubuntu has this by default), you can install BOOST by 
  
-> sudo apt-get install libboost-dev
+`sudo apt-get install libboost-dev`
   
 or
   
-> apt-get install libboost-dev
+`apt-get install libboost-dev`
   
 depending on what permissions you have on your system.  If the above doesn't work for some reason, try installing "libboost-all-dev".
 
