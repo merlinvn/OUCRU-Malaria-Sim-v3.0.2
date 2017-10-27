@@ -52,51 +52,53 @@ depending on what permissions you have on your system.  If the above doesn't wor
 
 On Mac, you can install the BOOST libraries with HomeBrew.
 
-3.  You will need to install the YAML markup language library
+##### 3. Install YAML library 
+
+You will need to install the YAML markup language library
 
 On Linux,
 
-  sudo apt-get install libyaml-cpp-dev
+`sudo apt-get install libyaml-cpp-dev`
   
-And on Mac use HomeBrew,
+And on Mac use HomeBrew.
 
-4.  You will need to install the GSL library (www.gnu.org/software/gsl/).  Again, for Linux:
+##### 4. Install GSL library 
 
-  sudo apt-get install libgsl-dev
+You will need to install the GSL library (www.gnu.org/software/gsl/).  Again, for Linux:
 
-and use HomeBrew on Mac.
-
-5.  You will need to install the cmake library.  Again, for Linux:
-
-  sudo apt-get install cmake
+`sudo apt-get install libgsl-dev`
 
 and use HomeBrew on Mac.
 
+##### 5.  Install cmake Library
 
-6.  You should now be able to build the executable with the following steps
+`sudo apt-get install cmake`
+
+and use HomeBrew on Mac.
+
+#### 6.  You should now be able to build the executable with the following steps
 
 6a. After you have cloned or downloaded the source code repository, in the main root folder type
 
-
-  cd cmake
+  `cd cmake
   mkdir build
   cd build
-  cmake ..
+  cmake ..`
   
 and this should generate the makefiles that you will need for compilation
 
 6b. Now type
 
-  make -j 1
+`make -j 1`
 
-You can substitute "-j 2" or "-j 3" above if you want to use more than one processor for building the project.  The build should just take a few minutes.  Hopefully, you will not see any error messages.
+You can substitute `-j 2` or `-j 3` above if you want to use more than one processor for building the project.  The build should just take a few minutes.  Hopefully, you will not see any error messages.
 
 6c. Now type
 
-  cd bin
-  ./MaSim
+  `cd bin
+  ./MaSim`
   
-and this should display some messages to the console telling you how the executable file "MaSim" should be used and what options you can place on the command line.
+and this should display some messages to the console telling you how the executable file `MaSim` should be used and what options you can place on the command line.
 
 
 
