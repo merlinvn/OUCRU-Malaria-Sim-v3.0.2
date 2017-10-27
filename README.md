@@ -22,11 +22,11 @@ Below, you will find instructions for compiling and running the simulation.  Ple
 
 
 
-::::::::::
+##### ::::::::::
 
-COMPILING
+### COMPILING
 
-::::::::::
+##### ::::::::::
 
 
 
@@ -78,19 +78,19 @@ and use HomeBrew on Mac.
 
 ##### 6.  You should now be able to build the executable with the following steps
 
-6a. After you have cloned or downloaded the source code repository, in the main root folder type
+**6a.** After you have cloned or downloaded the source code repository, in the main root folder type
 
-  `cd cmake
+  `cd cmake`
   
-  mkdir build
+  `mkdir build`
   
-  cd build
+  `cd build`
   
-  cmake ..`
+  `cmake ..`
   
 and this should generate the makefiles that you will need for compilation
 
-6b. Now type
+**6b.** Now type
 
 `make -j 1`
 
