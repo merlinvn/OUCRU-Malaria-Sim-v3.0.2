@@ -21,6 +21,7 @@ The most recent version of the simulation includes transmission between hosts (w
 Below, you will find instructions for compiling and running the simulation.  Please contact Tran Dang Nguyen (nguyentd@oucru.org) or Maciej Boni (mfb9@psu.edu) if you have any questions about the steps below.
 
 
+
 ::::::::::
 
 COMPILING
@@ -28,19 +29,24 @@ COMPILING
 ::::::::::
 
 
+
 The simulation uses a the cmake library to create make files for Linux, Mac, and Windows.  The instructions below are for Linux compilation and you will need to adjust some things for Windows or Mac compiling.
 
-#####1. You need to have the system C++ compiler installed.  We recommend the GNU g++ compiler.
+##### 1. C++ compiler
 
-#####2. You will need to install the BOOST libraries (www.boost.org).  We used version 1.57 of the BOOST libraries for development, but there should not be any compatibility issues with future versions.  Please let us know if you find any.
+You need to have a C++ compiler installed.  We recommend the GNU g++ compiler.
+
+##### 2. Install BOOST libraries
+
+You will need to install the BOOST libraries (www.boost.org).  We used version 1.57 of the BOOST libraries for development, but there should not be any compatibility issues with future versions.  Please let us know if you find any.
 
 On Linux, if you have the apt tool insalled (Ubuntu has this by default), you can install BOOST by 
  
-  sudo apt-get install libboost-dev
+> sudo apt-get install libboost-dev
   
-  or
+or
   
-  apt-get install libboost-dev
+> apt-get install libboost-dev
   
 depending on what permissions you have on your system.  If the above doesn't work for some reason, try installing "libboost-all-dev".
 
