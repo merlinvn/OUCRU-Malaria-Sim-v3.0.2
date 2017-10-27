@@ -1,4 +1,4 @@
-# POMS - the Penn State OUCRU Malaria Simulation
+### POMS - Penn State OUCRU Malaria Simulation
 
 This malaria simulation was developed at the Oxford University Clinical Research Unit from 2009 to 2016.  Since 2016, development has continued at the Center for Infectious Disease Dynamics (CIDD) at Pennsylvania State University.
 
@@ -6,7 +6,7 @@ The original name for this GitHub project was "OUCRU-Malara-Sim-v3.0.2".  This v
 
    Optimal population‐level deployment of artemisinin combination therapies.
    Nguyen TD, Olliaro P, Dondorp AM, Baird JK, Lam HM, Farrar J, Thwaites GE, White NJ, Boni MF.
-   Lancet Global Heath, 3(12)-e758-e766, 2015.
+   _Lancet Global Heath_, 3(12)-e758-e766, 2015.
    
 In the individual Figure folders in this repository you will find the raw simulation outputs that were used to generate the figures in this paper.
 
@@ -14,12 +14,11 @@ To see newer versions of the simulation, click on the 'Braches' button on the ma
 
 POMS is an individual-based microsimulation of malaria transmission developed in C++.  The folders MalariaCore and MalariaSimulation contain the source code and input files that are needed to compile and run the simulation.  The simulation was designed to compare multiple different ways of distributing antimalarial drugs in a human population.
 
-:: Most recent update - Oct 27 2017
+##### Most recent update to this file - Oct 27 2017
 
 The most recent version of the simulation includes transmission between hosts (without explicit implementation of mosquitoes), within-host parasite development, explicit modeling of parasite density and its effects on transmission, multi-clonal infections in hosts, basic pharmacokinetics, basic pharmacodynamics, mutation to multiple types of drug-resistant genotypes, symptomatic and asymptomatic infection, age-dependent immune acquisition, variation in host biting rates (without explicit implementation of mosquitoes), and multiple types of population-level drug deployment strategies. 
 
-
-Below, you will find instructions for compiling and running the simulation.  Please contact Tran Dang Nguyen (nguyentd@oucru.org) or Maciej Boni (maciej.boni@ndm.ox.ac.uk) if you have any questions about the steps below.
+Below, you will find instructions for compiling and running the simulation.  Please contact Tran Dang Nguyen (nguyentd@oucru.org) or Maciej Boni (mfb9@psu.edu) if you have any questions about the steps below.
 
 
 ::::::::::
@@ -31,9 +30,9 @@ COMPILING
 
 The simulation uses a the cmake library to create make files for Linux, Mac, and Windows.  The instructions below are for Linux compilation and you will need to adjust some things for Windows or Mac compiling.
 
-1. You need to have the system C++ compiler installed.  We recommend the GNU g++ compiler.
+#####1. You need to have the system C++ compiler installed.  We recommend the GNU g++ compiler.
 
-2. You will need to install the BOOST libraries (www.boost.org).  We used version 1.57 of the BOOST libraries for development, but there should not be any compatibility issues with future versions.  Please let us know if you find any.
+#####2. You will need to install the BOOST libraries (www.boost.org).  We used version 1.57 of the BOOST libraries for development, but there should not be any compatibility issues with future versions.  Please let us know if you find any.
 
 On Linux, if you have the apt tool insalled (Ubuntu has this by default), you can install BOOST by 
  
