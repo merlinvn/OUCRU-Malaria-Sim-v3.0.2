@@ -1,7 +1,7 @@
 #SET(CMAKE_C_COMPILER /home/ubuntu/zapcc-20170802-175507/bin/zapcc)
 #SET(CMAKE_CXX_COMPILER /home/ubuntu/zapcc-20170802-175507/bin/zapcc++)
 
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 2.8)
 project (POMS)
 
 set(EXT_PROJECTS_DIR ${PROJECT_SOURCE_DIR}/ext)
