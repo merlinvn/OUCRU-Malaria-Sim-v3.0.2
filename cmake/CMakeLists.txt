@@ -5,6 +5,7 @@ cmake_minimum_required(VERSION 2.8)
 project (POMS)
 
 set(EXT_PROJECTS_DIR ${PROJECT_SOURCE_DIR}/ext)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 
 #includes Gtest
 #add_subdirectory(${EXT_PROJECTS_DIR}/gtest)
