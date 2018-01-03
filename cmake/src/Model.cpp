@@ -202,8 +202,6 @@ void Model::initialize_object_pool(const int& size) {
     CirculateToTargetLocationNextDayEvent::InitializeObjectPool(size);
     ReturnToResidenceEvent::InitializeObjectPool(size);
     SwitchImmuneComponentEvent::InitializeObjectPool(size);
-//    MoveToExternalPopulationEvent::InitializeObjectPool(size);
-//    ReturnToNormalPopulationEvent::InitializeObjectPool(size);
     ImportationPeriodicallyEvent::InitializeObjectPool(size);
     ImportationEvent::InitializeObjectPool(size);
     TestTreatmentFailureEvent::InitializeObjectPool(size);
@@ -214,8 +212,8 @@ void Model::initialize_object_pool(const int& size) {
     Drug::InitializeObjectPool(size);
     DrugsInBlood::InitializeObjectPool(size);
 
-    InfantImmuneComponent::InitializeObjectPool(size);
-    NonInfantImmuneComponent::InitializeObjectPool(size);
+//    InfantImmuneComponent::InitializeObjectPool(size);
+//    NonInfantImmuneComponent::InitializeObjectPool(size);
 
     ImmuneSystem::InitializeObjectPool(size);
     Person::InitializeObjectPool(size);
@@ -231,8 +229,8 @@ void Model::release_object_pool() {
     ImmuneSystem::ReleaseObjectPool();
 
     // TODO: Investigate why?
-    InfantImmuneComponent::ReleaseObjectPool();
-    NonInfantImmuneComponent::ReleaseObjectPool();
+//    InfantImmuneComponent::ReleaseObjectPool();
+//    NonInfantImmuneComponent::ReleaseObjectPool();
 
     DrugsInBlood::ReleaseObjectPool();
     Drug::ReleaseObjectPool();
@@ -243,8 +241,6 @@ void Model::release_object_pool() {
     TestTreatmentFailureEvent::ReleaseObjectPool();
     ImportationEvent::ReleaseObjectPool();
     ImportationPeriodicallyEvent::ReleaseObjectPool();
-//    ReturnToNormalPopulationEvent::ReleaseObjectPool();
-//    MoveToExternalPopulationEvent::ReleaseObjectPool();
     SwitchImmuneComponentEvent::ReleaseObjectPool();
     ReturnToResidenceEvent::ReleaseObjectPool();
     CirculateToTargetLocationNextDayEvent::ReleaseObjectPool();

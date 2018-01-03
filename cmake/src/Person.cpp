@@ -55,8 +55,10 @@ void Person::init() {
     Dispatcher::init();
 
     immune_system_ = new ImmuneSystem(this);
+    
     all_clonal_parasite_populations_ = new SingleHostClonalParasitePopulations(this);
     all_clonal_parasite_populations_->init();
+    
     drugs_in_blood_ = new DrugsInBlood(this);
     drugs_in_blood_->init();
 
@@ -68,7 +70,7 @@ Person::Person(const Person& orig) {
 }
 
 Person::~Person() {
-//    Dispatcher::clear_events();
+    Dispatcher::clear_events();
     DeletePointer<ImmuneSystem>(immune_system_);
     DeletePointer<SingleHostClonalParasitePopulations>(all_clonal_parasite_populations_);
     DeletePointer<DrugsInBlood>(drugs_in_blood_);

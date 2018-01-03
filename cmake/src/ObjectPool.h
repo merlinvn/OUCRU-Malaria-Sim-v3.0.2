@@ -40,6 +40,7 @@
     static void operator delete(void* element){ object_pool->Free((class_name*)element);}\
 
 
+
 enum {
     EXPANSION_SIZE = 100000
 };
