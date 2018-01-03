@@ -36,8 +36,8 @@
   public:\
     static void InitializeObjectPool(const int& size = EXPANSION_SIZE){ if (object_pool == NULL) object_pool = new ObjectPool<class_name>(size);}\
     static void ReleaseObjectPool(){delete object_pool;object_pool=NULL;}\
-//    static void* operator new(size_t size){ return object_pool->Alloc();}\
-//    static void operator delete(void* element){ object_pool->Free((class_name*)element);}\
+    static void* operator new(size_t size){ return object_pool->Alloc();}\
+    static void operator delete(void* element){ object_pool->Free((class_name*)element);}\
 
 
 

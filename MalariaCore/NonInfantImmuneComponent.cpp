@@ -10,7 +10,7 @@
 #include "Config.h"
 
 
-OBJECTPOOL_IMPL(NonInfantImmuneComponent)
+//OBJECTPOOL_IMPL(NonInfantImmuneComponent)
 
 NonInfantImmuneComponent::NonInfantImmuneComponent(ImmuneSystem* immune_system):ImmuneComponent(immune_system) {
 }

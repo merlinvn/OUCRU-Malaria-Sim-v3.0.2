@@ -11,6 +11,7 @@
 #include "PropertyMacro.h"
 #include "TypeDef.h"
 #include "ResistanceTracker.h"
+#include <boost/serialization/array_wrapper.hpp>
 #include <boost/accumulators/accumulators.hpp>
 #include <boost/accumulators/statistics.hpp>
 
