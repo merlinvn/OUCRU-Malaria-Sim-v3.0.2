@@ -190,33 +190,33 @@ void Model::initialize() {
 }
 
 void Model::initialize_object_pool(const int& size) {
-//    BirthdayEvent::InitializeObjectPool(size);
-//    ProgressToClinicalEvent::InitializeObjectPool(size);
-//    EndClinicalDueToDrugResistanceEvent::InitializeObjectPool(size);
-//    UpdateWhenDrugIsPresentEvent::InitializeObjectPool(size);
-//    EndClinicalEvent::InitializeObjectPool(size);
-//    EndClinicalByNoTreatmentEvent::InitializeObjectPool(size);
-//    MatureGametocyteEvent::InitializeObjectPool(size);
-//    MoveParasiteToBloodEvent::InitializeObjectPool(size);
-//    UpdateEveryKDaysEvent::InitializeObjectPool(size);
-//    CirculateToTargetLocationNextDayEvent::InitializeObjectPool(size);
-//    ReturnToResidenceEvent::InitializeObjectPool(size);
-//    SwitchImmuneComponentEvent::InitializeObjectPool(size);
-//    ImportationPeriodicallyEvent::InitializeObjectPool(size);
-//    ImportationEvent::InitializeObjectPool(size);
-//    TestTreatmentFailureEvent::InitializeObjectPool(size);
-//
-//    ClonalParasitePopulation::InitializeObjectPool(size);
-//    SingleHostClonalParasitePopulations::InitializeObjectPool();
-//
-//    Drug::InitializeObjectPool(size);
-//    DrugsInBlood::InitializeObjectPool(size);
-//
+    BirthdayEvent::InitializeObjectPool(size);
+    ProgressToClinicalEvent::InitializeObjectPool(size);
+    EndClinicalDueToDrugResistanceEvent::InitializeObjectPool(size);
+    UpdateWhenDrugIsPresentEvent::InitializeObjectPool(size);
+    EndClinicalEvent::InitializeObjectPool(size);
+    EndClinicalByNoTreatmentEvent::InitializeObjectPool(size);
+    MatureGametocyteEvent::InitializeObjectPool(size);
+    MoveParasiteToBloodEvent::InitializeObjectPool(size);
+    UpdateEveryKDaysEvent::InitializeObjectPool(size);
+    CirculateToTargetLocationNextDayEvent::InitializeObjectPool(size);
+    ReturnToResidenceEvent::InitializeObjectPool(size);
+    SwitchImmuneComponentEvent::InitializeObjectPool(size);
+    ImportationPeriodicallyEvent::InitializeObjectPool(size);
+    ImportationEvent::InitializeObjectPool(size);
+    TestTreatmentFailureEvent::InitializeObjectPool(size);
+
+    ClonalParasitePopulation::InitializeObjectPool(size);
+    SingleHostClonalParasitePopulations::InitializeObjectPool();
+
+    Drug::InitializeObjectPool(size);
+    DrugsInBlood::InitializeObjectPool(size);
+
 //    InfantImmuneComponent::InitializeObjectPool(size);
 //    NonInfantImmuneComponent::InitializeObjectPool(size);
-//
-//    ImmuneSystem::InitializeObjectPool(size);
-//    Person::InitializeObjectPool(size);
+
+    ImmuneSystem::InitializeObjectPool(size);
+    Person::InitializeObjectPool(size);
 }
 
 void Model::release_object_pool() {
@@ -224,35 +224,35 @@ void Model::release_object_pool() {
 #ifdef UNITTEST
 
 #else
-//    Person::ReleaseObjectPool();
-//
-//    ImmuneSystem::ReleaseObjectPool();
-//
-//    // TODO: Investigate why?
+    Person::ReleaseObjectPool();
+
+    ImmuneSystem::ReleaseObjectPool();
+
+    // TODO: Investigate why?
 //    InfantImmuneComponent::ReleaseObjectPool();
 //    NonInfantImmuneComponent::ReleaseObjectPool();
-//
-//    DrugsInBlood::ReleaseObjectPool();
-//    Drug::ReleaseObjectPool();
-//
-//    SingleHostClonalParasitePopulations::ReleaseObjectPool();
-//    ClonalParasitePopulation::ReleaseObjectPool();
-//
-//    TestTreatmentFailureEvent::ReleaseObjectPool();
-//    ImportationEvent::ReleaseObjectPool();
-//    ImportationPeriodicallyEvent::ReleaseObjectPool();
-//    SwitchImmuneComponentEvent::ReleaseObjectPool();
-//    ReturnToResidenceEvent::ReleaseObjectPool();
-//    CirculateToTargetLocationNextDayEvent::ReleaseObjectPool();
-//    UpdateEveryKDaysEvent::ReleaseObjectPool();
-//    MoveParasiteToBloodEvent::ReleaseObjectPool();
-//    MatureGametocyteEvent::ReleaseObjectPool();
-//    EndClinicalByNoTreatmentEvent::ReleaseObjectPool();
-//    EndClinicalEvent::ReleaseObjectPool();
-//    UpdateWhenDrugIsPresentEvent::ReleaseObjectPool();
-//    EndClinicalDueToDrugResistanceEvent::ReleaseObjectPool();
-//    ProgressToClinicalEvent::ReleaseObjectPool();
-//    BirthdayEvent::ReleaseObjectPool();
+
+    DrugsInBlood::ReleaseObjectPool();
+    Drug::ReleaseObjectPool();
+
+    SingleHostClonalParasitePopulations::ReleaseObjectPool();
+    ClonalParasitePopulation::ReleaseObjectPool();
+
+    TestTreatmentFailureEvent::ReleaseObjectPool();
+    ImportationEvent::ReleaseObjectPool();
+    ImportationPeriodicallyEvent::ReleaseObjectPool();
+    SwitchImmuneComponentEvent::ReleaseObjectPool();
+    ReturnToResidenceEvent::ReleaseObjectPool();
+    CirculateToTargetLocationNextDayEvent::ReleaseObjectPool();
+    UpdateEveryKDaysEvent::ReleaseObjectPool();
+    MoveParasiteToBloodEvent::ReleaseObjectPool();
+    MatureGametocyteEvent::ReleaseObjectPool();
+    EndClinicalByNoTreatmentEvent::ReleaseObjectPool();
+    EndClinicalEvent::ReleaseObjectPool();
+    UpdateWhenDrugIsPresentEvent::ReleaseObjectPool();
+    EndClinicalDueToDrugResistanceEvent::ReleaseObjectPool();
+    ProgressToClinicalEvent::ReleaseObjectPool();
+    BirthdayEvent::ReleaseObjectPool();
 #endif
 }
 

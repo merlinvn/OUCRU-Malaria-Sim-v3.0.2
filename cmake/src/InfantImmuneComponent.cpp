@@ -11,7 +11,7 @@
 #include "ImmuneSystem.h"
 #include <math.h>
 
-OBJECTPOOL_IMPL(InfantImmuneComponent)
+//OBJECTPOOL_IMPL(InfantImmuneComponent)
 
 InfantImmuneComponent::InfantImmuneComponent(ImmuneSystem* immune_system) : ImmuneComponent(immune_system) {
 }

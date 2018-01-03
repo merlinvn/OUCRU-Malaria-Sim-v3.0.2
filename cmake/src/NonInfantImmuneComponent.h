@@ -13,7 +13,7 @@
 
 class NonInfantImmuneComponent : public ImmuneComponent {
     DISALLOW_COPY_AND_ASSIGN_(NonInfantImmuneComponent)
-    OBJECTPOOL(NonInfantImmuneComponent)
+//    OBJECTPOOL(NonInfantImmuneComponent)
 public:
     NonInfantImmuneComponent(ImmuneSystem* immune_system = NULL);
     // NonInfantImmuneComponent(const NonInfantImmuneComponent& orig);

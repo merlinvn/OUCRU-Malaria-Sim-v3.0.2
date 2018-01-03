@@ -1,11 +1,27 @@
+cmake_minimum_required(VERSION 2.8)
+# Fix behavior of CMAKE_CXX_STANDARD when targeting macOS.
+if (POLICY CMP0025)
+    cmake_policy(SET CMP0025 NEW)
+endif ()
+
 #SET(CMAKE_C_COMPILER /home/ubuntu/zapcc-20170802-175507/bin/zapcc)
 #SET(CMAKE_CXX_COMPILER /home/ubuntu/zapcc-20170802-175507/bin/zapcc++)
-
-cmake_minimum_required(VERSION 2.8)
-project (POMS)
+project(POMS)
 
 set(EXT_PROJECTS_DIR ${PROJECT_SOURCE_DIR}/ext)
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
+
+IF (CMAKE_VERSION VERSION_LESS 3.1)
+    MESSAGE("It is not greater than 3.1")
+    if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
+    endif ()
+    set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
+else ()
+    set(CMAKE_CXX_STANDARD 11)
+    set(CMAKE_CXX_STANDARD_REQUIRED YES)
+ENDIF (CMAKE_VERSION VERSION_LESS 3.1)
+
+
 
 #includes Gtest
 #add_subdirectory(${EXT_PROJECTS_DIR}/gtest)
@@ -13,21 +29,23 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 #${COMMON_INCLUDES}
 #include dependent libs
 
+find_package(GSL REQUIRED)
+if (GSL_FOUND)
+    #MESSAGE(${GSL_LIBRARY})
+    include_directories(${GSL_INCLUDE_DIRS})
+endif ()
+
+find_package(Boost REQUIRED)
+if (Boost_FOUND)
+    include_directories(${Boost_INCLUDE_DIRS})
+endif ()
+
+
 add_subdirectory(${EXT_PROJECTS_DIR}/yaml-cpp)
 set(YAML_CPP_INCLUDE_DIRS ${EXT_PROJECTS_DIR}/yaml-cpp/include)
 set(YAML_CPP_LIBS_DIR ${CMAKE_BINARY_DIR}/ext/yaml-cpp)
 
 include_directories(${YAML_CPP_INCLUDE_DIRS})
-
-find_package(GSL REQUIRED)
-if(GSL_FOUND)
-    include_directories(${GSL_INCLUDE_DIRS}) 
-endif()
-
-find_package(Boost REQUIRED)
-if(Boost_FOUND)
-    include_directories(${Boost_INCLUDE_DIRS}) 
-endif()
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 

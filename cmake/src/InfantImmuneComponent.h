@@ -6,20 +6,24 @@
  */
 
 #ifndef INFANTIMMUNECOMPONENT_H
-#define	INFANTIMMUNECOMPONENT_H
+#define    INFANTIMMUNECOMPONENT_H
 
 #include "ImmuneComponent.h"
 #include "ObjectPool.h"
 
 class InfantImmuneComponent : public ImmuneComponent {
-    DISALLOW_COPY_AND_ASSIGN_(InfantImmuneComponent)
-    OBJECTPOOL(InfantImmuneComponent)
+//OBJECTPOOL(InfantImmuneComponent)
+
+DISALLOW_COPY_AND_ASSIGN_(InfantImmuneComponent)
+
 public:
-    InfantImmuneComponent(ImmuneSystem* immune_system = NULL);
+    InfantImmuneComponent(ImmuneSystem *immune_system = NULL);
+
     // InfantImmuneComponent(const InfantImmuneComponent& orig);
     virtual ~InfantImmuneComponent();
 
     virtual double get_decay_rate(const int &age = 0) const;
+
     virtual double get_acquire_rate(const int &age = 0) const;
 
     virtual double get_current_value();
@@ -28,5 +32,5 @@ private:
 
 };
 
-#endif	/* INFANTIMMUNECOMPONENT_H */
+#endif    /* INFANTIMMUNECOMPONENT_H */
 

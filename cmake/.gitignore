@@ -5,3 +5,4 @@ bin
 .vs
 node_modules
 Testing
+cmake-*
