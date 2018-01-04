@@ -246,6 +246,9 @@
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <compileType>
+        <ccTool>
+          <commandLine>-static-libgcc -static-libstdc++ -ggdb</commandLine>
+        </ccTool>
         <archiverTool>
         </archiverTool>
       </compileType>

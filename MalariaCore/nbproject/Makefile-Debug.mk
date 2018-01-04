@@ -132,8 +132,8 @@ OBJECTFILES= \
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=
-CXXFLAGS=
+CCFLAGS=-static-libgcc -static-libstdc++ -ggdb
+CXXFLAGS=-static-libgcc -static-libstdc++ -ggdb
 
 # Fortran Compiler Flags
 FFLAGS=

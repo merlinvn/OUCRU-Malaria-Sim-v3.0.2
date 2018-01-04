@@ -58,6 +58,7 @@
           <incDir>
             <pElem>../MalariaCore</pElem>
           </incDir>
+          <commandLine>-static-libgcc -static-libstdc++ -ggdb</commandLine>
         </ccTool>
         <linkerTool>
           <linkerLibItems>
