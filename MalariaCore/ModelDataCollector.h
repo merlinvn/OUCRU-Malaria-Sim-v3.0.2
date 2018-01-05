@@ -11,7 +11,10 @@
 #include "PropertyMacro.h"
 #include "TypeDef.h"
 #include "ResistanceTracker.h"
+#include <boost/version.hpp>
+#if BOOST_VERSION >= 106300  // or 64, need to check
 #include <boost/serialization/array_wrapper.hpp>
+#endif
 #include <boost/accumulators/accumulators.hpp>
 #include <boost/accumulators/statistics.hpp>
 
@@ -136,7 +139,7 @@ class ModelDataCollector {
     PROPERTY_REF(DoubleVector, current_TF_by_therapy)
     PROPERTY_REF(IntVector2, total_number_of_treatments_60_by_therapy)
     PROPERTY_REF(IntVector2, total_TF_60_by_therapy)
-    
+
     static const int number_of_reported_MOI = 8;
     mean_acc acc;
 
