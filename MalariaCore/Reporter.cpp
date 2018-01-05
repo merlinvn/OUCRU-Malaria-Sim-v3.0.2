@@ -35,8 +35,8 @@ Reporter* Reporter::MakeReport(ReportType report_type) {
     std::string file_name1 = boost::str(boost::format("yearly_data_%1%_%2%.txt")
             % Model::RANDOM->seed()
             % Model::MODEL->override_parameter_line_number());
-    
-//    std::string file_name2 = boost::str(boost::format("monthly_data.txt"));
+
+    //    std::string file_name2 = boost::str(boost::format("monthly_data.txt"));
     switch (report_type) {
         case CONSOLE:
             return new ConsoleReporter();

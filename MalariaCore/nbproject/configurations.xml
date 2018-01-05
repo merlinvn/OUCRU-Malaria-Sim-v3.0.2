@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configurationDescriptor version="95">
+<configurationDescriptor version="97">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <logicalFolder name="f5" displayName="Drugs" projectFiles="true">
       <itemPath>ACTIncreaseStrategy.cpp</itemPath>
@@ -24,14 +24,6 @@
       <itemPath>SCTherapy.h</itemPath>
       <itemPath>SFTStrategy.cpp</itemPath>
       <itemPath>SFTStrategy.h</itemPath>
-      <itemPath>SpatialCombinedMFTCyclingStrategy.cpp</itemPath>
-      <itemPath>SpatialCombinedMFTCyclingStrategy.h</itemPath>
-      <itemPath>SpatialDraftReporter.cpp</itemPath>
-      <itemPath>SpatialDraftReporter.h</itemPath>
-      <itemPath>SpatialMFTStrategy.cpp</itemPath>
-      <itemPath>SpatialMFTStrategy.h</itemPath>
-      <itemPath>Strategy.cpp</itemPath>
-      <itemPath>Strategy.h</itemPath>
       <itemPath>StrategyBuilder.cpp</itemPath>
       <itemPath>StrategyBuilder.h</itemPath>
       <itemPath>TACTSwitchingStrategy.cpp</itemPath>
@@ -96,16 +88,6 @@
       <itemPath>InfantImmuneComponent.h</itemPath>
       <itemPath>NonInfantImmuneComponent.cpp</itemPath>
       <itemPath>NonInfantImmuneComponent.h</itemPath>
-    </logicalFolder>
-    <logicalFolder name="f8" displayName="MovementStructure" projectFiles="true">
-      <itemPath>Barabasi.cpp</itemPath>
-      <itemPath>Barabasi.h</itemPath>
-      <itemPath>GeneralGravity.cpp</itemPath>
-      <itemPath>GeneralGravity.h</itemPath>
-      <itemPath>MMC_Zambia.cpp</itemPath>
-      <itemPath>MMC_Zambia.h</itemPath>
-      <itemPath>SpatialStructure.cpp</itemPath>
-      <itemPath>SpatialStructure.h</itemPath>
     </logicalFolder>
     <logicalFolder name="f4" displayName="Parasite" projectFiles="true">
       <itemPath>DrugDatabase.cpp</itemPath>
@@ -175,19 +157,25 @@
                    displayName="Resource Files"
                    projectFiles="true">
     </logicalFolder>
-    <logicalFolder name="f10" displayName="Seasonality" projectFiles="true">
-      <itemPath>CosineSeasonality.cpp</itemPath>
-      <itemPath>CosineSeasonality.h</itemPath>
-      <itemPath>SeasonalStructure.cpp</itemPath>
-      <itemPath>SeasonalStructure.h</itemPath>
-    </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
     </logicalFolder>
-    <logicalFolder name="f9" displayName="SpatialLocationInfo" projectFiles="true">
-      <itemPath>LocationInfo.cpp</itemPath>
-      <itemPath>LocationInfo.h</itemPath>
+    <logicalFolder name="f8" displayName="SpatialStructure" projectFiles="true">
+      <itemPath>Barabasi.cpp</itemPath>
+      <itemPath>Barabasi.h</itemPath>
+      <itemPath>CosineSeasonality.cpp</itemPath>
+      <itemPath>CosineSeasonality.h</itemPath>
+      <itemPath>GeneralGravity.cpp</itemPath>
+      <itemPath>GeneralGravity.h</itemPath>
+      <itemPath>MMC_Zambia.cpp</itemPath>
+      <itemPath>MMC_Zambia.h</itemPath>
+      <itemPath>SeasonalStructure.cpp</itemPath>
+      <itemPath>SeasonalStructure.h</itemPath>
+      <itemPath>SpatialDraftReporter.cpp</itemPath>
+      <itemPath>SpatialDraftReporter.h</itemPath>
+      <itemPath>SpatialStructure.cpp</itemPath>
+      <itemPath>SpatialStructure.h</itemPath>
     </logicalFolder>
     <logicalFolder name="f7" displayName="TME" projectFiles="true">
       <itemPath>MDAAction.cpp</itemPath>
@@ -200,28 +188,6 @@
       <itemPath>TMEActionFactory.h</itemPath>
       <itemPath>TMEScheduler.cpp</itemPath>
       <itemPath>TMEScheduler.h</itemPath>
-    </logicalFolder>
-    <logicalFolder name="TestFiles"
-                   displayName="Test Files"
-                   projectFiles="false"
-                   kind="TEST_LOGICAL_FOLDER">
-    </logicalFolder>
-    <logicalFolder name="ExternalFiles"
-                   displayName="Important Files"
-                   projectFiles="false"
-                   kind="IMPORTANT_FILES_FOLDER">
-      <itemPath>Makefile</itemPath>
-    </logicalFolder>
-    <logicalFolder name="TestFiles"
-                   displayName="Test Files"
-                   projectFiles="false"
-                   kind="TEST_LOGICAL_FOLDER">
-    </logicalFolder>
-    <logicalFolder name="ExternalFiles"
-                   displayName="Important Files"
-                   projectFiles="false"
-                   kind="IMPORTANT_FILES_FOLDER">
-      <itemPath>Makefile</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -291,12 +257,13 @@
   <confs>
     <conf name="Debug" type="3">
       <toolsSet>
-        <compilerSet>GNU|GNU</compilerSet>
+        <compilerSet>default</compilerSet>
         <dependencyChecking>true</dependencyChecking>
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <compileType>
         <ccTool>
+          <architecture>1</architecture>
           <commandLine>-static-libgcc -static-libstdc++ -ggdb</commandLine>
         </ccTool>
         <archiverTool>
@@ -476,10 +443,6 @@
       <item path="IntGenotypeDatabase.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="IntGenotypeDatabase.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="LocationInfo.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="LocationInfo.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="MACTherapy.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -716,30 +679,15 @@
             tool="3"
             flavor2="0">
       </item>
-      <item path="StrategyBuilder.cpp" ex="false" tool="1" flavor2="0">
-      <item path="SpatialCombinedMFTCyclingStrategy.cpp"
-            ex="false"
-            tool="1"
-            flavor2="0">
-      </item>
-      <item path="SpatialCombinedMFTCyclingStrategy.h"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
       <item path="SpatialDraftReporter.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="SpatialDraftReporter.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="SpatialMFTStrategy.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="SpatialMFTStrategy.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="SpatialStructure.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="SpatialStructure.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="Strategy.cpp" ex="false" tool="1" flavor2="0">
+      <item path="StrategyBuilder.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="StrategyBuilder.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -792,7 +740,7 @@
     </conf>
     <conf name="Release" type="3">
       <toolsSet>
-        <compilerSet>default</compilerSet>
+        <compilerSet>MinGW|MinGW</compilerSet>
         <dependencyChecking>true</dependencyChecking>
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
@@ -988,10 +936,6 @@
       </item>
       <item path="IntGenotypeDatabase.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="LocationInfo.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="LocationInfo.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="MACTherapy.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="MACTherapy.h" ex="false" tool="3" flavor2="0">
@@ -1227,30 +1171,15 @@
             tool="3"
             flavor2="0">
       </item>
-      <item path="StrategyBuilder.cpp" ex="false" tool="1" flavor2="0">
-      <item path="SpatialCombinedMFTCyclingStrategy.cpp"
-            ex="false"
-            tool="1"
-            flavor2="0">
-      </item>
-      <item path="SpatialCombinedMFTCyclingStrategy.h"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
       <item path="SpatialDraftReporter.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="SpatialDraftReporter.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="SpatialMFTStrategy.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="SpatialMFTStrategy.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="SpatialStructure.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="SpatialStructure.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="Strategy.cpp" ex="false" tool="1" flavor2="0">
+      <item path="StrategyBuilder.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="StrategyBuilder.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -1501,10 +1430,6 @@
       </item>
       <item path="IntGenotypeDatabase.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="LocationInfo.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="LocationInfo.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="MACTherapy.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="MACTherapy.h" ex="false" tool="3" flavor2="0">
@@ -1740,29 +1665,14 @@
             tool="3"
             flavor2="0">
       </item>
-      <item path="SpatialCombinedMFTCyclingStrategy.cpp"
-            ex="false"
-            tool="1"
-            flavor2="0">
-      </item>
-      <item path="SpatialCombinedMFTCyclingStrategy.h"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
       <item path="SpatialDraftReporter.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="SpatialDraftReporter.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="SpatialMFTStrategy.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="SpatialMFTStrategy.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="SpatialStructure.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="SpatialStructure.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="Strategy.cpp" ex="false" tool="1" flavor2="0">
       <item path="StrategyBuilder.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="StrategyBuilder.h" ex="false" tool="3" flavor2="0">

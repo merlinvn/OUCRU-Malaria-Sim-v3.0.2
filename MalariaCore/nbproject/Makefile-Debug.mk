@@ -21,8 +21,8 @@ FC=gfortran
 AS=as
 
 # Macros
-CND_PLATFORM=GNU-MacOSX
-CND_DLIB_EXT=dylib
+CND_PLATFORM=MinGW-Windows
+CND_DLIB_EXT=dll
 CND_CONF=Debug
 CND_DISTDIR=dist
 CND_BUILDDIR=build
@@ -74,7 +74,6 @@ OBJECTFILES= \
 	${OBJECTDIR}/InfantImmuneComponent.o \
 	${OBJECTDIR}/IntGenotype.o \
 	${OBJECTDIR}/IntGenotypeDatabase.o \
-	${OBJECTDIR}/LocationInfo.o \
 	${OBJECTDIR}/MACTherapy.o \
 	${OBJECTDIR}/MDAAction.o \
 	${OBJECTDIR}/MFTRebalancingStrategy.o \
@@ -120,12 +119,9 @@ OBJECTFILES= \
 	${OBJECTDIR}/Scheduler.o \
 	${OBJECTDIR}/SeasonalStructure.o \
 	${OBJECTDIR}/SingleHostClonalParasitePopulations.o \
-	${OBJECTDIR}/StrategyBuilder.o \
-	${OBJECTDIR}/SpatialCombinedMFTCyclingStrategy.o \
 	${OBJECTDIR}/SpatialDraftReporter.o \
-	${OBJECTDIR}/SpatialMFTStrategy.o \
 	${OBJECTDIR}/SpatialStructure.o \
-	${OBJECTDIR}/Strategy.o \
+	${OBJECTDIR}/StrategyBuilder.o \
 	${OBJECTDIR}/SwitchImmuneComponentEvent.o \
 	${OBJECTDIR}/TACTSwitchingStrategy.o \
 	${OBJECTDIR}/TMEAction.o \
@@ -143,8 +139,8 @@ OBJECTFILES= \
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=-static-libgcc -static-libstdc++ -ggdb
-CXXFLAGS=-static-libgcc -static-libstdc++ -ggdb
+CCFLAGS=-m32 -static-libgcc -static-libstdc++ -ggdb
+CXXFLAGS=-m32 -static-libgcc -static-libstdc++ -ggdb
 
 # Fortran Compiler Flags
 FFLAGS=
@@ -359,11 +355,6 @@ ${OBJECTDIR}/IntGenotypeDatabase.o: IntGenotypeDatabase.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/IntGenotypeDatabase.o IntGenotypeDatabase.cpp
-
-${OBJECTDIR}/LocationInfo.o: LocationInfo.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/LocationInfo.o LocationInfo.cpp
 
 ${OBJECTDIR}/MACTherapy.o: MACTherapy.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -590,27 +581,16 @@ ${OBJECTDIR}/SingleHostClonalParasitePopulations.o: SingleHostClonalParasitePopu
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SingleHostClonalParasitePopulations.o SingleHostClonalParasitePopulations.cpp
 
-${OBJECTDIR}/SpatialCombinedMFTCyclingStrategy.o: SpatialCombinedMFTCyclingStrategy.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SpatialCombinedMFTCyclingStrategy.o SpatialCombinedMFTCyclingStrategy.cpp
-
 ${OBJECTDIR}/SpatialDraftReporter.o: SpatialDraftReporter.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SpatialDraftReporter.o SpatialDraftReporter.cpp
-
-${OBJECTDIR}/SpatialMFTStrategy.o: SpatialMFTStrategy.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SpatialMFTStrategy.o SpatialMFTStrategy.cpp
 
 ${OBJECTDIR}/SpatialStructure.o: SpatialStructure.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SpatialStructure.o SpatialStructure.cpp
 
-${OBJECTDIR}/Strategy.o: Strategy.cpp 
 ${OBJECTDIR}/StrategyBuilder.o: StrategyBuilder.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"

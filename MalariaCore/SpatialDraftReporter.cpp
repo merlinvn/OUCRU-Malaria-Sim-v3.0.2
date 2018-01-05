@@ -6,7 +6,7 @@
 #include "Random.h"
 #include "ModelDataCollector.h"
 #include "Config.h"
-#include "Strategy.h"
+#include "IStrategy.h"
 #include "SCTherapy.h"
 #include "Population.h"
 #include <boost/format.hpp>
@@ -47,7 +47,7 @@ void SpatialDraftReporter::after_run() {
 
     // time resistance reaches 1%
     print_resistance_tracker_by_location();
-    
+
     // EIR - 20x
     print_EIR_by_location();
 
@@ -61,56 +61,56 @@ void SpatialDraftReporter::begin_time_step() {
 void SpatialDraftReporter::after_time_step() {
 
     if (Model::SCHEDULER->current_time() % Model::CONFIG->report_frequency() == 0) {
-//        Model::DATA_COLLECTOR->perform_population_statistic();
+        //        Model::DATA_COLLECTOR->perform_population_statistic();
 
         std::cout << Model::SCHEDULER->current_time() << "\t";
-        
-//        print_NTF_in_60_days_window();
-        
-//        print_prevalence_by_location();
-        
-//        for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
-//            for (int i = 0; i < Model::CONFIG->coordinates_by_location()[loc].size(); i++) {
-//                std::cout << Model::CONFIG->coordinates_by_location()[loc][i] << "\t";
-//            }
-//        }
-//        
-//        std::cout << "-1111" << "\t";
-//        
-//        for (int from_loc = 0; from_loc < Model::CONFIG->number_of_locations(); from_loc++) {
-//            for (int to_loc = 0; to_loc < Model::CONFIG->number_of_locations(); to_loc++) {
-//                std::cout << Model::CONFIG->v_distance_by_location()[from_loc][to_loc] << "\t";
-//            }
-//        }
-//        
-//        std::cout << "-1111" << "\t";
-            for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
-                std::cout << Model::DATA_COLLECTOR->incidence_by_location()[loc] << "\t";
-            }
-        
-//        std::cout << Model::CONFIG->seasonal_structure()->get_seasonality() << "\t";
-        
+
+        //        print_NTF_in_60_days_window();
+
+        //        print_prevalence_by_location();
+
+        //        for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
+        //            for (int i = 0; i < Model::CONFIG->coordinates_by_location()[loc].size(); i++) {
+        //                std::cout << Model::CONFIG->coordinates_by_location()[loc][i] << "\t";
+        //            }
+        //        }
+        //        
+        //        std::cout << "-1111" << "\t";
+        //        
+        //        for (int from_loc = 0; from_loc < Model::CONFIG->number_of_locations(); from_loc++) {
+        //            for (int to_loc = 0; to_loc < Model::CONFIG->number_of_locations(); to_loc++) {
+        //                std::cout << Model::CONFIG->v_distance_by_location()[from_loc][to_loc] << "\t";
+        //            }
+        //        }
+        //        
+        //        std::cout << "-1111" << "\t";
+        for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
+            std::cout << Model::DATA_COLLECTOR->incidence_by_location()[loc] << "\t";
+        }
+
+        //        std::cout << Model::CONFIG->seasonal_structure()->get_seasonality() << "\t";
+
         std::cout << std::endl;
     }
 }
 
 void SpatialDraftReporter::output_parameters() {
-//    std::cout << boost::format("%1%\t%2%\t")
-//            % Model::RANDOM->seed()
-//            % Model::CONFIG->number_of_locations();
+    //    std::cout << boost::format("%1%\t%2%\t")
+    //            % Model::RANDOM->seed()
+    //            % Model::CONFIG->number_of_locations();
 
-//    //initial population size
-//    for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
-//        std::cout << Model::CONFIG->population_size_by_location()[location] << "\t";
-//    }
-//    std::cout << "-1111" << "\t";
-//    
-//    // final population size
-//    for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
-//        std::cout << Model::DATA_COLLECTOR->popsize_by_location()[location] << "\t";
-//    }
-//    std::cout << "-1111" << "\t";
-    
+    //    //initial population size
+    //    for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
+    //        std::cout << Model::CONFIG->population_size_by_location()[location] << "\t";
+    //    }
+    //    std::cout << "-1111" << "\t";
+    //    
+    //    // final population size
+    //    for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
+    //        std::cout << Model::DATA_COLLECTOR->popsize_by_location()[location] << "\t";
+    //    }
+    //    std::cout << "-1111" << "\t";
+
     for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
         std::cout << Model::CONFIG->beta()[location] << "\t";
     }
@@ -124,7 +124,7 @@ void SpatialDraftReporter::print_ntf_by_location() {
         double NTF = Model::DATA_COLLECTOR->cumulative_NTF_by_location()[location] * 100 / (double) Model::DATA_COLLECTOR->popsize_by_location()[location];
         location_discounted_NTF /= total_time_in_years;
         NTF /= total_time_in_years;
-//        std::cout << location_discounted_NTF << "\t";
+        //        std::cout << location_discounted_NTF << "\t";
         std::cout << NTF << "\t";
     }
     std::cout << "-1111" << "\t";
@@ -256,52 +256,51 @@ void SpatialDraftReporter::print_fraction_of_positive_that_are_clinical_by_locat
 }
 
 void SpatialDraftReporter::print_resistance_tracker() {
-//    for (int i = 0; i < Model::DATA_COLLECTOR->resistance_tracker().tracking_values().size(); i++) {
-//        std::cout << Model::DATA_COLLECTOR->resistance_tracker().any_double_tracking_time()[i] << "\t";
-//    }
-//    for (int i = 0; i < Model::DATA_COLLECTOR->resistance_tracker().tracking_values().size(); i++) {
-//        std::cout << Model::DATA_COLLECTOR->resistance_tracker().all_double_tracking_time()[i] << "\t";
-//    }
-//    for (int i = 0; i < Model::DATA_COLLECTOR->resistance_tracker().tracking_values().size(); i++) {
-//        std::cout << Model::DATA_COLLECTOR->resistance_tracker().any_triple_tracking_time()[i] << "\t";
-//    }
-//    for (int i = 0; i < Model::DATA_COLLECTOR->resistance_tracker().tracking_values().size(); i++) {
-//        std::cout << Model::DATA_COLLECTOR->resistance_tracker().all_triple_tracking_time()[i] << "\t";
-//    }
-//    for (int i = 0; i < Model::DATA_COLLECTOR->resistance_tracker().tracking_values().size(); i++) {
-//        std::cout << Model::DATA_COLLECTOR->resistance_tracker().any_quadruple_tracking_time()[i] << "\t";
-//    }
-//    for (int i = 0; i < Model::DATA_COLLECTOR->resistance_tracker().tracking_values().size(); i++) {
-//        std::cout << Model::DATA_COLLECTOR->resistance_tracker().all_quadruple_tracking_time()[i] << "\t";
-//    }
+    //    for (int i = 0; i < Model::DATA_COLLECTOR->resistance_tracker().tracking_values().size(); i++) {
+    //        std::cout << Model::DATA_COLLECTOR->resistance_tracker().any_double_tracking_time()[i] << "\t";
+    //    }
+    //    for (int i = 0; i < Model::DATA_COLLECTOR->resistance_tracker().tracking_values().size(); i++) {
+    //        std::cout << Model::DATA_COLLECTOR->resistance_tracker().all_double_tracking_time()[i] << "\t";
+    //    }
+    //    for (int i = 0; i < Model::DATA_COLLECTOR->resistance_tracker().tracking_values().size(); i++) {
+    //        std::cout << Model::DATA_COLLECTOR->resistance_tracker().any_triple_tracking_time()[i] << "\t";
+    //    }
+    //    for (int i = 0; i < Model::DATA_COLLECTOR->resistance_tracker().tracking_values().size(); i++) {
+    //        std::cout << Model::DATA_COLLECTOR->resistance_tracker().all_triple_tracking_time()[i] << "\t";
+    //    }
+    //    for (int i = 0; i < Model::DATA_COLLECTOR->resistance_tracker().tracking_values().size(); i++) {
+    //        std::cout << Model::DATA_COLLECTOR->resistance_tracker().any_quadruple_tracking_time()[i] << "\t";
+    //    }
+    //    for (int i = 0; i < Model::DATA_COLLECTOR->resistance_tracker().tracking_values().size(); i++) {
+    //        std::cout << Model::DATA_COLLECTOR->resistance_tracker().all_quadruple_tracking_time()[i] << "\t";
+    //    }
     for (int i = 0; i < Model::DATA_COLLECTOR->resistance_tracker().tracking_values().size(); i++) {
         std::cout << Model::DATA_COLLECTOR->resistance_tracker().total_tracking_time()[i] << "\t";
     }
-//    for (int i = 0; i < Model::DATA_COLLECTOR->resistance_tracker().tracking_values().size(); i++) {
-//        std::cout << Model::DATA_COLLECTOR->resistance_tracker().artemisinin_tracking_time()[i] << "\t";
-//    }
-    
+    //    for (int i = 0; i < Model::DATA_COLLECTOR->resistance_tracker().tracking_values().size(); i++) {
+    //        std::cout << Model::DATA_COLLECTOR->resistance_tracker().artemisinin_tracking_time()[i] << "\t";
+    //    }
+
     std::cout << "-1111" << "\t";
 }
 
 void SpatialDraftReporter::print_resistance_tracker_by_location() {
     for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
-            for (int i = 0; i < Model::DATA_COLLECTOR->resistance_tracker().total_tracking_time_by_location()[loc].size(); i++) {
-                std::cout << Model::DATA_COLLECTOR->resistance_tracker().total_tracking_time_by_location()[loc][i] << "\t";
-            }
+        for (int i = 0; i < Model::DATA_COLLECTOR->resistance_tracker().total_tracking_time_by_location()[loc].size(); i++) {
+            std::cout << Model::DATA_COLLECTOR->resistance_tracker().total_tracking_time_by_location()[loc][i] << "\t";
         }
-        std::cout << "-1111" << "\t";
+    }
+    std::cout << "-1111" << "\t";
 }
 
 void SpatialDraftReporter::print_treatments_by_therapy() {
-    for (int i = 0; i < Model::CONFIG->strategy()->therapy_list().size(); i++) {
-        int t_id = Model::CONFIG->strategy()->therapy_list()[i]->id();
+    for (int t_id = 0; t_id < Model::CONFIG->therapy_db().size(); t_id++) {
         int nTreaments = Model::DATA_COLLECTOR->number_of_treatments_with_therapy_ID()[t_id];
         int nSuccess = Model::DATA_COLLECTOR->number_of_treatments_success_with_therapy_ID()[t_id];
         int nFail = Model::DATA_COLLECTOR->number_of_treatments_fail_with_therapy_ID()[t_id];
-        double pSuccess = (nTreaments == 0) ? 0 : nSuccess * 100.0 / nTreaments;
+        double pSuccess = (nTreaments == 0) ? 0 : nSuccess * 100.0 / (nSuccess + nFail);
 
-        std::cout << t_id << "\t" << nTreaments << "\t" << nFail + nSuccess << "\t" << pSuccess << "\t";
+        std::cout << t_id << "\t" << nFail + nSuccess << "\t" << nSuccess << "\t" << pSuccess << "\t";
 
     }
 }
@@ -358,6 +357,7 @@ void SpatialDraftReporter::print_popsize_by_age_class() {
 }
 
 // Giang's addition
+
 void SpatialDraftReporter::print_pop_size_by_location() {
     for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
         std::cout << Model::POPULATION->size(loc, -1) << "\t";

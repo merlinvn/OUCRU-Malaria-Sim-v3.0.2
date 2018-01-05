@@ -28,6 +28,7 @@ const double PI = boost::math::constants::pi<double>();
 
 typedef std::map<int, SeasonalStructure *> SeasonalStructurePtrMap;
 typedef std::map<int, SpatialStructure *> SpatialStructurePtrMap;
+
 class Config {
     DISALLOW_COPY_AND_ASSIGN_(Config)
 
@@ -85,7 +86,7 @@ class Config {
     POINTER_PROPERTY(IStrategy, strategy);
     POINTER_PROPERTY(SeasonalStructure, seasonal_structure);
     POINTER_PROPERTY(SpatialStructure, spatial_structure);
-    POINTER_PROPERTY(DrugDatabase, drug_db );
+    POINTER_PROPERTY(DrugDatabase, drug_db);
     POINTER_PROPERTY(IntGenotypeDatabase, genotype_db);
     VIRTUAL_PROPERTY_REF(GenotypeInfo, genotype_info);
 
@@ -137,6 +138,8 @@ class Config {
     VIRTUAL_PROPERTY_REF(int, number_of_column_in_grid)
     VIRTUAL_PROPERTY_REF(double, grid_unit_in_km)
 
+    VIRTUAL_PROPERTY_REF(int, non_artemisinin_switching_day);
+
     VIRTUAL_PROPERTY_REF(double, modified_daily_cost_of_resistance)
     VIRTUAL_PROPERTY_REF(double, modified_mutation_probability)
 
@@ -158,7 +161,7 @@ public:
     void read_strategy_therapy_and_drug_information(const YAML::Node &config);
     void read_relative_biting_rate_info(const YAML::Node &config);
     void calculate_relative_biting_density();
-    
+
     //spatial here
     void read_seasonal_info(const YAML::Node &config);
     void read_spatial_info(const YAML::Node &config);
@@ -171,8 +174,8 @@ public:
     void read_relative_infectivity_info(const YAML::Node &config);
 
     IStrategy* read_strategy(const YAML::Node& n, const int& strategy_id);
-    
-    
+
+
     Therapy *read_therapy(const YAML::Node &config, const int &therapy_id);
 
     DrugType *read_drugtype(const YAML::Node &config, const int &drug_id);
@@ -186,7 +189,7 @@ public:
     void read_genotype_info(const YAML::Node &config);
 
     double seasonality(const int &current_time, const double &amplitude, const double &phi_upper, const double &phi_lower) {
-//TODO: year is 365 or 360
+        //TODO: year is 365 or 360
         return (((current_time % 365) > (365 / 2))) ? amplitude * (cos(2 * PI * (current_time + phi_upper) / 365) + 2) : (cos(2 * PI * (current_time + phi_lower) / 365) + 2);
         //        return amplitude * cos(2 * PI * (current_time + phi) / 365) + 2;
     };

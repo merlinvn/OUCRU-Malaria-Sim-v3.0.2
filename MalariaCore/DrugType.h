@@ -10,7 +10,7 @@
 #include "TypeDef.h"
 #include "PropertyMacro.h"
 #include <map>
-
+typedef std::map<std::string, double> ec50map_type;
 
 class IntGenotype;
 

@@ -8,12 +8,12 @@
 #ifndef SPATIALMFTSTRATEGY_H
 #define	SPATIALMFTSTRATEGY_H
 
-#include "Strategy.h"
+#include "IStrategy.h"
 #include "PropertyMacro.h"
 
 class Random;
 
-class SpatialMFTStrategy : public Strategy {
+class SpatialMFTStrategy : public IStrategy {
     DISALLOW_COPY_AND_ASSIGN_(SpatialMFTStrategy)
     VIRTUAL_PROPERTY_REF(std::vector<double>, distribution)
     VIRTUAL_PROPERTY_REF(int, day_until_next_redraw_random_for_changing_drug)

@@ -113,15 +113,15 @@ void Config::read_from_file(const std::string &config_file_name) {
     // load coordinate
     using_coordinate_ = config["load_coordinate"].as<int>();
     build_location_db(config);
-   
+
     for (int i = 0; i < number_of_locations_; i++) {
         population_size_by_location_.push_back(location_db_->districts[i]->pop_size);
-//        std::cout << "popsize:" << location_db_->districts[i]->pop_size << std::endl;
+        //        std::cout << "popsize:" << location_db_->districts[i]->pop_size << std::endl;
     }
 
     for (int i = 0; i < number_of_locations_; i++) {
         beta_.push_back(location_db_->districts[i]->beta);
-//        std::cout << "beta:" << location_db_->districts[i]->beta << std::endl;
+        //        std::cout << "beta:" << location_db_->districts[i]->beta << std::endl;
     }
 
     v_distance_by_location_.resize(number_of_locations_);
@@ -134,7 +134,7 @@ void Config::read_from_file(const std::string &config_file_name) {
                 v_distance_by_location_[from_location][to_location] = Vector2D::get_Euclidean_distance(location_db_->districts[from_location]->coordinate, location_db_->districts[to_location]->coordinate);
             }
 
-//            std::cout << "distance[" << from_location << "," << to_location << "]: " << v_distance_by_location_[from_location][to_location] << std::endl;
+            //            std::cout << "distance[" << from_location << "," << to_location << "]: " << v_distance_by_location_[from_location][to_location] << std::endl;
         }
     }
 
@@ -328,7 +328,7 @@ void Config::read_strategy_therapy_and_drug_information(const YAML::Node &config
     }
 
     strategy_ = strategy_db_[config["main_strategy_id"].as<int>()];
-    
+
     if (strategy_->get_type() == IStrategy::NestedSwitching) {
         ((NestedSwitchingStrategy*) strategy_)->initialize_update_time();
     }
@@ -481,7 +481,6 @@ SpatialStructure *Config::read_spatial_structure(const YAML::Node &config, const
     return s;
 }
 
-
 void Config::build_location_db(const YAML::Node &config) {
     location_db_ = new LocationInfo();
     if (using_coordinate_ == 1) {
@@ -541,7 +540,8 @@ void Config::read_location_db_using_coordinate_info(const YAML::Node &config) {
             location_db_->districts.push_back(d);
         }
     }
-    
+}
+
 DrugType * Config::read_drugtype(const YAML::Node& config, const int& drug_id) {
     DrugType* dt = new DrugType();
     dt->set_id(drug_id);
@@ -596,7 +596,7 @@ DrugType * Config::read_drugtype(const YAML::Node& config, const int& drug_id) {
     return dt;
 }
 
-void Config::read_relative_biting_rate_info(const YAML::Node &config) {
+void Config::read_relative_biting_rate_info(const YAML::Node & config) {
     const YAML::Node &n = config["relative_bitting_info"];
 
     relative_bitting_information_.max_relative_biting_value = n["max_relative_biting_value"].as<double>();
@@ -660,7 +660,7 @@ void Config::calculate_relative_biting_density() {
     //    }
 }
 
-void Config::read_spatial_info(const YAML::Node &config) {
+void Config::read_spatial_info(const YAML::Node & config) {
     const YAML::Node &n = config["spatial_information"];
 
     spatial_information_.max_relative_moving_value = n["max_relative_moving_value"].as<double>();
@@ -745,7 +745,7 @@ void Config::read_spatial_info(const YAML::Node &config) {
     }
 }
 
-void Config::read_seasonal_info(const YAML::Node &config) {
+void Config::read_seasonal_info(const YAML::Node & config) {
     seasonal_structure_ = read_seasonal_structure(config, config["seasonality"], "CosineSeasonality");
     seasonal_structure_db_.insert(std::pair<int, SeasonalStructure *>(seasonal_structure_->to_int(), seasonal_structure_));
 
@@ -758,7 +758,7 @@ void Config::read_seasonal_info(const YAML::Node &config) {
     }
 }
 
-void Config::read_spatial_external_population_info(const YAML::Node &config) {
+void Config::read_spatial_external_population_info(const YAML::Node & config) {
     const YAML::Node &n = config["spatial_external_population_information"];
 
     spatial_external_population_information_.max_relative_moving_value = n["max_relative_moving_value"].as<double>();
@@ -843,7 +843,7 @@ void Config::read_spatial_external_population_info(const YAML::Node &config) {
     //    spatial_external_population_information_.daily_EIR = n["daily_EIR"].as<double>();
 }
 
-void Config::read_initial_parasite_info(const YAML::Node &config) {
+void Config::read_initial_parasite_info(const YAML::Node & config) {
     const YAML::Node &n = config["initial_parasite_info"];
 
     //    for (int i = 0; i < n.size(); i++) {
@@ -868,7 +868,7 @@ void Config::read_initial_parasite_info(const YAML::Node &config) {
     }
 }
 
-void Config::read_importation_parasite_info(const YAML::Node &config) {
+void Config::read_importation_parasite_info(const YAML::Node & config) {
     const YAML::Node &n = config["introduce_parasite"];
 
     for (int i = 0; i < n.size(); i++) {
@@ -886,7 +886,7 @@ void Config::read_importation_parasite_info(const YAML::Node &config) {
     }
 }
 
-void Config::read_importation_parasite_periodically_info(const YAML::Node &config) {
+void Config::read_importation_parasite_periodically_info(const YAML::Node & config) {
     const YAML::Node &n = config["introduce_parasite_periodically"];
     for (int i = 0; i < n.size(); i++) {
         int location = n[i]["location"].as<int>();
@@ -904,7 +904,7 @@ void Config::read_importation_parasite_periodically_info(const YAML::Node &confi
     }
 }
 
-void Config::read_relative_infectivity_info(const YAML::Node &config) {
+void Config::read_relative_infectivity_info(const YAML::Node & config) {
     const YAML::Node &n = config["relative_infectivity"];
 
     relative_infectivity_.sigma = n["sigma"].as<double>();
@@ -950,7 +950,7 @@ void Config::override_parameters(const std::string &override_file, const int &po
     //    CalculateDependentVariables();
 }
 
-void Config::override_1_parameter(const std::string &parameter_name, const std::string &parameter_value) {
+void Config::override_1_parameter(const std::string &parameter_name, const std::string & parameter_value) {
     if (parameter_name == "population_size") {
         population_size_by_location_[0] = atoi(parameter_value.c_str());
     }
@@ -1091,8 +1091,10 @@ void Config::override_1_parameter(const std::string &parameter_name, const std::
 
     // TACT id and switching day will be modify by create new strategy in the .yml input file 
 
+    if (parameter_name == "circulation_percent") {
         spatial_information_.circulation_percent = atof(parameter_value.c_str());
     }
+
 
     if (parameter_name == "mean_beta_lognormal") {
         mean_beta_lognormal_ = atof(parameter_value.c_str());

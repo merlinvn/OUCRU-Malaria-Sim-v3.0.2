@@ -74,7 +74,6 @@ OBJECTFILES= \
 	${OBJECTDIR}/InfantImmuneComponent.o \
 	${OBJECTDIR}/IntGenotype.o \
 	${OBJECTDIR}/IntGenotypeDatabase.o \
-	${OBJECTDIR}/LocationInfo.o \
 	${OBJECTDIR}/MACTherapy.o \
 	${OBJECTDIR}/MDAAction.o \
 	${OBJECTDIR}/MFTRebalancingStrategy.o \
@@ -120,6 +119,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Scheduler.o \
 	${OBJECTDIR}/SeasonalStructure.o \
 	${OBJECTDIR}/SingleHostClonalParasitePopulations.o \
+	${OBJECTDIR}/SpatialDraftReporter.o \
 	${OBJECTDIR}/SpatialStructure.o \
 	${OBJECTDIR}/StrategyBuilder.o \
 	${OBJECTDIR}/SwitchImmuneComponentEvent.o \
@@ -356,11 +356,6 @@ ${OBJECTDIR}/IntGenotypeDatabase.o: IntGenotypeDatabase.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -DUNITTEST=\"True\" -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/IntGenotypeDatabase.o IntGenotypeDatabase.cpp
 
-${OBJECTDIR}/LocationInfo.o: LocationInfo.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -DUNITTEST=\"True\" -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/LocationInfo.o LocationInfo.cpp
-
 ${OBJECTDIR}/MACTherapy.o: MACTherapy.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -585,6 +580,11 @@ ${OBJECTDIR}/SingleHostClonalParasitePopulations.o: SingleHostClonalParasitePopu
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -DUNITTEST=\"True\" -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SingleHostClonalParasitePopulations.o SingleHostClonalParasitePopulations.cpp
+
+${OBJECTDIR}/SpatialDraftReporter.o: SpatialDraftReporter.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -DUNITTEST=\"True\" -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SpatialDraftReporter.o SpatialDraftReporter.cpp
 
 ${OBJECTDIR}/SpatialStructure.o: SpatialStructure.cpp 
 	${MKDIR} -p ${OBJECTDIR}

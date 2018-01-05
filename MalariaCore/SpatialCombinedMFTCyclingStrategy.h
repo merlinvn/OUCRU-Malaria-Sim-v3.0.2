@@ -8,12 +8,12 @@
 #ifndef SPATIALCOMBINEDMFTCYCLINGSTRATEGY_H
 #define	SPATIALCOMBINEDMFTCYCLINGSTRATEGY_H
 
-#include "Strategy.h"
+#include "IStrategy.h"
 #include "PropertyMacro.h"
 
 class Random;
 
-class SpatialCombinedMFTCyclingStrategy : public Strategy {
+class SpatialCombinedMFTCyclingStrategy : public IStrategy {
     DISALLOW_COPY_AND_ASSIGN_(SpatialCombinedMFTCyclingStrategy)
     VIRTUAL_PROPERTY_REF(int, index)
     VIRTUAL_PROPERTY_REF(int, cycling_time)
