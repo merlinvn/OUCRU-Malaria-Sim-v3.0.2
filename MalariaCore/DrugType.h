@@ -9,9 +9,8 @@
 #define DRUGTYPE_H
 #include "TypeDef.h"
 #include "PropertyMacro.h"
-#include <boost/dynamic_bitset.hpp>
+#include <map>
 
-typedef std::map<std::string, double> ec50map_type;
 
 class IntGenotype;
 

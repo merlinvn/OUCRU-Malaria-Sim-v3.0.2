@@ -13,7 +13,6 @@
 #include <numeric>
 #include <boost/foreach.hpp>
 
-
 ResistanceTracker::ResistanceTracker() {
 }
 
@@ -49,6 +48,13 @@ void ResistanceTracker::make_arterminsinin_resistance_profile(std::vector<int>& 
 
 void ResistanceTracker::initialize() {
     parasite_population_count_.assign(Model::CONFIG->number_of_parasite_types(), 0);
+    parasite_population_count_by_location_.assign(Model::CONFIG->number_of_locations(), LongVector(Model::CONFIG->number_of_parasite_types(), 0));
+
+    total_ = 0;
+    total_by_location_.assign(Model::CONFIG->number_of_locations(), 0);
+
+    total_tracking_time_by_location_.assign(Model::CONFIG->number_of_locations(), IntVector());
+    total_resistance_frequency_by_location_.assign(Model::CONFIG->number_of_locations(), 0.0);
 
     DrugTypePtrMap& drug_db = Model::CONFIG->drug_db()->drug_db();
     IntVector drugs_used;
@@ -58,9 +64,9 @@ void ResistanceTracker::initialize() {
     //    
     make_resistance_profile(single_resistance_ids_, 1);
     make_resistance_profile(double_resistance_ids_, 2);
-//    for (auto i : double_resistance_ids_) {
-//        std::cout << i << std::endl;
-//    }
+    //    for (auto i : double_resistance_ids_) {
+    //        std::cout << i << std::endl;
+    //    }
     make_resistance_profile(tripple_resistance_ids_, 3);
     make_resistance_profile(quadruple_resistance_ids_, 4);
     make_resistance_profile(quintuple_resistance_ids_, 5);
@@ -112,22 +118,33 @@ void ResistanceTracker::initialize() {
         total_tracking_time_.push_back(-1);
         artemisinin_tracking_time_.push_back(-1);
     }
+    for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
+        for (int i = 0; i < tracking_values_.size(); i++) {
+            total_tracking_time_by_location_[loc].push_back(-1);
+        }
+    }
 }
 
-void ResistanceTracker::increase(const int& id) {
-//    std::cout << id << std::endl;
+void ResistanceTracker::increase(const int& id, const int& location) {
     parasite_population_count_[id] += 1;
+    parasite_population_count_by_location_[location][id] += 1;
     total_ += 1;
+    total_by_location_[location] += 1;
+
 }
 
-void ResistanceTracker::decrease(const int& id) {
+void ResistanceTracker::decrease(const int& id, const int& location) {
     parasite_population_count_[id] -= 1;
+    parasite_population_count_by_location_[location][id] -= 1;
     total_ -= 1;
+    total_by_location_[location] -= 1;
 }
 
-void ResistanceTracker::change(const int& from, const int& to) {
+void ResistanceTracker::change(const int& from, const int& to, const int& location) {
     parasite_population_count_[from] -= 1;
     parasite_population_count_[to] += 1;
+    parasite_population_count_by_location_[location][from] -= 1;
+    parasite_population_count_by_location_[location][to] += 1;
 }
 
 void ResistanceTracker::update_resistance_tracker() {
@@ -165,11 +182,17 @@ void ResistanceTracker::update_resistance_tracker() {
             update_time_value(all_quintuple_tracking_time_[i], min_fraction_resistance(quintuple_resistance_ids_), tracking_values_[i]);
         }
 
-
         calculate_total_resistance_frequency();
+        calculate_total_resistance_frequency_for_each_location();
 
         if (total_tracking_time_[i] == -1) {
             update_time_value(total_tracking_time_[i], total_resistance_frequency_, tracking_values_[i]);
+        }
+
+        for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
+            if (total_tracking_time_by_location_[loc][i] == -1) {
+                update_time_value(total_tracking_time_by_location_[loc][i], total_resistance_frequency_by_location_[loc], tracking_values_[i]);
+            }
         }
 
         if (artemisinin_tracking_time_[i] == -1) {
@@ -199,6 +222,31 @@ double ResistanceTracker::calculate_total_resistance_frequency() {
     total_resistance_frequency_ = (total_resistance_frequency_ / total_) / size;
 
     return total_resistance_frequency_;
+}
+
+std::vector<double> ResistanceTracker::calculate_total_resistance_frequency_for_each_location() {
+    const int size = Model::CONFIG->genotype_db()->get(0)->gene_expression().size();
+
+    for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
+        total_resistance_frequency_by_location_[loc] = 0;
+        for (int c = 0; c < total_resistance_ids_.size(); c++) {
+            double sub_sum = 0;
+            if (c == size - 1) {
+                sub_sum += parasite_population_count_by_location_[loc][all_resistance_id_];
+            } else {
+                //TODO : ask Giang
+                //                if (artemisinin_tracking_time_[i] == -1) {
+                //                    update_time_value(artemisinin_tracking_time_[i], sum_fraction_resistance(artemisinin_ids_), tracking_values_[i]);
+                //                }
+                for (int j = 0; j < total_resistance_ids_[c]->size(); j++) {
+                    sub_sum += parasite_population_count_by_location_[loc][total_resistance_ids_[c]->at(j)];
+                }
+            }
+            total_resistance_frequency_by_location_[loc] += (c + 1) * sub_sum;
+            total_resistance_frequency_by_location_[loc] = (total_resistance_frequency_by_location_[loc] / total_by_location_[loc]) / size;
+        }
+    }
+    return total_resistance_frequency_by_location_;
 }
 
 double ResistanceTracker::max_fraction_resistance(const IntVector & resitance_ids) {

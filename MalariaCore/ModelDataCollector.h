@@ -34,6 +34,7 @@ class ModelDataCollector {
     PROPERTY_REF(IntVector2, popsize_by_location_age_class_by_5)
     PROPERTY_REF(IntVector2, popsize_by_location_hoststate)
 
+    PROPERTY_REF(DoubleVector, number_of_positive_blood_slide_by_location)
     PROPERTY_REF(DoubleVector, blood_slide_prevalence_by_location)
     PROPERTY_REF(DoubleVector2, blood_slide_number_by_location_age_group)
     PROPERTY_REF(DoubleVector2, blood_slide_prevalence_by_location_age_group)
@@ -138,6 +139,15 @@ class ModelDataCollector {
     PROPERTY_REF(IntVector2, total_TF_60_by_therapy)
     
     static const int number_of_reported_MOI = 8;
+   
+    PROPERTY_REF(IntVector, total_TF_60_all_locations)
+    
+    PROPERTY_REF(int, collect_person_location)
+    
+    PROPERTY_REF(IntVector, popsize_residence_by_location)
+    PROPERTY_REF(IntVector, current_residents_at_local_residence)
+	PROPERTY_REF(DoubleVector, incidence_by_location)
+
     mean_acc acc;
 
 public:
@@ -184,6 +194,10 @@ public:
 
 
     double get_blood_slide_prevalence(const int& location, const int& age_from, const int& age_to);
+    
+	
+	//TODO: rename count -> update
+    void count_residence_popsize_by_location();
 
 private:
     void update_average_number_bitten(const int& location, const int& birthday, const int& number_of_times_bitten);

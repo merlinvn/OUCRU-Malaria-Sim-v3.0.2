@@ -50,6 +50,8 @@ public:
 
     virtual int random_normal(const int& mean, const int& sd);
     virtual int random_normal_truncated(const int& mean, const int& sd);
+    
+    virtual double random_lognormal(const double& mean, const double& sd);
 
     virtual double random_beta(const double& alpha, const double& beta);
 

@@ -16,10 +16,11 @@
 #include "SingleHostClonalParasitePopulations.h"
 #include "SCTherapy.h"
 #include "ClonalParasitePopulation.h"
+#include "PersonIndexAll.h"
 #include <numeric>  
 
 ModelDataCollector::ModelDataCollector(Model* model) : model_(model),
-popsize_by_location_(), blood_slide_prevalence_by_location_(), fraction_of_positive_that_are_clinical_by_location_(), popsize_by_location_hoststate_(), total_immune_by_location_(), total_immune_by_location_age_class_(),
+popsize_by_location_(), popsize_residence_by_location_(), current_residents_at_local_residence_(), number_of_positive_blood_slide_by_location_(), blood_slide_prevalence_by_location_(), fraction_of_positive_that_are_clinical_by_location_(), popsize_by_location_hoststate_(), total_immune_by_location_(), total_immune_by_location_age_class_(),
 total_number_of_bites_by_location_(), total_number_of_bites_by_location_year_(), person_days_by_location_year_(), EIR_by_location_year_(), EIR_by_location_(),
 cumulative_clinical_episodes_by_location_(), cumulative_clinical_episodes_by_location_age_() {
 }
@@ -33,6 +34,9 @@ ModelDataCollector::~ModelDataCollector() {
 void ModelDataCollector::initialize() {
     if (model_ != NULL) {
         popsize_by_location_ = IntVector(Model::CONFIG->number_of_locations(), 0);
+        popsize_residence_by_location_ = IntVector(Model::CONFIG->number_of_locations(), 0);
+        current_residents_at_local_residence_ = IntVector(Model::CONFIG->number_of_locations(), 0);
+        number_of_positive_blood_slide_by_location_ = DoubleVector(Model::CONFIG->number_of_locations(), 0);
         blood_slide_prevalence_by_location_ = DoubleVector(Model::CONFIG->number_of_locations(), 0.0);
         blood_slide_prevalence_by_location_age_group_ = DoubleVector2(Model::CONFIG->number_of_locations(), DoubleVector(Model::CONFIG->number_of_age_classes(), 0.0));
         blood_slide_number_by_location_age_group_ = DoubleVector2(Model::CONFIG->number_of_locations(), DoubleVector(Model::CONFIG->number_of_age_classes(), 0.0));
@@ -70,6 +74,7 @@ void ModelDataCollector::initialize() {
         total_number_of_treatments_60_by_location_ = IntVector2(Model::CONFIG->number_of_locations(), IntVector(Model::CONFIG->tf_window_size(), 0));
         total_RITF_60_by_location_ = IntVector2(Model::CONFIG->number_of_locations(), IntVector(Model::CONFIG->tf_window_size(), 0));
         total_TF_60_by_location_ = IntVector2(Model::CONFIG->number_of_locations(), IntVector(Model::CONFIG->tf_window_size(), 0));
+        total_TF_60_all_locations_ = IntVector(Model::CONFIG->number_of_locations(), 0);
 
         current_RITF_by_location_ = DoubleVector(Model::CONFIG->number_of_locations(), 0.0);
         current_TF_by_location_ = DoubleVector(Model::CONFIG->number_of_locations(), 0.0);
@@ -139,6 +144,8 @@ void ModelDataCollector::initialize() {
         current_TF_by_therapy_ = DoubleVector(Model::CONFIG->therapy_db().size(), 0.0);
         today_TF_by_therapy_ = IntVector(Model::CONFIG->therapy_db().size(), 0.0);
         today_number_of_treatments_by_therapy_ = IntVector(Model::CONFIG->therapy_db().size(), 0.0);
+
+        incidence_by_location_ = DoubleVector(Model::CONFIG->number_of_locations(), 0.0);
     }
 }
 
@@ -167,6 +174,8 @@ void ModelDataCollector::perform_population_statistic() {
 
     for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
         popsize_by_location_[location] = 0;
+        number_of_positive_blood_slide_by_location_[location] = 0.0;
+        incidence_by_location_[location] = 1000 * incidence_by_location_[location] / popsize_residence_by_location_[location];
         blood_slide_prevalence_by_location_[location] = 0.0;
         fraction_of_positive_that_are_clinical_by_location_[location] = 0.0;
         total_immune_by_location_[location] = 0.0;
@@ -278,6 +287,7 @@ void ModelDataCollector::perform_population_statistic() {
         //        fraction_of_positive_that_are_clinical_by_location_[loc] = (number_of_positive_by_location_[loc] == 0) ? 0 : ((double) popsize_by_location_hoststate_[loc][Person::CLINICAL]) / number_of_positive_by_location_[loc];
         fraction_of_positive_that_are_clinical_by_location_[loc] = (blood_slide_prevalence_by_location_[loc] == 0) ? 0 : ((double) popsize_by_location_hoststate_[loc][Person::CLINICAL]) / blood_slide_prevalence_by_location_[loc];
         double number_of_blood_slide_positive = blood_slide_prevalence_by_location_[loc];
+        number_of_positive_blood_slide_by_location_[loc] = blood_slide_prevalence_by_location_[loc];
         blood_slide_prevalence_by_location_[loc] = blood_slide_prevalence_by_location_[loc] / (double) pop_sum_location;
 
 
@@ -455,6 +465,7 @@ void ModelDataCollector::begin_time_step() {
         today_number_of_treatments_by_location_[location] = 0;
         today_RITF_by_location_[location] = 0;
         today_TF_by_location_[location] = 0;
+        incidence_by_location_[location] = 0.0;
     }
 
     for (int therapy_id = 0; therapy_id < Model::CONFIG->therapy_db().size(); therapy_id++) {
@@ -481,6 +492,8 @@ void ModelDataCollector::end_of_time_step() {
                 tRITF60 += total_RITF_60_by_location_[location][i];
                 tTF60 += total_TF_60_by_location_[location][i];
             }
+            total_TF_60_all_locations_[location] = tTF60;
+
             current_RITF_by_location_[location] = (tTreatment60 == 0) ? 0 : (double) tRITF60 / (double) tTreatment60;
             current_TF_by_location_[location] = (tTreatment60 == 0) ? 0 : (double) tTF60 / (double) tTreatment60;
 
@@ -509,6 +522,7 @@ void ModelDataCollector::end_of_time_step() {
             current_TF_by_therapy_[therapy_id] = (current_TF_by_therapy_[therapy_id]) > 1 ? 1 : current_TF_by_therapy_[therapy_id];
         }
 
+        count_residence_popsize_by_location();
     }
 
     resistance_tracker_.update_resistance_tracker();
@@ -542,7 +556,7 @@ void ModelDataCollector::record_1_mutation(const int& location, IntGenotype* fro
         cumulative_mutants_by_location_[location] += 1;
     }
 
-    resistance_tracker_.change(from->genotype_id(), to->genotype_id());
+    resistance_tracker_.change(from->genotype_id(), to->genotype_id(), location);
 }
 
 void ModelDataCollector::update_UTL_vector() {
@@ -696,4 +710,17 @@ double ModelDataCollector::get_blood_slide_prevalence(const int& location, const
     }
     return (popsize == 0) ? 0 : blood_slide_numbers / popsize;
     return 0;
+}
+
+void ModelDataCollector::count_residence_popsize_by_location() {
+    for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
+        popsize_residence_by_location_[loc] = 0;
+        current_residents_at_local_residence_[loc] = 0;
+    }
+    for (int i = 0; i < Model::POPULATION->all_persons()->vPerson().size(); i++) {
+        popsize_residence_by_location_[Model::POPULATION->all_persons()->vPerson().at(i)->residence_location()]++;
+        if (Model::POPULATION->all_persons()->vPerson().at(i)->location() == Model::POPULATION->all_persons()->vPerson().at(i)->residence_location()) {
+            current_residents_at_local_residence_[Model::POPULATION->all_persons()->vPerson().at(i)->location()]++;
+        }
+    }
 }

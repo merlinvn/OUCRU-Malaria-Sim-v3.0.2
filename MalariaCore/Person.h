@@ -64,6 +64,8 @@ public:
     POINTER_PROPERTY(Population, population)
     PROPERTY_HEADER(int, location)
     PROPERTY_REF(int, residence_location)
+            
+    PROPERTY_REF(int, province_id)
 
     PROPERTY_HEADER(HostStates, host_state)
     PROPERTY_HEADER(int, age)
@@ -167,7 +169,7 @@ public:
 
     bool has_return_to_residence_event();
     void cancel_all_return_to_residence_events();
-
+    
     bool has_detectable_parasite();
 
     void increase_number_of_times_bitten();

@@ -18,6 +18,7 @@
 #include "MonthlyReporterConsole.h"
 #include "BurninMonthlyReporter.h"
 #include "BurninFarmReporter.h"
+#include "SpatialDraftReporter.h"
 #include <boost/format.hpp>
 #include <string>
 
@@ -47,6 +48,8 @@ Reporter* Reporter::MakeReport(ReportType report_type) {
             return new FarmReporter();
         case MULTIPLE_LOCATION:
             return new MultipleLocationGuiReporter();
+        case SPATIAL_DRAFT:
+            return new SpatialDraftReporter();
         case YEARLY_REPORTER_V1:
             return new YearlyReporterV1(file_name1);
         case MONTHLY_REPORTER:

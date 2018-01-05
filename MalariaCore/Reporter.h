@@ -24,6 +24,7 @@ class Reporter {
         FARM,
         MULTIPLE_LOCATION,
         AGE_GROUP_2_TO_10,
+        SPATIAL_DRAFT,
         YEARLY_REPORTER_V1,
         MONTHLY_REPORTER,
         BURNIN_MONTHLY_REPORTER,

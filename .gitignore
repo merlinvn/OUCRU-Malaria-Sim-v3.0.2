@@ -37,3 +37,6 @@ EC50_EfficacyTableGenerator/out\.txt
 /MalariaCore/build/
 /MalariaSimulation/build/
 /MalariaCore/dist/
+\.vscode/
+
+\.Rhistory
