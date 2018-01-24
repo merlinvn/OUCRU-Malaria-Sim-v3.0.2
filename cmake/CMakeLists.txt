@@ -1,11 +1,12 @@
 cmake_minimum_required(VERSION 2.8)
+#SET(CMAKE_C_COMPILER /home/ubuntu/zapcc-20170802-175507/bin/zapcc)
+#SET(CMAKE_CXX_COMPILER /home/ubuntu/zapcc-20170802-175507/bin/zapcc++)
+
 # Fix behavior of CMAKE_CXX_STANDARD when targeting macOS.
 if (POLICY CMP0025)
     cmake_policy(SET CMP0025 NEW)
 endif ()
 
-#SET(CMAKE_C_COMPILER /home/ubuntu/zapcc-20170802-175507/bin/zapcc)
-#SET(CMAKE_CXX_COMPILER /home/ubuntu/zapcc-20170802-175507/bin/zapcc++)
 project(POMS)
 
 set(EXT_PROJECTS_DIR ${PROJECT_SOURCE_DIR}/ext)
@@ -20,8 +21,6 @@ else ()
     set(CMAKE_CXX_STANDARD 11)
     set(CMAKE_CXX_STANDARD_REQUIRED YES)
 ENDIF (CMAKE_VERSION VERSION_LESS 3.1)
-
-
 
 #includes Gtest
 #add_subdirectory(${EXT_PROJECTS_DIR}/gtest)

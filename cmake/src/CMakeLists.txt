@@ -8,3 +8,5 @@ target_link_libraries(MaSim ${Boost_LIBRARIES}
         ${YAML_CPP_LIBS_DIR}/libyaml-cpp.a
         ${GSL_LIBRARIES}
         ${GSLCBLAS_LIBRARIES})
+
+install(TARGETS MaSim DESTINATION ${PROJECT_SOURCE_DIR}/bin)
