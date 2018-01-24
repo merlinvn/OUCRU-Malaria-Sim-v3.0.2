@@ -48,7 +48,7 @@
     {
       "name": "Mingw-x64-Release",
       "generator": "Ninja",
-      "configurationType": "RelWithDebInfo",
+      "configurationType": "Release",
       "inheritEnvironments": [ "Release" ],
       "buildRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\build\\${name}",
       "installRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\install\\${name}",
@@ -59,7 +59,7 @@
     {
       "name": "Mingw-x64-Debug",
       "generator": "Ninja",
-      "configurationType": "RelWithDebInfo",
+      "configurationType": "Debug",
       "inheritEnvironments": [ "Debug" ],
       "buildRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\build\\${name}",
       "installRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\install\\${name}",
