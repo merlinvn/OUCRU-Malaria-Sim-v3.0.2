@@ -5,8 +5,12 @@ message(${gmock_SOURCE_DIR})
 include_directories(${gmock_SOURCE_DIR}/include)
 include_directories(${gtest_SOURCE_DIR}/include)
 
-file(GLOB TEST_SRC_FILES *.cpp)
-add_executable(${PROJECT_TEST_NAME} ${TEST_SRC_FILES})
+include_directories(${PROJECT_SOURCE_DIR}/src)
+
+file(GLOB TEST_SRC_FILES *.cpp Spatial/*.cpp)
+file(GLOB SRC_FILES ${PROJECT_SOURCE_DIR}/src/Spatial/*.cpp)
+
+add_executable(${PROJECT_TEST_NAME} ${TEST_SRC_FILES} ${SRC_FILES})
 add_dependencies(${PROJECT_TEST_NAME} gmock gtest gmock_main)
 
 #add_dependencies(${PROJECT_TEST_NAME} googletest)
