@@ -17,9 +17,6 @@ OBJECTPOOL_IMPL(SwitchImmuneComponentEvent)
 SwitchImmuneComponentEvent::SwitchImmuneComponentEvent() {
 }
 
-SwitchImmuneComponentEvent::SwitchImmuneComponentEvent(const SwitchImmuneComponentEvent& orig) {
-}
-
 SwitchImmuneComponentEvent::~SwitchImmuneComponentEvent() {
 }
 

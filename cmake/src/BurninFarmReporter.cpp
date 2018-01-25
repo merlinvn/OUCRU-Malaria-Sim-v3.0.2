@@ -25,9 +25,6 @@
 BurninFarmReporter::BurninFarmReporter() {
 }
 
-BurninFarmReporter::BurninFarmReporter(const BurninFarmReporter& orig) {
-}
-
 BurninFarmReporter::~BurninFarmReporter() {
 }
 

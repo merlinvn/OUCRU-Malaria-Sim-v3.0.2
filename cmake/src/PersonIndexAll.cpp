@@ -12,9 +12,6 @@
 PersonIndexAll::PersonIndexAll() {
 }
 
-PersonIndexAll::PersonIndexAll(const PersonIndexAll& orig) {
-}
-
 PersonIndexAll::~PersonIndexAll() {
     vPerson_.clear();
 

@@ -34,9 +34,6 @@ void SingleHostClonalParasitePopulations::init() {
     }
 }
 
-SingleHostClonalParasitePopulations::SingleHostClonalParasitePopulations(const SingleHostClonalParasitePopulations& orig) {
-}
-
 SingleHostClonalParasitePopulations::~SingleHostClonalParasitePopulations() {
     if (parasites_ != NULL) {
         clear();

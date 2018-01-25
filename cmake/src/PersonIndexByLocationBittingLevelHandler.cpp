@@ -10,9 +10,6 @@
 PersonIndexByLocationBittingLevelHandler::PersonIndexByLocationBittingLevelHandler() {
 }
 
-PersonIndexByLocationBittingLevelHandler::PersonIndexByLocationBittingLevelHandler(const PersonIndexByLocationBittingLevelHandler& orig) {
-}
-
 PersonIndexByLocationBittingLevelHandler::~PersonIndexByLocationBittingLevelHandler() {
 }
 

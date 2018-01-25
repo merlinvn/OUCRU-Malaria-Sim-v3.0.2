@@ -20,9 +20,6 @@
 FarmReporter::FarmReporter() {
 }
 
-FarmReporter::FarmReporter(const FarmReporter& orig) {
-}
-
 FarmReporter::~FarmReporter() {
 }
 

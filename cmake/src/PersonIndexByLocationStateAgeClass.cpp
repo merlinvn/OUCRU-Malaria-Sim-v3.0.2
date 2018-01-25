@@ -16,9 +16,6 @@ PersonIndexByLocationStateAgeClass::PersonIndexByLocationStateAgeClass(const int
     Initialize(no_location, no_host_state, no_age_class);
 }
 
-PersonIndexByLocationStateAgeClass::PersonIndexByLocationStateAgeClass(const PersonIndexByLocationStateAgeClass& orig) {
-}
-
 PersonIndexByLocationStateAgeClass::~PersonIndexByLocationStateAgeClass() {
 
 }

@@ -19,9 +19,6 @@ OBJECTPOOL_IMPL(TestTreatmentFailureEvent)
 TestTreatmentFailureEvent::TestTreatmentFailureEvent() {
 }
 
-TestTreatmentFailureEvent::TestTreatmentFailureEvent(const TestTreatmentFailureEvent& orig) {
-}
-
 TestTreatmentFailureEvent::~TestTreatmentFailureEvent() {
     if (executable() && Model::DATA_COLLECTOR != NULL) {
         Model::DATA_COLLECTOR-> number_of_treatments_with_therapy_ID()[therapyId_] -= 1;

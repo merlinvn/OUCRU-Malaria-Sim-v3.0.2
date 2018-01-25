@@ -19,9 +19,6 @@
 MDAAction::MDAAction() {
 }
 
-MDAAction::MDAAction(const MDAAction& orig) {
-}
-
 MDAAction::~MDAAction() {
 }
 

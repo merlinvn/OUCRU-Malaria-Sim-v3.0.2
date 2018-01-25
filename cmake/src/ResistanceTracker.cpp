@@ -17,9 +17,6 @@
 ResistanceTracker::ResistanceTracker() {
 }
 
-ResistanceTracker::ResistanceTracker(const ResistanceTracker& orig) {
-}
-
 ResistanceTracker::~ResistanceTracker() {
 }
 

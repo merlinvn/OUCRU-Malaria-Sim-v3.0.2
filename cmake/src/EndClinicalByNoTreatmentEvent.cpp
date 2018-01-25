@@ -20,9 +20,6 @@ OBJECTPOOL_IMPL(EndClinicalByNoTreatmentEvent)
 EndClinicalByNoTreatmentEvent::EndClinicalByNoTreatmentEvent() {
 }
 
-EndClinicalByNoTreatmentEvent::EndClinicalByNoTreatmentEvent(const EndClinicalByNoTreatmentEvent& orig) {
-}
-
 EndClinicalByNoTreatmentEvent::~EndClinicalByNoTreatmentEvent() {
 }
 

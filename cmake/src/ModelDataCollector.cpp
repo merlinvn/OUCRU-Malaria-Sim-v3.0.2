@@ -24,9 +24,6 @@ total_number_of_bites_by_location_(), total_number_of_bites_by_location_year_(),
 cumulative_clinical_episodes_by_location_(), cumulative_clinical_episodes_by_location_age_() {
 }
 
-ModelDataCollector::ModelDataCollector(const ModelDataCollector& orig) {
-}
-
 ModelDataCollector::~ModelDataCollector() {
 }
 

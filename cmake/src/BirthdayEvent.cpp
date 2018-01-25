@@ -16,9 +16,6 @@ OBJECTPOOL_IMPL(BirthdayEvent)
 BirthdayEvent::BirthdayEvent() : Event() {
 }
 
-BirthdayEvent::BirthdayEvent(const BirthdayEvent& orig) {
-}
-
 BirthdayEvent::~BirthdayEvent() {
 }
 

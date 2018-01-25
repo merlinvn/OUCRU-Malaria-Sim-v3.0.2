@@ -19,9 +19,6 @@
 ImmuneComponent::ImmuneComponent(ImmuneSystem* immune_system) : immune_system_(immune_system), latest_value_(0.0) {
 }
 
-ImmuneComponent::ImmuneComponent(const ImmuneComponent& orig) {
-}
-
 ImmuneComponent::~ImmuneComponent() {
     immune_system_ = NULL;
 }

@@ -28,9 +28,6 @@
 AMUReporter::AMUReporter() : last_reported_NTF_(0) {
 }
 
-//AMUReporter::AMUReporter(const AMUReporter& orig) {
-//}
-
 AMUReporter::~AMUReporter() {
 }
 

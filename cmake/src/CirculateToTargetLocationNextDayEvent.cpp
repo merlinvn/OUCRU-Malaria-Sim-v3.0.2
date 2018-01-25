@@ -19,8 +19,6 @@ OBJECTPOOL_IMPL(CirculateToTargetLocationNextDayEvent)
 CirculateToTargetLocationNextDayEvent::CirculateToTargetLocationNextDayEvent() {
 }
 
-CirculateToTargetLocationNextDayEvent::CirculateToTargetLocationNextDayEvent(const CirculateToTargetLocationNextDayEvent& orig) {
-}
 
 CirculateToTargetLocationNextDayEvent::~CirculateToTargetLocationNextDayEvent() {
 }

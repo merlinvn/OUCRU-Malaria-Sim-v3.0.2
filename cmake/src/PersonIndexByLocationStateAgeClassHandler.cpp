@@ -10,9 +10,6 @@
 PersonIndexByLocationStateAgeClassHandler::PersonIndexByLocationStateAgeClassHandler() {
 }
 
-PersonIndexByLocationStateAgeClassHandler::PersonIndexByLocationStateAgeClassHandler(const PersonIndexByLocationStateAgeClassHandler& orig) {
-}
-
 PersonIndexByLocationStateAgeClassHandler::~PersonIndexByLocationStateAgeClassHandler() {
 }
 

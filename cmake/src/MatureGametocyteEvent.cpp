@@ -19,9 +19,6 @@ OBJECTPOOL_IMPL(MatureGametocyteEvent)
 MatureGametocyteEvent::MatureGametocyteEvent() {
 }
 
-MatureGametocyteEvent::MatureGametocyteEvent(const MatureGametocyteEvent& orig) {
-}
-
 MatureGametocyteEvent::~MatureGametocyteEvent() {
 }
 

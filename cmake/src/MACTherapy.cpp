@@ -10,9 +10,6 @@
 MACTherapy::MACTherapy() : therapy_ids_(), start_at_days_() {
 }
 
-MACTherapy::MACTherapy(const MACTherapy& orig) {
-}
-
 MACTherapy::~MACTherapy() {
 }
 

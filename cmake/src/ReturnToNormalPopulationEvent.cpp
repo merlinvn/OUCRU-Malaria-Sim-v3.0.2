@@ -14,9 +14,6 @@ OBJECTPOOL_IMPL(ReturnToNormalPopulationEvent)
 ReturnToNormalPopulationEvent::ReturnToNormalPopulationEvent() {
 }
 
-ReturnToNormalPopulationEvent::ReturnToNormalPopulationEvent(const ReturnToNormalPopulationEvent& orig) {
-}
-
 ReturnToNormalPopulationEvent::~ReturnToNormalPopulationEvent() {
 }
 

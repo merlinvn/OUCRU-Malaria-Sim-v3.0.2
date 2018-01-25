@@ -14,9 +14,6 @@ PersonIndexByLocationMovingLevel::PersonIndexByLocationMovingLevel(const int& no
 	Initialize(no_location, no_level);
 }
 
-PersonIndexByLocationMovingLevel::PersonIndexByLocationMovingLevel(const PersonIndexByLocationMovingLevel& orig) {
-}
-
 PersonIndexByLocationMovingLevel::~PersonIndexByLocationMovingLevel() {
 	vPerson_.clear();
 }

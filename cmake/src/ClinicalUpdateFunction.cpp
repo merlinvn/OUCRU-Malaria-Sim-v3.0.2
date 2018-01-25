@@ -12,8 +12,6 @@
 ClinicalUpdateFunction::ClinicalUpdateFunction(Model* model) : model_(model) {
 }
 
-ClinicalUpdateFunction::ClinicalUpdateFunction(const ClinicalUpdateFunction& orig) {
-}
 
 ClinicalUpdateFunction::~ClinicalUpdateFunction() {
 }

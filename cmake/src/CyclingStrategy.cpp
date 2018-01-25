@@ -16,8 +16,6 @@
 CyclingStrategy::CyclingStrategy() : index_(0), cycling_time_(0) {
 }
 
-CyclingStrategy::CyclingStrategy(const CyclingStrategy& orig) {
-}
 
 CyclingStrategy::~CyclingStrategy() {
 }

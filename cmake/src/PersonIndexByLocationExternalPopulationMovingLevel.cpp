@@ -13,9 +13,6 @@ PersonIndexByLocationExternalPopulationMovingLevel::PersonIndexByLocationExterna
     Initialize(no_location, no_level);
 }
 
-PersonIndexByLocationExternalPopulationMovingLevel::PersonIndexByLocationExternalPopulationMovingLevel(const PersonIndexByLocationExternalPopulationMovingLevel& orig) {
-}
-
 PersonIndexByLocationExternalPopulationMovingLevel::~PersonIndexByLocationExternalPopulationMovingLevel() {
     vPerson_.clear();
 }

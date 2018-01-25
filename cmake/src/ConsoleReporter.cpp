@@ -23,9 +23,6 @@
 ConsoleReporter::ConsoleReporter() {
 }
 
-ConsoleReporter::ConsoleReporter(const ConsoleReporter& orig) {
-}
-
 ConsoleReporter::~ConsoleReporter() {
 }
 

@@ -23,10 +23,9 @@ BurninMonthlyReporter::BurninMonthlyReporter() {
 
 }
 
-BurninMonthlyReporter::BurninMonthlyReporter(const BurninMonthlyReporter& orig) {
-}
 
 BurninMonthlyReporter::~BurninMonthlyReporter() {
+
 }
 
 void BurninMonthlyReporter::initialize() {
@@ -50,9 +49,13 @@ void BurninMonthlyReporter::after_time_step() {
         for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
             double location_discounted_NTF = Model::DATA_COLLECTOR->cumulative_discounted_NTF_by_location()[location];
             double NTF = Model::DATA_COLLECTOR->cumulative_NTF_by_location()[location];
-            double change_in_NTF = Model::DATA_COLLECTOR->cumulative_discounted_NTF_by_location()[location] - last_reported_NTF_;
-            int change_in_clinical_episodes = Model::DATA_COLLECTOR->cumulative_clinical_episodes_by_location()[location] - last_reported_clinical_episodes_;
-            int change_in_mutants = Model::DATA_COLLECTOR->cumulative_mutants_by_location()[location] - last_reported_mutants_;
+            double change_in_NTF =
+                    Model::DATA_COLLECTOR->cumulative_discounted_NTF_by_location()[location] - last_reported_NTF_;
+            int change_in_clinical_episodes =
+                    Model::DATA_COLLECTOR->cumulative_clinical_episodes_by_location()[location] -
+                    last_reported_clinical_episodes_;
+            int change_in_mutants =
+                    Model::DATA_COLLECTOR->cumulative_mutants_by_location()[location] - last_reported_mutants_;
 
             last_reported_mutants_ = Model::DATA_COLLECTOR->cumulative_mutants_by_location()[location];
             last_reported_clinical_episodes_ = Model::DATA_COLLECTOR->cumulative_clinical_episodes_by_location()[location];
@@ -71,12 +74,12 @@ void BurninMonthlyReporter::after_time_step() {
             } else {
                 std::cout << Model::DATA_COLLECTOR->EIR_by_location_year()[location].back() << "\t";
             }
-            std::cout << Model::DATA_COLLECTOR->blood_slide_prevalence_by_location()[location]*100 << "\t";
+            std::cout << Model::DATA_COLLECTOR->blood_slide_prevalence_by_location()[location] * 100 << "\t";
             std::cout << Model::DATA_COLLECTOR->current_TF_by_location()[location] << "\t";
             std::cout << "-1111" << "\t";
-            std::cout << Model::DATA_COLLECTOR->get_blood_slide_prevalence(location, 2, 10)*100 << "\t";
-            std::cout << Model::DATA_COLLECTOR->get_blood_slide_prevalence(location, 10, 15)*100 << "\t";
-            std::cout << Model::DATA_COLLECTOR->get_blood_slide_prevalence(location, 15, 45)*100 << "\t";
+            std::cout << Model::DATA_COLLECTOR->get_blood_slide_prevalence(location, 2, 10) * 100 << "\t";
+            std::cout << Model::DATA_COLLECTOR->get_blood_slide_prevalence(location, 10, 15) * 100 << "\t";
+            std::cout << Model::DATA_COLLECTOR->get_blood_slide_prevalence(location, 15, 45) * 100 << "\t";
         }
         std::cout << "-1111" << "\t";
         for (int i = 0; i < Model::CONFIG->number_of_parasite_types(); i++) {
@@ -85,9 +88,10 @@ void BurninMonthlyReporter::after_time_step() {
 
         //output for MFT rebalencing
         if (Model::CONFIG->strategy()->get_type() == IStrategy::NestedSwitching) {
-            if (Model::CONFIG->strategy_db()[((NestedSwitchingStrategy*) Model::CONFIG->strategy())->switch_to_strategy_id()]->get_type()== IStrategy::MFTRebalancing) {
+            if (Model::CONFIG->strategy_db()[((NestedSwitchingStrategy *) Model::CONFIG->strategy())->switch_to_strategy_id()]->get_type() ==
+                IStrategy::MFTRebalancing) {
                 std::cout << "-1111" << "\t";
-                MFTRebalancingStrategy* s = (MFTRebalancingStrategy*) (Model::CONFIG->strategy_db()[((NestedSwitchingStrategy*) Model::CONFIG->strategy())->switch_to_strategy_id()]);
+                MFTRebalancingStrategy *s = (MFTRebalancingStrategy *) (Model::CONFIG->strategy_db()[((NestedSwitchingStrategy *) Model::CONFIG->strategy())->switch_to_strategy_id()]);
                 for (int i = 0; i < s->distribution().size(); i++) {
                     std::cout << s->distribution()[i] << "\t";
                 }

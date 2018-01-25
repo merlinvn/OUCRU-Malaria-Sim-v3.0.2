@@ -15,9 +15,6 @@
 NonInfantImmuneComponent::NonInfantImmuneComponent(ImmuneSystem* immune_system):ImmuneComponent(immune_system) {
 }
 
-// NonInfantImmuneComponent::NonInfantImmuneComponent(const NonInfantImmuneComponent& orig) {
-// }
-
 NonInfantImmuneComponent::~NonInfantImmuneComponent() {
 }
 

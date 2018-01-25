@@ -36,9 +36,6 @@ std::map<std::string, GuiReporter::CommandEnum >GuiReporter::CommandsMap = std::
 GuiReporter::GuiReporter() {
 }
 
-GuiReporter::GuiReporter(const GuiReporter& orig) {
-}
-
 GuiReporter::~GuiReporter() {
 }
 

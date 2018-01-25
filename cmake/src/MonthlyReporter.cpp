@@ -20,9 +20,6 @@ MonthlyReporter::MonthlyReporter(const std::string& file_name) : file_name_(file
 
 }
 
-MonthlyReporter::MonthlyReporter(const MonthlyReporter& orig) {
-}
-
 MonthlyReporter::~MonthlyReporter() {
 }
 

@@ -19,8 +19,6 @@ OBJECTPOOL_IMPL(Drug)
 Drug::Drug(DrugType* drug_type) : drug_type_(drug_type), dosing_days_(0), last_update_time_(0), last_update_value_(1.0), starting_value_(1.0), start_time_(0), end_time_(0), person_drugs_(NULL) {
 }
 
-Drug::Drug(const Drug& orig) {
-}
 
 Drug::~Drug() {
 

@@ -56,12 +56,12 @@
         property_type* property_name() const{ return property_name##_; }
 
 #define DISALLOW_ASSIGN_(type)\
-    private:\
-        void operator=(type const &);
+    public:\
+        void operator=(type const &) = delete;
 
 #define DISALLOW_COPY_(type)\
-    private:\
-        type(type const &);\
+    public:\
+        type(type const &) = delete;\
 
 #define DISALLOW_COPY_AND_ASSIGN_(type)\
     DISALLOW_COPY_(type)\

@@ -24,9 +24,6 @@
 Reporter::Reporter() : model_(NULL) {
 }
 
-Reporter::Reporter(const Reporter& orig) {
-}
-
 Reporter::~Reporter() {
 }
 

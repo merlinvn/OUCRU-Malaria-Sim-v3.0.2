@@ -13,9 +13,6 @@
 ReceiveMDADrugEvent::ReceiveMDADrugEvent() {
 }
 
-ReceiveMDADrugEvent::ReceiveMDADrugEvent(const ReceiveMDADrugEvent& orig) {
-}
-
 ReceiveMDADrugEvent::~ReceiveMDADrugEvent() {
 }
 

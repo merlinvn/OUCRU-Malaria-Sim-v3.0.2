@@ -20,9 +20,6 @@ OBJECTPOOL_IMPL(UpdateWhenDrugIsPresentEvent)
 UpdateWhenDrugIsPresentEvent::UpdateWhenDrugIsPresentEvent() {
 }
 
-UpdateWhenDrugIsPresentEvent::UpdateWhenDrugIsPresentEvent(const UpdateWhenDrugIsPresentEvent& orig) {
-}
-
 UpdateWhenDrugIsPresentEvent::~UpdateWhenDrugIsPresentEvent() {
 }
 

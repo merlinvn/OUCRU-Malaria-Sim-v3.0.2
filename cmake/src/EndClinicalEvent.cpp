@@ -17,9 +17,6 @@ OBJECTPOOL_IMPL(EndClinicalEvent)
 EndClinicalEvent::EndClinicalEvent() {
 }
 
-EndClinicalEvent::EndClinicalEvent(const EndClinicalEvent& orig) {
-}
-
 EndClinicalEvent::~EndClinicalEvent() {
 }
 

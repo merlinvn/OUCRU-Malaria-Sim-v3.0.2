@@ -62,9 +62,6 @@ Config::Config(Model* model) : model_(model), strategy_(NULL), strategy_db_(), t
 
 }
 
-Config::Config(const Config& orig) {
-}
-
 Config::~Config() {
     //    DeletePointer<Strategy>(strategy_);
     DeletePointer<IStrategy>(tme_strategy_);

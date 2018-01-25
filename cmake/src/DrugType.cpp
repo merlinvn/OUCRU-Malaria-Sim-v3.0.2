@@ -23,9 +23,6 @@ DrugType::DrugType() : id_(0), n_(1), drug_family_(Other), affecting_loci_(), ec
 
 }
 
-DrugType::DrugType(const DrugType& orig) {
-}
-
 DrugType::~DrugType() {
 }
 

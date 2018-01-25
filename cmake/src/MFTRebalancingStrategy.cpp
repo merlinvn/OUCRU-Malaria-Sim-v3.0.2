@@ -20,9 +20,6 @@
 MFTRebalancingStrategy::MFTRebalancingStrategy() : next_update_time_(-1), latest_adjust_distribution_time_(-1) {
 }
 
-//MFTRebalancingStrategy::MFTRebalancingStrategy(const MFTRebalancingStrategy& orig) {
-//}
-
 MFTRebalancingStrategy::~MFTRebalancingStrategy() {
 
 }

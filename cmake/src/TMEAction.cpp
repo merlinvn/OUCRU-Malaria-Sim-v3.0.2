@@ -10,9 +10,6 @@
 TMEAction::TMEAction() {
 }
 
-TMEAction::TMEAction(const TMEAction& orig) {
-}
-
 TMEAction::~TMEAction() {
 }
 

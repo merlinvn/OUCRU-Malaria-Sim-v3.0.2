@@ -17,9 +17,6 @@
 TMEScheduler::TMEScheduler(Model* model) : model_(model), tme_file_name_("tme.txt") {
 }
 
-TMEScheduler::TMEScheduler(const TMEScheduler& orig) {
-}
-
 TMEScheduler::~TMEScheduler() {
 }
 

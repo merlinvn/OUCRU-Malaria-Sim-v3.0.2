@@ -22,9 +22,6 @@ MFTStrategy::MFTStrategy() : distribution_() {
 
 }
 
-MFTStrategy::MFTStrategy(const MFTStrategy& orig) {
-}
-
 MFTStrategy::~MFTStrategy() {
 }
 

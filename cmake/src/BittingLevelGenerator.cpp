@@ -15,9 +15,6 @@
 BittingLevelGenerator::BittingLevelGenerator():data_() {
 }
 
-BittingLevelGenerator::BittingLevelGenerator(const BittingLevelGenerator& orig) {
-}
-
 BittingLevelGenerator::~BittingLevelGenerator() {
 }
 

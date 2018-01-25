@@ -12,9 +12,6 @@
 SCTherapy::SCTherapy() : drug_ids_(), dosing_day_(-1), artemisinin_id_(-1) {
 }
 
-SCTherapy::SCTherapy(const SCTherapy& orig) {
-}
-
 SCTherapy::~SCTherapy() {
 }
 

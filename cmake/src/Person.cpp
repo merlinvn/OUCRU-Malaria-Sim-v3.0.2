@@ -66,9 +66,6 @@ void Person::init() {
     today_target_locations_ = new IntVector();
 }
 
-Person::Person(const Person& orig) {
-}
-
 Person::~Person() {
     Dispatcher::clear_events();
     DeletePointer<ImmuneSystem>(immune_system_);

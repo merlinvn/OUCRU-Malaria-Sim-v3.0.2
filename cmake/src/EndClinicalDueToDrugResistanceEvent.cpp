@@ -20,9 +20,6 @@ OBJECTPOOL_IMPL(EndClinicalDueToDrugResistanceEvent)
 EndClinicalDueToDrugResistanceEvent::EndClinicalDueToDrugResistanceEvent() {
 }
 
-EndClinicalDueToDrugResistanceEvent::EndClinicalDueToDrugResistanceEvent(const EndClinicalDueToDrugResistanceEvent& orig) {
-}
-
 EndClinicalDueToDrugResistanceEvent::~EndClinicalDueToDrugResistanceEvent() {
 }
 

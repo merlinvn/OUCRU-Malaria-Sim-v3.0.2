@@ -10,9 +10,6 @@
 PersonIndexByLocationMovingLevelHandler::PersonIndexByLocationMovingLevelHandler() {
 }
 
-PersonIndexByLocationMovingLevelHandler::PersonIndexByLocationMovingLevelHandler(const PersonIndexByLocationMovingLevelHandler& orig) {
-}
-
 PersonIndexByLocationMovingLevelHandler::~PersonIndexByLocationMovingLevelHandler() {
 }
 

@@ -21,9 +21,6 @@ OBJECTPOOL_IMPL(MoveParasiteToBloodEvent)
 MoveParasiteToBloodEvent::MoveParasiteToBloodEvent() {
 }
 
-MoveParasiteToBloodEvent::MoveParasiteToBloodEvent(const MoveParasiteToBloodEvent& orig) {
-}
-
 MoveParasiteToBloodEvent::~MoveParasiteToBloodEvent() {
 }
 

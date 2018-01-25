@@ -16,15 +16,12 @@ OBJECTPOOL_IMPL(UpdateEveryKDaysEvent)
 UpdateEveryKDaysEvent::UpdateEveryKDaysEvent() {
 }
 
-UpdateEveryKDaysEvent::UpdateEveryKDaysEvent(const UpdateEveryKDaysEvent& orig) {
-}
-
 UpdateEveryKDaysEvent::~UpdateEveryKDaysEvent() {
 }
 
-void UpdateEveryKDaysEvent::schedule_event(Scheduler* scheduler, Person* p, const int& time) {
+void UpdateEveryKDaysEvent::schedule_event(Scheduler *scheduler, Person *p, const int &time) {
     if (scheduler != NULL) {
-        UpdateEveryKDaysEvent* e = new UpdateEveryKDaysEvent();
+        UpdateEveryKDaysEvent *e = new UpdateEveryKDaysEvent();
         e->set_dispatcher(p);
         e->set_executable(true);
         e->set_time(time);
@@ -35,6 +32,6 @@ void UpdateEveryKDaysEvent::schedule_event(Scheduler* scheduler, Person* p, cons
 }
 
 void UpdateEveryKDaysEvent::execute() {
-    Person* person = (Person*) dispatcher();
+    Person *person = (Person *) dispatcher();
     person->schedule_update_every_K_days_event(Model::CONFIG->update_frequency());
 }

@@ -86,10 +86,6 @@ Model::Model(const int &object_pool_size) {
     is_farm_output_ = false;
 }
 
-Model::Model(const Model& orig) {
-
-}
-
 Model::~Model() {
     //    std::cout << "Model Release" << std::endl;
     DeletePointer<ClinicalUpdateFunction>(progress_to_clinical_update_function_);

@@ -27,9 +27,6 @@ void DrugsInBlood::init() {
     drugs_ = new DrugPtrMap();
 }
 
-DrugsInBlood::DrugsInBlood(const DrugsInBlood& orig) {
-}
-
 DrugsInBlood::~DrugsInBlood() {
     if (drugs_ != NULL) {
         clear();

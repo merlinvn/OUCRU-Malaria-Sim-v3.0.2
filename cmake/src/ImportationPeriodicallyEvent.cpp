@@ -22,9 +22,6 @@ ImportationPeriodicallyEvent::ImportationPeriodicallyEvent(const int& location, 
 
 }
 
-ImportationPeriodicallyEvent::ImportationPeriodicallyEvent(const ImportationPeriodicallyEvent& orig) {
-}
-
 ImportationPeriodicallyEvent::~ImportationPeriodicallyEvent() {
 }
 

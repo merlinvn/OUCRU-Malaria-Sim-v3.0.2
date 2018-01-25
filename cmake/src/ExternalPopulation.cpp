@@ -20,10 +20,6 @@ ExternalPopulation::ExternalPopulation(Model* model) : Population(model) {
 
 }
 
-ExternalPopulation::ExternalPopulation(const ExternalPopulation& orig) {
-
-}
-
 ExternalPopulation::~ExternalPopulation() {
 //    //release memory for all persons
 //    if (all_persons() != NULL) {

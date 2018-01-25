@@ -18,8 +18,6 @@ AdaptiveCyclingStrategy::AdaptiveCyclingStrategy() : trigger_value_(0), delay_un
     set_index(0);
 }
 
-AdaptiveCyclingStrategy::AdaptiveCyclingStrategy(const AdaptiveCyclingStrategy& orig) {
-}
 
 AdaptiveCyclingStrategy::~AdaptiveCyclingStrategy() {
 }

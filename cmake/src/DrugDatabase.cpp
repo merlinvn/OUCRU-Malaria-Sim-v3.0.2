@@ -12,9 +12,6 @@
 DrugDatabase::DrugDatabase() : drug_db_() {
 }
 
-DrugDatabase::DrugDatabase(const DrugDatabase& orig) {
-}
-
 DrugDatabase::~DrugDatabase() {
 
     BOOST_FOREACH(DrugTypePtrMap::value_type &i, drug_db_) {

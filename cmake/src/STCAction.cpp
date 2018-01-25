@@ -13,9 +13,6 @@
 STCAction::STCAction() {
 }
 
-STCAction::STCAction(const STCAction& orig) {
-}
-
 STCAction::~STCAction() {
 }
 

@@ -18,9 +18,6 @@ OBJECTPOOL_IMPL(MoveToExternalPopulationEvent)
 MoveToExternalPopulationEvent::MoveToExternalPopulationEvent() {
 }
 
-MoveToExternalPopulationEvent::MoveToExternalPopulationEvent(const MoveToExternalPopulationEvent& orig) {
-}
-
 MoveToExternalPopulationEvent::~MoveToExternalPopulationEvent() {
 }
 

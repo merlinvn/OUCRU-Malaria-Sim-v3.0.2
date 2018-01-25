@@ -14,9 +14,6 @@ TMEActionFactory::TMEActionFactory() {
     register_action("B", &STCAction::Create);
 }
 
-TMEActionFactory::TMEActionFactory(const TMEActionFactory& orig) {
-}
-
 TMEActionFactory::~TMEActionFactory() {
 }
 

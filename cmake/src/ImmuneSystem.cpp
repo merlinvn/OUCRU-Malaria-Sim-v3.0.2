@@ -23,9 +23,6 @@ ImmuneSystem::ImmuneSystem(Person *p) : person_(p), increase_(false), immune_com
 
 }
 
-ImmuneSystem::ImmuneSystem(const ImmuneSystem& orig) {
-}
-
 ImmuneSystem::~ImmuneSystem() {
 
     if (immune_component_ != NULL) {

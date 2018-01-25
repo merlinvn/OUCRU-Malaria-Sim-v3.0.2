@@ -14,9 +14,6 @@
 SFTStrategy::SFTStrategy() {
 }
 
-SFTStrategy::SFTStrategy(const SFTStrategy& orig) {
-}
-
 SFTStrategy::~SFTStrategy() {
 }
 

@@ -22,9 +22,6 @@
 ACTIncreaseStrategy::ACTIncreaseStrategy() {
 }
 
-ACTIncreaseStrategy::ACTIncreaseStrategy(const ACTIncreaseStrategy& orig) {
-}
-
 ACTIncreaseStrategy::~ACTIncreaseStrategy() {
 }
 

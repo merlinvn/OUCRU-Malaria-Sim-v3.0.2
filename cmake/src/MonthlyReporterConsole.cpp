@@ -14,9 +14,6 @@ MonthlyReporterConsole::MonthlyReporterConsole() {
 
 }
 
-MonthlyReporterConsole::MonthlyReporterConsole(const MonthlyReporterConsole& orig) {
-}
-
 MonthlyReporterConsole::~MonthlyReporterConsole() {
 }
 

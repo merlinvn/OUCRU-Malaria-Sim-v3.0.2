@@ -18,9 +18,6 @@
 MultipleLocationGuiReporter::MultipleLocationGuiReporter() {
 }
 
-MultipleLocationGuiReporter::MultipleLocationGuiReporter(const MultipleLocationGuiReporter& orig) {
-}
-
 MultipleLocationGuiReporter::~MultipleLocationGuiReporter() {
 }
 

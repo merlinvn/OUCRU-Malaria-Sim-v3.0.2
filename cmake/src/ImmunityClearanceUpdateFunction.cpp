@@ -16,9 +16,6 @@
 ImmunityClearanceUpdateFunction::ImmunityClearanceUpdateFunction(Model* model) : model_(model) {
 }
 
-ImmunityClearanceUpdateFunction::ImmunityClearanceUpdateFunction(const ImmunityClearanceUpdateFunction& orig) {
-}
-
 ImmunityClearanceUpdateFunction::~ImmunityClearanceUpdateFunction() {
 }
 

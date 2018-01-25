@@ -24,9 +24,6 @@
 NestedSwitchingStrategy::NestedSwitchingStrategy() {
 }
 
-NestedSwitchingStrategy::NestedSwitchingStrategy(const NestedSwitchingStrategy& orig) {
-}
-
 NestedSwitchingStrategy::~NestedSwitchingStrategy() {
 }
 

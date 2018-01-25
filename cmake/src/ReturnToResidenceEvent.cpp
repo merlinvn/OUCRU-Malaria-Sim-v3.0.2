@@ -16,9 +16,6 @@ OBJECTPOOL_IMPL(ReturnToResidenceEvent)
 ReturnToResidenceEvent::ReturnToResidenceEvent() {
 }
 
-ReturnToResidenceEvent::ReturnToResidenceEvent(const ReturnToResidenceEvent& orig) {
-}
-
 ReturnToResidenceEvent::~ReturnToResidenceEvent() {
 }
 

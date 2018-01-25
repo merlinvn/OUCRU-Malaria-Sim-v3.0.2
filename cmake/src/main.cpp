@@ -76,9 +76,6 @@ int main(int argc, const char * argv[]) {
 
         m->initialize();
 
-
-
-
         //    
 
         m->run();

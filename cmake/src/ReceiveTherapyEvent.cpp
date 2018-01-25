@@ -14,9 +14,6 @@
 ReceiveTherapyEvent::ReceiveTherapyEvent() {
 }
 
-ReceiveTherapyEvent::ReceiveTherapyEvent(const ReceiveTherapyEvent& orig) {
-}
-
 ReceiveTherapyEvent::~ReceiveTherapyEvent() {
 }
 

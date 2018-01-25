@@ -23,9 +23,6 @@ OBJECTPOOL_IMPL(ProgressToClinicalEvent)
 ProgressToClinicalEvent::ProgressToClinicalEvent() {
 }
 
-ProgressToClinicalEvent::ProgressToClinicalEvent(const ProgressToClinicalEvent& orig) {
-}
-
 ProgressToClinicalEvent::~ProgressToClinicalEvent() {
 }
 

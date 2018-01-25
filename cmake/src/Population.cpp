@@ -32,9 +32,6 @@ Population::Population(Model* model) : model_(model) {
     person_index_list_->push_back(all_persons_);
 }
 
-Population::Population(const Population& orig) {
-}
-
 Population::~Population() {
     //release memory for all persons
     if (all_persons_ != NULL) {

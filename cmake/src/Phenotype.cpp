@@ -10,9 +10,6 @@
 Phenotype::Phenotype() {
 }
 
-Phenotype::Phenotype(const Phenotype& orig) {
-}
-
 Phenotype::~Phenotype() {
 }
 

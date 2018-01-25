@@ -12,9 +12,6 @@
 Therapy::Therapy() : drug_ids_(), id_(-1), number_of_dosing_days_(-1), testing_day_(-1) {
 }
 
-Therapy::Therapy(const Therapy& orig) {
-}
-
 Therapy::~Therapy() {
 }
 

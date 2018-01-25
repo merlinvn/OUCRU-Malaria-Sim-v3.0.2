@@ -21,9 +21,6 @@ OBJECTPOOL_IMPL(ImportationEvent)
 ImportationEvent::ImportationEvent(const int& location, const int& execute_at, const int& genotype_id, const int& number_of_cases) : location_(location), execute_at_(execute_at), genotype_id_(genotype_id), number_of_cases_(number_of_cases) {
 }
 
-ImportationEvent::ImportationEvent(const ImportationEvent& orig) {
-}
-
 ImportationEvent::~ImportationEvent() {
 }
 

@@ -13,9 +13,6 @@
 Event::Event() : dispatcher_(NULL), scheduler_(NULL), time_(-1), executable_(true), IndexHandler() {
 }
 
-Event::Event(const Event& orig) {
-}
-
 Event::~Event() {
     if (dispatcher_ != NULL) {      
         dispatcher_->remove(this);

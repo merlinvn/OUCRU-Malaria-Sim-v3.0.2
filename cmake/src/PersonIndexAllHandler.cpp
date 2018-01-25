@@ -10,9 +10,6 @@
 PersonIndexAllHandler::PersonIndexAllHandler() {
 }
 
-PersonIndexAllHandler::PersonIndexAllHandler(const PersonIndexAllHandler& orig) {
-}
-
 PersonIndexAllHandler::~PersonIndexAllHandler() {
 }
 

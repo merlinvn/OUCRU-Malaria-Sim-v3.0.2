@@ -20,9 +20,6 @@ void Dispatcher::init() {
     events_ = new EventPtrVector();
 }
 
-Dispatcher::Dispatcher(const Dispatcher& orig) {
-}
-
 Dispatcher::~Dispatcher() {
     clear_events();
 

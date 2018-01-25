@@ -19,9 +19,6 @@
 TherapyBuilder::TherapyBuilder() {
 }
 
-TherapyBuilder::TherapyBuilder(const TherapyBuilder& orig) {
-}
-
 TherapyBuilder::~TherapyBuilder() {
 }
 

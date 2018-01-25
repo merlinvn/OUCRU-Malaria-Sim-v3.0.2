@@ -10,9 +10,6 @@
 PersonIndex::PersonIndex() {
 }
 
-PersonIndex::PersonIndex(const PersonIndex& orig) {
-}
-
 PersonIndex::~PersonIndex() {
 }
 

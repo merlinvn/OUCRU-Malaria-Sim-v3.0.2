@@ -14,9 +14,6 @@ PersonIndexByLocationBittingLevel::PersonIndexByLocationBittingLevel(const int& 
     Initialize(no_location, no_level);
 }
 
-PersonIndexByLocationBittingLevel::PersonIndexByLocationBittingLevel(const PersonIndexByLocationBittingLevel& orig) {
-}
-
 PersonIndexByLocationBittingLevel::~PersonIndexByLocationBittingLevel() {
 }
 

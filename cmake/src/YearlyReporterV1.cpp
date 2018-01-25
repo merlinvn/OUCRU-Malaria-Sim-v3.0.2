@@ -12,12 +12,10 @@
 #include "Config.h"
 #include "ModelDataCollector.h"
 
-YearlyReporterV1::YearlyReporterV1(const std::string& file_name) : file_name_(file_name) {
+YearlyReporterV1::YearlyReporterV1(const std::string &file_name) : file_name_(file_name) {
 
 }
 
-YearlyReporterV1::YearlyReporterV1(const YearlyReporterV1& orig) {
-}
 
 YearlyReporterV1::~YearlyReporterV1() {
 }
@@ -34,7 +32,8 @@ void YearlyReporterV1::begin_time_step() {
 }
 
 void YearlyReporterV1::after_time_step() {
-    if ((Model::SCHEDULER->current_time() > Model::CONFIG->start_collect_data_day()) && (((Model::SCHEDULER->current_time() - Model::CONFIG->start_collect_data_day()) % 365) == 0)) {
+    if ((Model::SCHEDULER->current_time() > Model::CONFIG->start_collect_data_day()) &&
+        (((Model::SCHEDULER->current_time() - Model::CONFIG->start_collect_data_day()) % 365) == 0)) {
         Model::DATA_COLLECTOR->perform_population_statistic();
 
         fs_ << ((Model::SCHEDULER->current_time() - Model::CONFIG->start_collect_data_day()) / 365) << "\t";
@@ -47,7 +46,8 @@ void YearlyReporterV1::after_time_step() {
             //            fs << Model::STATISTIC->number_of_treatments_by_location_age_year()[0][age] << "\t";
             for (int t_id = 0; t_id < 3; t_id++) {
                 fs_ << Model::DATA_COLLECTOR->number_of_treatments_by_location_age_therapy_year()[0][age][t_id] << "\t";
-                fs_ << Model::DATA_COLLECTOR->number_of_treatment_failures_by_location_age_therapy_year()[0][age][t_id] << "\t";
+                fs_ << Model::DATA_COLLECTOR->number_of_treatment_failures_by_location_age_therapy_year()[0][age][t_id]
+                    << "\t";
             }
         }
         fs_ << std::endl;

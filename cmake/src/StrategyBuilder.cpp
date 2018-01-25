@@ -28,9 +28,6 @@
 StrategyBuilder::StrategyBuilder() {
 }
 
-StrategyBuilder::StrategyBuilder(const StrategyBuilder& orig) {
-}
-
 StrategyBuilder::~StrategyBuilder() {
 }
 

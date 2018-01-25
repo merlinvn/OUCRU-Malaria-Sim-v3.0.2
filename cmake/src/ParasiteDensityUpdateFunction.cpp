@@ -10,9 +10,6 @@
 ParasiteDensityUpdateFunction::ParasiteDensityUpdateFunction() {
 }
 
-ParasiteDensityUpdateFunction::ParasiteDensityUpdateFunction(const ParasiteDensityUpdateFunction& orig) {
-}
-
 ParasiteDensityUpdateFunction::~ParasiteDensityUpdateFunction() {
 }
 
