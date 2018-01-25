@@ -22,9 +22,6 @@ else ()
     set(CMAKE_CXX_STANDARD_REQUIRED YES)
 ENDIF (CMAKE_VERSION VERSION_LESS 3.1)
 
-#includes Gtest
-#add_subdirectory(${EXT_PROJECTS_DIR}/gtest)
-
 #${COMMON_INCLUDES}
 #include dependent libs
 
@@ -39,7 +36,6 @@ if (Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS})
 endif ()
 
-
 add_subdirectory(${EXT_PROJECTS_DIR}/yaml-cpp)
 set(YAML_CPP_INCLUDE_DIRS ${EXT_PROJECTS_DIR}/yaml-cpp/include)
 set(YAML_CPP_LIBS_DIR ${CMAKE_BINARY_DIR}/ext/yaml-cpp)
@@ -51,8 +47,16 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 add_subdirectory(src)
 
 #Setup test project
-#set(PROJECT_TEST_NAME hello2_test)
-#add_subdirectory(test)
+#includes Gtest
+
+#set(YAML_CPP_INCLUDE_DIRS ${EXT_PROJECTS_DIR}/yaml-cpp/include)
+#set(YAML_CPP_LIBS_DIR ${CMAKE_BINARY_DIR}/ext/yaml-cpp)
+
+
+add_subdirectory(${EXT_PROJECTS_DIR}/googletest)
+set(PROJECT_TEST_NAME masim_test)
+add_subdirectory(test)
+
 
 #enable_testing()
 #add_test(test1 ${CMAKE_BINARY_DIR}/bin/${PROJECT_TEST_NAME} --gtest_color=yes)
