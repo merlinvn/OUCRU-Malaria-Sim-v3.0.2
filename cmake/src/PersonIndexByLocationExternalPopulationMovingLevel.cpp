@@ -77,7 +77,7 @@ void PersonIndexByLocationExternalPopulationMovingLevel::change_property(Person*
 
 void PersonIndexByLocationExternalPopulationMovingLevel::update() {
     for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
-        for (int ml = 0; ml < Model::CONFIG->spatial_external_population_information().number_of_moving_levels; ml++) {
+        for (int ml = 0; ml < Model::CONFIG->external_population_circulation_information().number_of_moving_levels; ml++) {
             std::vector<Person*>(vPerson_[location][ml]).swap(vPerson_[location][ml]);
         }
     }

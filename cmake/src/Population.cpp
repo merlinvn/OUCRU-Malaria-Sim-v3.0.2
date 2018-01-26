@@ -538,7 +538,7 @@ void Population::perform_circulation_event() {
 
 
     for (int from_location = 0; from_location < Model::CONFIG->number_of_locations(); from_location++) {
-        double poisson_means = size(from_location) * Model::CONFIG->spatial_information().circulation_percent;
+        double poisson_means = size(from_location) * Model::CONFIG->circulation_information().circulation_percent;
         if (poisson_means == 0)continue;
         int total_number_of_circulation = Model::RANDOM->random_poisson(poisson_means);
         if (total_number_of_circulation == 0) continue;
@@ -579,8 +579,8 @@ void Population::perform_circulation_for_1_location(const int& from_location, co
     std::vector<double> vLevelDensity;
     PersonIndexByLocationMovingLevel* pi = get_person_index<PersonIndexByLocationMovingLevel>();
 
-    for (int i = 0; i < Model::CONFIG->spatial_information().number_of_moving_levels; i++) {
-        double temp = Model::CONFIG->spatial_information().v_moving_level_value[i] * pi->vPerson()[from_location][i].size();
+    for (int i = 0; i < Model::CONFIG->circulation_information().number_of_moving_levels; i++) {
+        double temp = Model::CONFIG->circulation_information().v_moving_level_value[i] * pi->vPerson()[from_location][i].size();
         vLevelDensity.push_back(temp);
     }
 
@@ -634,11 +634,11 @@ void Population::initialize_person_indices() {
     PersonIndexByLocationBittingLevel* p_index_location_bitting_level = new PersonIndexByLocationBittingLevel(number_of_location, Model::CONFIG->relative_bitting_information().number_of_biting_levels);
     person_index_list_->push_back(p_index_location_bitting_level);
 
-    PersonIndexByLocationMovingLevel * p_index_location_moving_level = new PersonIndexByLocationMovingLevel(number_of_location, Model::CONFIG->spatial_information().number_of_moving_levels);
+    PersonIndexByLocationMovingLevel * p_index_location_moving_level = new PersonIndexByLocationMovingLevel(number_of_location, Model::CONFIG->circulation_information().number_of_moving_levels);
     person_index_list_->push_back(p_index_location_moving_level);
 
     //ad external population moving level here   
-    PersonIndexByLocationExternalPopulationMovingLevel * p_index_location_external_moving_level = new PersonIndexByLocationExternalPopulationMovingLevel(number_of_location, Model::CONFIG->spatial_external_population_information().number_of_moving_levels);
+    PersonIndexByLocationExternalPopulationMovingLevel * p_index_location_external_moving_level = new PersonIndexByLocationExternalPopulationMovingLevel(number_of_location, Model::CONFIG->external_population_circulation_information().number_of_moving_levels);
     person_index_list_->push_back(p_index_location_external_moving_level);
 }
 
@@ -649,7 +649,7 @@ void Population::perform_moving_to_external_population_event() {
     for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
         ///find number of movements to external population
 
-        double poisson_means = size(location) * Model::CONFIG->spatial_external_population_information().circulation_percent[location];
+        double poisson_means = size(location) * Model::CONFIG->external_population_circulation_information().circulation_percent[location];
         if (poisson_means == 0)continue;
         int number_of_movements = Model::RANDOM->random_poisson(poisson_means);
 
@@ -657,8 +657,8 @@ void Population::perform_moving_to_external_population_event() {
         std::vector<double> vLevelDensity;
         PersonIndexByLocationMovingLevel* pi = get_person_index<PersonIndexByLocationMovingLevel>();
 
-        for (int i = 0; i < Model::CONFIG->spatial_external_population_information().number_of_moving_levels; i++) {
-            double temp = Model::CONFIG->spatial_external_population_information().v_moving_level_value[i] * pi->vPerson()[location][i].size();
+        for (int i = 0; i < Model::CONFIG->external_population_circulation_information().number_of_moving_levels; i++) {
+            double temp = Model::CONFIG->external_population_circulation_information().v_moving_level_value[i] * pi->vPerson()[location][i].size();
             vLevelDensity.push_back(temp);
         }
 

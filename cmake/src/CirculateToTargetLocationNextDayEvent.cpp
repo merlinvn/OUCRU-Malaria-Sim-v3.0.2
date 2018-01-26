@@ -47,7 +47,7 @@ void CirculateToTargetLocationNextDayEvent::execute() {
         if (!person->has_return_to_residence_event()) {
             int length_of_trip = 0;
             while (length_of_trip < 1) {
-                length_of_trip = Model::RANDOM->random_gamma(Model::CONFIG->spatial_information().length_of_stay_theta, Model::CONFIG->spatial_information().length_of_stay_k);
+                length_of_trip = Model::RANDOM->random_gamma(Model::CONFIG->circulation_information().length_of_stay_theta, Model::CONFIG->circulation_information().length_of_stay_k);
             }
 
 //            std::cout << length_of_trip << std::endl;

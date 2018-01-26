@@ -115,7 +115,7 @@ struct ParasiteDensityLevel {
 
 struct RelativeBittingInformation {
     double max_relative_biting_value;
-    double number_of_biting_levels;
+    int number_of_biting_levels;
 
     //  biting_level_distribution:
     //  #  distribution: Exponential
@@ -131,7 +131,7 @@ struct RelativeBittingInformation {
 
 struct RelativeMovingInformation {
     double max_relative_moving_value;
-    double number_of_moving_levels;
+    int number_of_moving_levels;
 
     //  biting_level_distribution:
     //  #  distribution: Exponential
@@ -154,7 +154,7 @@ struct RelativeMovingInformation {
 
 struct ExternalPopulationInformation {
     double max_relative_moving_value;
-    double number_of_moving_levels;
+    int number_of_moving_levels;
 
     //  biting_level_distribution:
     //  #  distribution: Exponential

@@ -96,8 +96,8 @@ class Config {
     VIRTUAL_PROPERTY_REF(int, update_frequency);
     VIRTUAL_PROPERTY_REF(int, report_frequency);
 
-    VIRTUAL_PROPERTY_REF(RelativeMovingInformation, spatial_information);
-    VIRTUAL_PROPERTY_REF(ExternalPopulationInformation, spatial_external_population_information);
+    VIRTUAL_PROPERTY_REF(RelativeMovingInformation, circulation_information);
+    VIRTUAL_PROPERTY_REF(ExternalPopulationInformation, external_population_circulation_information);
 
     VIRTUAL_PROPERTY_REF(double, TF_rate)
 
@@ -131,7 +131,7 @@ public:
     void read_relative_biting_rate_info(const YAML::Node & config);
     void calculate_relative_biting_density();
     void read_spatial_info(const YAML::Node & config);
-    void read_spatial_external_population_info(const YAML::Node & config);
+    void read_external_population_circulation_info(const YAML::Node &config);
 
     void read_initial_parasite_info(const YAML::Node & config);
     void read_importation_parasite_info(const YAML::Node & config);

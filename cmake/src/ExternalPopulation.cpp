@@ -99,6 +99,6 @@ double ExternalPopulation::get_current_daily_EIR_by_location(const int& current_
     if (parasite_type_id != 0) {
         return 0;
     }
-    double seasonality = Model::CONFIG->seasonality(current_time, Model::CONFIG->spatial_external_population_information().seasonal_EIR.a[location], Model::CONFIG->spatial_external_population_information().seasonal_EIR.phi[location]);
-    return Model::CONFIG->spatial_external_population_information().daily_EIR[location] * seasonality;
+    double seasonality = Model::CONFIG->seasonality(current_time, Model::CONFIG->external_population_circulation_information().seasonal_EIR.a[location], Model::CONFIG->external_population_circulation_information().seasonal_EIR.phi[location]);
+    return Model::CONFIG->external_population_circulation_information().daily_EIR[location] * seasonality;
 }
