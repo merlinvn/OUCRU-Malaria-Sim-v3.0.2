@@ -119,8 +119,7 @@ public:
     
     void perform_interupted_feeding_recombination();
 
-private:
-
+    int size_residents_only(const int &location);
 };
 
 template<typename T>

@@ -18,6 +18,7 @@
 #include "NestedSwitchingStrategy.h"
 #include <fstream>
 #include "StringSplitHelper.h"
+#include "Spatial/SpatialModelBuilder.h"
 #include <cmath>
 
 using namespace Spatial;
@@ -61,6 +62,8 @@ Config::~Config() {
         delete i;
     }
     therapy_db_.clear();
+
+    DeletePointer<SpatialModel>(spatial_model_);
 }
 
 void Config::read_from_file(const std::string &config_file_name) {
@@ -902,6 +905,7 @@ void Config::override_1_parameter(const std::string &parameter_name, const std::
             }
         }
     }
+
     if (parameter_name == "fraction_non_art_replacement") {
         double fnar = atof(parameter_value.c_str());
         auto *s = dynamic_cast<NovelNonACTSwitchingStrategy *> (Model::CONFIG->strategy());
@@ -916,11 +920,11 @@ void Config::override_1_parameter(const std::string &parameter_name, const std::
 
 void Config::read_spatial_information(const YAML::Node &config) {
 
-    build_location_db(config["spatial_structure"]);
+    build_location_db(config["spatial_information"]);
 
-    spatial_distance_matrix_.resize(number_of_locations_);
+    spatial_distance_matrix_.resize(static_cast<unsigned long long int>(number_of_locations_));
     for (int from_location = 0; from_location < number_of_locations_; from_location++) {
-        spatial_distance_matrix_[from_location].resize(number_of_locations_);
+        spatial_distance_matrix_[from_location].resize(static_cast<unsigned long long int>(number_of_locations_));
         for (int to_location = 0; to_location < number_of_locations_; to_location++) {
             spatial_distance_matrix_[from_location][to_location] = Coordinate::calculate_distance_in_km(
                     *location_db_[from_location].coordinate,
@@ -930,6 +934,11 @@ void Config::read_spatial_information(const YAML::Node &config) {
 //                      << spatial_distance_matrix_[from_location][to_location] << std::endl;
         }
     }
+
+    //read spatial_model
+
+    spatial_model_ = SpatialModelBuilder::Build(config["spatial_information"]["spatial_model"].as<std::string>());
+
 }
 
 void Config::read_seasonal_information(const YAML::Node &config) {

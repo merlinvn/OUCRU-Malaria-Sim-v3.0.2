@@ -17,12 +17,13 @@
 #include <yaml-cpp/yaml.h>
 
 #include "TypeDef.h"
+#include "PropertyMacro.h"
 class IStrategy;
 
 class StrategyBuilder {
+    DISALLOW_COPY_AND_ASSIGN_(StrategyBuilder)
 public:
     StrategyBuilder();
-    StrategyBuilder(const StrategyBuilder& orig);
     virtual ~StrategyBuilder();
 
     static IStrategy* build(const YAML::Node& ns, const int& strategy_id);

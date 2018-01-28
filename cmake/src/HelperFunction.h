@@ -15,9 +15,9 @@
 
 template <typename T>
 void DeletePointer(T*& p) {
-    if (p != NULL) {
+    if (p != nullptr) {
         delete p;
-        p = NULL;
+        p = nullptr;
     }
 }
 

@@ -124,7 +124,7 @@ void Scheduler::end_time_step() {
     Model::POPULATION->perform_death_event();
     //    Model::EXTERNAL_POPULATION->perform_death_event();
     ///for safety remove all dead by calling perform_death_event
-    //    Model::POPULATION->perform_circulation_event();
+    Model::POPULATION->perform_circulation_event();
 
     //    Model::POPULATION->perform_moving_to_external_population_event();
 

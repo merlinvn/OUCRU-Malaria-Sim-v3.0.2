@@ -18,6 +18,7 @@
 #include "IntGenotypeDatabase.h"
 #include <boost/math/constants/constants.hpp>
 #include "Spatial/Location.h"
+#include "Spatial/SpatialModel.h"
 #include <memory>
 
 class Model;
@@ -135,6 +136,10 @@ VIRTUAL_PROPERTY_REF(double, modified_mutation_probability)
 VIRTUAL_PROPERTY_REF(std::vector<Spatial::Location>, location_db)
 
 VIRTUAL_PROPERTY_REF(DoubleVector2, spatial_distance_matrix)
+
+POINTER_PROPERTY(Spatial::SpatialModel, spatial_model)
+
+
 
 public:
     Config(Model *model = nullptr);

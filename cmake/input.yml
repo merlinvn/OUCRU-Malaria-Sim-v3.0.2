@@ -26,7 +26,8 @@ p_treatment: 0.500000
 
 
 
-spatial_structure:
+spatial_information:
+  spatial_model: "Gravity"
 #id, latitude, longitude, beta, pop_size
   location_info: [
     [0, 0, 0, 0.25, 10000],
