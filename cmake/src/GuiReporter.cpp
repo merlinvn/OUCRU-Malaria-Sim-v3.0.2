@@ -69,8 +69,8 @@ void GuiReporter::before_run() {
     }
 
     SendTabData(simulationInfoTab, "Seed", "", "", NumberToString<int>(Model::RANDOM->seed()), "Seed = <Data>");
-    SendTabData(simulationInfoTab, "Beta", "", "", NumberToString<double>(Model::CONFIG->beta()[0]), "Beta = <Data>");
-    SendTabData(simulationInfoTab, "PopulationSize", "", "", NumberToString<int>(Model::CONFIG->population_size_by_location()[0]), "Population Size = <Data>");
+    SendTabData(simulationInfoTab, "Beta", "", "", NumberToString<double>(Model::CONFIG->location_db()[0].beta), "Beta = <Data>");
+    SendTabData(simulationInfoTab, "PopulationSize", "", "", NumberToString<int>(Model::CONFIG->location_db()[0].populationSize), "Population Size = <Data>");
 
 }
 

@@ -11,23 +11,24 @@
 
 
 using namespace std;
-void CreateOptionParser(ez::ezOptionParser& opt);
 
-void Usage(ez::ezOptionParser& opt) {
+void CreateOptionParser(ez::ezOptionParser &opt);
+
+void Usage(ez::ezOptionParser &opt) {
     std::string usage;
     opt.getUsage(usage);
     std::cout << usage;
-    std::cout << "========================="<<std::endl;
+    std::cout << "=========================" << std::endl;
 };
 
-void handle_option_parser(Model* m, ez::ezOptionParser& opt);
+void handle_option_parser(Model *m, ez::ezOptionParser &opt);
 
 /*
  * 
  */
-int main(int argc, const char * argv[]) {
+int main(int argc, const char *argv[]) {
     try {
-        Model* m = new Model();
+        Model *m = new Model();
 
         ez::ezOptionParser opt;
         CreateOptionParser(opt);
@@ -88,7 +89,7 @@ int main(int argc, const char * argv[]) {
     return 0;
 }
 
-void CreateOptionParser(ez::ezOptionParser& opt) {
+void CreateOptionParser(ez::ezOptionParser &opt) {
     opt.overview = "Individual-based simulation for malaria.";
     opt.syntax = "malariasimulation [OPTIONS]";
     opt.example = "malariasimulation -h\n\n";
@@ -104,7 +105,7 @@ void CreateOptionParser(ez::ezOptionParser& opt) {
             "-help", // Flag token.
             "--help", // Flag token.
             "--usage" // Flag token.
-            );
+    );
     opt.add(
             "", // Default.
             0, // Required?
@@ -115,19 +116,20 @@ void CreateOptionParser(ez::ezOptionParser& opt) {
             "-farm", // Flag token.
             "--farm", // Flag token.
             "-ffo"
-            );
+    );
 
     opt.add(
             "config.yml", // Default.
             1, // Required?
             1, // Number of args expected.
             0, // Delimiter if expecting multiple args.
-            "The config file (YAML format). \nEx: malariasimulation -c config.yml", // Help description.
-            "-c", // Flag token. 
+            "The config file (YAML format). \nEx: malariasimulation -i config.yml", // Help description.
             "-i", // stand for input
-            "-cfg", // Flag token.
-            "--config" // Flag token.
-            );
+            "-c", // config
+            "--config",
+            "--input" // Flag token.
+    );
+
     opt.add(
             "tme.txt", // Default.
             0, // Required?
@@ -135,7 +137,7 @@ void CreateOptionParser(ez::ezOptionParser& opt) {
             0, // Delimiter if expecting multiple args.
             "The tme scheduler file (CSV format).", // Help description.
             "-tme" // Flag token. 
-            );
+    );
     opt.add("override.txt",
             0,
             1,
@@ -143,7 +145,7 @@ void CreateOptionParser(ez::ezOptionParser& opt) {
             "Provide file name and line number to overwrite input parameters",
             "-o",
             "--override"
-            );
+    );
 
     opt.add("1",
             0,
@@ -153,7 +155,7 @@ void CreateOptionParser(ez::ezOptionParser& opt) {
             "-l",
             "-p",
             "--line"
-            );
+    );
 
     opt.add("-1",
             0,
@@ -162,7 +164,7 @@ void CreateOptionParser(ez::ezOptionParser& opt) {
             "Seed number for random generator",
             "-s",
             "--seed"
-            );
+    );
 
     opt.add("0",
             0,
@@ -172,14 +174,14 @@ void CreateOptionParser(ez::ezOptionParser& opt) {
             "-g",
             "-gui",
             "--gui"
-            );
+    );
 }
 
-void handle_option_parser(Model* m, ez::ezOptionParser& opt) {
+void handle_option_parser(Model *m, ez::ezOptionParser &opt) {
     std::string config_filename = "config.yml";
-    if (opt.isSet("-c")) {
+    if (opt.isSet("-i")) {
 
-        opt.get("-c")->getString(config_filename);
+        opt.get("-i")->getString(config_filename);
         //        std::cout << config_filename << std::endl;
     }
     m->set_config_filename(config_filename);

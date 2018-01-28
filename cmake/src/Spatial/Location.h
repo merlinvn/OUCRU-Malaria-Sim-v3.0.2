@@ -8,6 +8,8 @@
 #include "../PropertyMacro.h"
 #include "Coordinate.h"
 #include <memory>
+#include <ostream>
+#include <vector>
 
 namespace Spatial {
 
@@ -17,18 +19,24 @@ namespace Spatial {
      */
 
     class Location {
-    DISALLOW_COPY_AND_ASSIGN_(Location)
+//    DISALLOW_COPY_AND_ASSIGN_(Location)
 
     public:
         int id;
         int populationSize;
         float beta;
         std::unique_ptr<Coordinate> coordinate;
-
+        std::vector<double> age_distribution;
     public:
-        Location(int id = 0, int populationSize = 0, float beta = 0, float latitude=0, float longitutde=0);
+        Location(int id = 0, int populationSize = 0, float beta = 0, float latitude = 0, float longitude = 0);
 
         virtual ~Location();
+
+        Location(const Location &org);
+
+        Location &operator=(const Location &other);
+
+        friend std::ostream &operator<<(std::ostream &os, const Location &location);
     };
 }
 

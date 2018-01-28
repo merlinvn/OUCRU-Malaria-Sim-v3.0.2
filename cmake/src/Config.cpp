@@ -18,6 +18,9 @@
 #include "NestedSwitchingStrategy.h"
 #include <fstream>
 #include "StringSplitHelper.h"
+#include <cmath>
+
+using namespace Spatial;
 
 Config::Config(Model *model) :
         model_(model), strategy_(nullptr), strategy_db_(), therapy_db_(), drug_db_(nullptr),
@@ -35,7 +38,8 @@ Config::Config(Model *model) :
         non_artemisinin_switching_day_(-1), total_time_(-1), start_treatment_day_(-1), start_collect_data_day_(-1),
         p_treatment_(-1), number_of_locations_(-1), number_of_age_classes_(-1),
         p_infection_from_an_infectious_bite_(-1), birth_rate_(-1),
-        number_of_tracking_days_(-1), tf_window_size_(-1), fraction_mosquitoes_interrupted_feeding_(0) {
+        number_of_tracking_days_(-1), tf_window_size_(-1), fraction_mosquitoes_interrupted_feeding_(0),
+        location_db_() {
 
 }
 
@@ -68,60 +72,17 @@ void Config::read_from_file(const std::string &config_file_name) {
 
     p_treatment_ = config["p_treatment"].as<double>();
 
-    number_of_locations_ = config["number_of_locations"].as<int>();
-    number_of_age_classes_ = config["number_of_age_classes"].as<int>();
-
-    beta_.clear();
-    seasonal_beta_.a.clear();
-    seasonal_beta_.phi.clear();
-
-    for (int i = 0; i < number_of_locations_; i++) {
-        beta_.push_back(config["beta"][i].as<double>());
-        seasonal_beta_.a.push_back(config["seasonal_beta"]["a"][i].as<double>());
-        seasonal_beta_.phi.push_back(config["seasonal_beta"]["phi"][i].as<double>());
-
-    }
-
-
     p_infection_from_an_infectious_bite_ = config["p_infection_from_an_infectious_bite"].as<double>();
-
-    age_structure_.clear();
-    for (int i = 0; i < number_of_age_classes_; i++) {
-        age_structure_.push_back(config["age_structure"][i].as<int>());
-    }
-    initial_age_structure_.clear();
-    for (int i = 0; i < config["initial_age_structure"].size(); i++) {
-        initial_age_structure_.push_back(config["initial_age_structure"][i].as<int>());
-    }
-
-    population_size_by_location_.clear();
-    for (int i = 0; i < number_of_locations_; i++) {
-        population_size_by_location_.push_back(config["population_size_by_location"][i].as<int>());
-    }
-
-    age_distribution_by_location_.clear();
-    age_distribution_by_location_.assign(static_cast<unsigned int>(number_of_locations_), std::vector<double>());
-    for (int loc = 0; loc < number_of_locations_; loc++) {
-        for (int i = 0; i < config["age_distribution_by_location"][loc].size(); i++) {
-            age_distribution_by_location_[loc].push_back(config["age_distribution_by_location"][loc][i].as<double>());
-        }
-    }
-
-    birth_rate_ = config["birth_rate"].as<double>();
-
-    death_rate_by_age_.clear();
-    for (int i = 0; i < number_of_age_classes_; i++) {
-        death_rate_by_age_.push_back(config["death_rate_by_age"][i].as<double>());
-    }
-
 
     number_of_tracking_days_ = config["number_of_tracking_days"].as<int>();
 
-    mortality_when_treatment_fail_by_age_class_.clear();
-    for (int i = 0; i < number_of_age_classes_; i++) {
-        mortality_when_treatment_fail_by_age_class_.push_back(
-                config["mortality_when_treatment_fail_by_age"][i].as<double>());
-    }
+    read_age_structure_information(config);
+
+    read_spatial_information(config);
+
+    read_seasonal_information(config);
+
+    read_biodemography_information(config);
 
     read_parasite_density_level(config["parasite_density_level"]);
 
@@ -162,11 +123,18 @@ void Config::read_from_file(const std::string &config_file_name) {
     tme_info_.tme_starting_day = config["tme_info"]["tme_starting_day"].as<int>();
     tme_info_.MDA_coverage.clear();
     tme_info_.MDA_duration.clear();
-    for (int location = 0; location < number_of_locations_; location++) {
-        tme_info_.MDA_coverage.push_back(config["tme_info"]["mda_coverage"][location].as<double>());
-        tme_info_.MDA_duration.push_back(config["tme_info"]["mda_duration"][location].as<int>());
-    }
 
+    if (config["tme_info"]["mda_coverage"].size() < number_of_locations_) {
+        for (int location = 0; location < number_of_locations_; location++) {
+            tme_info_.MDA_coverage.push_back(config["tme_info"]["mda_coverage"][0].as<double>());
+            tme_info_.MDA_duration.push_back(config["tme_info"]["mda_duration"][0].as<int>());
+        }
+    } else {
+        for (int location = 0; location < number_of_locations_; location++) {
+            tme_info_.MDA_coverage.push_back(config["tme_info"]["mda_coverage"][location].as<double>());
+            tme_info_.MDA_duration.push_back(config["tme_info"]["mda_duration"][location].as<int>());
+        }
+    }
     using_free_recombination_ = config["using_free_recombination"].as<bool>();
     tf_window_size_ = config["tf_window_size"].as<int>();
 
@@ -575,7 +543,6 @@ void Config::read_spatial_info(const YAML::Node &config) {
         t += i;
     }
 
-
     assert(circulation_information_.number_of_moving_levels == circulation_information_.v_moving_level_density.size());
     assert(circulation_information_.number_of_moving_levels == circulation_information_.v_moving_level_value.size());
     assert(fabs(t - 1) < 0.0001);
@@ -654,9 +621,31 @@ void Config::read_external_population_circulation_info(const YAML::Node &config)
            external_population_circulation_information_.v_moving_level_value.size());
     assert(fabs(t - 1) < 0.0001);
 
-    for (int i = 0; i < number_of_locations_; i++) {
-        external_population_circulation_information_.circulation_percent.push_back(
-                n["circulation_percent"][i].as<double>());
+
+    if (n["circulation_percent"].size() < number_of_locations_) {
+        for (int i = 0; i < number_of_locations_; i++) {
+            external_population_circulation_information_.circulation_percent.push_back(
+                    n["circulation_percent"][0].as<double>());
+            external_population_circulation_information_.daily_EIR.push_back(n["daily_EIR"][0].as<double>());
+            external_population_circulation_information_.seasonal_EIR.a.push_back(
+                    n["seasonal_EIR"]["a"][0].as<double>());
+            external_population_circulation_information_.seasonal_EIR.phi_upper.push_back(
+                    n["seasonal_EIR"]["phi_upper"][0].as<double>());
+            external_population_circulation_information_.seasonal_EIR.phi_lower.push_back(
+                    n["seasonal_EIR"]["phi_upper"][0].as<double>());
+        }
+    } else {
+        for (int i = 0; i < number_of_locations_; i++) {
+            external_population_circulation_information_.circulation_percent.push_back(
+                    n["circulation_percent"][i].as<double>());
+            external_population_circulation_information_.daily_EIR.push_back(n["daily_EIR"][i].as<double>());
+            external_population_circulation_information_.seasonal_EIR.a.push_back(
+                    n["seasonal_EIR"]["a"][i].as<double>());
+            external_population_circulation_information_.seasonal_EIR.phi_upper.push_back(
+                    n["seasonal_EIR"]["phi_upper"][i].as<double>());
+            external_population_circulation_information_.seasonal_EIR.phi_lower.push_back(
+                    n["seasonal_EIR"]["phi_lower"][i].as<double>());
+        }
     }
     //    external_population_circulation_information_.circulation_percent = n["circulation_percent"].as<double>();
 
@@ -673,13 +662,6 @@ void Config::read_external_population_circulation_info(const YAML::Node &config)
     if (Model::RANDOM != nullptr) {
         Model::RANDOM->external_population_moving_level_generator().set_level_density(
                 &external_population_circulation_information_.v_moving_level_density);
-    }
-
-    for (int i = 0; i < number_of_locations_; i++) {
-        external_population_circulation_information_.daily_EIR.push_back(n["daily_EIR"][i].as<double>());
-        external_population_circulation_information_.seasonal_EIR.a.push_back(n["seasonal_EIR"]["a"][i].as<double>());
-        external_population_circulation_information_.seasonal_EIR.phi.push_back(
-                n["seasonal_EIR"]["phi"][i].as<double>());
     }
     //    external_population_circulation_information_.daily_EIR = n["daily_EIR"].as<double>();
 }
@@ -788,7 +770,7 @@ void Config::override_parameters(const std::string &override_file, const int &po
 
 void Config::override_1_parameter(const std::string &parameter_name, const std::string &parameter_value) {
     if (parameter_name == "population_size") {
-        population_size_by_location_[0] = atoi(parameter_value.c_str());
+        Model::CONFIG->location_db()[0].populationSize = atoi(parameter_value.c_str());
     }
 
     if (parameter_name == "total_time") {
@@ -796,7 +778,7 @@ void Config::override_1_parameter(const std::string &parameter_name, const std::
     }
 
     if (parameter_name == "beta") {
-        beta_[0] = atof(parameter_value.c_str());
+        Model::CONFIG->location_db()[0].beta = static_cast<float>(atof(parameter_value.c_str()));
     }
 
     if (parameter_name == "f") {
@@ -807,8 +789,8 @@ void Config::override_1_parameter(const std::string &parameter_name, const std::
         modified_daily_cost_of_resistance_ = atof(parameter_value.c_str());
 
         for (auto &i : genotype_info_.loci_vector) {
-            for (int j = 0; j < i.alleles.size(); j++) {
-                i.alleles[j].daily_cost_of_resistance *= modified_daily_cost_of_resistance_;
+            for (auto &allele : i.alleles) {
+                allele.daily_cost_of_resistance *= modified_daily_cost_of_resistance_;
             }
         }
         build_parasite_db();
@@ -930,4 +912,110 @@ void Config::override_1_parameter(const std::string &parameter_name, const std::
 
     // TACT id and switching day will be modify by create new strategy in the .yml input file 
 
+}
+
+void Config::read_spatial_information(const YAML::Node &config) {
+
+    build_location_db(config["spatial_structure"]);
+
+    spatial_distance_matrix_.resize(number_of_locations_);
+    for (int from_location = 0; from_location < number_of_locations_; from_location++) {
+        spatial_distance_matrix_[from_location].resize(number_of_locations_);
+        for (int to_location = 0; to_location < number_of_locations_; to_location++) {
+            spatial_distance_matrix_[from_location][to_location] = Coordinate::calculate_distance_in_km(
+                    *location_db_[from_location].coordinate,
+                    *location_db_[to_location].coordinate);
+//
+//            std::cout << "distance[" << from_location << "," << to_location << "]: "
+//                      << spatial_distance_matrix_[from_location][to_location] << std::endl;
+        }
+    }
+}
+
+void Config::read_seasonal_information(const YAML::Node &config) {
+    seasonal_beta_.a.clear();
+    seasonal_beta_.phi_upper.clear();
+    seasonal_beta_.phi_lower.clear();
+
+
+    if (config["seasonal_beta"]["a"].size() < number_of_locations_) {
+
+        for (int i = 0; i < number_of_locations_; i++) {
+            seasonal_beta_.a.push_back(config["seasonal_beta"]["a"][0].as<double>());
+            seasonal_beta_.phi_upper.push_back(config["seasonal_beta"]["phi_upper"][0].as<double>());
+            seasonal_beta_.phi_lower.push_back(config["seasonal_beta"]["phi_lower"][0].as<double>());
+
+        }
+    } else {
+        for (int i = 0; i < number_of_locations_; i++) {
+            seasonal_beta_.a.push_back(config["seasonal_beta"]["a"][i].as<double>());
+            seasonal_beta_.phi_upper.push_back(config["seasonal_beta"]["phi_upper"][i].as<double>());
+            seasonal_beta_.phi_lower.push_back(config["seasonal_beta"]["phi_lower"][i].as<double>());
+        }
+    }
+}
+
+void Config::read_age_structure_information(const YAML::Node &config) {
+    number_of_age_classes_ = config["number_of_age_classes"].as<int>();
+    age_structure_.clear();
+    for (int i = 0; i < number_of_age_classes_; i++) {
+        age_structure_.push_back(config["age_structure"][i].as<int>());
+    }
+    initial_age_structure_.clear();
+    for (int i = 0; i < config["initial_age_structure"].size(); i++) {
+        initial_age_structure_.push_back(config["initial_age_structure"][i].as<int>());
+    }
+}
+
+void Config::read_biodemography_information(const YAML::Node &config) {
+    birth_rate_ = config["birth_rate"].as<double>();
+
+    death_rate_by_age_.clear();
+    for (int i = 0; i < number_of_age_classes_; i++) {
+        death_rate_by_age_.push_back(config["death_rate_by_age"][i].as<double>());
+    }
+
+    mortality_when_treatment_fail_by_age_class_.clear();
+    for (int i = 0; i < number_of_age_classes_; i++) {
+        mortality_when_treatment_fail_by_age_class_.push_back(
+                config["mortality_when_treatment_fail_by_age"][i].as<double>());
+    }
+}
+
+double Config::seasonality(const int &current_time, const double &amplitude, const double &phi_upper,
+                           const double &phi_lower) {
+    if (amplitude == 0) return 1;
+    return (((current_time % 360) > (360 / 2))) ? amplitude * (cos(2 * PI * (current_time + phi_upper) / 360) + 2) : (
+            cos(2 * PI * (current_time + phi_lower) / 360) + 2);
+    //        return amplitude * cos(2 * PI * (current_time + phi) / 365) + 2;
+}
+
+void Config::build_location_db(const YAML::Node &node) {
+    for (int i = 0; i < node["location_info"].size(); i++) {
+        location_db_.emplace_back(node["location_info"][i][0].as<int>(),
+                                  node["location_info"][i][4].as<int>(),
+                                  node["location_info"][i][3].as<float>(),
+                                  node["location_info"][i][1].as<float>(),
+                                  node["location_info"][i][2].as<float>());
+    }
+
+    number_of_locations_ = static_cast<int>(location_db_.size());
+
+    if (node["age_distribution_by_location"].size() < number_of_locations_) {
+        for (int loc = 0; loc < number_of_locations_; loc++) {
+            for (int i = 0; i < node["age_distribution_by_location"][0].size(); i++) {
+                location_db_[loc].age_distribution.push_back(
+                        node["age_distribution_by_location"][0][i].as<double>());
+            }
+        }
+    } else {
+        for (int loc = 0; loc < number_of_locations_; loc++) {
+            for (int i = 0; i < node["age_distribution_by_location"][loc].size(); i++) {
+                location_db_[loc].age_distribution.push_back(
+                        node["age_distribution_by_location"][loc][i].as<double>());
+            }
+        }
+    }
+//    location_db()[0].populationSize = 1000;
+//    std::cout << location_db()[0] << std::endl;
 }

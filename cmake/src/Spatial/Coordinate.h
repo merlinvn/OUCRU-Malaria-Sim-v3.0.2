@@ -5,6 +5,7 @@
 #ifndef SPATIAL_COORDINATE_H
 #define SPATIAL_COORDINATE_H
 
+#include <ostream>
 #include "../PropertyMacro.h"
 
 namespace Spatial {
@@ -25,8 +26,11 @@ namespace Spatial {
     public:
         static double calculate_distance_in_km(const Coordinate &from, const Coordinate &to);
 
+        friend std::ostream &operator<<(std::ostream &os, const Coordinate &coordinate);
 
     };
+
+
 }
 
 

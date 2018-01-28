@@ -188,11 +188,11 @@ void AMUReporter::output_parameters() {
 
     //intial population size
     for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
-        std::cout << Model::CONFIG->population_size_by_location()[location] << "\t";
+        std::cout << Model::CONFIG->location_db()[location].populationSize << "\t";
     }
     //beta
     for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
-        std::cout << Model::CONFIG->beta()[location] << "\t";
+        std::cout << Model::CONFIG->location_db()[location].beta << "\t";
     }
 
     std::cout << Model::CONFIG->p_treatment() << "\t";

@@ -51,8 +51,8 @@ void MultipleLocationGuiReporter::before_run() {
     std::stringstream s_beta;
     std::stringstream s_pop_size;
     for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
-        s_beta << Model::CONFIG->beta()[loc] << "\t";
-        s_pop_size << Model::CONFIG->population_size_by_location()[loc] << "\t";
+        s_beta << Model::CONFIG->location_db()[loc].beta<< "\t";
+        s_pop_size << Model::CONFIG->location_db()[loc].populationSize<< "\t";
     }
 
     SendTabData(simulationInfoTab, "Beta", "", "", s_beta.str(), "Beta = <Data>");
