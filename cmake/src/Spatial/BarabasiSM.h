@@ -2,26 +2,33 @@
 // Created by Nguyen Tran on 1/29/2018.
 //
 
-#ifndef POMS_GENERALGRAVITYSM_H
-#define POMS_GENERALGRAVITYSM_H
+#ifndef SPATIAL_BARABASISM_H
+#define SPATIAL_BARABASISM_H
 
 #include "../PropertyMacro.h"
 #include "SpatialModel.h"
+#include "yaml-cpp/yaml.h"
 
 namespace Spatial {
+    class BarabasiSM : public SpatialModel {
+    DISALLOW_COPY_AND_ASSIGN_(BarabasiSM)
 
-    class GeneralGravitySM : public SpatialModel {
-    DISALLOW_COPY_AND_ASSIGN_(GeneralGravitySM)
+    VIRTUAL_PROPERTY_REF(double, r_g_0)
+
+    VIRTUAL_PROPERTY_REF(double, beta_r)
+
+    VIRTUAL_PROPERTY_REF(double, kappa)
 
     public:
-        GeneralGravitySM();
+        BarabasiSM(const YAML::Node &node);
 
-        virtual ~GeneralGravitySM();
+        virtual ~ BarabasiSM();
 
         DoubleVector get_v_relative_outmovement_to_destination(const int &from_location,
                                                                const DoubleVector &relative_distance_vector,
                                                                const IntVector &v_number_of_residents_by_location) const override;
+
     };
 }
 
-#endif //POMS_GENERALGRAVITYSM_H
+#endif //SPATIAL_BARABASISM_H

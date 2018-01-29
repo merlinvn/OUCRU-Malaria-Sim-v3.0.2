@@ -27,7 +27,21 @@ p_treatment: 0.500000
 
 
 spatial_information:
-  spatial_model: "Gravity"
+
+  #spatial_model could be Gravity, Barabasi, or Wesolowski
+  spatial_model: "Wesolowski"
+
+  Barabasi:
+    r_g_0: 5.8
+    beta_r: 1.65
+    kappa: 350
+
+  Wesolowski:
+    kappa: 0.01093251
+    alpha: 0.22268982
+    beta: 0.14319618
+    gamma: 0.83741484
+
 #id, latitude, longitude, beta, pop_size
   location_info: [
     [0, 0, 0, 0.25, 10000],

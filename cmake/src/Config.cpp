@@ -936,8 +936,8 @@ void Config::read_spatial_information(const YAML::Node &config) {
     }
 
     //read spatial_model
-
-    spatial_model_ = SpatialModelBuilder::Build(config["spatial_information"]["spatial_model"].as<std::string>());
+    std::string sm_name = config["spatial_information"]["spatial_model"].as<std::string>();
+    spatial_model_ = SpatialModelBuilder::Build(sm_name, config["spatial_information"][sm_name]);
 
 }
 

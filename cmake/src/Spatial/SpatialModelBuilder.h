@@ -7,6 +7,7 @@
 
 #include "../PropertyMacro.h"
 #include "SpatialModel.h"
+#include "yaml-cpp/yaml.h"
 
 namespace Spatial {
     class SpatialModelBuilder {
@@ -16,7 +17,7 @@ namespace Spatial {
 
         virtual ~SpatialModelBuilder();
 
-        static SpatialModel *Build(const std::string &name);
+        static SpatialModel *Build(const std::string &name, const YAML::Node& node);
 
     };
 }

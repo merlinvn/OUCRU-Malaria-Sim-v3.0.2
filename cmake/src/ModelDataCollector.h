@@ -11,7 +11,12 @@
 #include "PropertyMacro.h"
 #include "TypeDef.h"
 #include "ResistanceTracker.h"
+#include <boost/version.hpp>
+
+#if BOOST_VERSION >= 106300  // or 64, need to check
 #include <boost/serialization/array_wrapper.hpp>
+#endif
+
 #include <boost/accumulators/accumulators.hpp>
 #include <boost/accumulators/statistics.hpp>
 
