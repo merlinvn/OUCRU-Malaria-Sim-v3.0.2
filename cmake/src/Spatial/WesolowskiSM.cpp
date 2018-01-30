@@ -14,9 +14,7 @@ namespace Spatial {
         alpha_ = node["alpha"].as<double>();
         beta_ = node["beta"].as<double>();
         gamma_ = node["gamma"].as<double>();
-
-
-        std::cout << beta_ << std::endl;
+//        std::cout << beta_ << std::endl;
     }
 
     WesolowskiSM::~WesolowskiSM() {

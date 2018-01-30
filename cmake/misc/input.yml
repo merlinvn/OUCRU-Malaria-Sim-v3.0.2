@@ -67,6 +67,26 @@ spatial_information:
 ]
 
 # this functionality works, but it was not used in any analyses for the 2015 LGH paper
+#this applies for all locations
+circulation_information:
+  max_relative_moving_value: 35
+  number_of_moving_levels: 100
+  moving_level_distribution:
+  #  distribution: Exponential
+    distribution: Gamma
+    Exponential:
+      scale: 0.17
+    Gamma:
+      mean: 5
+      sd: 10
+  circulation_percent: 0.0
+  length_of_stay:
+    mean: 5
+    sd: 10
+
+
+
+# this functionality works, but it was not used in any analyses for the 2015 LGH paper
 # seasonality parameters, by location
 seasonal_beta:
   a: [0, 0.7778, 0.25, 0.25]
@@ -902,21 +922,6 @@ relative_bitting_info:
       mean: 5
       sd: 10
 
-
-# this functionality works, but it was not used in any analyses for the 2015 LGH paper
-percentMovement: [
-[0.0,   0.01,   0.01 ],
-[0.01,  0.01,   0.01],
-[0.01,  0.04,   0.02]
-]
-
-meanDaysToReturn: [
-[3,   3,  3 ],
-[7,   7,  7 ],
-[14,  14, 14 ]
-]
-
-
 gametocyte_level_under_artemisinin_action: 1.0
 gametocyte_level_full: 1.0
 
@@ -949,24 +954,6 @@ report_frequency: 30
 # parasite clone, this setting allows the new infection to cause symptoms
 allow_new_coinfection_to_cause_symtoms: true
 
-
-# this functionality works, but it was not used in any analyses for the 2015 LGH paper
-circulation_information:
-  max_relative_moving_value: 35
-  number_of_moving_levels: 100
-  moving_level_distribution:
-  #  distribution: Exponential
-    distribution: Gamma  
-    Exponential:
-      scale: 0.17
-    Gamma:
-      mean: 5
-      sd: 10
-  circulation_percent: 0.0
-  length_of_stay:
-    mean: 5
-    sd: 10
-    
 # this functionality works, but it was not used in any analyses for the 2015 LGH paper
 external_population_circulation_information:
   max_relative_moving_value: 35
