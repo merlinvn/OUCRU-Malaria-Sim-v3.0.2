@@ -6,14 +6,14 @@
  */
 
 #include "ConsoleReporter.h"
-#include "Model.h"
-#include "Random.h"
-#include "Config.h"
-#include "Population.h"
-#include "PersonIndexByLocationStateAgeClass.h"
-#include "ModelDataCollector.h"
-#include "IStrategy.h"
-#include "Therapy.h"
+#include "../Model.h"
+#include "../Random.h"
+#include "../Config.h"
+#include "../Population.h"
+#include "../PersonIndexByLocationStateAgeClass.h"
+#include "../ModelDataCollector.h"
+#include "../IStrategy.h"
+#include "../Therapy.h"
 #include <boost/format.hpp>
 #include <iomanip>    
 

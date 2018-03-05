@@ -6,15 +6,15 @@
  */
 
 #include "GuiReporter.h"
-#include "Model.h"
-#include "Config.h"
-#include "IStrategy.h"
-#include "HelperFunction.h"
-#include "Random.h"
-#include "ModelDataCollector.h"
-#include "Population.h"
-#include "Drug.h"
-#include "IntGenotype.h"
+#include "../Model.h"
+#include "../Config.h"
+#include "../IStrategy.h"
+#include "../HelperFunction.h"
+#include "../Random.h"
+#include "../ModelDataCollector.h"
+#include "../Population.h"
+#include "../Drug.h"
+#include "../IntGenotype.h"
 #include <boost/format.hpp>
 
 

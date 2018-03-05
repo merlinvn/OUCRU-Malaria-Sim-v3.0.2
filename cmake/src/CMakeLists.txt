@@ -1,4 +1,4 @@
-file(GLOB SRC_FILES *.cpp *.h Spatial/*.cpp Spatial/*.h)
+file(GLOB SRC_FILES *.cpp *.h Spatial/*.cpp Spatial/*.h Reporters/*.cpp Reporters/*.h)
 
 add_executable(MaSim ${SRC_FILES} ObjectPool.h)
 

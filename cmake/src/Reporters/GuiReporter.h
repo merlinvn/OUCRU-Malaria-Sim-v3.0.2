@@ -8,7 +8,7 @@
 #ifndef GUIREPORTER_H
 #define	GUIREPORTER_H
 #include "Reporter.h"
-#include "PropertyMacro.h"
+#include "../PropertyMacro.h"
 #include <map>
 
 #ifndef SEPARATOR 

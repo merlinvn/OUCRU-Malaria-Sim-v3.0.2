@@ -1,22 +1,28 @@
-/* 
- * File:   FarmReporter.h
- * Author: Merlin
- *
- * Created on August 17, 2013, 4:45 PM
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 
-#ifndef FARMREPORTER_H
-#define	FARMREPORTER_H
+/* 
+ * File:   BurinFarmReporter.h
+ * Author: Merlin
+ *
+ * Created on April 11, 2017, 1:45 PM
+ */
+
+#ifndef BURINFARMREPORTER_H
+#define BURINFARMREPORTER_H
 
 #include "Reporter.h"
-#include "PropertyMacro.h"
+#include "../PropertyMacro.h"
 
-class FarmReporter : public Reporter {
-    DISALLOW_COPY_AND_ASSIGN_(FarmReporter)
+class BurninFarmReporter : public Reporter {
+    DISALLOW_COPY_AND_ASSIGN_(BurninFarmReporter)
 public:
-    FarmReporter();
+    BurninFarmReporter();
     //    FarmReporter(const FarmReporter& orig);
-    virtual ~FarmReporter();
+    virtual ~BurninFarmReporter();
 
 
     virtual void initialize();
@@ -55,6 +61,5 @@ public:
 private:
 
 };
-
-#endif	/* FARMREPORTER_H */
+#endif /* BURINFARMREPORTER_H */
 

@@ -1,7 +1,7 @@
 set(gmock_SOURCE_DIR ${EXT_PROJECTS_DIR}/googletest/googlemock)
 set(gtest_SOURCE_DIR ${EXT_PROJECTS_DIR}/googletest/googletest)
 
-message(${gmock_SOURCE_DIR})
+#message(${gmock_SOURCE_DIR})
 include_directories(${gmock_SOURCE_DIR}/include)
 include_directories(${gtest_SOURCE_DIR}/include)
 

@@ -12,8 +12,8 @@
 #include "FarmReporter.h"
 #include "MultipleLocationGuiReporter.h"
 #include "YearlyReporterV1.h"
-#include "Model.h"
-#include "Random.h"
+#include "../Model.h"
+#include "../Random.h"
 #include "MonthlyReporter.h"
 #include "MonthlyReporterConsole.h"
 #include "BurninMonthlyReporter.h"
@@ -27,11 +27,11 @@ Reporter::Reporter() : model_(NULL) {
 Reporter::~Reporter() {
 }
 
-Reporter* Reporter::MakeReport(ReportType report_type) {
+Reporter *Reporter::MakeReport(ReportType report_type) {
     std::string file_name1 = boost::str(boost::format("yearly_data_%1%_%2%.txt")
-            % Model::RANDOM->seed()
-            % Model::MODEL->override_parameter_line_number());
-    
+                                        % Model::RANDOM->seed()
+                                        % Model::MODEL->override_parameter_line_number());
+
 //    std::string file_name2 = boost::str(boost::format("monthly_data.txt"));
     switch (report_type) {
         case CONSOLE:
@@ -54,7 +54,5 @@ Reporter* Reporter::MakeReport(ReportType report_type) {
             return new BurninFarmReporter();
         default:
             return new ConsoleReporter();
-            break;
     }
-    return NULL;
 }

@@ -12,12 +12,12 @@
  */
 
 #include "BurninMonthlyReporter.h"
-#include "Model.h"
-#include "ModelDataCollector.h"
-#include "Config.h"
-#include "IStrategy.h"
-#include "NestedSwitchingStrategy.h"
-#include "MFTRebalancingStrategy.h"
+#include "../Model.h"
+#include "../ModelDataCollector.h"
+#include "../Config.h"
+#include "../IStrategy.h"
+#include "../NestedSwitchingStrategy.h"
+#include "../MFTRebalancingStrategy.h"
 
 BurninMonthlyReporter::BurninMonthlyReporter() {
 

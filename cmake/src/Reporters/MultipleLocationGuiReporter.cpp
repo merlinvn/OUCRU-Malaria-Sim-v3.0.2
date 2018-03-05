@@ -6,14 +6,14 @@
  */
 
 #include "MultipleLocationGuiReporter.h"
-#include "Model.h"
-#include "Config.h"
-#include "IStrategy.h"
-#include "ModelDataCollector.h"
-#include "HelperFunction.h"
-#include "Random.h"
+#include "../Model.h"
+#include "../Config.h"
+#include "../IStrategy.h"
+#include "../ModelDataCollector.h"
+#include "../HelperFunction.h"
+#include "../Random.h"
 #include "boost/format.hpp"
-#include "Person.h"
+#include "../Person.h"
 
 MultipleLocationGuiReporter::MultipleLocationGuiReporter() {
 }

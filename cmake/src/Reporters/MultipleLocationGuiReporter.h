@@ -9,7 +9,7 @@
 #define	MULTIPLELOCATIONGUIREPORTER_H
 
 #include "GuiReporter.h"
-#include "PropertyMacro.h"
+#include "../PropertyMacro.h"
 
 class MultipleLocationGuiReporter : public GuiReporter {
     DISALLOW_COPY_AND_ASSIGN_(MultipleLocationGuiReporter)

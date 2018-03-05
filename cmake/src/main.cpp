@@ -6,7 +6,7 @@
  */
 
 #include "Model.h"
-#include "ConsoleReporter.h"
+#include "Reporters/ConsoleReporter.h"
 #include "ezOptionParser.hpp"
 
 

@@ -59,8 +59,8 @@ spatial_information:
     ]
 
   age_distribution_by_location: [
-[0.02992,0.02992,0.02992,0.02992,0.02992,0.02992,0.02992,0.02992,0.02992,0.02992,0.02992,0.02992,0.02992,0.02992,0.02992,0.2007,0.098066667,0.098066667,0.098066667,0.0563],
-]
+    [0.02992,0.02992,0.02992,0.02992,0.02992,0.02992,0.02992,0.02992,0.02992,0.02992,0.02992,0.02992,0.02992,0.02992,0.02992,0.2007,0.098066667,0.098066667,0.098066667,0.0563]
+  ]
 
 # this functionality works, but it was not used in any analyses for the 2015 LGH paper
 #this applies for all locations
@@ -108,8 +108,8 @@ initial_age_structure: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 25, 3
 birth_rate: 0.0412
 
 
-# annual death rate (probability) by age group
-death_rate_by_age: [0.053979329, 0.018935757, 0.006867257, 0.001124347, 0.001136455, 0.001606066, 0.001953783, 0.001530096, 0.001299153, 0.001068073, 0.000978264, 0.000978264, 0.0055, 0.0055, 0.04450]
+# annual death rate (probability) by age group (non-malaria cause)
+death_rate_by_age: [0.063681,0.00344,0.00344,0.00344,0.00344,0.002431,0.002431,0.002431,0.002431,0.002431,0.00173,0.002816,0.00369,0.007529,0.1053652]
 
 
 # number of days to keep track total number of parasites in population
@@ -120,6 +120,7 @@ number_of_tracking_days: 11
 
 
 # probability of death for patients who are not treated or patients who experience a treatment failure (due to drug resistance, or otherwise)
+# when received treatment, this rate drop by factor of 10 in code
 mortality_when_treatment_fail_by_age: [0.040, 0.020,0.020,0.020,0.020,0.004,0.004,0.004,0.004,0.004,0.004, 0.001, 0.001, 0.001, 0.001]
 
 

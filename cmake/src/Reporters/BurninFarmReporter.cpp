@@ -1,75 +1,84 @@
-/* 
- * File:   FarmReporter.cpp
- * Author: Merlin
- * 
- * Created on August 17, 2013, 4:45 PM
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 
-#include "FarmReporter.h"
-#include "Model.h"
-#include "Random.h"
-#include "ModelDataCollector.h"
-#include "Config.h"
-#include "IStrategy.h"
-#include "Therapy.h"
-#include "SCTherapy.h"
-#include "Population.h"
-#include "NovelNonACTSwitchingStrategy.h"
+/* 
+ * File:   BurinBurinFarmReporter.cpp
+ * Author: Merlin
+ * 
+ * Created on April 11, 2017, 1:45 PM
+ */
+
+#include "BurninFarmReporter.h"
+#include "../Model.h"
+#include "../Random.h"
+#include "../ModelDataCollector.h"
+#include "../Config.h"
+#include "../Therapy.h"
+#include "../SCTherapy.h"
+#include "../Population.h"
+#include "../MFTStrategy.h"
 #include <boost/format.hpp>
 
-FarmReporter::FarmReporter() {
+BurninFarmReporter::BurninFarmReporter() {
 }
 
-FarmReporter::~FarmReporter() {
+BurninFarmReporter::~BurninFarmReporter() {
 }
 
-void FarmReporter::initialize() {
+void BurninFarmReporter::initialize() {
 }
 
-void FarmReporter::before_run() {
+void BurninFarmReporter::before_run() {
     std::cout << Model::RANDOM->seed() << std::endl;
 }
 
-void FarmReporter::after_run() {
+void BurninFarmReporter::after_run() {
     //output parameter
     output_parameters();
+    std::cout << "-1111\t";
 
     //output others indicators
+    // EIR - 20x
+    print_EIR_by_location();
+    print_20x_by_location();
+    // prevalance
+    print_prevalence_by_location();
 
     // NTF
     print_ntf_by_location();
 
-    //TF at year 15
-    std::cout << Model::DATA_COLLECTOR->TF_at_15() << "\t";
-    std::cout << Model::DATA_COLLECTOR->single_resistance_frequency_at_15() << "\t";
-    std::cout << Model::DATA_COLLECTOR->double_resistance_frequency_at_15() << "\t";
-    std::cout << Model::DATA_COLLECTOR->triple_resistance_frequency_at_15() << "\t";
-    std::cout << Model::DATA_COLLECTOR->quadruple_resistance_frequency_at_15() << "\t";
-    std::cout << Model::DATA_COLLECTOR->quintuple_resistance_frequency_at_15() << "\t";
-    std::cout << Model::DATA_COLLECTOR->art_resistance_frequency_at_15() << "\t";
-    std::cout << Model::DATA_COLLECTOR->total_resistance_frequency_at_15() << "\t";
-
-    // EIR - 20x
-    print_EIR_by_location();
-
-    print_20x_by_location();
-
-    // EAMU
-    print_EAMU();
-
-    // prevalance
-    print_prevalence_by_location();
-
-    // fraction of positive that are clinical
     print_fraction_of_positive_that_are_clinical_by_location();
 
     // mean immune
     print_mean_immune_by_location();
-
     // mean number of clones per positive Individual
     print_mean_number_of_clones_per_positive_individual();
     // LOI
     print_LOI();
+    std::cout << "-1111\t";
+    // resistance tracker
+    print_resistance_tracker();
+
+    std::cout << "-1111\t";
+    // number of treatment by therapy
+    print_treatments_by_therapy();
+
+    std::cout << "-1111\t";
+
+
+
+    // EAMU
+    //    print_EAMU();
+
+
+    // fraction of positive that are clinical
+
+
+
+
 
     // mean number of clones per positive Individual by age group
     print_mean_number_of_clones_per_positive_individual_by_age_group();
@@ -90,11 +99,7 @@ void FarmReporter::after_run() {
     //print moi distribution
     print_moi_distribution();
 
-    // resistance tracker
-    print_resistance_tracker();
 
-    // number of treatment by therapy
-    print_treatments_by_therapy();
 
     // current time
     std::cout << Model::SCHEDULER->current_time() << "\t";
@@ -115,14 +120,14 @@ void FarmReporter::after_run() {
     std::cout << std::endl;
 }
 
-void FarmReporter::begin_time_step() {
+void BurninFarmReporter::begin_time_step() {
 }
 
-void FarmReporter::after_time_step() {
+void BurninFarmReporter::after_time_step() {
 
 }
 
-void FarmReporter::output_parameters() {
+void BurninFarmReporter::output_parameters() {
     std::cout << boost::format("%1%\t%2%\t")
             % Model::RANDOM->seed()
             % Model::CONFIG->number_of_locations();
@@ -139,28 +144,15 @@ void FarmReporter::output_parameters() {
     std::cout << Model::CONFIG->p_treatment() << "\t";
     //    std::cout << Model::CONFIG->genotype_info().loci_vector[0].cost_of_resistance << "\t";
     std::cout << Model::CONFIG->genotype_info().loci_vector[0].alleles[1].daily_cost_of_resistance << "\t";
-    std::cout << Model::CONFIG->immune_system_information().factor_effect_age_mature_immunity << "\t";
-    std::cout << Model::CONFIG->immune_system_information().immune_effect_on_progression_to_clinical << "\t";
-    std::cout << Model::CONFIG->relative_bitting_information().max_relative_biting_value << "\t";
-    std::cout << Model::CONFIG->relative_bitting_information().mean << "\t";
-    std::cout << Model::CONFIG->relative_bitting_information().sd << "\t";
-    std::cout << Model::CONFIG->drug_db()->drug_db().begin()->second->k() << "\t";
+    std::cout << Model::CONFIG->genotype_info().loci_vector[1].alleles[4].daily_cost_of_resistance << "\t"; // print for mdr 2 copies daily cost of resistance
     std::cout << Model::CONFIG->drug_db()->drug_db().begin()->second->p_mutation() << "\t";
-    std::cout << Model::CONFIG->strategy()->get_type() << "\t";
-    std::cout << Model::CONFIG->tf_window_size() << "\t";
 
-    SCTherapy* scTherapy = dynamic_cast<SCTherapy*> (Model::CONFIG->strategy()->get_therapy());
-    if (scTherapy != NULL) {
-        std::cout << scTherapy->dosing_day() << "\t";
-    } else {
-        std::cout << 0 << "\t";
-    }
-    //fraction of non-art replacement
-    //    std::cout << Model::CONFIG->fraction_non_art_replacement() << "\t";
+    //output strategy information
+    std::cout << Model::CONFIG->strategy()->id << "\t";
 
 }
 
-void FarmReporter::print_ntf_by_location() {
+void BurninFarmReporter::print_ntf_by_location() {
     double total_time_in_years = (Model::SCHEDULER->current_time() - Model::CONFIG->start_collect_data_day()) / 365.0;
     for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
         double location_discounted_NTF = Model::DATA_COLLECTOR->cumulative_discounted_NTF_by_location()[location] * 100 / (double) Model::DATA_COLLECTOR->popsize_by_location()[location];
@@ -174,30 +166,30 @@ void FarmReporter::print_ntf_by_location() {
 
         std::cout << location_discounted_NTF << "\t";
         std::cout << NTF << "\t";
-        std::cout << NTF15_30 << "\t";
+        //        std::cout << NTF15_30 << "\t";
     }
 }
 
-void FarmReporter::print_EIR_by_location() {
+void BurninFarmReporter::print_EIR_by_location() {
     for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
         std::cout << Model::DATA_COLLECTOR->EIR_by_location()[location] << "\t";
     }
 }
 
-void FarmReporter::print_20x_by_location() {
+void BurninFarmReporter::print_20x_by_location() {
     for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
         std::cout << Model::DATA_COLLECTOR->percentage_bites_on_top_20_by_location()[location] * 100 << "\t";
     }
 }
 
-void FarmReporter::print_EAMU() {
+void BurninFarmReporter::print_EAMU() {
     std::cout << Model::DATA_COLLECTOR->AMU_per_parasite_pop() << "\t";
     std::cout << Model::DATA_COLLECTOR->AMU_per_person() << "\t";
     std::cout << Model::DATA_COLLECTOR->AMU_for_clinical_caused_parasite() << "\t";
     std::cout << Model::DATA_COLLECTOR->AFU() << "\t";
 }
 
-void FarmReporter::print_prevalence_by_location() {
+void BurninFarmReporter::print_prevalence_by_location() {
     for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
         double prevalence = 0.0;
         for (int i = 0; i < 10; i++) {
@@ -207,7 +199,7 @@ void FarmReporter::print_prevalence_by_location() {
     }
 }
 
-void FarmReporter::print_fraction_of_positive_that_are_clinical_by_location() {
+void BurninFarmReporter::print_fraction_of_positive_that_are_clinical_by_location() {
     for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
         double f_clinical = 0.0;
         for (int i = 0; i < 10; i++) {
@@ -218,13 +210,13 @@ void FarmReporter::print_fraction_of_positive_that_are_clinical_by_location() {
 
 }
 
-void FarmReporter::print_mean_immune_by_location() {
+void BurninFarmReporter::print_mean_immune_by_location() {
     for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
         std::cout << Model::DATA_COLLECTOR->total_immune_by_location()[location] / Model::DATA_COLLECTOR->popsize_by_location()[location] << "\t";
     }
 }
 
-void FarmReporter::print_mean_number_of_clones_per_positive_individual() {
+void BurninFarmReporter::print_mean_number_of_clones_per_positive_individual() {
     for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
         unsigned long totalClones = Model::DATA_COLLECTOR->total_parasite_population_by_location()[location];
         int count = Model::DATA_COLLECTOR->number_of_positive_by_location()[location];
@@ -234,7 +226,7 @@ void FarmReporter::print_mean_number_of_clones_per_positive_individual() {
 
 }
 
-void FarmReporter::print_mean_number_of_clones_per_positive_individual_by_age_group() {
+void BurninFarmReporter::print_mean_number_of_clones_per_positive_individual_by_age_group() {
     for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
         for (int ac = 0; ac < Model::CONFIG->number_of_age_classes(); ac++) {
             unsigned long totalClones = Model::DATA_COLLECTOR->total_parasite_population_by_location_age_group()[location][ac];
@@ -245,7 +237,7 @@ void FarmReporter::print_mean_number_of_clones_per_positive_individual_by_age_gr
     }
 }
 
-void FarmReporter::print_death_by_age_group() {
+void BurninFarmReporter::print_death_by_age_group() {
     for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
         for (int ac = 0; ac < Model::CONFIG->number_of_age_classes(); ac++) {
 
@@ -254,7 +246,7 @@ void FarmReporter::print_death_by_age_group() {
     }
 }
 
-void FarmReporter::print_number_of_clinical_episode_by_age_class() {
+void BurninFarmReporter::print_number_of_clinical_episode_by_age_class() {
     double total_time_in_years = (Model::SCHEDULER->current_time() - Model::CONFIG->start_collect_data_day()) / 365.0;
     for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
         for (int ac = 0; ac < Model::CONFIG->number_of_age_classes(); ac++) {
@@ -263,7 +255,7 @@ void FarmReporter::print_number_of_clinical_episode_by_age_class() {
     }
 }
 
-void FarmReporter::print_prevalence_by_age_class() {
+void BurninFarmReporter::print_prevalence_by_age_class() {
     for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
         for (int ac = 0; ac < Model::CONFIG->number_of_age_classes(); ac++) {
             std::cout << Model::DATA_COLLECTOR->blood_slide_prevalence_by_location_age_group()[location][ac] << "\t";
@@ -271,7 +263,7 @@ void FarmReporter::print_prevalence_by_age_class() {
     }
 }
 
-void FarmReporter::print_fraction_of_positive_that_are_clinical_by_location_age_class() {
+void BurninFarmReporter::print_fraction_of_positive_that_are_clinical_by_location_age_class() {
     for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
         for (int ac = 0; ac < Model::CONFIG->number_of_age_classes(); ac++) {
 
@@ -286,7 +278,7 @@ void FarmReporter::print_fraction_of_positive_that_are_clinical_by_location_age_
     }
 }
 
-void FarmReporter::print_fraction_of_positive_that_are_clinical_by_location_age_class_by_5() {
+void BurninFarmReporter::print_fraction_of_positive_that_are_clinical_by_location_age_class_by_5() {
     for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
         for (int ac = 0; ac < Model::CONFIG->number_of_age_classes(); ac++) {
 
@@ -301,34 +293,13 @@ void FarmReporter::print_fraction_of_positive_that_are_clinical_by_location_age_
     }
 }
 
-void FarmReporter::print_resistance_tracker() {
-    for (int i = 0; i < Model::DATA_COLLECTOR->resistance_tracker().tracking_values().size(); i++) {
-        std::cout << Model::DATA_COLLECTOR->resistance_tracker().any_double_tracking_time()[i] << "\t";
-    }
-    for (int i = 0; i < Model::DATA_COLLECTOR->resistance_tracker().tracking_values().size(); i++) {
-        std::cout << Model::DATA_COLLECTOR->resistance_tracker().all_double_tracking_time()[i] << "\t";
-    }
-    for (int i = 0; i < Model::DATA_COLLECTOR->resistance_tracker().tracking_values().size(); i++) {
-        std::cout << Model::DATA_COLLECTOR->resistance_tracker().any_triple_tracking_time()[i] << "\t";
-    }
-    for (int i = 0; i < Model::DATA_COLLECTOR->resistance_tracker().tracking_values().size(); i++) {
-        std::cout << Model::DATA_COLLECTOR->resistance_tracker().all_triple_tracking_time()[i] << "\t";
-    }
-    for (int i = 0; i < Model::DATA_COLLECTOR->resistance_tracker().tracking_values().size(); i++) {
-        std::cout << Model::DATA_COLLECTOR->resistance_tracker().any_quadruple_tracking_time()[i] << "\t";
-    }
-    for (int i = 0; i < Model::DATA_COLLECTOR->resistance_tracker().tracking_values().size(); i++) {
-        std::cout << Model::DATA_COLLECTOR->resistance_tracker().all_quadruple_tracking_time()[i] << "\t";
-    }
-    for (int i = 0; i < Model::DATA_COLLECTOR->resistance_tracker().tracking_values().size(); i++) {
-        std::cout << Model::DATA_COLLECTOR->resistance_tracker().total_tracking_time()[i] << "\t";
-    }
-    for (int i = 0; i < Model::DATA_COLLECTOR->resistance_tracker().tracking_values().size(); i++) {
-        std::cout << Model::DATA_COLLECTOR->resistance_tracker().artemisinin_tracking_time()[i] << "\t";
+void BurninFarmReporter::print_resistance_tracker() {
+    for (int i = 0; i < Model::CONFIG->number_of_parasite_types(); i++) {
+        std::cout << Model::DATA_COLLECTOR->resistance_tracker().parasite_population_count()[i] << "\t";
     }
 }
 
-void FarmReporter::print_treatments_by_therapy() {
+void BurninFarmReporter::print_treatments_by_therapy() {
     for (int t_id = 0; t_id < Model::CONFIG->therapy_db().size(); t_id++) {
         int nTreaments = Model::DATA_COLLECTOR->number_of_treatments_with_therapy_ID()[t_id];
         int nSuccess = Model::DATA_COLLECTOR->number_of_treatments_success_with_therapy_ID()[t_id];
@@ -340,23 +311,23 @@ void FarmReporter::print_treatments_by_therapy() {
     }
 }
 
-void FarmReporter::print_total_utl() {
+void BurninFarmReporter::print_total_utl() {
     std::cout << Model::DATA_COLLECTOR->current_utl_duration() << "\t";
 }
 
-void FarmReporter::print_utl() {
+void BurninFarmReporter::print_utl() {
     for (int i = 0; i < Model::DATA_COLLECTOR->UTL_duration().size(); i++) {
         std::cout << Model::DATA_COLLECTOR->UTL_duration()[i] << "\t";
     }
 
 }
 
-void FarmReporter::print_LOI() {
+void BurninFarmReporter::print_LOI() {
     std::cout << Model::CONFIG->immune_system_information().duration_for_naive << "\t";
     std::cout << Model::CONFIG->immune_system_information().duration_for_fully_immune << "\t";
 }
 
-void FarmReporter::print_moi_distribution() {
+void BurninFarmReporter::print_moi_distribution() {
     for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
         for (int i = 0; i < Model::DATA_COLLECTOR->multiple_of_infection_by_location()[location].size(); i++) {
             std::cout << Model::DATA_COLLECTOR->multiple_of_infection_by_location()[location][i] << "\t";
@@ -365,7 +336,7 @@ void FarmReporter::print_moi_distribution() {
 
 }
 
-void FarmReporter::print_mean_immune_by_location_age_class() {
+void BurninFarmReporter::print_mean_immune_by_location_age_class() {
     for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
         for (int ac = 0; ac < Model::CONFIG->number_of_age_classes(); ac++) {
             std::cout << Model::DATA_COLLECTOR->total_immune_by_location_age_class()[location][ac] / Model::DATA_COLLECTOR->popsize_by_location_age_class()[location][ac] << "\t";

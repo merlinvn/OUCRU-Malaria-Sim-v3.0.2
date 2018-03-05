@@ -7,20 +7,20 @@
 
 #include "AMUReporter.h"
 
-#include "Random.h"
+#include "../Random.h"
 
 #include <iomanip>    
 
-#include "Model.h"
-#include "Random.h"
-#include "ModelDataCollector.h"
-#include "Config.h"
-#include "Therapy.h"
-#include "Population.h"
+#include "../Model.h"
+#include "../Random.h"
+#include "../ModelDataCollector.h"
+#include "../Config.h"
+#include "../Therapy.h"
+#include "../Population.h"
 #include <boost/format.hpp>
-#include "ResistanceTracker.h"
-#include "PersonIndexByLocationStateAgeClass.h"
-#include "IStrategy.h"
+#include "../ResistanceTracker.h"
+#include "../PersonIndexByLocationStateAgeClass.h"
+#include "../IStrategy.h"
 
 #define COLUMN_WIDTH 5
 #define COUT std::cout << std::setw(COLUMN_WIDTH) << std::setprecision(3)
