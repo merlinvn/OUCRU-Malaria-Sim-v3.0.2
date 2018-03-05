@@ -18,6 +18,7 @@
 #include "MonthlyReporterConsole.h"
 #include "BurninMonthlyReporter.h"
 #include "BurninFarmReporter.h"
+#include "BFReporter.h"
 #include <boost/format.hpp>
 #include <string>
 
@@ -52,6 +53,8 @@ Reporter *Reporter::MakeReport(ReportType report_type) {
             return new BurninMonthlyReporter();
         case BURNIN_FARM_REPORTER:
             return new BurninFarmReporter();
+        case BFREPORTER:
+            return new BFReporter();
         default:
             return new ConsoleReporter();
     }

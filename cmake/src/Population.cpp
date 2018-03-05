@@ -603,7 +603,8 @@ void Population::perform_circulation_event() {
         for (int target_location = 0; target_location < Model::CONFIG->number_of_locations(); target_location++) {
             //            std::cout << v_num_leavers_to_destination[target_location] << std::endl;
             if (v_num_leavers_to_destination[target_location] == 0) continue;
-
+//            std::cout << Model::SCHEDULER->current_time() << "\t" << from_location << "\t" << target_location << "\t"
+//                      << v_num_leavers_to_destination[target_location] << std::endl;
             perform_circulation_for_1_location(from_location, target_location,
                                                v_num_leavers_to_destination[target_location],
                                                today_circulations);

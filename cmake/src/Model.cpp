@@ -40,13 +40,13 @@
 #include "ImportationPeriodicallyEvent.h"
 #include "ImportationEvent.h"
 
-Model* Model::MODEL = NULL;
-Config* Model::CONFIG = NULL;
-Random* Model::RANDOM = NULL;
-Scheduler* Model::SCHEDULER = NULL;
-TMEScheduler* Model::TME_SCHEDULER = NULL;
-ModelDataCollector* Model::DATA_COLLECTOR = NULL;
-Population* Model::POPULATION = NULL;
+Model *Model::MODEL = NULL;
+Config *Model::CONFIG = NULL;
+Random *Model::RANDOM = NULL;
+Scheduler *Model::SCHEDULER = NULL;
+TMEScheduler *Model::TME_SCHEDULER = NULL;
+ModelDataCollector *Model::DATA_COLLECTOR = NULL;
+Population *Model::POPULATION = NULL;
 //Population* Model::EXTERNAL_POPULATION = NULL;
 
 Model::Model(const int &object_pool_size) {
@@ -73,7 +73,7 @@ Model::Model(const int &object_pool_size) {
     POPULATION = population_;
 //    EXTERNAL_POPULATION = external_population_;
 
-    reporters_ = std::vector<Reporter*>();
+    reporters_ = std::vector<Reporter *>();
 
     initial_seed_number_ = -1;
     config_filename_ = "config.yml";
@@ -98,7 +98,7 @@ Model::~Model() {
     DeletePointer<Config>(config_);
     DeletePointer<Random>(random_);
 
-    BOOST_FOREACH(Reporter* reporter, reporters_) {
+    for (Reporter *reporter: reporters_) {
         DeletePointer<Reporter>(reporter);
     }
     reporters_.clear();
@@ -118,7 +118,7 @@ Model::~Model() {
 void Model::initialize() {
     //Initialize Random Seed
     random_->initialize(initial_seed_number_);
-  
+
     //Read input file
     config_->read_from_file(config_filename_);
 
@@ -132,7 +132,7 @@ void Model::initialize() {
             add_reporter(Reporter::MakeReport(Reporter::FARM));
         } else {
             add_reporter(Reporter::MakeReport(Reporter::BURNIN_FARM_REPORTER));
-            add_reporter(Reporter::MakeReport(Reporter::BURNIN_MONTHLY_REPORTER));
+            add_reporter(Reporter::MakeReport(Reporter::BFREPORTER));
         }
     } else {
         add_reporter(Reporter::MakeReport(Reporter::GUI));
@@ -145,7 +145,7 @@ void Model::initialize() {
 
     //initialize reporters
 
-    BOOST_FOREACH(Reporter* reporter, reporters_) {
+    for (Reporter *reporter : reporters_) {
         reporter->initialize();
     }
 
@@ -175,15 +175,23 @@ void Model::initialize() {
     //schedule for some special or periodic events
 
     for (int i = 0; i < CONFIG->importation_parasite_periodically_info().size(); i++) {
-        ImportationPeriodicallyEvent::schedule_event(SCHEDULER, CONFIG->importation_parasite_periodically_info()[i].location, CONFIG->importation_parasite_periodically_info()[i].duration, CONFIG->importation_parasite_periodically_info()[i].parasite_type_id, CONFIG->importation_parasite_periodically_info()[i].number, CONFIG->importation_parasite_periodically_info()[i].start_day);
+        ImportationPeriodicallyEvent::schedule_event(SCHEDULER,
+                                                     CONFIG->importation_parasite_periodically_info()[i].location,
+                                                     CONFIG->importation_parasite_periodically_info()[i].duration,
+                                                     CONFIG->importation_parasite_periodically_info()[i].parasite_type_id,
+                                                     CONFIG->importation_parasite_periodically_info()[i].number,
+                                                     CONFIG->importation_parasite_periodically_info()[i].start_day);
     }
 
     for (int i = 0; i < CONFIG->importation_parasite_info().size(); i++) {
-        ImportationEvent::schedule_event(SCHEDULER, CONFIG->importation_parasite_info()[i].location, CONFIG->importation_parasite_info()[i].time, CONFIG->importation_parasite_info()[i].parasite_type_id, CONFIG->importation_parasite_info()[i].number);
+        ImportationEvent::schedule_event(SCHEDULER, CONFIG->importation_parasite_info()[i].location,
+                                         CONFIG->importation_parasite_info()[i].time,
+                                         CONFIG->importation_parasite_info()[i].parasite_type_id,
+                                         CONFIG->importation_parasite_info()[i].number);
     }
 }
 
-void Model::initialize_object_pool(const int& size) {
+void Model::initialize_object_pool(const int &size) {
     BirthdayEvent::InitializeObjectPool(size);
     ProgressToClinicalEvent::InitializeObjectPool(size);
     EndClinicalDueToDrugResistanceEvent::InitializeObjectPool(size);
@@ -259,17 +267,17 @@ void Model::run() {
 void Model::before_run() {
     //    std::cout << "Seed:" << RANDOM->seed() << std::endl;
 
-    BOOST_FOREACH(Reporter* reporter, reporters_) {
-        reporter->before_run();
-    }
+    BOOST_FOREACH(Reporter *reporter, reporters_) {
+                    reporter->before_run();
+                }
 }
 
 void Model::after_run() {
     Model::DATA_COLLECTOR->update_after_run();
 
-    BOOST_FOREACH(Reporter* reporter, reporters_) {
-        reporter->after_run();
-    }
+    BOOST_FOREACH(Reporter *reporter, reporters_) {
+                    reporter->after_run();
+                }
 }
 
 void Model::perform_infection_event() {
@@ -281,9 +289,9 @@ void Model::report_end_of_time_step() {
     if (Model::SCHEDULER->current_time() % Model::CONFIG->report_frequency() == 0) {
         Model::DATA_COLLECTOR->perform_population_statistic();
 
-        BOOST_FOREACH(Reporter* reporter, reporters_) {
-            reporter->after_time_step();
-        }
+        BOOST_FOREACH(Reporter *reporter, reporters_) {
+                        reporter->after_time_step();
+                    }
     }
     //     if (Model::SCHEDULER->current_time() >= 4000) {
     //        std::cout << "end" << std::endl;
@@ -292,15 +300,15 @@ void Model::report_end_of_time_step() {
 
 void Model::report_begin_of_time_step() {
 
-    BOOST_FOREACH(Reporter* reporter, reporters_) {
-        reporter->begin_time_step();
-    }
+    BOOST_FOREACH(Reporter *reporter, reporters_) {
+                    reporter->begin_time_step();
+                }
     //    if (Model::SCHEDULER->current_time() >= 4000) {
     //        std::cout << "begin" << std::endl;
     //    }
 }
 
-void Model::add_reporter(Reporter* reporter) {
+void Model::add_reporter(Reporter *reporter) {
     reporters_.push_back(reporter);
     reporter->set_model(this);
 }
