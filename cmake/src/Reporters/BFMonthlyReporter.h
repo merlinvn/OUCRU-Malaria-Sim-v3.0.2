@@ -8,12 +8,12 @@
 
 #include "Reporter.h"
 
-class BFReporter : public Reporter {
-DISALLOW_COPY_AND_ASSIGN_(BFReporter)
+class BFMonthlyReporter : public Reporter {
+DISALLOW_COPY_AND_ASSIGN_(BFMonthlyReporter)
 
 public:
-    BFReporter();
-    virtual ~BFReporter();
+    BFMonthlyReporter();
+    virtual ~BFMonthlyReporter();
 
     void initialize() override;
 

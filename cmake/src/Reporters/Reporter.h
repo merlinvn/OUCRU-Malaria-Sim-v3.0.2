@@ -28,7 +28,8 @@ class Reporter {
         MONTHLY_REPORTER,
         BURNIN_MONTHLY_REPORTER,
         BURNIN_FARM_REPORTER,
-        BFREPORTER
+        BFREPORTER,
+        BFFARM_REPORTER
     };
 
 
