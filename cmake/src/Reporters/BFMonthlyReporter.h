@@ -24,6 +24,8 @@ public:
     void begin_time_step() override;
 
     void after_time_step() override;
+
+    void print_PfPR_2_5_by_location();
 };
 
 

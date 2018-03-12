@@ -6,9 +6,7 @@
  */
 
 #ifndef POPULATION_H
-#define	POPULATION_H
-
-
+#define    POPULATION_H
 
 
 #include "PropertyMacro.h"
@@ -23,8 +21,11 @@
 
 //class Person;
 class Model;
+
 class PersonIndexAll;
+
 class PersonIndexByLocationStateAgeClass;
+
 class PersonIndexByLocationBittingLevel;
 
 /**
@@ -34,29 +35,31 @@ class PersonIndexByLocationBittingLevel;
  * 
  */
 class Population : public Dispatcher {
-    DISALLOW_COPY_AND_ASSIGN_(Population)
-    POINTER_PROPERTY(Model, model);
+DISALLOW_COPY_AND_ASSIGN_(Population)
 
-    POINTER_PROPERTY(PersonIndexPtrList, person_index_list);
-    POINTER_PROPERTY(PersonIndexAll, all_persons);
+POINTER_PROPERTY(Model, model);
 
-    PROPERTY_REF(std::vector< std::vector <double> >, current_force_of_infection_by_location_parasite_type);
-    PROPERTY_REF(std::vector< std::vector <double> >, interupted_feeding_force_of_infection_by_location_parasite_type);
-    PROPERTY_REF(std::vector< std::vector< std::vector <double> > >, force_of_infection_for7days_by_location_parasite_type);
+POINTER_PROPERTY(PersonIndexPtrList, person_index_list);
+POINTER_PROPERTY(PersonIndexAll, all_persons);
+
+PROPERTY_REF(std::vector<std::vector<double> >, current_force_of_infection_by_location_parasite_type);
+PROPERTY_REF(std::vector<std::vector<double> >, interupted_feeding_force_of_infection_by_location_parasite_type);
+PROPERTY_REF(std::vector<std::vector<std::vector<double> > >, force_of_infection_for7days_by_location_parasite_type);
 
 
 public:
-    Population(Model* model = NULL);
+    Population(Model *model = NULL);
+
     virtual ~Population();
 
     /**
      * This function will add Person pointer to all of the person indexes
      * @param person
      */
-    virtual void add_person(Person* person);
+    virtual void add_person(Person *person);
 
     //just remove from index, no delete pointer
-    virtual void remove_person(Person* person);
+    virtual void remove_person(Person *person);
 
 
     /**
@@ -64,7 +67,7 @@ public:
      * This will also delete the @person out of memory
      * @param person
      */
-    virtual void remove_dead_person(Person* person);
+    virtual void remove_dead_person(Person *person);
 
     /**
      * Notify change of a particular person's property to all person indexes
@@ -73,7 +76,8 @@ public:
      * @param oldValue
      * @param newValue
      */
-    virtual void notify_change(Person* p, const Person::PersonProperties& property, const void* oldValue, const void* newValue);
+    virtual void
+    notify_change(Person *p, const Person::PersonProperties &property, const void *oldValue, const void *newValue);
 
     /**
      * Return the number of individuals in the population
@@ -81,7 +85,8 @@ public:
      * @param location
      */
     virtual int size(const int &location = -1, const int &age_class = -1);
-    virtual int size(const int &location, const Person::HostStates& hs, const int &age_class);
+
+    virtual int size(const int &location, const Person::HostStates &hs, const int &age_class);
 
     virtual void perform_infection_event();
 
@@ -89,50 +94,54 @@ public:
 
     void introduce_initial_cases();
 
-    template <typename T>
-    T* get_person_index();
+    template<typename T>
+    T *get_person_index();
 
-    void introduce_parasite(const int& location, IntGenotype* parasite_type, const int& num_of_infections);
+    void introduce_parasite(const int &location, IntGenotype *parasite_type, const int &num_of_infections);
 
-    void initial_infection(Person* p, IntGenotype* parasite_type);
+    void initial_infection(Person *p, IntGenotype *parasite_type);
 
-    virtual void notify_change_in_force_of_infection(const int& location, const int& parasite_type_id, const double& relative_force_of_infection);
+    virtual void notify_change_in_force_of_infection(const int &location, const int &parasite_type_id,
+                                                     const double &relative_force_of_infection);
 
     virtual void update();
 
     void perform_birth_event();
+
     void perform_death_event();
 
-    void give_1_birth(const int& location);
+    void give_1_birth(const int &location);
 
     void clear_all_dead_state_individual();
 
     void perform_circulation_event();
-    
+
     void perform_moving_to_external_population_event();
 
-    void perform_circulation_for_1_location(const int & from_location, const int& target_location, const int& number_of_circulation, std::vector<Person*> &today_circulations);
+    void perform_circulation_for_1_location(const int &from_location, const int &target_location,
+                                            const int &number_of_circulation,
+                                            std::vector<Person *> &today_circulations);
 
     bool has_0_case();
 
     void initialize_person_indices();
-    
+
     void perform_interupted_feeding_recombination();
 
     int size_residents_only(const int &location);
 };
 
 template<typename T>
-T* Population::get_person_index() {
+T *Population::get_person_index() {
 
-    BOOST_FOREACH(PersonIndex* person_index, *person_index_list_) {
-        if (dynamic_cast<T*> (person_index) != NULL) {
-            T* pi = dynamic_cast<T*> (person_index);
+    for (PersonIndex *person_index: *person_index_list_) {
+        if (dynamic_cast<T *> (person_index) != nullptr) {
+            T *pi = dynamic_cast<T *> (person_index);
             return pi;
         }
     }
-    return NULL;
+    return nullptr;
 }
 
-#endif	/* POPULATION_H */
+#endif    /* POPULATION_H */
 

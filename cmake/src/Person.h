@@ -89,6 +89,7 @@ public:
     POINTER_PROPERTY(IntVector, today_target_locations);
 
     PROPERTY_REF(int, number_of_times_bitten);
+    PROPERTY_REF(int, number_of_trips_taken);
     //    PROPERTY_REF(bool, is_tracking_treatment_number);
     PROPERTY_REF(int, last_therapy_id);
 

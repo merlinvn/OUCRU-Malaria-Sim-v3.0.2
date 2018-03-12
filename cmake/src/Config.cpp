@@ -674,13 +674,24 @@ void Config::read_initial_parasite_info(const YAML::Node &config) {
 
     for (int i = 0; i < n.size(); i++) {
         auto location = n[i]["location_id"].as<int>();
-        if (location < number_of_locations_) {
+        if (location < number_of_locations_ && location != -1) {
             for (int j = 0; j < n[i]["parasite_info"].size(); j++) {
                 //            InitialParasiteInfo ipi;
                 //            ipi.location = location;
                 auto parasite_type_id = n[i]["parasite_info"][j]["parasite_type_id"].as<int>();
                 auto prevalence = n[i]["parasite_info"][j]["prevalence"].as<double>();
                 initial_parasite_info_.emplace_back(location, parasite_type_id, prevalence);
+            }
+        } else if (location == -1) {
+            //apply for all location
+            for (int loc = 0; loc < number_of_locations(); ++loc) {
+                for (int j = 0; j < n[i]["parasite_info"].size(); j++) {
+                    //            InitialParasiteInfo ipi;
+                    //            ipi.location = location;
+                    auto parasite_type_id = n[i]["parasite_info"][j]["parasite_type_id"].as<int>();
+                    auto prevalence = n[i]["parasite_info"][j]["prevalence"].as<double>();
+                    initial_parasite_info_.emplace_back(loc, parasite_type_id, prevalence);
+                }
             }
         }
     }
