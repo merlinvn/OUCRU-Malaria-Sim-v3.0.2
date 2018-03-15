@@ -29,7 +29,7 @@ ModelDataCollector::ModelDataCollector(Model *model) : model_(model),
                                                        EIR_by_location_(),
                                                        cumulative_clinical_episodes_by_location_(),
                                                        cumulative_clinical_episodes_by_location_age_(),
-                                                       popsize_residence_by_location_() {
+                                                       popsize_residence_by_location_(),resistance_tracker_() {
 }
 
 ModelDataCollector::~ModelDataCollector() {

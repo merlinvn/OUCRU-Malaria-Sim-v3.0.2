@@ -88,11 +88,13 @@ Model::~Model() {
     //    std::cout << "Model Release" << std::endl;
     DeletePointer<ClinicalUpdateFunction>(progress_to_clinical_update_function_);
     DeletePointer<ImmunityClearanceUpdateFunction>(immunity_clearance_update_function_);
+    DeletePointer<ImmunityClearanceUpdateFunction>(having_drug_update_function_);
     DeletePointer<ImmunityClearanceUpdateFunction>(clinical_update_function_);
 
     DeletePointer<Population>(population_);
 //    DeletePointer<ExternalPopulation>(external_population_);
     DeletePointer<Scheduler>(scheduler_);
+    DeletePointer<TMEScheduler>(tme_scheduler_);
     DeletePointer<ModelDataCollector>(data_collector_);
 
     DeletePointer<Config>(config_);

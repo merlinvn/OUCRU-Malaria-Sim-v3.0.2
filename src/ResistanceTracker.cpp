@@ -14,7 +14,7 @@
 #include <boost/foreach.hpp>
 
 
-ResistanceTracker::ResistanceTracker() {
+ResistanceTracker::ResistanceTracker():total_{0} {
 }
 
 ResistanceTracker::~ResistanceTracker() {
