@@ -5,8 +5,8 @@
 #include "Location.h"
 
 namespace Spatial {
-    Location::Location(int id, int populationSize, float beta, float latitude, float longitude) :
-            id{id}, populationSize{populationSize}, beta{beta},
+    Location::Location(int id, int populationSize, float latitude, float longitude) :
+            id{id}, populationSize{populationSize}, beta{0.0f}, p_treatment{0.0f},
             coordinate{std::make_unique<Coordinate>(latitude, longitude)}, age_distribution() {
 
     }

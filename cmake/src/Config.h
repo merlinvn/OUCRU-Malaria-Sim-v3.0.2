@@ -36,8 +36,6 @@ VIRTUAL_PROPERTY_REF(int, start_treatment_day)
 
 VIRTUAL_PROPERTY_REF(int, start_collect_data_day)
 
-VIRTUAL_PROPERTY_REF(double, p_treatment)
-
 VIRTUAL_PROPERTY_REF(int, number_of_locations)
 
 VIRTUAL_PROPERTY_REF(int, number_of_age_classes)

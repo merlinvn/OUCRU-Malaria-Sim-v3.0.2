@@ -21,12 +21,13 @@ start_treatment_day: 100
 # the purposes of displaying it
 start_collect_data_day: 100
 
-# probability that a symptomatic and infected individual seeks and receives antimalarial treatment
-p_treatment: 0.500000
-
-
-
 spatial_information:
+
+# probability that a symptomatic and infected individual seeks and receives antimalarial treatment
+  p_treatment_by_location: [0.600000]
+
+  #transmission intensity
+  beta_by_location: [0.05]
 
   #spatial_model could be Gravity, Barabasi, or Wesolowski
   spatial_model: "Wesolowski"

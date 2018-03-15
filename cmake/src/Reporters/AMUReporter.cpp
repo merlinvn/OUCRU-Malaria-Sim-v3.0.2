@@ -9,7 +9,7 @@
 
 #include "../Random.h"
 
-#include <iomanip>    
+#include <iomanip>
 
 #include "../Model.h"
 #include "../Random.h"
@@ -145,7 +145,8 @@ void AMUReporter::after_time_step() {
         for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
             double location_discounted_NTF = Model::DATA_COLLECTOR->cumulative_discounted_NTF_by_location()[location];
             double NTF = Model::DATA_COLLECTOR->cumulative_NTF_by_location()[location];
-            double change_in_NTF = Model::DATA_COLLECTOR->cumulative_discounted_NTF_by_location()[location] - last_reported_NTF_;
+            double change_in_NTF =
+                    Model::DATA_COLLECTOR->cumulative_discounted_NTF_by_location()[location] - last_reported_NTF_;
             last_reported_NTF_ = Model::DATA_COLLECTOR->cumulative_discounted_NTF_by_location()[location];
 
             //            location_discounted_NTF /= total_time_in_years;
@@ -155,17 +156,22 @@ void AMUReporter::after_time_step() {
             std::cout << NTF << "\t";
 
         }
-        std::cout << Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(Model::DATA_COLLECTOR->resistance_tracker().single_resistance_ids()) << "\t";
-        std::cout << Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(Model::DATA_COLLECTOR->resistance_tracker().double_resistance_ids()) << "\t";
-        std::cout << Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(Model::DATA_COLLECTOR->resistance_tracker().tripple_resistance_ids()) << "\t";
-        std::cout << Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(Model::DATA_COLLECTOR->resistance_tracker().quadruple_resistance_ids()) << "\t";
-        std::cout << Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(Model::DATA_COLLECTOR->resistance_tracker().artemisinin_ids()) << "\t";
+        std::cout << Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(
+                Model::DATA_COLLECTOR->resistance_tracker().single_resistance_ids()) << "\t";
+        std::cout << Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(
+                Model::DATA_COLLECTOR->resistance_tracker().double_resistance_ids()) << "\t";
+        std::cout << Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(
+                Model::DATA_COLLECTOR->resistance_tracker().tripple_resistance_ids()) << "\t";
+        std::cout << Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(
+                Model::DATA_COLLECTOR->resistance_tracker().quadruple_resistance_ids()) << "\t";
+        std::cout << Model::DATA_COLLECTOR->resistance_tracker().sum_fraction_resistance(
+                Model::DATA_COLLECTOR->resistance_tracker().artemisinin_ids()) << "\t";
 
 
         for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
             std::cout << "-1111\t";
             //            report_number_by_state(location, pi);
-            std::cout << Model::DATA_COLLECTOR->blood_slide_prevalence_by_location()[location]*100 << "\t";
+            std::cout << Model::DATA_COLLECTOR->blood_slide_prevalence_by_location()[location] * 100 << "\t";
 
             if (Model::DATA_COLLECTOR->EIR_by_location_year()[location].empty()) {
                 std::cout << 0 << "\t";
@@ -183,8 +189,8 @@ void AMUReporter::after_time_step() {
 
 void AMUReporter::output_parameters() {
     std::cout << boost::format("%1%\t%2%\t")
-            % Model::RANDOM->seed()
-            % Model::CONFIG->number_of_locations();
+                 % Model::RANDOM->seed()
+                 % Model::CONFIG->number_of_locations();
 
     //intial population size
     for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
@@ -194,8 +200,11 @@ void AMUReporter::output_parameters() {
     for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
         std::cout << Model::CONFIG->location_db()[location].beta << "\t";
     }
+    //p_treatment
+    for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
+        std::cout << Model::CONFIG->location_db()[location].p_treatment << "\t";
+    }
 
-    std::cout << Model::CONFIG->p_treatment() << "\t";
     std::cout << Model::CONFIG->genotype_info().loci_vector[0].alleles[0].daily_cost_of_resistance << "\t";
     std::cout << Model::CONFIG->immune_system_information().factor_effect_age_mature_immunity << "\t";
     std::cout << Model::CONFIG->immune_system_information().immune_effect_on_progression_to_clinical << "\t";
@@ -210,8 +219,11 @@ void AMUReporter::output_parameters() {
 void AMUReporter::print_ntf_by_location() {
     double total_time_in_years = (Model::SCHEDULER->current_time() - Model::CONFIG->start_collect_data_day()) / 365.0;
     for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
-        double location_discounted_NTF = Model::DATA_COLLECTOR->cumulative_discounted_NTF_by_location()[location] * 100 / (double) Model::DATA_COLLECTOR->popsize_by_location()[location];
-        double NTF = Model::DATA_COLLECTOR->cumulative_NTF_by_location()[location] * 100 / (double) Model::DATA_COLLECTOR->popsize_by_location()[location];
+        double location_discounted_NTF =
+                Model::DATA_COLLECTOR->cumulative_discounted_NTF_by_location()[location] * 100 /
+                (double) Model::DATA_COLLECTOR->popsize_by_location()[location];
+        double NTF = Model::DATA_COLLECTOR->cumulative_NTF_by_location()[location] * 100 /
+                     (double) Model::DATA_COLLECTOR->popsize_by_location()[location];
         location_discounted_NTF /= total_time_in_years;
         NTF /= total_time_in_years;
         std::cout << location_discounted_NTF << "\t";
@@ -261,7 +273,8 @@ void AMUReporter::print_fraction_of_positive_that_are_clinical_by_location() {
 
 void AMUReporter::print_mean_immune_by_location() {
     for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
-        std::cout << Model::DATA_COLLECTOR->total_immune_by_location()[location] / Model::DATA_COLLECTOR->popsize_by_location()[location] << "\t";
+        std::cout << Model::DATA_COLLECTOR->total_immune_by_location()[location] /
+                     Model::DATA_COLLECTOR->popsize_by_location()[location] << "\t";
     }
 }
 
@@ -299,7 +312,9 @@ void AMUReporter::print_number_of_clinical_episode_by_age_class() {
     double total_time_in_years = (Model::SCHEDULER->current_time() - Model::CONFIG->start_collect_data_day()) / 365.0;
     for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
         for (int ac = 0; ac < Model::CONFIG->number_of_age_classes(); ac++) {
-            std::cout << (Model::DATA_COLLECTOR->cumulative_clinical_episodes_by_location_age_group()[location][ac] / (double) Model::DATA_COLLECTOR->popsize_by_location_age_class()[location][ac]) / total_time_in_years << "\t";
+            std::cout << (Model::DATA_COLLECTOR->cumulative_clinical_episodes_by_location_age_group()[location][ac] /
+                          (double) Model::DATA_COLLECTOR->popsize_by_location_age_class()[location][ac]) /
+                         total_time_in_years << "\t";
         }
     }
 }
@@ -411,7 +426,8 @@ void AMUReporter::print_moi_distribution() {
 void AMUReporter::print_mean_immune_by_location_age_class() {
     for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
         for (int ac = 0; ac < Model::CONFIG->number_of_age_classes(); ac++) {
-            std::cout << Model::DATA_COLLECTOR->total_immune_by_location_age_class()[location][ac] / Model::DATA_COLLECTOR->popsize_by_location_age_class()[location][ac] << "\t";
+            std::cout << Model::DATA_COLLECTOR->total_immune_by_location_age_class()[location][ac] /
+                         Model::DATA_COLLECTOR->popsize_by_location_age_class()[location][ac] << "\t";
         }
     }
 }
@@ -429,7 +445,6 @@ void AMUReporter::print_popsize_by_age_class() {
             std::cout << Model::DATA_COLLECTOR->cumulative_clinical_episodes_by_location_age()[location][ac] << "\t";
         }
     }
-
 
 
 }

@@ -25,10 +25,11 @@ namespace Spatial {
         int id;
         int populationSize;
         float beta;
+        float p_treatment;
         std::unique_ptr<Coordinate> coordinate;
         std::vector<double> age_distribution;
     public:
-        Location(int id = 0, int populationSize = 0, float beta = 0, float latitude = 0, float longitude = 0);
+        Location(int id, int populationSize, float latitude, float longitude);
 
         virtual ~Location();
 

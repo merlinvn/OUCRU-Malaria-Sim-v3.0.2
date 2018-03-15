@@ -37,7 +37,7 @@ Config::Config(Model *model) :
         using_free_recombination_(false), report_frequency_(-1), tf_testing_day_(-1),
         using_age_dependent_bitting_level_(false), using_variable_probability_infectious_bites_cause_infection_(false),
         non_artemisinin_switching_day_(-1), total_time_(-1), start_treatment_day_(-1), start_collect_data_day_(-1),
-        p_treatment_(-1), number_of_locations_(-1), number_of_age_classes_(-1),
+        number_of_locations_(-1), number_of_age_classes_(-1),
         p_infection_from_an_infectious_bite_(-1), birth_rate_(-1),
         number_of_tracking_days_(-1), tf_window_size_(-1), fraction_mosquitoes_interrupted_feeding_(0),
         location_db_() {
@@ -72,8 +72,6 @@ void Config::read_from_file(const std::string &config_file_name) {
     total_time_ = config["total_time"].as<int>();
     start_treatment_day_ = config["start_treatment_day"].as<int>();
     start_collect_data_day_ = config["start_collect_data_day"].as<int>();
-
-    p_treatment_ = config["p_treatment"].as<double>();
 
     p_infection_from_an_infectious_bite_ = config["p_infection_from_an_infectious_bite"].as<double>();
 
@@ -796,7 +794,7 @@ void Config::override_1_parameter(const std::string &parameter_name, const std::
     }
 
     if (parameter_name == "f") {
-        p_treatment_ = atof(parameter_value.c_str());
+//        p_treatment_ = atof(parameter_value.c_str());
     }
 
     if (parameter_name == "daily_cost_of_resistance_factor") {
@@ -1014,7 +1012,6 @@ void Config::build_location_db(const YAML::Node &node) {
     for (int i = 0; i < node["location_info"].size(); i++) {
         location_db_.emplace_back(node["location_info"][i][0].as<int>(),
                                   node["location_info"][i][4].as<int>(),
-                                  node["location_info"][i][3].as<float>(),
                                   node["location_info"][i][1].as<float>(),
                                   node["location_info"][i][2].as<float>());
     }
@@ -1036,6 +1033,27 @@ void Config::build_location_db(const YAML::Node &node) {
             }
         }
     }
+
+    if (node["p_treatment_by_location"].size() < number_of_locations()) {
+        for (int loc = 0; loc < number_of_locations_; loc++) {
+            location_db_[loc].p_treatment = node["p_treatment_by_location"][0].as<float>();
+        }
+    } else {
+        for (int loc = 0; loc < number_of_locations_; loc++) {
+            location_db_[loc].p_treatment = node["p_treatment_by_location"][loc].as<float>();
+        }
+    }
+
+    if (node["beta_by_location"].size() < number_of_locations()) {
+        for (int loc = 0; loc < number_of_locations_; loc++) {
+            location_db_[loc].beta = node["beta_by_location"][0].as<float>();
+        }
+    } else {
+        for (int loc = 0; loc < number_of_locations_; loc++) {
+            location_db_[loc].beta= node["beta_by_location"][loc].as<float>();
+        }
+    }
+
 //    location_db()[0].populationSize = 1000;
 //    std::cout << location_db()[0] << std::endl;
 }
