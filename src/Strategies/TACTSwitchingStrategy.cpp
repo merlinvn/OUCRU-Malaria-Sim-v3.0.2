@@ -12,9 +12,9 @@
  */
 
 #include "TACTSwitchingStrategy.h"
-#include "Model.h"
-#include "Scheduler.h"
-#include "Config.h"
+#include "../Model.h"
+#include "../Scheduler.h"
+#include "../Config.h"
 
 TACTSwitchingTStrategy::TACTSwitchingTStrategy() {
 }

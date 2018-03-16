@@ -12,7 +12,7 @@
 #include "../Population.h"
 #include "../PersonIndexByLocationStateAgeClass.h"
 #include "../ModelDataCollector.h"
-#include "../IStrategy.h"
+#include "../Strategies/IStrategy.h"
 #include "../Therapy.h"
 #include <boost/format.hpp>
 #include <iomanip>    

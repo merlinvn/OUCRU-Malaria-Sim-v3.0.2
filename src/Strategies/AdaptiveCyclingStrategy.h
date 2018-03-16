@@ -9,7 +9,7 @@
 #define ADAPTIVECYCLINGSTRATEGY_H
 
 #include "IStrategy.h"
-#include "PropertyMacro.h"
+#include "../PropertyMacro.h"
 
 class AdaptiveCyclingStrategy : public IStrategy {
     DISALLOW_COPY_AND_ASSIGN_(AdaptiveCyclingStrategy)

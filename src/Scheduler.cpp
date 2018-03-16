@@ -13,11 +13,9 @@
 #include "Config.h"
 #include "Population.h"
 #include "ModelDataCollector.h"
-#include "IStrategy.h"
+#include "Strategies/IStrategy.h"
 #include "TMEScheduler.h"
 #include "ImportationPeriodicallyEvent.h"
-#include "MFTStrategy.h"
-#include "ACTIncreaseStrategy.h"
 #include <boost/foreach.hpp>
 
 Scheduler::Scheduler(Model *model) :

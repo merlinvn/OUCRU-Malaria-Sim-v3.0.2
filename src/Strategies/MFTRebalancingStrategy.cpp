@@ -12,10 +12,10 @@
  */
 
 #include "MFTRebalancingStrategy.h"
-#include "Model.h"
-#include "Config.h"
-#include "ModelDataCollector.h"
-#include "Therapy.h"
+#include "../Model.h"
+#include "../Config.h"
+#include "../ModelDataCollector.h"
+#include "../Therapy.h"
 
 MFTRebalancingStrategy::MFTRebalancingStrategy() : next_update_time_(-1), latest_adjust_distribution_time_(-1) {
 }

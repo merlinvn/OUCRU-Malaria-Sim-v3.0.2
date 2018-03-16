@@ -8,7 +8,7 @@
 #include "ModelDataCollector.h"
 #include "Model.h"
 #include "Config.h"
-#include "IStrategy.h"
+#include "Strategies/IStrategy.h"
 #include "Person.h"
 #include "PersonIndexByLocationStateAgeClass.h"
 #include "Population.h"

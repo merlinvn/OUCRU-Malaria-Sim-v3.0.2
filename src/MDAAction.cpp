@@ -13,7 +13,7 @@
 #include "Person.h"
 #include "Random.h"
 #include "Config.h"
-#include "IStrategy.h"
+#include "Strategies/IStrategy.h"
 #include "ReceiveMDADrugEvent.h"
 
 MDAAction::MDAAction() {

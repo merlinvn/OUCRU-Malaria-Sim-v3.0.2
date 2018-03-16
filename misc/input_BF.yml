@@ -767,112 +767,23 @@ TherapyInfo:
 # drug-deployment strategy - simply uncomment below to turn on a particular strategy
 StrategyInfo:
     0:
-        name: AL-DHAPPQ-ASSP-ASAQ-ASMQ-MFTStrategy-Public-Sector
+        name: OPP_Treeatment
         type: MFT
         therapy_ids: [6,8,10,7,9]
         distribution: [0.84,0.06,0.05,0.03,0.02]
     1:
-        name: AL-SFTStrategy
-        type: SFT
-        therapy_id: 6
-    2:
-        name: ASAQ-SFTStrategy
-        type: SFT
-        therapy_id: 7
-    3:
-        name: CyclingStrategy
-        type: Cycling
-        therapy_ids: [8,7,6]
-        cycling_time: 1825
-    4:
-        name: AdaptiveCyclingStrategy
-        type: AdaptiveCycling
-        therapy_ids: [8,7,6]
-        trigger_value: 0.1
-        delay_until_actual_trigger: 365
-        turn_off_days: 365
-    5:
-        name: MFTStrategy
+        name: RFT_Treatment
         type: MFT
-        therapy_ids: [8,7,6]
-        distribution: [0.333333,0.333333,0.333334]
-    6:
-        name: AL-ASAQ-DP-MFTRebalancingStrategy1
-        type: MFTRebalancing
-        therapy_ids: [8,7,6]
-        distribution: [0.333333,0.333333,0.333334]
-        delay_until_actual_trigger: 365
-        update_duration_after_rebalancing: 365
-    7:
-        name: AL-ASAQ-DP-MFTRebalancingStrategy2
-        type: MFTRebalancing
-        therapy_ids: [8,7,6]
-        distribution: [0.333333,0.333333,0.333334]
-        delay_until_actual_trigger: 365
-        update_duration_after_rebalancing: 730
-    8:
-        name: AL-ASAQ-DP-MFTRebalancingStrategy4
-        type: MFTRebalancing
-        therapy_ids: [8,7,6]
-        distribution: [0.333333,0.333333,0.333334]
-        delay_until_actual_trigger: 365
-        update_duration_after_rebalancing: 1460
-    9:
-        name: AL-BaseLineStrategy
+        therapy_ids: [6,8,10,7,9]
+        distribution: [0.84,0.06,0.05,0.03,0.02]
+    2:
+        name: BaseLineStrategy
         type: NestedSwitching
         strategy_ids: [1,0]
         start_distribution: [0.05, 0.95]
         end_distribution: [0.8,0.2]
         strategy_switching_day: 5110
         switch_to_strategy_id: 1
-    10:
-        name: ASAQ-BaseLineStrategy
-        type: NestedSwitching
-        strategy_ids: [2,0]
-        start_distribution: [0.05, 0.95]
-        end_distribution: [0.8,0.2]
-        strategy_switching_day: 5110
-        switch_to_strategy_id: 2
-    11:
-        name: DPM-SFTStrategy
-        type: SFT
-        therapy_id: 10
-    12:
-        name: AL-AQ-SFTStrategy
-        type: SFT
-        therapy_id: 11
-    13:
-        name: Switch_AL_to_DPM
-        type: NestedSwitching
-        strategy_ids: [1,0]
-        start_distribution: [0.05, 0.95]
-        end_distribution: [0.8,0.2]
-        strategy_switching_day: 5110
-        switch_to_strategy_id: 11
-    14:
-        name: Switch_AL_to_AL-AQ
-        type: NestedSwitching
-        strategy_ids: [1,0]
-        start_distribution: [0.05, 0.95]
-        end_distribution: [0.8,0.2]
-        strategy_switching_day: 5110
-        switch_to_strategy_id: 12
-    15:
-        name: Switch_ASAQ_to_DPM
-        type: NestedSwitching
-        strategy_ids: [2,0]
-        start_distribution: [0.05, 0.95]
-        end_distribution: [0.8,0.2]
-        strategy_switching_day: 5110
-        switch_to_strategy_id: 11
-    16:
-        name: Switch_ASAQ_to_AL-AQ
-        type: NestedSwitching
-        strategy_ids: [2,0]
-        start_distribution: [0.05, 0.95]
-        end_distribution: [0.8,0.2]
-        strategy_switching_day: 5110
-        switch_to_strategy_id: 12
 
 
 main_strategy_id: 0

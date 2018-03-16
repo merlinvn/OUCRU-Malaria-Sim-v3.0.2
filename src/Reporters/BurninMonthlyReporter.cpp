@@ -15,9 +15,9 @@
 #include "../Model.h"
 #include "../ModelDataCollector.h"
 #include "../Config.h"
-#include "../IStrategy.h"
-#include "../NestedSwitchingStrategy.h"
-#include "../MFTRebalancingStrategy.h"
+#include "../Strategies/IStrategy.h"
+#include "../Strategies/NestedSwitchingStrategy.h"
+#include "../Strategies/MFTRebalancingStrategy.h"
 
 BurninMonthlyReporter::BurninMonthlyReporter() {
 

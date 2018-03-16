@@ -20,7 +20,7 @@
 #include <boost/format.hpp>
 #include "../ResistanceTracker.h"
 #include "../PersonIndexByLocationStateAgeClass.h"
-#include "../IStrategy.h"
+#include "../Strategies/IStrategy.h"
 
 #define COLUMN_WIDTH 5
 #define COUT std::cout << std::setw(COLUMN_WIDTH) << std::setprecision(3)

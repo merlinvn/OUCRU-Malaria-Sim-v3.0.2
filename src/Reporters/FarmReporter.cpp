@@ -10,11 +10,11 @@
 #include "../Random.h"
 #include "../ModelDataCollector.h"
 #include "../Config.h"
-#include "../IStrategy.h"
+#include "../Strategies/IStrategy.h"
 #include "../Therapy.h"
 #include "../SCTherapy.h"
 #include "../Population.h"
-#include "../NovelNonACTSwitchingStrategy.h"
+#include "../Strategies/NovelNonACTSwitchingStrategy.h"
 #include <boost/format.hpp>
 
 FarmReporter::FarmReporter() {

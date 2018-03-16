@@ -15,7 +15,7 @@
 #define ISTRATEGY_H
 #include <string>
 #include <vector>
-#include "PropertyMacro.h"
+#include "../PropertyMacro.h"
 #include <map>
 
 class Therapy;

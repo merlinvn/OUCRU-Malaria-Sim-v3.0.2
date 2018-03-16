@@ -13,10 +13,10 @@
 
 #include "NovelNonACTSwitchingStrategy.h"
 #include "MFTStrategy.h"
-#include "Model.h"
-#include "Config.h"
-#include "ModelDataCollector.h"
-#include "Scheduler.h"
+#include "../Model.h"
+#include "../Config.h"
+#include "../ModelDataCollector.h"
+#include "../Scheduler.h"
 #include <sstream>
 
 NovelNonACTSwitchingStrategy::NovelNonACTSwitchingStrategy() {

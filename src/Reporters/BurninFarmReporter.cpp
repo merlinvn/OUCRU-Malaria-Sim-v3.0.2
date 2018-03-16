@@ -19,7 +19,7 @@
 #include "../Therapy.h"
 #include "../SCTherapy.h"
 #include "../Population.h"
-#include "../MFTStrategy.h"
+#include "../Strategies/MFTStrategy.h"
 #include <boost/format.hpp>
 
 BurninFarmReporter::BurninFarmReporter() {

@@ -16,7 +16,7 @@
 
 
 #include "IStrategy.h"
-#include "PropertyMacro.h"
+#include "../PropertyMacro.h"
 
 class Random;
 
