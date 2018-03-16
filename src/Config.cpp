@@ -1011,9 +1011,8 @@ double Config::seasonality(const int &current_time, const double &amplitude, con
 void Config::build_location_db(const YAML::Node &node) {
     for (int i = 0; i < node["location_info"].size(); i++) {
         location_db_.emplace_back(node["location_info"][i][0].as<int>(),
-                                  node["location_info"][i][4].as<int>(),
                                   node["location_info"][i][1].as<float>(),
-                                  node["location_info"][i][2].as<float>());
+                                  node["location_info"][i][2].as<float>(), 0);
     }
 
     number_of_locations_ = static_cast<int>(location_db_.size());
@@ -1050,10 +1049,19 @@ void Config::build_location_db(const YAML::Node &node) {
         }
     } else {
         for (int loc = 0; loc < number_of_locations_; loc++) {
-            location_db_[loc].beta= node["beta_by_location"][loc].as<float>();
+            location_db_[loc].beta = node["beta_by_location"][loc].as<float>();
         }
     }
 
+    if (node["population_size_by_location"].size() < number_of_locations()) {
+        for (int loc = 0; loc < number_of_locations_; loc++) {
+            location_db_[loc].populationSize = node["population_size_by_location"][0].as<int>();
+        }
+    } else {
+        for (int loc = 0; loc < number_of_locations_; loc++) {
+            location_db_[loc].populationSize = node["population_size_by_location"][loc].as<int>();
+        }
+    }
 //    location_db()[0].populationSize = 1000;
-//    std::cout << location_db()[0] << std::endl;
+//    std::cout << location_db()[4] << std::endl;
 }

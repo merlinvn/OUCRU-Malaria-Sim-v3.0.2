@@ -18,7 +18,7 @@ protected:
 
 
 TEST_F(LocationTest, Constructor) {
-    Location loc(1, 10000, 0.123, 3.456);
+    Location loc(1, 0.123, 3.456, 10000);
     EXPECT_EQ(1, loc.id);
     EXPECT_FLOAT_EQ(0, loc.beta);
     EXPECT_FLOAT_EQ(0, loc.p_treatment);

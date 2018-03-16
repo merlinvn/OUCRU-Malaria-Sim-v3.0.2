@@ -22,13 +22,28 @@ start_treatment_day: 100
 start_collect_data_day: 100
 
 spatial_information:
-
+#id, latitude, longitude
+  location_info: [
+    [0, 0, 0],
+    [1, 0, 1],
+    [2, 0, 2],
+    [3, 1, 0],
+    [4, 1, 1],
+    [5, 1, 2],
+    [6, 2, 0],
+    [7, 2, 1],
+    [8, 2, 2]
+  ]
 # probability that a symptomatic and infected individual seeks and receives antimalarial treatment
+#if the number of values less than number of locations, the first value will be applied for all locations
   p_treatment_by_location: [0.600000]
 
   #transmission intensity
+  #if the number of values less than number of locations, the first value will be applied for all locations
   beta_by_location: [0.05]
 
+#if the number of values less than number of locations, the first value will be applied for all locations
+  population_size_by_location: [10010, 10020, 10030, 10040, 10050, 10060, 10070, 10080, 10090 ]
   #spatial_model could be Gravity, Barabasi, or Wesolowski
   spatial_model: "Wesolowski"
 
@@ -43,18 +58,8 @@ spatial_information:
     beta: 0.14319618
     gamma: 0.83741484
 
-#id, latitude, longitude, beta, pop_size
-  location_info: [
-    [0, 0, 0, 0.25, 1000],
-    [1, 0, 1, 0.30, 1010],
-    [2, 0, 2, 0.35, 1020],
-    [3, 1, 0, 0.40, 1030],
-    [4, 1, 1, 0.45, 1040],
-    [5, 1, 2, 0.50, 1050],
-    [6, 2, 0, 0.55, 1060],
-    [7, 2, 1, 0.60, 1070],
-    [8, 2, 2, 0.65, 1080]
-  ]
+
+  #if the number of values less than number of locations, the first value will be applied for all locations
   age_distribution_by_location: [
 [0.0334, 0.0300, 0.0329, 0.0324, 0.0332, 0.0314, 0.0316, 0.0310, 0.0285, 0.0256, 0.0298, 0.0212, 0.0321, 0.0228, 0.0230, 0.1906, 0.1403, 0.0966, 0.0605, 0.0344, 0.0387],
 [0.0334, 0.0300, 0.0329, 0.0324, 0.0332, 0.0314, 0.0316, 0.0310, 0.0285, 0.0256, 0.0298, 0.0212, 0.0321, 0.0228, 0.0230, 0.1906, 0.1403, 0.0966, 0.0605, 0.0344, 0.0387],
@@ -399,7 +404,8 @@ fake_efficacy_table: [
 #
 #1. loc 2. id (this is the resistance type of the parasite) 3. prevalence unweighted by biting rate
 initial_parasite_info:
-  - location_id: 0
+  #if location id is -1 all location will have the same initial parasites
+  - location_id: -1
     parasite_info:
         #TNY__C1x
       - parasite_type_id: 64

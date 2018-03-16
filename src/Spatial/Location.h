@@ -29,7 +29,7 @@ namespace Spatial {
         std::unique_ptr<Coordinate> coordinate;
         std::vector<double> age_distribution;
     public:
-        Location(int id, int populationSize, float latitude, float longitude);
+        Location(int id, float latitude, float longitude, int populationSize);
 
         virtual ~Location();
 
