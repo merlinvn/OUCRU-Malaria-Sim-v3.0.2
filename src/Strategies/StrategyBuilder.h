@@ -42,6 +42,7 @@ public:
 
 private:
 
+    static IStrategy *buildMFTDifferentDistributionByLocationStrategy(const YAML::Node &node, const int &id);
 };
 
 #endif /* STRATEGYBUILDER_H */

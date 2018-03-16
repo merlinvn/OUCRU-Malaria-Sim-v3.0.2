@@ -35,7 +35,7 @@ public:
 
     virtual void add_therapy(Therapy* therapy);
 
-    virtual Therapy* get_therapy();
+    virtual Therapy *get_therapy(Person *person);
 
     virtual std::string to_string() const;
 

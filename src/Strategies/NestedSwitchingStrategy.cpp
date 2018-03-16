@@ -31,17 +31,17 @@ void NestedSwitchingStrategy::add_strategy(IStrategy* strategy) {
     strategy_list_.push_back(strategy);
 }
 
-Therapy* NestedSwitchingStrategy::get_therapy() {
+Therapy * NestedSwitchingStrategy::get_therapy(Person *person) {
     double P = Model::RANDOM->random_flat(0.0, 1.0);
 
     double sum = 0;
     for (int i = 0; i < distribution_.size(); i++) {
         sum += distribution_[i];
         if (P <= sum) {
-            return strategy_list_[i]->get_therapy();
+            return strategy_list_[i]->get_therapy(person);
         }
     }
-    return strategy_list_[strategy_list_.size() - 1]->get_therapy();
+    return strategy_list_[strategy_list_.size() - 1]->get_therapy(person);
 }
 
 void NestedSwitchingStrategy::add_therapy(Therapy* therapy) {

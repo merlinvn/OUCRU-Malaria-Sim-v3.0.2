@@ -29,7 +29,7 @@ bool SFTStrategy::is_strategy(const std::string& sName) {
     return (IStrategy::name == sName);
 }
 
-Therapy* SFTStrategy::get_therapy() {
+Therapy * SFTStrategy::get_therapy(Person *person) {
     return therapy_list_[0];
 }
 

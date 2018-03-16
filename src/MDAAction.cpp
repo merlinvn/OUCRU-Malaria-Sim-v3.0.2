@@ -37,7 +37,8 @@ void MDAAction::perform_weekly_action(const int& location) {
 
                 double prob_receive_MDA = Model::RANDOM->random_uniform();
                 int day = floor(prob_receive_MDA / percent_MDA_treated_per_day) + 1;
-                ReceiveMDADrugEvent::schedule_event(Model::SCHEDULER, p, Model::CONFIG->tme_strategy()->get_therapy(), Model::SCHEDULER->current_time() + day);
+                ReceiveMDADrugEvent::schedule_event(Model::SCHEDULER, p,
+                                                    Model::CONFIG->tme_strategy()->get_therapy(p), Model::SCHEDULER->current_time() + day);
                 //                std::cout << prob_receive_MDA << "\t" << day << std::endl;
             }
 

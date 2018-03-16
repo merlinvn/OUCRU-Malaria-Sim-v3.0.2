@@ -29,7 +29,7 @@ void ACTIncreaseStrategy::add_therapy(Therapy* therapy) {
     therapy_list_.push_back(therapy);
 }
 
-Therapy* ACTIncreaseStrategy::get_therapy() {
+Therapy * ACTIncreaseStrategy::get_therapy(Person *person) {
     double P = Model::RANDOM->random_flat(0.0, 1.0);
 
     double sum = 0;

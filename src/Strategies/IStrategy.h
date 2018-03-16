@@ -19,7 +19,7 @@
 #include <map>
 
 class Therapy;
-
+class Person;
 class IStrategy {
 public:
 
@@ -32,7 +32,8 @@ public:
         NovelNonACTSwitching = 5,
         TACTSwitching = 6,
         MFTRebalancing = 7,
-        NestedSwitching = 8
+        NestedSwitching = 8,
+        MFTDifferentDistributionByLocation = 9
     };
     static std::map<std::string, StrategyType> StrategyTypeMap;
 
@@ -51,7 +52,7 @@ public:
 
     virtual void add_therapy(Therapy* therapy) = 0;
 
-    virtual Therapy* get_therapy() = 0;
+    virtual Therapy *get_therapy(Person *person) = 0;
 
     virtual std::string to_string() const = 0;
 

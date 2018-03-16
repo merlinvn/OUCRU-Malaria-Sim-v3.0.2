@@ -33,7 +33,7 @@ void CyclingStrategy::switch_therapy() {
     next_switching_day_ = Model::SCHEDULER->current_time() + cycling_time_;
 }
 
-Therapy* CyclingStrategy::get_therapy() {
+Therapy * CyclingStrategy::get_therapy(Person *person) {
 
     //int index = ((Global::scheduler->currentTime - Global::startTreatmentDay) / circleTime) % therapyList.size();
     //    std::cout << therapy_list()[index_]->id() << std::endl;

@@ -249,7 +249,7 @@ IStrategy *Config::read_strategy(const YAML::Node &n, const int &strategy_id) {
 
     IStrategy *result = StrategyBuilder::build(n[s_id], strategy_id);
 
-    //    std::cout << result->to_string() << std::endl;
+//    std::cout << result->to_string() << std::endl;
     return result;
 }
 

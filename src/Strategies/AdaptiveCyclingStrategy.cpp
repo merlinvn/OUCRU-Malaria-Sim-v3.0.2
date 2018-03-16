@@ -38,7 +38,7 @@ void AdaptiveCyclingStrategy::switch_therapy() {
     Model::DATA_COLLECTOR->update_UTL_vector();
 }
 
-Therapy* AdaptiveCyclingStrategy::get_therapy() {
+Therapy * AdaptiveCyclingStrategy::get_therapy(Person *person) {
     return therapy_list()[index_];
 }
 
@@ -63,7 +63,7 @@ void AdaptiveCyclingStrategy::update_end_of_time_step() {
             switch_therapy();
             //            std::cout << to_string() << std::endl;
         } else {
-            if (Model::DATA_COLLECTOR->current_TF_by_therapy()[get_therapy()->id()] > trigger_value_) {
+            if (Model::DATA_COLLECTOR->current_TF_by_therapy()[get_therapy(nullptr)->id()] > trigger_value_) {
                 if (Model::SCHEDULER->current_time() > (latest_switch_time_ + turn_off_days_)) {
                     latest_switch_time_ = Model::SCHEDULER->current_time() + delay_until_actual_trigger_;
                     //                    std::cout << "TF: " << Model::DATA_COLLECTOR->current_TF_by_therapy()[get_therapy()->id()] << std::endl;
