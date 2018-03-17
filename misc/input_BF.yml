@@ -75,7 +75,8 @@ spatial_information:
 ]
   # probability that a symptomatic and infected individual seeks and receives antimalarial treatment
   #if the number of values less than number of locations, the first value will be applied for all locations
-  p_treatment_by_location: [0.600000]
+  p_treatment_for_less_than_5_by_location: [0.600000]
+  p_treatment_for_more_than_5_by_location: [0.600000]
 
   #transmission intensity
   #if the number of values less than number of locations, the first value will be applied for all locations

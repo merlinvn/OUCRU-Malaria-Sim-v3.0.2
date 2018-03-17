@@ -202,7 +202,7 @@ void AMUReporter::output_parameters() {
     }
     //p_treatment
     for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
-        std::cout << Model::CONFIG->location_db()[location].p_treatment << "\t";
+        std::cout << Model::CONFIG->location_db()[location].p_treatment_less_than_5 << "\t";
     }
 
     std::cout << Model::CONFIG->genotype_info().loci_vector[0].alleles[0].daily_cost_of_resistance << "\t";

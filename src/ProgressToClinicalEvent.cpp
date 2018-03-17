@@ -72,8 +72,12 @@ void ProgressToClinicalEvent::execute() {
     Model::DATA_COLLECTOR->collect_1_clinical_episode(person->location(), person->age(), person->age_class());
 
     double P = Model::RANDOM->random_flat(0.0, 1.0);
+    double P_treatment_by_age =
+            person->age() <= 5 ? Model::CONFIG->location_db()[person->location()].p_treatment_less_than_5 :
+            Model::CONFIG->location_db()[person->location()].p_treatment_more_than_5;
+
     double P_treatment = (Model::MODEL->scheduler()->current_time() >= Model::CONFIG->start_treatment_day())
-                         ? Model::CONFIG->location_db()[person->location()].p_treatment : -1;
+                         ? P_treatment_by_age : -1;
     if (P <= P_treatment) {
         Therapy *therapy = Model::CONFIG->strategy()->get_therapy(person);
         person->receive_therapy(therapy, clinical_caused_parasite_);

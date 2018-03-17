@@ -5,9 +5,10 @@
 #include "Location.h"
 
 namespace Spatial {
-    Location::Location(int id, float latitude, float longitude,int populationSize) :
-            id{id}, populationSize{populationSize}, beta{0.0f}, p_treatment{0.0f},
-            coordinate{std::make_unique<Coordinate>(latitude, longitude)}, age_distribution() {
+    Location::Location(int id, float latitude, float longitude, int populationSize) :
+            id{id}, populationSize{populationSize}, beta{0.0f}, p_treatment_less_than_5{0.0f},
+            p_treatment_more_than_5{0.0f}, coordinate{std::make_unique<Coordinate>(latitude, longitude)},
+            age_distribution() {
 
     }
 
@@ -28,6 +29,8 @@ namespace Spatial {
         id = other.id;
         beta = other.beta;
         populationSize = other.populationSize;
+        p_treatment_less_than_5 = other.p_treatment_less_than_5;
+        p_treatment_more_than_5 = other.p_treatment_more_than_5;
         coordinate = std::make_unique<Coordinate>(other.coordinate->latitude, other.coordinate->longitude);
         age_distribution = other.age_distribution;
         return *this;
@@ -41,6 +44,8 @@ namespace Spatial {
             os << i << ",";
         }
         os << "]";
+        os << ", p_treatment: [" << location.p_treatment_less_than_5 << "," << location.p_treatment_more_than_5 << "]"
+           << std::endl;
         return os;
     }
 }

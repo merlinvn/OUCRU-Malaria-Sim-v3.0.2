@@ -25,7 +25,8 @@ namespace Spatial {
         int id;
         int populationSize;
         float beta;
-        float p_treatment;
+        float p_treatment_less_than_5;
+        float p_treatment_more_than_5;
         std::unique_ptr<Coordinate> coordinate;
         std::vector<double> age_distribution;
     public:

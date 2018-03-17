@@ -1017,51 +1017,35 @@ void Config::build_location_db(const YAML::Node &node) {
 
     number_of_locations_ = static_cast<int>(location_db_.size());
 
-    if (node["age_distribution_by_location"].size() < number_of_locations_) {
-        for (int loc = 0; loc < number_of_locations_; loc++) {
-            for (int i = 0; i < node["age_distribution_by_location"][0].size(); i++) {
-                location_db_[loc].age_distribution.push_back(
-                        node["age_distribution_by_location"][0][i].as<double>());
-            }
-        }
-    } else {
-        for (int loc = 0; loc < number_of_locations_; loc++) {
-            for (int i = 0; i < node["age_distribution_by_location"][loc].size(); i++) {
-                location_db_[loc].age_distribution.push_back(
-                        node["age_distribution_by_location"][loc][i].as<double>());
-            }
+    for (int loc = 0; loc < number_of_locations_; loc++) {
+        int input_loc = node["age_distribution_by_location"].size()< number_of_locations() ? 0 : loc;
+
+        for (int i = 0; i < node["age_distribution_by_location"][input_loc].size(); i++) {
+            location_db_[loc].age_distribution.push_back(
+                    node["age_distribution_by_location"][input_loc][i].as<double>());
         }
     }
 
-    if (node["p_treatment_by_location"].size() < number_of_locations()) {
-        for (int loc = 0; loc < number_of_locations_; loc++) {
-            location_db_[loc].p_treatment = node["p_treatment_by_location"][0].as<float>();
-        }
-    } else {
-        for (int loc = 0; loc < number_of_locations_; loc++) {
-            location_db_[loc].p_treatment = node["p_treatment_by_location"][loc].as<float>();
-        }
+    for (int loc = 0; loc < number_of_locations_; loc++) {
+        int input_loc = node["p_treatment_for_less_than_5_by_location"].size()< number_of_locations() ? 0 : loc;
+        location_db_[loc].p_treatment_less_than_5 = node["p_treatment_for_less_than_5_by_location"][input_loc].as<float>();
     }
 
-    if (node["beta_by_location"].size() < number_of_locations()) {
-        for (int loc = 0; loc < number_of_locations_; loc++) {
-            location_db_[loc].beta = node["beta_by_location"][0].as<float>();
-        }
-    } else {
-        for (int loc = 0; loc < number_of_locations_; loc++) {
-            location_db_[loc].beta = node["beta_by_location"][loc].as<float>();
-        }
+    for (int loc = 0; loc < number_of_locations_; loc++) {
+        int input_loc = node["p_treatment_for_more_than_5_by_location"].size()< number_of_locations() ? 0 : loc;
+        location_db_[loc].p_treatment_more_than_5= node["p_treatment_for_more_than_5_by_location"][input_loc].as<float>();
     }
 
-    if (node["population_size_by_location"].size() < number_of_locations()) {
-        for (int loc = 0; loc < number_of_locations_; loc++) {
-            location_db_[loc].populationSize = node["population_size_by_location"][0].as<int>();
-        }
-    } else {
-        for (int loc = 0; loc < number_of_locations_; loc++) {
-            location_db_[loc].populationSize = node["population_size_by_location"][loc].as<int>();
-        }
+    for (int loc = 0; loc < number_of_locations_; loc++) {
+        int input_loc = node["beta_by_location"].size()< number_of_locations() ? 0 : loc;
+        location_db_[loc].beta= node["beta_by_location"][input_loc].as<float>();
     }
+
+    for (int loc = 0; loc < number_of_locations_; loc++) {
+        int input_loc = node["population_size_by_location"].size()< number_of_locations() ? 0 : loc;
+        location_db_[loc].populationSize= node["population_size_by_location"][input_loc].as<int>();
+    }
+
 //    location_db()[0].populationSize = 1000;
-//    std::cout << location_db()[4] << std::endl;
+    std::cout << location_db()[4] << std::endl;
 }
