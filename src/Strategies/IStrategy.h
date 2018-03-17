@@ -33,7 +33,8 @@ public:
         TACTSwitching = 6,
         MFTRebalancing = 7,
         NestedSwitching = 8,
-        MFTDifferentDistributionByLocation = 9
+        MFTDifferentDistributionByLocation = 9,
+        NestedSwitchingDifferentDistributionByLocation = 10
     };
     static std::map<std::string, StrategyType> StrategyTypeMap;
 

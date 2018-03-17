@@ -19,6 +19,7 @@
 #include <fstream>
 #include "StringSplitHelper.h"
 #include "Spatial/SpatialModelBuilder.h"
+#include "Strategies/NestedSwitchingDifferentDistributionByLocationStrategy.h"
 #include <cmath>
 
 using namespace Spatial;
@@ -241,6 +242,10 @@ void Config::read_strategy_therapy_and_drug_information(const YAML::Node &config
 
     if (strategy_->get_type() == IStrategy::NestedSwitching) {
         ((NestedSwitchingStrategy *) strategy_)->initialize_update_time();
+    }
+
+    if (strategy_->get_type() == IStrategy::NestedSwitchingDifferentDistributionByLocation) {
+        ((NestedSwitchingDifferentDistributionByLocationStrategy *) strategy_)->initialize_update_time();
     }
 }
 
@@ -1047,5 +1052,5 @@ void Config::build_location_db(const YAML::Node &node) {
     }
 
 //    location_db()[0].populationSize = 1000;
-    std::cout << location_db()[4] << std::endl;
+//    std::cout << location_db()[number_of_locations()-1] << std::endl;
 }

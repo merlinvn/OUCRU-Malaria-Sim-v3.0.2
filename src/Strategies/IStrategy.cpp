@@ -5,4 +5,5 @@ std::map<std::string, IStrategy::StrategyType> IStrategy::StrategyTypeMap = boos
         ("Cycling", Cycling)("AdaptiveCycling", AdaptiveCycling)("MFT", MFT)("ACTIncreaseOvertime", ACTIncreaseOvertime)
         ("NovelNonACTSwitching", NovelNonACTSwitching)("TACTSwitching", TACTSwitching)
         ("MFTRebalancing", MFTRebalancing)("NestedSwitching", NestedSwitching)
-        ("MFTDifferentDistributionByLocation", MFTDifferentDistributionByLocation);
+        ("MFTDifferentDistributionByLocation", MFTDifferentDistributionByLocation)
+        ("NestedSwitchingDifferentDistributionByLocation", NestedSwitchingDifferentDistributionByLocation);

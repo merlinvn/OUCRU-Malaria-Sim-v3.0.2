@@ -25,6 +25,7 @@
 #include "NestedSwitchingStrategy.h"
 #include "MFTRebalancingStrategy.h"
 #include "MFTDifferentDistributionByLocationStrategy.h"
+#include "NestedSwitchingDifferentDistributionByLocationStrategy.h"
 
 StrategyBuilder::StrategyBuilder() {
 }
@@ -55,6 +56,8 @@ IStrategy *StrategyBuilder::build(const YAML::Node &ns, const int &strategy_id) 
             return buildNestedSwitchingStrategy(ns, strategy_id);
         case IStrategy::MFTDifferentDistributionByLocation:
             return buildMFTDifferentDistributionByLocationStrategy(ns, strategy_id);
+        case IStrategy::NestedSwitchingDifferentDistributionByLocation:
+            return buildNestedSwitchingDifferentDistributionByLocationStrategy(ns, strategy_id);
         default:
             return nullptr;
     }
@@ -224,11 +227,53 @@ StrategyBuilder::buildMFTDifferentDistributionByLocationStrategy(const YAML::Nod
             static_cast<unsigned long long int>(Model::CONFIG->number_of_locations()));
 
     for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
-        int input_loc = ns["distribution_by_location"].size() < Model::CONFIG->number_of_locations() ? 0 : loc;
-        add_distributions(ns["distribution_by_location"][input_loc], result->distribution_by_location()[loc]);
+        int input_loc = ns["distribution"].size() < Model::CONFIG->number_of_locations() ? 0 : loc;
+        add_distributions(ns["distribution"][input_loc], result->distribution_by_location()[loc]);
     }
 
     add_therapies(ns, reinterpret_cast<IStrategy *&>(result));
+
+    return result;
+}
+
+IStrategy *StrategyBuilder::buildNestedSwitchingDifferentDistributionByLocationStrategy(const YAML::Node &ns,
+                                                                                        const int &strategy_id) {
+    auto *result = new NestedSwitchingDifferentDistributionByLocationStrategy();
+    result->id = strategy_id;
+    result->name = ns["name"].as<std::string>();
+
+    result->distribution().clear();
+    result->distribution().resize(static_cast<unsigned long long int>(Model::CONFIG->number_of_locations()));
+
+    result->start_distribution().clear();
+    result->start_distribution().resize(static_cast<unsigned long long int>(Model::CONFIG->number_of_locations()));
+
+    result->end_distribution().clear();
+    result->end_distribution().resize(static_cast<unsigned long long int>(Model::CONFIG->number_of_locations()));
+
+
+    for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
+        int input_loc = ns["start_distribution"].size() < Model::CONFIG->number_of_locations() ? 0 : loc;
+        add_distributions(ns["start_distribution"][input_loc], result->distribution()[loc]);
+    }
+    for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
+        int input_loc = ns["start_distribution"].size() < Model::CONFIG->number_of_locations() ? 0 : loc;
+        add_distributions(ns["start_distribution"][input_loc], result->start_distribution()[loc]);
+    }
+
+    for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
+        int input_loc = ns["end_distribution"].size() < Model::CONFIG->number_of_locations() ? 0 : loc;
+        add_distributions(ns["end_distribution"][input_loc], result->end_distribution()[loc]);
+    }
+
+    for (int i = 0; i < ns["strategy_ids"].size(); i++) {
+        result->add_strategy(Model::CONFIG->strategy_db()[ns["strategy_ids"][i].as<int>()]);
+    }
+
+    result->set_strategy_switching_day(ns["strategy_switching_day"].as<int>());
+    result->set_switch_to_strategy_id(ns["switch_to_strategy_id"].as<int>());
+
+//    std::cout << result->to_string() << std::endl;
 
     return result;
 }
