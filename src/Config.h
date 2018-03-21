@@ -138,7 +138,6 @@ VIRTUAL_PROPERTY_REF(DoubleVector2, spatial_distance_matrix)
 POINTER_PROPERTY(Spatial::SpatialModel, spatial_model)
 
 
-
 public:
     Config(Model *model = nullptr);
 
@@ -186,8 +185,7 @@ public:
 
     void read_genotype_info(const YAML::Node &config);
 
-    double
-    seasonality(const int &current_time, const double &amplitude, const double &phi_upper, const double &phi_lower);
+    double seasonal_factor_for_beta(const int &current_time);
 
     void read_spatial_information(const YAML::Node &config);
 

@@ -65,9 +65,10 @@ typedef std::vector<IStrategy*> StrategyPtrVector;
 
 
 struct Seasonality {
-    DoubleVector a;
-    DoubleVector phi_upper;
-    DoubleVector phi_lower;
+    DoubleVector A;
+    DoubleVector B;
+    DoubleVector C;
+    float min_value;
 };
 
 struct ImmuneSystemInformation {

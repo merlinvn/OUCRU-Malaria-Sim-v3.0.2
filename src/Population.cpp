@@ -163,10 +163,7 @@ void Population::perform_infection_event() {
                 continue;
 
             double newBeta = Model::CONFIG->location_db()[loc].beta *
-                             Model::CONFIG->seasonality(Model::SCHEDULER->current_time(),
-                                                        Model::CONFIG->seasonal_beta().a[loc],
-                                                        Model::CONFIG->seasonal_beta().phi_upper[loc],
-                                                        Model::CONFIG->seasonal_beta().phi_lower[loc]);
+                    Model::CONFIG->seasonal_factor_for_beta(Model::SCHEDULER->current_time());
 
             double poisson_means = newBeta * force_of_infection;
 
