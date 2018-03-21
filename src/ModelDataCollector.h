@@ -13,7 +13,7 @@
 #include "ResistanceTracker.h"
 #include <boost/version.hpp>
 
-#if BOOST_VERSION >= 106300  // or 64, need to check
+#if BOOST_VERSION >= 106400  // or 64, need to check
 #include <boost/serialization/array_wrapper.hpp>
 #endif
 
