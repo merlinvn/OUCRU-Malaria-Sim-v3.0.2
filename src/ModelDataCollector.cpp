@@ -18,7 +18,7 @@
 #include "ClonalParasitePopulation.h"
 #include <numeric>
 
-ModelDataCollector::ModelDataCollector(Model *model) : model_(model),
+ModelDataCollector::ModelDataCollector(Model *model) : model_(model), current_utl_duration_(),
                                                        popsize_by_location_(), blood_slide_prevalence_by_location_(),
                                                        fraction_of_positive_that_are_clinical_by_location_(),
                                                        popsize_by_location_hoststate_(), total_immune_by_location_(),
@@ -29,7 +29,7 @@ ModelDataCollector::ModelDataCollector(Model *model) : model_(model),
                                                        EIR_by_location_(),
                                                        cumulative_clinical_episodes_by_location_(),
                                                        cumulative_clinical_episodes_by_location_age_(),
-                                                       popsize_residence_by_location_(),resistance_tracker_() {
+                                                       popsize_residence_by_location_(), resistance_tracker_() {
 }
 
 ModelDataCollector::~ModelDataCollector() {
@@ -186,8 +186,12 @@ void ModelDataCollector::initialize() {
         total_TF_60_by_therapy_ = IntVector2(Model::CONFIG->therapy_db().size(),
                                              IntVector(Model::CONFIG->tf_window_size(), 0));
         current_TF_by_therapy_ = DoubleVector(Model::CONFIG->therapy_db().size(), 0.0);
-        today_TF_by_therapy_ = IntVector(Model::CONFIG->therapy_db().size(), 0.0);
-        today_number_of_treatments_by_therapy_ = IntVector(Model::CONFIG->therapy_db().size(), 0.0);
+        today_TF_by_therapy_ = IntVector(Model::CONFIG->therapy_db().size(), 0);
+        today_number_of_treatments_by_therapy_ = IntVector(Model::CONFIG->therapy_db().size(), 0);
+
+        monthly_number_of_treatment_by_location_ = IntVector(Model::CONFIG->number_of_locations(), 0);
+        monthly_number_of_clinical_episode_by_location_ = IntVector(Model::CONFIG->number_of_locations(), 0);
+
     }
 }
 
@@ -254,7 +258,7 @@ void ModelDataCollector::perform_population_statistic() {
 
     }
 
-    PersonIndexByLocationStateAgeClass *pi = Model::POPULATION->get_person_index<PersonIndexByLocationStateAgeClass>();
+    auto *pi = Model::POPULATION->get_person_index<PersonIndexByLocationStateAgeClass>();
     for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
         int pop_sum_location = 0;
         for (int hs = 0; hs < Person::NUMBER_OF_STATE - 1; hs++) {
@@ -375,18 +379,18 @@ void ModelDataCollector::collect_number_of_bites(const int &location, const int 
     }
 }
 
-void ModelDataCollector::update_every_year() {
+void ModelDataCollector::perform_yearly_update() {
     if (Model::SCHEDULER->current_time() == Model::CONFIG->start_collect_data_day()) {
         for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
-            person_days_by_location_year_[loc] = Model::POPULATION->size(loc) * 365;
+            person_days_by_location_year_[loc] = Model::POPULATION->size(loc) * 360;
         }
     } else if ((Model::SCHEDULER->current_time() > Model::CONFIG->start_collect_data_day()) &&
-               (((Model::SCHEDULER->current_time() - Model::CONFIG->start_collect_data_day()) % 365) == 0)) {
+               (((Model::SCHEDULER->current_time() - Model::CONFIG->start_collect_data_day()) % 360) == 0)) {
 
         for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
 
             double EIR = (total_number_of_bites_by_location_year_[loc] / (double) person_days_by_location_year_[loc]) *
-                         365.0;
+                         360.0;
             //only record year have positive EIR
             //            if (EIR > 0) {
             EIR_by_location_year_[loc].push_back(EIR);
@@ -394,7 +398,7 @@ void ModelDataCollector::update_every_year() {
 
             //this number will be changed whenever a birth or a death occurs
             // and also when the individual change location
-            person_days_by_location_year_[loc] = Model::POPULATION->size(loc) * 365;
+            person_days_by_location_year_[loc] = Model::POPULATION->size(loc) * 360;
             total_number_of_bites_by_location_year_[loc] = 0;
             for (int age = 0; age < 80; age++) {
                 number_of_untreated_cases_by_location_age_year_[loc][age] = 0;
@@ -422,9 +426,9 @@ void ModelDataCollector::calculate_EIR() {
         if (EIR_by_location_year_[loc].size() == 0) {
             //collect data for less than 1 year            
             double total_time_in_years =
-                    (Model::SCHEDULER->current_time() - Model::CONFIG->start_collect_data_day()) / 365.0;
+                    (Model::SCHEDULER->current_time() - Model::CONFIG->start_collect_data_day()) / 360.0;
             double EIR = (total_number_of_bites_by_location_year_[loc] / (double) person_days_by_location_year_[loc]) *
-                         365.0;
+                         360.0;
             EIR = EIR / total_time_in_years;
             EIR_by_location_[loc] = EIR;
         } else {
@@ -443,6 +447,8 @@ void ModelDataCollector::calculate_EIR() {
 void ModelDataCollector::collect_1_clinical_episode(const int &location, const int &age, const int &age_class) {
     if (Model::SCHEDULER->current_time() >= Model::CONFIG->start_collect_data_day()) {
         cumulative_clinical_episodes_by_location_[location]++;
+        monthly_number_of_clinical_episode_by_location_[location] += 1;
+
         if (age < 100) {
             cumulative_clinical_episodes_by_location_age_[location][age]++;
         } else {
@@ -456,7 +462,7 @@ void ModelDataCollector::collect_1_clinical_episode(const int &location, const i
 void ModelDataCollector::record_1_death(const int &location, const int &birthday, const int &number_of_times_bitten,
                                         const int &age_group, const int &age) {
     if (Model::SCHEDULER->current_time() >= Model::CONFIG->start_collect_data_day()) {
-        update_person_days_by_years(location, -(365 - Model::SCHEDULER->current_day_in_year()));
+        update_person_days_by_years(location, -(360 - Model::SCHEDULER->current_day_in_year()));
         update_average_number_bitten(location, birthday, number_of_times_bitten);
         number_of_death_by_location_age_group_[location][age_group] += 1;
         if (age < 79) {
@@ -610,6 +616,9 @@ void ModelDataCollector::record_1_treatment(const int &location, const int &age,
         today_number_of_treatments_by_therapy_[therapy_id] += 1;
 
         number_of_treatments_with_therapy_ID_[therapy_id] += 1;
+
+        monthly_number_of_treatment_by_location_[location] += 1;
+
         if (age <= 79) {
             number_of_treatments_by_location_age_year_[location][age] += 1;
             if (therapy_id < 3) {
@@ -647,7 +656,7 @@ void ModelDataCollector::record_1_TF(const int &location, const bool &by_drug) {
     if (Model::SCHEDULER->current_time() >= Model::CONFIG->start_collect_data_day()) {
 
         double current_discounted_tf = exp(
-                log(0.97) * floor((Model::SCHEDULER->current_time() - Model::CONFIG->start_collect_data_day()) / 365));
+                log(0.97) * floor((Model::SCHEDULER->current_time() - Model::CONFIG->start_collect_data_day()) / 360));
 
         cumulative_discounted_NTF_by_location_[location] += current_discounted_tf;
         cumulative_NTF_by_location_[location] += 1;
@@ -712,7 +721,7 @@ void ModelDataCollector::record_AMU_AFU(Person *person, Therapy *therapy,
         if (artId != -1 && scTherapy->drug_ids().size() > 1) {
             int numberOfDrugsInTherapy = scTherapy->drug_ids().size();
             double discouted_fraction = exp(
-                    log(0.97) * floor((Model::SCHEDULER->current_time() - Model::CONFIG->start_treatment_day()) / 365));
+                    log(0.97) * floor((Model::SCHEDULER->current_time() - Model::CONFIG->start_treatment_day()) / 360));
             //            assert(false);
             //combine therapy
             for (int i = 0; i < numberOfDrugsInTherapy; i++) {
@@ -791,4 +800,15 @@ double ModelDataCollector::get_blood_slide_prevalence(const int &location, const
     }
     return (popsize == 0) ? 0 : blood_slide_numbers / popsize;
     return 0;
+}
+
+void ModelDataCollector::perform_monthly_update() {
+    if ((Model::SCHEDULER->current_time() > Model::CONFIG->start_collect_data_day()) &&
+        (((Model::SCHEDULER->current_time() - Model::CONFIG->start_collect_data_day()) % 30) == 0)) {
+        for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
+            monthly_number_of_treatment_by_location_[loc] = 0;
+            monthly_number_of_clinical_episode_by_location_[loc] = 0;
+        }
+
+    }
 }

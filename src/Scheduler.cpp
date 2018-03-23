@@ -131,7 +131,8 @@ void Scheduler::end_time_step() {
     update_end_of_time_step();
 
     report_end_of_time_step();
-    Model::DATA_COLLECTOR->update_every_year();
+    Model::DATA_COLLECTOR->perform_yearly_update();
+    Model::DATA_COLLECTOR->perform_monthly_update();
 }
 
 void Scheduler::update_end_of_time_step() {
@@ -174,7 +175,7 @@ void Scheduler::update_force_of_infection() {
 }
 
 int Scheduler::current_day_in_year() {
-    return (current_time_ - Model::CONFIG->start_collect_data_day()) % 365;
+    return (current_time_ - Model::CONFIG->start_collect_data_day()) % 360;
 }
 
 void Scheduler::perform_monthly_update() {

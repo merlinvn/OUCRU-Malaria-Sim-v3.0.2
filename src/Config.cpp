@@ -1013,7 +1013,7 @@ void Config::read_biodemography_information(const YAML::Node &config) {
 double Config::seasonal_factor_for_beta(const int &current_time) {
 
     double result = (current_time % 360 >= 180 && current_time % 360 <= 360) ?
-                    seasonal_beta_.A[0] * sin(seasonal_beta_.B[0] * current_time + seasonal_beta_.C[0]) +
+                    (seasonal_beta_.A[0] - seasonal_beta_.min_value) * sin(seasonal_beta_.B[0] * current_time + seasonal_beta_.C[0]) +
                     seasonal_beta_.min_value : seasonal_beta_.min_value;
 
 
@@ -1021,7 +1021,7 @@ double Config::seasonal_factor_for_beta(const int &current_time) {
 //    if (amplitude == 0) return 1;
 //    return (((current_time % 360) > (360 / 2))) ? amplitude * (cos(2 * PI * (current_time + phi) / 360) + 2) : (
 //            cos(2 * PI * (current_time + phi_lower) / 360) + 2);
-//    //        return amplitude * cos(2 * PI * (current_time + phi) / 365) + 2;
+//    //        return amplitude * cos(2 * PI * (current_time + phi) / 360) + 2;
 }
 
 void Config::build_location_db(const YAML::Node &node) {

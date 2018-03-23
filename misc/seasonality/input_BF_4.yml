@@ -131,7 +131,7 @@ seasonal_beta:
   a: [1.2]
   phi: [180]
   period: 360
-  min_value: 0.1
+  min_value: 0.2
 
 # probability that an infectious bite on a human causes a blood stage malaria infection
 p_infection_from_an_infectious_bite: 0.1

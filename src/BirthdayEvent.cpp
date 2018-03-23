@@ -24,7 +24,7 @@ void BirthdayEvent::execute() {
     Person* p = (Person*) dispatcher();
     p->increase_age_by_1_year();
 
-    schedule_event(scheduler(), p, scheduler()->current_time() + 365);
+    schedule_event(scheduler(), p, scheduler()->current_time() + 360);
 }
 
 void BirthdayEvent::schedule_event(Scheduler* scheduler, Person* p, const int& time) {

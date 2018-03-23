@@ -58,7 +58,7 @@ void ConsoleReporter::after_run() {
     std::cout << "==========================================================================" << std::endl;
 
     //total time
-    double total_time_in_years = (Model::SCHEDULER->current_time() - Model::CONFIG->start_collect_data_day()) / 365.0;
+    double total_time_in_years = (Model::SCHEDULER->current_time() - Model::CONFIG->start_collect_data_day()) / 360.0;
     std::cout << "Total time (from equilibrium) : " << total_time_in_years << " years" << std::endl;
 
     //report EIR

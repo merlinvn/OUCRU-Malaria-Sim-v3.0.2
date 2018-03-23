@@ -14,7 +14,9 @@
 #include <boost/version.hpp>
 
 #if BOOST_VERSION >= 106400  // or 64, need to check
+
 #include <boost/serialization/array_wrapper.hpp>
+
 #endif
 
 #include <boost/accumulators/accumulators.hpp>
@@ -176,6 +178,11 @@ PROPERTY_REF(IntVector3, number_of_treatments_by_location_age_therapy_year)
 
 PROPERTY_REF(IntVector3, number_of_treatment_failures_by_location_age_therapy_year)
 
+PROPERTY_REF(IntVector, monthly_number_of_treatment_by_location);
+
+PROPERTY_REF(IntVector, monthly_number_of_clinical_episode_by_location);
+
+
 PROPERTY_REF(IntVector2, popsize_by_location_age)
 
 PROPERTY_REF(DoubleVector, cumulative_NTF_15_30_by_location)
@@ -219,7 +226,9 @@ public:
 
     void perform_population_statistic();
 
-    void update_every_year();
+    void perform_yearly_update();
+
+    void perform_monthly_update();
 
 
     virtual void collect_number_of_bites(const int &location, const int &number_of_bites);

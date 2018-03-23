@@ -164,7 +164,7 @@ void FarmReporter::output_parameters() {
 }
 
 void FarmReporter::print_ntf_by_location() {
-    double total_time_in_years = (Model::SCHEDULER->current_time() - Model::CONFIG->start_collect_data_day()) / 365.0;
+    double total_time_in_years = (Model::SCHEDULER->current_time() - Model::CONFIG->start_collect_data_day()) / 360.0;
     for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
         double location_discounted_NTF = Model::DATA_COLLECTOR->cumulative_discounted_NTF_by_location()[location] * 100 / (double) Model::DATA_COLLECTOR->popsize_by_location()[location];
         double NTF = Model::DATA_COLLECTOR->cumulative_NTF_by_location()[location] * 100 / (double) Model::DATA_COLLECTOR->popsize_by_location()[location];
@@ -173,7 +173,7 @@ void FarmReporter::print_ntf_by_location() {
         location_discounted_NTF /= total_time_in_years;
         NTF /= total_time_in_years;
 
-        NTF15_30 /= (Model::SCHEDULER->current_time() - Model::CONFIG->non_artemisinin_switching_day()) / 365.0;
+        NTF15_30 /= (Model::SCHEDULER->current_time() - Model::CONFIG->non_artemisinin_switching_day()) / 360.0;
 
         std::cout << location_discounted_NTF << "\t";
         std::cout << NTF << "\t";
@@ -258,7 +258,7 @@ void FarmReporter::print_death_by_age_group() {
 }
 
 void FarmReporter::print_number_of_clinical_episode_by_age_class() {
-    double total_time_in_years = (Model::SCHEDULER->current_time() - Model::CONFIG->start_collect_data_day()) / 365.0;
+    double total_time_in_years = (Model::SCHEDULER->current_time() - Model::CONFIG->start_collect_data_day()) / 360.0;
     for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
         for (int ac = 0; ac < Model::CONFIG->number_of_age_classes(); ac++) {
             std::cout << (Model::DATA_COLLECTOR->cumulative_clinical_episodes_by_location_age_group()[location][ac] / (double) Model::DATA_COLLECTOR->popsize_by_location_age_class()[location][ac]) / total_time_in_years << "\t";

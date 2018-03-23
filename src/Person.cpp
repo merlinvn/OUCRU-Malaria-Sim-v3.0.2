@@ -95,9 +95,9 @@ void Person::set_location(const int &value) {
         if (Model::DATA_COLLECTOR != nullptr) {
             if (location_ != -1) {
                 Model::DATA_COLLECTOR->update_person_days_by_years(location_,
-                                                                   -(365 - Model::SCHEDULER->current_day_in_year()));
+                                                                   -(360 - Model::SCHEDULER->current_day_in_year()));
             }
-            Model::DATA_COLLECTOR->update_person_days_by_years(value, (365 - Model::SCHEDULER->current_day_in_year()));
+            Model::DATA_COLLECTOR->update_person_days_by_years(value, (360 - Model::SCHEDULER->current_day_in_year()));
         }
         NotifyChange(LOCATION, &location_, &value);
 
@@ -119,7 +119,7 @@ void Person::set_host_state(const HostStates &value) {
             clear_events();
 
             //
-            //            Model::STATISTIC->update_person_days_by_years(location_, -(365 - Model::SCHEDULER->current_day_in_year()));
+            //            Model::STATISTIC->update_person_days_by_years(location_, -(360 - Model::SCHEDULER->current_day_in_year()));
             Model::DATA_COLLECTOR->record_1_death(location_, birthday_, number_of_times_bitten_, age_class_, age_);
         }
 
@@ -746,7 +746,7 @@ double Person::get_age_dependent_bitting_factor() {
     // + 2.75kg until 20
 
     if (age_ < 1) {
-        double age = ((Model::SCHEDULER->current_time() - birthday_) % 365) / 365.0;
+        double age = ((Model::SCHEDULER->current_time() - birthday_) % 360) / 360.0;
         if (age < 0.25)
             return 0.106;
         //            return 6.5 / 61.5;

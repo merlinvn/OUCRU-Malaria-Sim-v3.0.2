@@ -141,7 +141,7 @@ void AMUReporter::after_time_step() {
         std::cout << Model::DATA_COLLECTOR->AMU_per_parasite_pop() << "\t";
         //        std::cout << std::setw(COLUMN_WIDTH) << Model::STATISTIC->AFU() << "\t";
 
-        //        double total_time_in_years = (Model::SCHEDULER->current_time() - Model::CONFIG->start_collect_data_day()) / 365.0;
+        //        double total_time_in_years = (Model::SCHEDULER->current_time() - Model::CONFIG->start_collect_data_day()) / 360.0;
         for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
             double location_discounted_NTF = Model::DATA_COLLECTOR->cumulative_discounted_NTF_by_location()[location];
             double NTF = Model::DATA_COLLECTOR->cumulative_NTF_by_location()[location];
@@ -217,7 +217,7 @@ void AMUReporter::output_parameters() {
 }
 
 void AMUReporter::print_ntf_by_location() {
-    double total_time_in_years = (Model::SCHEDULER->current_time() - Model::CONFIG->start_collect_data_day()) / 365.0;
+    double total_time_in_years = (Model::SCHEDULER->current_time() - Model::CONFIG->start_collect_data_day()) / 360.0;
     for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
         double location_discounted_NTF =
                 Model::DATA_COLLECTOR->cumulative_discounted_NTF_by_location()[location] * 100 /
@@ -309,7 +309,7 @@ void AMUReporter::print_death_by_age_group() {
 }
 
 void AMUReporter::print_number_of_clinical_episode_by_age_class() {
-    double total_time_in_years = (Model::SCHEDULER->current_time() - Model::CONFIG->start_collect_data_day()) / 365.0;
+    double total_time_in_years = (Model::SCHEDULER->current_time() - Model::CONFIG->start_collect_data_day()) / 360.0;
     for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
         for (int ac = 0; ac < Model::CONFIG->number_of_age_classes(); ac++) {
             std::cout << (Model::DATA_COLLECTOR->cumulative_clinical_episodes_by_location_age_group()[location][ac] /

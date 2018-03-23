@@ -33,10 +33,10 @@ void YearlyReporterV1::begin_time_step() {
 
 void YearlyReporterV1::after_time_step() {
     if ((Model::SCHEDULER->current_time() > Model::CONFIG->start_collect_data_day()) &&
-        (((Model::SCHEDULER->current_time() - Model::CONFIG->start_collect_data_day()) % 365) == 0)) {
+        (((Model::SCHEDULER->current_time() - Model::CONFIG->start_collect_data_day()) % 360) == 0)) {
         Model::DATA_COLLECTOR->perform_population_statistic();
 
-        fs_ << ((Model::SCHEDULER->current_time() - Model::CONFIG->start_collect_data_day()) / 365) << "\t";
+        fs_ << ((Model::SCHEDULER->current_time() - Model::CONFIG->start_collect_data_day()) / 360) << "\t";
 
         for (int age = 0; age < 80; age++) {
             fs_ << Model::DATA_COLLECTOR->popsize_by_location_age()[0][age] << "\t";

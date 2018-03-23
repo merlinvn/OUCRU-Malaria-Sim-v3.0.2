@@ -301,16 +301,16 @@ void Population::initialize() {
                     p->set_age(Model::RANDOM->random_uniform_int(age_from, age_to + 1));
                     //                    std::cout << p->age() << " \t" << p->age_class() << std::endl;
                     //                    p->set_age_class(age_class);
-                    p->set_birthday(-Model::RANDOM->random_uniform(365));
+                    p->set_birthday(-Model::RANDOM->random_uniform(360));
 
-                    BirthdayEvent::schedule_event(Model::SCHEDULER, p, p->birthday() + 365);
+                    BirthdayEvent::schedule_event(Model::SCHEDULER, p, p->birthday() + 360);
 
                     //set immune component
                     if (p->is_infant(0)) {
                         p->immune_system()->set_immune_component(new InfantImmuneComponent());
                         //schedule for switch
                         SwitchImmuneComponentEvent::schedule_for_switch_immune_component_event(Model::SCHEDULER, p,
-                                                                                               p->birthday() + 365 / 2);
+                                                                                               p->birthday() + 360 / 2);
                     } else {
                         p->immune_system()->set_immune_component(new NonInfantImmuneComponent());
                     }
@@ -449,12 +449,12 @@ void Population::perform_birth_event() {
     //    std::cout << "Birth Event" << std::endl;
 
     for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
-        double poisson_means = size(loc) * Model::CONFIG->birth_rate() / 365.0;
+        double poisson_means = size(loc) * Model::CONFIG->birth_rate() / 360.0;
         int numberOfBirths = Model::RANDOM->random_poisson(poisson_means);
 
         for (int i = 0; i < numberOfBirths; i++) {
             give_1_birth(loc);
-            Model::DATA_COLLECTOR->update_person_days_by_years(loc, (365 - Model::SCHEDULER->current_day_in_year()));
+            Model::DATA_COLLECTOR->update_person_days_by_years(loc, (360 - Model::SCHEDULER->current_day_in_year()));
         }
     }
 
@@ -490,11 +490,11 @@ void Population::give_1_birth(const int &location) {
     p->set_external_population_moving_level(Model::RANDOM->random_external_population_moving_level());
 
     p->set_birthday(Model::SCHEDULER->current_time());
-    BirthdayEvent::schedule_event(Model::SCHEDULER, p, p->birthday() + 365);
+    BirthdayEvent::schedule_event(Model::SCHEDULER, p, p->birthday() + 360);
 
     //schedule for switch
     SwitchImmuneComponentEvent::schedule_for_switch_immune_component_event(Model::SCHEDULER, p,
-                                                                           p->birthday() + 365 / 2);
+                                                                           p->birthday() + 360 / 2);
 
     //    p->startLivingTime = (Global::startTreatmentDay > Global::scheduler->currentTime) ? Global::startTreatmentDay : Global::scheduler->currentTime;
     p->schedule_update_every_K_days_event(Model::CONFIG->update_frequency());
@@ -514,7 +514,7 @@ void Population::perform_death_event() {
             for (int ac = 0; ac < Model::CONFIG->number_of_age_classes(); ac++) {
                 int size = pi->vPerson()[loc][hs][ac].size();
                 if (size == 0) continue;
-                double poisson_means = size * Model::CONFIG->death_rate_by_age()[ac] / 365;
+                double poisson_means = size * Model::CONFIG->death_rate_by_age()[ac] / 360;
 
                 assert(Model::CONFIG->death_rate_by_age().size() == Model::CONFIG->number_of_age_classes());
                 int numberOfDeaths = Model::RANDOM->random_poisson(poisson_means);
