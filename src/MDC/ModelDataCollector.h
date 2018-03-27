@@ -37,6 +37,8 @@ typedef boost::accumulators::accumulator_set<double, boost::accumulators::stats<
 class ModelDataCollector {
 DISALLOW_COPY_AND_ASSIGN_(ModelDataCollector)
 
+    void record_1_migration(Person *pPerson, const int &from, const int &to);
+
 POINTER_PROPERTY(Model, model)
 
 PROPERTY_REF(DoubleVector, total_immune_by_location)

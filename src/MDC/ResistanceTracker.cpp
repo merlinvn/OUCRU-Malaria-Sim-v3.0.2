@@ -135,6 +135,11 @@ void ResistanceTracker::change(const int &from, const int &to, const int &locati
 
 }
 
+void ResistanceTracker::change_location(const int &genotype_id, const int &from_location, const int &to_location) {
+    parasite_population_count_by_location_[from_location][genotype_id] -= 1;
+    parasite_population_count_by_location_[to_location][genotype_id] += 1;
+}
+
 void ResistanceTracker::update_resistance_tracker() {
 
     for (int i = 0; i < tracking_values_.size(); i++) {

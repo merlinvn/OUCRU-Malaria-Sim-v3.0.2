@@ -100,7 +100,8 @@ void BFMonthlyReporter::after_run() {
         std::cout << NTF << "\t";
         //        std::cout << NTF15_30 << "\t";
     }
-
+    
+    std::cout << std::endl;
 }
 
 void BFMonthlyReporter::print_PfPR_0_5_by_location() {

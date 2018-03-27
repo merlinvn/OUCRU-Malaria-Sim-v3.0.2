@@ -809,3 +809,9 @@ void ModelDataCollector::perform_monthly_update() {
 
     }
 }
+
+void ModelDataCollector::record_1_migration(Person *pPerson, const int &from, const int &to) {
+    for (auto clonal : *(pPerson->all_clonal_parasite_populations()->parasites())) {
+        resistance_tracker_.change_location(clonal->genotype()->genotype_id(), from, to );
+    }
+}

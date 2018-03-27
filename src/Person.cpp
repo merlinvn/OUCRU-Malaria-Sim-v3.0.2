@@ -99,6 +99,9 @@ void Person::set_location(const int &value) {
             }
             Model::DATA_COLLECTOR->update_person_days_by_years(value, (360 - Model::SCHEDULER->current_day_in_year()));
         }
+
+        Model::DATA_COLLECTOR->record_1_migration(this, location_, value);
+
         NotifyChange(LOCATION, &location_, &value);
 
         location_ = value;

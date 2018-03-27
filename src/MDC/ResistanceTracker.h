@@ -14,6 +14,8 @@
 class ResistanceTracker {
 DISALLOW_COPY_AND_ASSIGN_(ResistanceTracker)
 
+    void change_location(const int &genotype_id, const int &from_location, const int &to_location);
+
 PROPERTY_REF(LongVector, parasite_population_count);
 PROPERTY_REF(LongVector2, parasite_population_count_by_location);
 PROPERTY_REF(double, total_resistance_frequency);
@@ -74,8 +76,6 @@ public:
     void make_arterminsinin_resistance_profile(std::vector<int> &vResistanceID);
 
     double calculate_total_resistance_frequency();
-
-private:
 
 };
 
