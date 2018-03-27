@@ -130,10 +130,10 @@ circulation_information:
 # this functionality works, but it was not used in any analyses for the 2015 LGH paper
 # seasonality parameters, by location
 seasonal_beta:
-  a: [1]
+  a: [1.16]
   phi: [180]
   period: 360
-  min_value: 0.1
+  min_value: 0.25
 
 # probability that an infectious bite on a human causes a blood stage malaria infection
 p_infection_from_an_infectious_bite: 0.1
@@ -712,8 +712,39 @@ drugInfo:
     k: 4
     #62% & 93% efficacies
     EC50:
-      0.... : 0.6
-      1.... : 1.08
+      #KNY--
+      00... : 0.72
+      #KYY--
+      01... : 0.9
+      #KNF--
+      02... : 0.72
+      #KYF--
+      03... : 0.9
+      #KNYNY
+      04... : 0.72
+      #KYYYY
+      05... : 0.9
+      #KNFNF
+      06... : 0.72
+      #KYFYF
+      07... : 0.9
+      #TNY--
+      10... : 1.19
+      #TYY--
+      11... : 1.35
+      #TNF--
+      12... : 1.19
+      #TYF--
+      13... : 1.35
+      #TNYNY
+      14... : 1.19
+      #TYYYY
+      15... : 1.35
+      #TNFNF
+      16... : 1.19
+      #TYFYF
+      17... : 1.35
+
 lumefantrine_drug_id: 2
 artemisinin_drug_id: 0
 
