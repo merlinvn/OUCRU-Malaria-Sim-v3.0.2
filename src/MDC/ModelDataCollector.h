@@ -8,8 +8,8 @@
 #ifndef MODELDATACOLLECTOR_H
 #define MODELDATACOLLECTOR_H
 
-#include "PropertyMacro.h"
-#include "TypeDef.h"
+#include "../PropertyMacro.h"
+#include "../TypeDef.h"
 #include "ResistanceTracker.h"
 #include <boost/version.hpp>
 
@@ -185,7 +185,6 @@ PROPERTY_REF(IntVector, monthly_number_of_clinical_episode_by_location);
 
 PROPERTY_REF(IntVector2, popsize_by_location_age)
 
-PROPERTY_REF(DoubleVector, cumulative_NTF_15_30_by_location)
 
 PROPERTY_REF(double, TF_at_15)
 

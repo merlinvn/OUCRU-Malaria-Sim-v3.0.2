@@ -12,7 +12,7 @@
 #include "Model.h"
 #include "Config.h"
 #include "Population.h"
-#include "ModelDataCollector.h"
+#include "MDC/ModelDataCollector.h"
 #include "Strategies/IStrategy.h"
 #include "TMEScheduler.h"
 #include "ImportationPeriodicallyEvent.h"

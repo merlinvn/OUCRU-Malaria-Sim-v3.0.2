@@ -6,16 +6,16 @@
  */
 
 #include "ModelDataCollector.h"
-#include "Model.h"
-#include "Config.h"
-#include "Strategies/IStrategy.h"
-#include "Person.h"
-#include "PersonIndexByLocationStateAgeClass.h"
-#include "Population.h"
-#include "ImmuneSystem.h"
-#include "SingleHostClonalParasitePopulations.h"
-#include "SCTherapy.h"
-#include "ClonalParasitePopulation.h"
+#include "../Model.h"
+#include "../Config.h"
+#include "../Strategies/IStrategy.h"
+#include "../Person.h"
+#include "../PersonIndexByLocationStateAgeClass.h"
+#include "../Population.h"
+#include "../ImmuneSystem.h"
+#include "../SingleHostClonalParasitePopulations.h"
+#include "../SCTherapy.h"
+#include "../ClonalParasitePopulation.h"
 #include <numeric>
 
 ModelDataCollector::ModelDataCollector(Model *model) : model_(model), current_utl_duration_(),
@@ -170,7 +170,6 @@ void ModelDataCollector::initialize() {
                                                                                 IntVector2(80, IntVector(3, 0)));
         popsize_by_location_age_ = IntVector2(Model::CONFIG->number_of_locations(), IntVector(80, 0));
 
-        cumulative_NTF_15_30_by_location_ = DoubleVector(Model::CONFIG->number_of_locations(), 0.0);
         TF_at_15_ = 0;
         single_resistance_frequency_at_15_ = 0;
         double_resistance_frequency_at_15_ = 0;
@@ -640,7 +639,7 @@ void ModelDataCollector::record_1_mutation(const int &location, IntGenotype *fro
         cumulative_mutants_by_location_[location] += 1;
     }
 
-    resistance_tracker_.change(from->genotype_id(), to->genotype_id());
+    resistance_tracker_.change(from->genotype_id(), to->genotype_id(), location);
 }
 
 void ModelDataCollector::update_UTL_vector() {
@@ -655,20 +654,18 @@ void ModelDataCollector::update_UTL_vector() {
 void ModelDataCollector::record_1_TF(const int &location, const bool &by_drug) {
     if (Model::SCHEDULER->current_time() >= Model::CONFIG->start_collect_data_day()) {
 
-        double current_discounted_tf = exp(
-                log(0.97) * floor((Model::SCHEDULER->current_time() - Model::CONFIG->start_collect_data_day()) / 360));
-
-        cumulative_discounted_NTF_by_location_[location] += current_discounted_tf;
-        cumulative_NTF_by_location_[location] += 1;
-
-        //if treatment failure due to drug (both resistance and not clear)
+        //if treatment failure due to drug (both resistance or not clear)
         if (by_drug) {
             today_TF_by_location_[location] += 1;
         }
     }
 
-    if (Model::SCHEDULER->current_time() >= Model::CONFIG->non_artemisinin_switching_day()) {
-        cumulative_NTF_15_30_by_location_[location] += 1;
+    if (Model::SCHEDULER->current_time() >= Model::CONFIG->start_intervention_day()) {
+        double current_discounted_tf = exp(
+                log(0.97) * floor((Model::SCHEDULER->current_time() - Model::CONFIG->start_collect_data_day()) / 360));
+
+        cumulative_discounted_NTF_by_location_[location] += current_discounted_tf;
+        cumulative_NTF_by_location_[location] += 1;
     }
 
 }

@@ -11,7 +11,7 @@
 #include "../Config.h"
 #include "../Population.h"
 #include "../PersonIndexByLocationStateAgeClass.h"
-#include "../ModelDataCollector.h"
+#include "../MDC/ModelDataCollector.h"
 #include "../Strategies/IStrategy.h"
 #include "../Therapy.h"
 #include <boost/format.hpp>

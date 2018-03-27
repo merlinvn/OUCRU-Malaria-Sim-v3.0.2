@@ -15,11 +15,14 @@
 total_time: 720
 
 # length of burn-in period
-start_treatment_day: 100
+start_treatment_day: 0
 
 # the day at which the simulation's reporting functionality begins collecting data for 
 # the purposes of displaying it
-start_collect_data_day: 100
+start_collect_data_day: 0
+
+# the day at which the MDC will begin collecting NTF
+start_intervention_day: 3600
 
 spatial_information:
 #id, latitude, longitude

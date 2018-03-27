@@ -13,12 +13,12 @@
 
 #include "../Model.h"
 #include "../Random.h"
-#include "../ModelDataCollector.h"
+#include "../MDC/ModelDataCollector.h"
 #include "../Config.h"
 #include "../Therapy.h"
 #include "../Population.h"
 #include <boost/format.hpp>
-#include "../ResistanceTracker.h"
+#include "../MDC/ResistanceTracker.h"
 #include "../PersonIndexByLocationStateAgeClass.h"
 #include "../Strategies/IStrategy.h"
 

@@ -10,7 +10,7 @@
 #include "../Scheduler.h"
 #include "../Random.h"
 #include "../Config.h"
-#include "../ModelDataCollector.h"
+#include "../MDC/ModelDataCollector.h"
 
 YearlyReporterV1::YearlyReporterV1(const std::string &file_name) : file_name_(file_name) {
 

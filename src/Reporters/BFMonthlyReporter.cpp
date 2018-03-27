@@ -5,7 +5,10 @@
 #include "BFMonthlyReporter.h"
 #include "../Model.h"
 #include "../Config.h"
-#include "../ModelDataCollector.h"
+#include "../MDC/ModelDataCollector.h"
+#include "../MDC/ResistanceTracker.h"
+#include "../Random.h"
+#include "../Strategies/IStrategy.h"
 
 BFMonthlyReporter::BFMonthlyReporter() {
 
@@ -38,21 +41,72 @@ void BFMonthlyReporter::after_time_step() {
 
         print_monthly_incidence_by_location();
 
+        std::cout << "-1111" << "\t";
+
+        for (int i = 0; i < Model::CONFIG->number_of_parasite_types(); i++) {
+            std::cout << Model::DATA_COLLECTOR->resistance_tracker().parasite_population_count()[i] << "\t";
+        }
+
+        std::cout << "-1111" << "\t";
+
+        for (int i = 0; i < Model::CONFIG->number_of_parasite_types(); i++) {
+            std::cout << Model::DATA_COLLECTOR->resistance_tracker().parasite_population_count()[i] << "\t";
+        }
+
+        std::cout << "-1111" << "\t";
+        for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
+            for (int i = 0; i < Model::CONFIG->number_of_parasite_types(); i++) {
+                std::cout << Model::DATA_COLLECTOR->resistance_tracker().parasite_population_count_by_location()[loc][i]
+                          << "\t";
+            }
+        }
+
         std::cout << std::endl;
     }
 }
 
 
 void BFMonthlyReporter::after_run() {
+    std::cout << Model::RANDOM->seed() << "\t" << Model::CONFIG->number_of_locations() << "\t";
+
+    //output strategy information
+    std::cout << Model::CONFIG->strategy()->id << "\t";
+
+    //output NTF
+    double total_time_in_years = (Model::SCHEDULER->current_time() - Model::CONFIG->start_intervention_day()) / 360.0;
+
+    double sumNTF = 0.0;
+    ul popSize = 0;
+    for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
+        sumNTF += Model::DATA_COLLECTOR->cumulative_NTF_by_location()[location];
+        popSize += Model::DATA_COLLECTOR->popsize_by_location()[location];
+    }
+
+    std::cout << (sumNTF * 100 / popSize) / total_time_in_years;
+
+    std::cout << "-111111" << "\t";
+    //output NTF by location
+    for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
+//        double location_discounted_NTF =
+//                Model::DATA_COLLECTOR->cumulative_discounted_NTF_by_location()[location] * 100 /
+//                (double) Model::DATA_COLLECTOR->popsize_by_location()[location];
+        double NTF = Model::DATA_COLLECTOR->cumulative_NTF_by_location()[location] * 100 /
+                     (double) Model::DATA_COLLECTOR->popsize_by_location()[location];
+
+//        location_discounted_NTF /= total_time_in_years;
+        NTF /= total_time_in_years;
+
+//        std::cout << location_discounted_NTF << "\t";
+        std::cout << NTF << "\t";
+        //        std::cout << NTF15_30 << "\t";
+    }
 
 }
 
 void BFMonthlyReporter::print_PfPR_0_5_by_location() {
-
     for (int loc = 0; loc < Model::CONFIG->number_of_locations(); ++loc) {
         std::cout << Model::DATA_COLLECTOR->get_blood_slide_prevalence(loc, 0, 5) * 100 << "\t";
     }
-
 }
 
 void BFMonthlyReporter::print_monthly_incidence_by_location() {

@@ -20,7 +20,8 @@ start_treatment_day: 100
 # the day at which the simulation's reporting functionality begins collecting data for 
 # the purposes of displaying it
 start_collect_data_day: 100
-
+# the day at which the MDC will begin collecting NTF
+start_intervention_day: 3600
 
 spatial_information:
 
@@ -124,9 +125,7 @@ circulation_information:
     sd: 11.8737399331
 
 
-
-# this functionality works, but it was not used in any analyses for the 2015 LGH paper
-# seasonality parameters, by location
+# seasonality parameters
 seasonal_beta:
   a: [1.2]
   phi: [180]

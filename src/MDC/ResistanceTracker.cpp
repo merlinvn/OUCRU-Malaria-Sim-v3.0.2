@@ -6,37 +6,36 @@
  */
 
 #include "ResistanceTracker.h"
-#include "Model.h"
-#include "Config.h"
-#include "IntGenotype.h"
-#include "IntGenotypeDatabase.h"
+#include "../Model.h"
+#include "../Config.h"
+#include "../IntGenotype.h"
+#include "../IntGenotypeDatabase.h"
 #include <numeric>
 #include <boost/foreach.hpp>
 
 
-ResistanceTracker::ResistanceTracker():total_{0} {
+ResistanceTracker::ResistanceTracker() : total_{0} {
 }
 
 ResistanceTracker::~ResistanceTracker() {
 }
 
-void ResistanceTracker::make_resistance_profile(std::vector<int>& vResistanceID, const int& size) {
+void ResistanceTracker::make_resistance_profile(std::vector<int> &vResistanceID, const int &size) {
     vResistanceID.clear();
 
-    BOOST_FOREACH(IntGenotypePtrMap::value_type &i, Model::CONFIG->genotype_db()->db()) {
+    for (IntGenotypePtrMap::value_type &i : Model::CONFIG->genotype_db()->db()) {
         if (i.second->number_of_resistance_position() == size) {
             vResistanceID.push_back(i.first);
         }
     }
 
 
-
 }
 
-void ResistanceTracker::make_arterminsinin_resistance_profile(std::vector<int>& vResistanceID) {
+void ResistanceTracker::make_arterminsinin_resistance_profile(std::vector<int> &vResistanceID) {
     vResistanceID.clear();
 
-    BOOST_FOREACH(IntGenotypePtrMap::value_type &i, Model::CONFIG->genotype_db()->db()) {
+    for (IntGenotypePtrMap::value_type &i:  Model::CONFIG->genotype_db()->db()) {
         if (i.second->gene_expression()[0] != 0) {
             //            std::cout << i.first << std::endl;
             vResistanceID.push_back(i.first);
@@ -46,12 +45,15 @@ void ResistanceTracker::make_arterminsinin_resistance_profile(std::vector<int>& 
 
 void ResistanceTracker::initialize() {
     parasite_population_count_.assign(Model::CONFIG->number_of_parasite_types(), 0);
+    parasite_population_count_by_location_.assign(Model::CONFIG->number_of_locations(),
+                                                  LongVector(Model::CONFIG->number_of_parasite_types(), 0));
 
-    DrugTypePtrMap& drug_db = Model::CONFIG->drug_db()->drug_db();
+    DrugTypePtrMap &drug_db = Model::CONFIG->drug_db()->drug_db();
     IntVector drugs_used;
 
 
-    all_resistance_id_ = Model::CONFIG->genotype_db()->get(Model::CONFIG->genotype_db()->db().size() - 1)->genotype_id();
+    all_resistance_id_ = Model::CONFIG->genotype_db()->get(
+            Model::CONFIG->genotype_db()->db().size() - 1)->genotype_id();
     //    
     make_resistance_profile(single_resistance_ids_, 1);
     make_resistance_profile(double_resistance_ids_, 2);
@@ -111,55 +113,71 @@ void ResistanceTracker::initialize() {
     }
 }
 
-void ResistanceTracker::increase(const int& id) {
+void ResistanceTracker::increase(const int &id, const int &location) {
 //    std::cout << id << std::endl;
     parasite_population_count_[id] += 1;
+    parasite_population_count_by_location_[location][id] += 1;
     total_ += 1;
 }
 
-void ResistanceTracker::decrease(const int& id) {
+void ResistanceTracker::decrease(const int &id, const int &location) {
     parasite_population_count_[id] -= 1;
+    parasite_population_count_by_location_[location][id] -= 1;
     total_ -= 1;
 }
 
-void ResistanceTracker::change(const int& from, const int& to) {
+void ResistanceTracker::change(const int &from, const int &to, const int &location) {
     parasite_population_count_[from] -= 1;
     parasite_population_count_[to] += 1;
+
+    parasite_population_count_by_location_[location][from] -= 1;
+    parasite_population_count_by_location_[location][to] += 1;
+
 }
 
 void ResistanceTracker::update_resistance_tracker() {
 
     for (int i = 0; i < tracking_values_.size(); i++) {
         if (any_single_tracking_time_[i] == -1) {
-            update_time_value(any_single_tracking_time_[i], max_fraction_resistance(single_resistance_ids_), tracking_values_[i]);
+            update_time_value(any_single_tracking_time_[i], max_fraction_resistance(single_resistance_ids_),
+                              tracking_values_[i]);
         }
         if (all_single_tracking_time_[i] == -1) {
-            update_time_value(all_single_tracking_time_[i], min_fraction_resistance(single_resistance_ids_), tracking_values_[i]);
+            update_time_value(all_single_tracking_time_[i], min_fraction_resistance(single_resistance_ids_),
+                              tracking_values_[i]);
         }
         if (any_double_tracking_time_[i] == -1) {
-            update_time_value(any_double_tracking_time_[i], max_fraction_resistance(double_resistance_ids_), tracking_values_[i]);
+            update_time_value(any_double_tracking_time_[i], max_fraction_resistance(double_resistance_ids_),
+                              tracking_values_[i]);
         }
         if (all_double_tracking_time_[i] == -1) {
-            update_time_value(all_double_tracking_time_[i], min_fraction_resistance(double_resistance_ids_), tracking_values_[i]);
+            update_time_value(all_double_tracking_time_[i], min_fraction_resistance(double_resistance_ids_),
+                              tracking_values_[i]);
         }
 
         if (any_triple_tracking_time_[i] == -1) {
-            update_time_value(any_triple_tracking_time_[i], max_fraction_resistance(tripple_resistance_ids_), tracking_values_[i]);
+            update_time_value(any_triple_tracking_time_[i], max_fraction_resistance(tripple_resistance_ids_),
+                              tracking_values_[i]);
         }
         if (all_triple_tracking_time_[i] == -1) {
-            update_time_value(all_triple_tracking_time_[i], min_fraction_resistance(tripple_resistance_ids_), tracking_values_[i]);
+            update_time_value(all_triple_tracking_time_[i], min_fraction_resistance(tripple_resistance_ids_),
+                              tracking_values_[i]);
         }
         if (any_quadruple_tracking_time_[i] == -1) {
-            update_time_value(any_quadruple_tracking_time_[i], max_fraction_resistance(quadruple_resistance_ids_), tracking_values_[i]);
+            update_time_value(any_quadruple_tracking_time_[i], max_fraction_resistance(quadruple_resistance_ids_),
+                              tracking_values_[i]);
         }
         if (all_quadruple_tracking_time_[i] == -1) {
-            update_time_value(all_quadruple_tracking_time_[i], min_fraction_resistance(quadruple_resistance_ids_), tracking_values_[i]);
+            update_time_value(all_quadruple_tracking_time_[i], min_fraction_resistance(quadruple_resistance_ids_),
+                              tracking_values_[i]);
         }
         if (any_quintuple_tracking_time_[i] == -1) {
-            update_time_value(any_quintuple_tracking_time_[i], max_fraction_resistance(quintuple_resistance_ids_), tracking_values_[i]);
+            update_time_value(any_quintuple_tracking_time_[i], max_fraction_resistance(quintuple_resistance_ids_),
+                              tracking_values_[i]);
         }
         if (all_quintuple_tracking_time_[i] == -1) {
-            update_time_value(all_quintuple_tracking_time_[i], min_fraction_resistance(quintuple_resistance_ids_), tracking_values_[i]);
+            update_time_value(all_quintuple_tracking_time_[i], min_fraction_resistance(quintuple_resistance_ids_),
+                              tracking_values_[i]);
         }
 
 
@@ -170,7 +188,8 @@ void ResistanceTracker::update_resistance_tracker() {
         }
 
         if (artemisinin_tracking_time_[i] == -1) {
-            update_time_value(artemisinin_tracking_time_[i], sum_fraction_resistance(artemisinin_ids_), tracking_values_[i]);
+            update_time_value(artemisinin_tracking_time_[i], sum_fraction_resistance(artemisinin_ids_),
+                              tracking_values_[i]);
         }
     }
 }
@@ -198,7 +217,7 @@ double ResistanceTracker::calculate_total_resistance_frequency() {
     return total_resistance_frequency_;
 }
 
-double ResistanceTracker::max_fraction_resistance(const IntVector & resitance_ids) {
+double ResistanceTracker::max_fraction_resistance(const IntVector &resitance_ids) {
     double max = 0;
 
     for (int i = 0; i < resitance_ids.size(); i++) {
@@ -211,7 +230,7 @@ double ResistanceTracker::max_fraction_resistance(const IntVector & resitance_id
     return max;
 }
 
-double ResistanceTracker::min_fraction_resistance(const IntVector & resitance_ids) {
+double ResistanceTracker::min_fraction_resistance(const IntVector &resitance_ids) {
     double min = 1;
 
     for (int i = 0; i < resitance_ids.size(); i++) {
@@ -223,7 +242,7 @@ double ResistanceTracker::min_fraction_resistance(const IntVector & resitance_id
     return min;
 }
 
-double ResistanceTracker::sum_fraction_resistance(const IntVector & resitance_ids) {
+double ResistanceTracker::sum_fraction_resistance(const IntVector &resitance_ids) {
     double sum = 0;
 
     for (int i = 0; i < resitance_ids.size(); i++) {
@@ -233,7 +252,7 @@ double ResistanceTracker::sum_fraction_resistance(const IntVector & resitance_id
     return sum;
 }
 
-void ResistanceTracker::update_time_value(int& tracking_time, const double& value, const double& check_value) {
+void ResistanceTracker::update_time_value(int &tracking_time, const double &value, const double &check_value) {
 
     if (tracking_time == -1) {
         if (value >= check_value) {

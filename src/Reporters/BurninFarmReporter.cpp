@@ -14,7 +14,7 @@
 #include "BurninFarmReporter.h"
 #include "../Model.h"
 #include "../Random.h"
-#include "../ModelDataCollector.h"
+#include "../MDC/ModelDataCollector.h"
 #include "../Config.h"
 #include "../Therapy.h"
 #include "../SCTherapy.h"
@@ -161,12 +161,9 @@ void BurninFarmReporter::print_ntf_by_location() {
     for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
         double location_discounted_NTF = Model::DATA_COLLECTOR->cumulative_discounted_NTF_by_location()[location] * 100 / (double) Model::DATA_COLLECTOR->popsize_by_location()[location];
         double NTF = Model::DATA_COLLECTOR->cumulative_NTF_by_location()[location] * 100 / (double) Model::DATA_COLLECTOR->popsize_by_location()[location];
-        double NTF15_30 = Model::DATA_COLLECTOR->cumulative_NTF_15_30_by_location()[location]*100 / (double) Model::DATA_COLLECTOR->popsize_by_location()[location];
 
         location_discounted_NTF /= total_time_in_years;
         NTF /= total_time_in_years;
-
-        NTF15_30 /= (Model::SCHEDULER->current_time() - Model::CONFIG->non_artemisinin_switching_day()) / 360.0;
 
         std::cout << location_discounted_NTF << "\t";
         std::cout << NTF << "\t";

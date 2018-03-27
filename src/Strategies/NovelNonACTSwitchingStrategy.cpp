@@ -15,7 +15,7 @@
 #include "MFTStrategy.h"
 #include "../Model.h"
 #include "../Config.h"
-#include "../ModelDataCollector.h"
+#include "../MDC/ModelDataCollector.h"
 #include "../Scheduler.h"
 #include <sstream>
 

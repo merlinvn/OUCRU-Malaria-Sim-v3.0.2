@@ -37,7 +37,7 @@ Config::Config(Model *model) :
         modified_mutation_probability_(-1),
         using_free_recombination_(false), report_frequency_(-1), tf_testing_day_(-1),
         using_age_dependent_bitting_level_(false), using_variable_probability_infectious_bites_cause_infection_(false),
-        non_artemisinin_switching_day_(-1), total_time_(-1), start_treatment_day_(-1), start_collect_data_day_(-1),
+        start_intervention_day_(-1), total_time_(-1), start_treatment_day_(-1), start_collect_data_day_(-1),
         number_of_locations_(-1), number_of_age_classes_(-1),
         p_infection_from_an_infectious_bite_(-1), birth_rate_(-1),
         number_of_tracking_days_(-1), tf_window_size_(-1), fraction_mosquitoes_interrupted_feeding_(0),
@@ -73,6 +73,8 @@ void Config::read_from_file(const std::string &config_file_name) {
     total_time_ = config["total_time"].as<int>();
     start_treatment_day_ = config["start_treatment_day"].as<int>();
     start_collect_data_day_ = config["start_collect_data_day"].as<int>();
+    start_intervention_day_ = config["start_intervention_day"].as<int>();
+
 
     p_infection_from_an_infectious_bite_ = config["p_infection_from_an_infectious_bite"].as<double>();
 
@@ -1013,7 +1015,8 @@ void Config::read_biodemography_information(const YAML::Node &config) {
 double Config::seasonal_factor_for_beta(const int &current_time) {
 
     double result = (current_time % 360 >= 180 && current_time % 360 <= 360) ?
-                    (seasonal_beta_.A[0] - seasonal_beta_.min_value) * sin(seasonal_beta_.B[0] * current_time + seasonal_beta_.C[0]) +
+                    (seasonal_beta_.A[0] - seasonal_beta_.min_value) *
+                    sin(seasonal_beta_.B[0] * current_time + seasonal_beta_.C[0]) +
                     seasonal_beta_.min_value : seasonal_beta_.min_value;
 
 

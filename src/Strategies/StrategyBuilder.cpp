@@ -152,7 +152,7 @@ IStrategy *StrategyBuilder::buildNovelNonACTSwitchingStrategy(const YAML::Node &
     ((NovelNonACTSwitchingStrategy *) result)->set_fraction_non_art_replacement(
             ns["fraction_non_art_replacement"].as<double>());
 
-    Model::CONFIG->set_non_artemisinin_switching_day(
+    Model::CONFIG->set_start_intervention_day(
             ((NovelNonACTSwitchingStrategy *) result)->non_artemisinin_switching_day());
 
     return result;

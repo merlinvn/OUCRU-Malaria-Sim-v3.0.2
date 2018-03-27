@@ -125,7 +125,7 @@ VIRTUAL_PROPERTY_REF(bool, using_variable_probability_infectious_bites_cause_inf
 
 VIRTUAL_PROPERTY_REF(double, fraction_mosquitoes_interrupted_feeding)
 
-VIRTUAL_PROPERTY_REF(int, non_artemisinin_switching_day);
+VIRTUAL_PROPERTY_REF(int, start_intervention_day);
 
 VIRTUAL_PROPERTY_REF(double, modified_daily_cost_of_resistance)
 

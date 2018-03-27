@@ -8,7 +8,7 @@
 #include "CyclingStrategy.h"
 #include "../Model.h"
 #include "../Config.h"
-#include "../ModelDataCollector.h"
+#include "../MDC/ModelDataCollector.h"
 #include <sstream>
 #include "IStrategy.h"
 #include "../Therapy.h"
