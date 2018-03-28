@@ -68,6 +68,7 @@ struct Seasonality {
     DoubleVector A;
     DoubleVector B;
     DoubleVector C;
+    float phi;
     float min_value;
 };
 

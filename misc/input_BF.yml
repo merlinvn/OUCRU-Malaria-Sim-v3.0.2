@@ -131,7 +131,7 @@ circulation_information:
 # seasonality parameters, by location
 seasonal_beta:
   a: [1.16]
-  phi: [180]
+  phi: [120]
   period: 360
   min_value: 0.25
 

@@ -34,7 +34,7 @@ void BFMonthlyReporter::begin_time_step() {
 void BFMonthlyReporter::after_time_step() {
     if (Model::SCHEDULER->current_time() % Model::CONFIG->report_frequency() == 0) {
         std::cout << Model::SCHEDULER->current_time() << "\t";
-//        std::cout << Model::CONFIG->seasonal_factor_for_beta(Model::SCHEDULER->current_time()) << "\t";
+        std::cout << Model::CONFIG->seasonal_factor_for_beta(Model::SCHEDULER->current_time()) << "\t";
         print_PfPR_0_5_by_location();
 
         std::cout << "-1111\t";

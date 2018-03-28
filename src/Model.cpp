@@ -269,17 +269,17 @@ void Model::run() {
 void Model::before_run() {
     //    std::cout << "Seed:" << RANDOM->seed() << std::endl;
 
-    BOOST_FOREACH(Reporter *reporter, reporters_) {
-                    reporter->before_run();
-                }
+    for (Reporter *reporter: reporters_) {
+        reporter->before_run();
+    }
 }
 
 void Model::after_run() {
     Model::DATA_COLLECTOR->update_after_run();
 
-    BOOST_FOREACH(Reporter *reporter, reporters_) {
-                    reporter->after_run();
-                }
+    for (Reporter *reporter : reporters_) {
+        reporter->after_run();
+    }
 }
 
 void Model::perform_infection_event() {
@@ -291,9 +291,9 @@ void Model::report_end_of_time_step() {
     if (Model::SCHEDULER->current_time() % Model::CONFIG->report_frequency() == 0) {
         Model::DATA_COLLECTOR->perform_population_statistic();
 
-        BOOST_FOREACH(Reporter *reporter, reporters_) {
-                        reporter->after_time_step();
-                    }
+        for (Reporter *reporter: reporters_) {
+            reporter->after_time_step();
+        }
     }
     //     if (Model::SCHEDULER->current_time() >= 4000) {
     //        std::cout << "end" << std::endl;

@@ -977,7 +977,8 @@ void Config::read_seasonal_information(const YAML::Node &config) {
 
         seasonal_beta_.B.push_back(B);
 
-        auto phi = config["seasonal_beta"]["phi"][input_loc].as<double>();
+        auto phi = config["seasonal_beta"]["phi"][input_loc].as<float>();
+        seasonal_beta_.phi = phi;
         auto C = -phi * B;
         seasonal_beta_.C.push_back(C);
 
@@ -1014,7 +1015,7 @@ void Config::read_biodemography_information(const YAML::Node &config) {
 
 double Config::seasonal_factor_for_beta(const int &current_time) {
 
-    double result = (current_time % 360 >= 180 && current_time % 360 <= 360) ?
+    double result = (current_time % 360 >= seasonal_beta_.phi && current_time % 360 <= seasonal_beta_.phi + 180) ?
                     (seasonal_beta_.A[0] - seasonal_beta_.min_value) *
                     sin(seasonal_beta_.B[0] * current_time + seasonal_beta_.C[0]) +
                     seasonal_beta_.min_value : seasonal_beta_.min_value;
