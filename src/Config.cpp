@@ -41,7 +41,7 @@ Config::Config(Model *model) :
         number_of_locations_(-1), number_of_age_classes_(-1),
         p_infection_from_an_infectious_bite_(-1), birth_rate_(-1),
         number_of_tracking_days_(-1), tf_window_size_(-1), fraction_mosquitoes_interrupted_feeding_(0),
-        location_db_() {
+        location_db_(), inflation_factor_{1} {
 
 }
 
@@ -145,6 +145,8 @@ void Config::read_from_file(const std::string &config_file_name) {
     using_age_dependent_bitting_level_ = config["using_age_dependent_bitting_level"].as<bool>();
     using_variable_probability_infectious_bites_cause_infection_ = config["using_variable_probability_infectious_bites_cause_infection"].as<bool>();
     fraction_mosquitoes_interrupted_feeding_ = config["fraction_mosquitoes_interrupted_feeding"].as<double>();
+    inflation_factor_ = config["inflation_factor"].as<double>();
+
 }
 
 void Config::read_parasite_density_level(const YAML::Node &config) {

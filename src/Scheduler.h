@@ -53,6 +53,7 @@ public:
 
 private:
 
+    void update_treatment_coverage();
 };
 
 #endif	/* SCHEDULER_H */

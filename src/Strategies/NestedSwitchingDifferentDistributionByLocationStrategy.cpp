@@ -15,7 +15,10 @@
 #include "AdaptiveCyclingStrategy.h"
 #include "NestedSwitchingStrategy.h"
 
-NestedSwitchingDifferentDistributionByLocationStrategy::NestedSwitchingDifferentDistributionByLocationStrategy() = default;
+NestedSwitchingDifferentDistributionByLocationStrategy::NestedSwitchingDifferentDistributionByLocationStrategy()
+        : strategy_switching_day_{-1}, switch_to_strategy_id_{-1} {
+
+};
 
 NestedSwitchingDifferentDistributionByLocationStrategy::~NestedSwitchingDifferentDistributionByLocationStrategy() = default;
 
@@ -48,18 +51,13 @@ std::string NestedSwitchingDifferentDistributionByLocationStrategy::to_string() 
          << strategy_switching_day_ << std::endl;
 
 
-    for (int i = 0; i < distribution_[Model::CONFIG->number_of_locations() - 1].size(); i++) {
-        sstm << distribution_[Model::CONFIG->number_of_locations() - 1][i] << ",";
+    for (double i : distribution_[Model::CONFIG->number_of_locations() - 1]) {
+        sstm << i << ",";
     }
     sstm << std::endl;
 
-    for (int i = 0; i < distribution_[Model::CONFIG->number_of_locations() - 1].size(); i++) {
-        sstm << start_distribution_[Model::CONFIG->number_of_locations() - 1][i] << ",";
-    }
-    sstm << std::endl;
-
-    for (int i = 0; i < distribution_[Model::CONFIG->number_of_locations() - 1].size(); i++) {
-        sstm << end_distribution_[Model::CONFIG->number_of_locations() - 1][i] << ",";
+    for (double i : start_distribution_[Model::CONFIG->number_of_locations() - 1]) {
+        sstm << i << ",";
     }
     sstm << std::endl;
     return sstm.str();
@@ -81,7 +79,7 @@ void NestedSwitchingDifferentDistributionByLocationStrategy::update_end_of_time_
         }
         if (Model::CONFIG->strategy_db()[switch_to_strategy_id_]->get_type() ==
             IStrategy::NestedSwitchingDifferentDistributionByLocation) {
-            ((NestedSwitchingDifferentDistributionByLocationStrategy *) Model::CONFIG->strategy_db()[switch_to_strategy_id_])->adjustDisttribution(
+            ((NestedSwitchingDifferentDistributionByLocationStrategy *) Model::CONFIG->strategy_db()[switch_to_strategy_id_])->adjustDistribution(
                     Model::SCHEDULER->current_time(), Model::CONFIG->total_time());
         }
 
@@ -89,7 +87,7 @@ void NestedSwitchingDifferentDistributionByLocationStrategy::update_end_of_time_
     }
 
     if (Model::SCHEDULER->current_time() % 30 == 0) {
-        adjustDisttribution(Model::SCHEDULER->current_time(), Model::CONFIG->total_time());
+        adjustDistribution(Model::SCHEDULER->current_time(), Model::CONFIG->total_time());
         //        std::cout << to_string() << std::endl;
     }
     // update each strategy in the nest
@@ -98,17 +96,20 @@ void NestedSwitchingDifferentDistributionByLocationStrategy::update_end_of_time_
     }
 }
 
-void NestedSwitchingDifferentDistributionByLocationStrategy::adjustDisttribution(int time, int totaltime) {
-    for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
-        double dACT = ((end_distribution_[loc][0] - start_distribution_[loc][0]) * time) / totaltime +
-                      start_distribution_[loc][0];
+void NestedSwitchingDifferentDistributionByLocationStrategy::adjustDistribution(int time, int totaltime) {
 
-        distribution_[loc][0] = dACT;
-        double otherD = (1 - dACT) / (distribution_[loc].size() - 1);
-        for (int i = 1; i < distribution_[loc].size(); i++) {
-            distribution_[loc][i] = otherD;
+    if (time > Model::CONFIG->start_intervention_day() &&
+        (time - Model::CONFIG->start_intervention_day()) % 360 == 0) {
+        for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
+            double dACT = distribution_[loc][0] * Model::CONFIG->inflation_factor();
+            distribution_[loc][0] = dACT;
+            double otherD = (1 - dACT) / (distribution_[loc].size() - 1);
+            for (int i = 1; i < distribution_[loc].size(); i++) {
+                distribution_[loc][i] = otherD;
+            }
         }
     }
+
 //    std::cout << to_string() << std::endl;
 }
 

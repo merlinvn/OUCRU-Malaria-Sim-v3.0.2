@@ -137,6 +137,7 @@ VIRTUAL_PROPERTY_REF(DoubleVector2, spatial_distance_matrix)
 
 POINTER_PROPERTY(Spatial::SpatialModel, spatial_model)
 
+VIRTUAL_PROPERTY_REF(double, inflation_factor)
 
 public:
     Config(Model *model = nullptr);

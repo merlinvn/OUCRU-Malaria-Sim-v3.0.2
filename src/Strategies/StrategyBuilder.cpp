@@ -248,10 +248,6 @@ IStrategy *StrategyBuilder::buildNestedSwitchingDifferentDistributionByLocationS
     result->start_distribution().clear();
     result->start_distribution().resize(static_cast<unsigned long long int>(Model::CONFIG->number_of_locations()));
 
-    result->end_distribution().clear();
-    result->end_distribution().resize(static_cast<unsigned long long int>(Model::CONFIG->number_of_locations()));
-
-
     for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
         int input_loc = ns["start_distribution"].size() < Model::CONFIG->number_of_locations() ? 0 : loc;
         add_distributions(ns["start_distribution"][input_loc], result->distribution()[loc]);
@@ -259,11 +255,6 @@ IStrategy *StrategyBuilder::buildNestedSwitchingDifferentDistributionByLocationS
     for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
         int input_loc = ns["start_distribution"].size() < Model::CONFIG->number_of_locations() ? 0 : loc;
         add_distributions(ns["start_distribution"][input_loc], result->start_distribution()[loc]);
-    }
-
-    for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
-        int input_loc = ns["end_distribution"].size() < Model::CONFIG->number_of_locations() ? 0 : loc;
-        add_distributions(ns["end_distribution"][input_loc], result->end_distribution()[loc]);
     }
 
     for (int i = 0; i < ns["strategy_ids"].size(); i++) {

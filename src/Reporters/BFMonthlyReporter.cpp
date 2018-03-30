@@ -82,25 +82,19 @@ void BFMonthlyReporter::after_run() {
         popSize += Model::DATA_COLLECTOR->popsize_by_location()[location];
     }
 
-    std::cout << (sumNTF * 100 / popSize) / total_time_in_years;
+    std::cout << (sumNTF * 100 / popSize) / total_time_in_years << "\t";
 
-    std::cout << "-111111" << "\t";
-    //output NTF by location
-    for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
-//        double location_discounted_NTF =
-//                Model::DATA_COLLECTOR->cumulative_discounted_NTF_by_location()[location] * 100 /
-//                (double) Model::DATA_COLLECTOR->popsize_by_location()[location];
-        double NTF = Model::DATA_COLLECTOR->cumulative_NTF_by_location()[location] * 100 /
-                     (double) Model::DATA_COLLECTOR->popsize_by_location()[location];
+//    std::cout << "-1111\t";
+//    for (int age = 0; age < 80; age++) {
+//        int sum = 0;
+//        for (int location = 0; location < Model::CONFIG->number_of_locations(); location++) {
+//            sum += Model::DATA_COLLECTOR->number_of_treatments_by_location_age_year()[location][age];
+//
+//        }
+//        std::cout << sum << "\t";
+//    }
 
-//        location_discounted_NTF /= total_time_in_years;
-        NTF /= total_time_in_years;
 
-//        std::cout << location_discounted_NTF << "\t";
-        std::cout << NTF << "\t";
-        //        std::cout << NTF15_30 << "\t";
-    }
-    
     std::cout << std::endl;
 }
 

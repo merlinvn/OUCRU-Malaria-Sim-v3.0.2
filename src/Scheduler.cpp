@@ -145,6 +145,8 @@ void Scheduler::update_end_of_time_step() {
     //check to switch strategy
     Model::CONFIG->strategy()->update_end_of_time_step();
 
+    //update treatment coverage
+    update_treatment_coverage();
 }
 
 void Scheduler::report_end_of_time_step() {
@@ -179,5 +181,17 @@ int Scheduler::current_day_in_year() {
 }
 
 void Scheduler::perform_monthly_update() {
+
+}
+
+void Scheduler::update_treatment_coverage() {
+
+    if (current_time_ > Model::CONFIG->start_intervention_day() &&
+        (current_time_ - Model::CONFIG->start_intervention_day()) % 360 == 0) {
+        for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
+            Model::CONFIG->location_db()[loc].p_treatment_less_than_5 *= Model::CONFIG->inflation_factor();
+            Model::CONFIG->location_db()[loc].p_treatment_more_than_5 *= Model::CONFIG->inflation_factor();
+        }
+    }
 
 }

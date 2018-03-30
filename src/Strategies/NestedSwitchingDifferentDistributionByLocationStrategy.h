@@ -14,7 +14,6 @@ class NestedSwitchingDifferentDistributionByLocationStrategy  : public IStrategy
     VIRTUAL_PROPERTY_REF(std::vector<IStrategy*>, strategy_list)
     VIRTUAL_PROPERTY_REF(DoubleVector2, distribution)
     VIRTUAL_PROPERTY_REF(DoubleVector2, start_distribution)
-    VIRTUAL_PROPERTY_REF(DoubleVector2, end_distribution)
 
     VIRTUAL_PROPERTY_REF(int, strategy_switching_day)
     VIRTUAL_PROPERTY_REF(int, switch_to_strategy_id)
@@ -38,7 +37,7 @@ public:
      */
     void update_end_of_time_step() override;
 
-    void adjustDisttribution(int time, int totaltime);
+    void adjustDistribution(int time, int totaltime);
 
     void initialize_update_time();
 
