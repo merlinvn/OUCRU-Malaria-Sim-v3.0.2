@@ -33,7 +33,7 @@ ExternalPopulation::~ExternalPopulation() {
 //
 //    if (person_index_list() != nullptr) {
 //
-//        BOOST_FOREACH(PersonIndex* person_index, *person_index_list()) {
+//        for( PersonIndex* person_index :  *person_index_list()) {
 //            DeletePointer<PersonIndex>(person_index);
 //        }
 //
@@ -82,7 +82,7 @@ void ExternalPopulation::perform_infection_event() {
     //solve Multiple infections
     if (today_infections.size() == 0) return;
 
-    BOOST_FOREACH(Person* p, today_infections) {
+    for(Person* p :  today_infections) {
         p->randomly_choose_parasite();
     }
 

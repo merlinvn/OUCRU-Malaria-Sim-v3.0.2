@@ -96,7 +96,7 @@ void SingleHostClonalParasitePopulations::remove(const int& index) {
     parasites_->pop_back();
     bp->set_index(-1);
 
-    //    BOOST_FOREACH(BloodParasite* bp, parasites_) {
+    //    for(BloodParasite* bp :  parasites_) {
     //        std::cout << bp->index()<< "\t";
     //    }
     //    std::cout<< std::endl;
@@ -324,7 +324,7 @@ void SingleHostClonalParasitePopulations::deactive_astermisinin_on_gametocyte() 
 
 void SingleHostClonalParasitePopulations::update() {
 
-    BOOST_FOREACH(ClonalParasitePopulation* bp, *parasites_) {
+    for(ClonalParasitePopulation* bp :  *parasites_) {
         bp->update();
     }
     //    std::vector<BloodParasite*>(*parasites_).swap(*parasites_);

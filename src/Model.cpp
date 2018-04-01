@@ -302,7 +302,7 @@ void Model::report_end_of_time_step() {
 
 void Model::report_begin_of_time_step() {
 
-    BOOST_FOREACH(Reporter *reporter, reporters_) {
+    for(Reporter *reporter :  reporters_) {
                     reporter->begin_time_step();
                 }
     //    if (Model::SCHEDULER->current_time() >= 4000) {

@@ -24,7 +24,7 @@ IntGenotypeDatabase::IntGenotypeDatabase() {
 
 IntGenotypeDatabase::~IntGenotypeDatabase() {
 
-    BOOST_FOREACH(IntGenotypePtrMap::value_type &i, db_) {
+    for(IntGenotypePtrMap::value_type &i :  db_) {
         delete i.second;
     }
     db_.clear();
@@ -71,7 +71,7 @@ std::vector<double> IntGenotypeDatabase::generate_offspring_parasite_density(con
     
     std::vector<double> recombination_parasite_density(db_.size(), 0);
 
-    BOOST_FOREACH(IntVector &ge_i, results) {
+    for(IntVector &ge_i :  results) {
         //        std::cout << ge_i << std::endl;
         recombination_parasite_density[get_id(ge_i)] += 1;
     }

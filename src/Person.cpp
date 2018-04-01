@@ -306,7 +306,7 @@ void Person::cancel_all_events_except(Event *event) {
 
 //void Person::record_treatment_failure_for_test_treatment_failure_events() {
 //
-//    BOOST_FOREACH(Event* e, *events()) {
+//    for(Event* e :  *events()) {
 //        if (dynamic_cast<TestTreatmentFailureEvent*> (e) != nullptr && e->executable()) {
 //            //            e->set_dispatcher(nullptr);
 //            //record treatment failure
@@ -382,7 +382,7 @@ void Person::receive_therapy(Therapy *therapy, ClonalParasitePopulation *clinica
     if (scTherapy != nullptr) {
         int dosing_days = complied_dosing_days(scTherapy->dosing_day());
 
-        BOOST_FOREACH(int drug_id, scTherapy->drug_ids()) {
+        for(int drug_id :  scTherapy->drug_ids()) {
                         //        std::cout << drug_id << std::endl;
                         add_drug_to_blood(Model::CONFIG->drug_db()->drug_db()[drug_id], dosing_days);
                     }

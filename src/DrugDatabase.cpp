@@ -14,7 +14,7 @@ DrugDatabase::DrugDatabase() : drug_db_() {
 
 DrugDatabase::~DrugDatabase() {
 
-    BOOST_FOREACH(DrugTypePtrMap::value_type &i, drug_db_) {
+    for(DrugTypePtrMap::value_type &i :  drug_db_) {
         delete i.second;
     }
     drug_db_.clear();

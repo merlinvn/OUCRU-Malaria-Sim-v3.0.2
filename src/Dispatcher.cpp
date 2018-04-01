@@ -47,7 +47,7 @@ void Dispatcher::clear_events() {
     if (events_->size() == 0) return;
     //    std::cout << "Clear event"<< std::endl;
 
-    BOOST_FOREACH(Event* event, *events_) {
+    for(Event* event :  *events_) {
         event->set_dispatcher(nullptr);
         event->set_executable(false);
     }

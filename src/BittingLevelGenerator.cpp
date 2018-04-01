@@ -35,7 +35,7 @@ void BittingLevelGenerator::allocate(Model* model) {
     UIntVector n(size);
     model->random()->random_multinomial(size, chunkSize, &level_density_->at(0), &n[0]);
 //
-//    BOOST_FOREACH(int i, n){
+//    for(int i :  n){
 //        std::cout << i << "\t";
 //    }
 //    std::cout<< std::endl;

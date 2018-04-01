@@ -26,9 +26,9 @@ Scheduler::Scheduler(Model *model) :
 
 Scheduler::~Scheduler() {
 
-    //    BOOST_FOREACH(EventPtrVector events_list, timed_events_list_) {
+    //    for(EventPtrVector events_list :  timed_events_list_) {
     //
-    //        BOOST_FOREACH(Event* event, events_list) {
+    //        for(Event* event :  events_list) {
     //            DeletePointer<Event>(event);
     //        }
     //        events_list.clear();
@@ -40,16 +40,15 @@ Scheduler::~Scheduler() {
 
 void Scheduler::clear_all_events() {
 
-    BOOST_FOREACH(EventPtrVector events_list, timed_events_list_) {
-
-                    BOOST_FOREACH(Event *event, events_list) {
-                                    if (event->dispatcher() != nullptr) {
-                                        event->dispatcher()->remove(event);
-                                    }
-                                    DeletePointer<Event>(event);
-                                }
-                    events_list.clear();
-                }
+    for (EventPtrVector events_list :  timed_events_list_) {
+        for (Event *event :  events_list) {
+            if (event->dispatcher() != nullptr) {
+                event->dispatcher()->remove(event);
+            }
+            DeletePointer<Event>(event);
+        }
+        events_list.clear();
+    }
     timed_events_list_.clear();
 }
 
@@ -112,7 +111,7 @@ void Scheduler::begin_time_step() {
         Model::DATA_COLLECTOR->begin_time_step();
 
         //turn on artemnisinin mutation at intervention day
-        if (current_time_ == Model::CONFIG->start_intervention_day()){
+        if (current_time_ == Model::CONFIG->start_intervention_day()) {
             Model::CONFIG->drug_db()->drug_db()[0]->set_p_mutation(0.0005);
         }
 

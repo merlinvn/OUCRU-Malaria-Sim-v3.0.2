@@ -49,7 +49,7 @@
 //
 //        static Node encode(const ParasiteInfoVector& rhs) {
 //            Node node;
-//            BOOST_FOREACH(const ParasiteInfo& p_info, rhs) {
+//            for(const ParasiteInfo& p_info :  rhs) {
 //                node.push_back(p_info);
 //            }
 //            return node;
@@ -57,7 +57,7 @@
 //
 //        static bool decode(const Node& node, ParasiteInfoVector& rhs) {
 //
-//            BOOST_FOREACH(const YAML::Node &item, node) {
+//            for(const YAML::Node &item :  node) {
 //                rhs.push_back(item.as<ParasiteInfo>());
 //            }
 //            return true;
@@ -86,7 +86,7 @@
 //
 //        static Node encode(const InitialParasiteInfoVector& rhs) {
 //            Node node;
-//            BOOST_FOREACH(const InitialParasiteInfo& p_info, rhs) {
+//            for(const InitialParasiteInfo& p_info :  rhs) {
 //                node.push_back(p_info);
 //            }
 //            return node;
@@ -94,7 +94,7 @@
 //
 //        static bool decode(const Node& node, InitialParasiteInfoVector& rhs) {
 //
-//            BOOST_FOREACH(const YAML::Node &item, node) {
+//            for(const YAML::Node &item :  node) {
 //                rhs.push_back(item.as<InitialParasiteInfo>());
 //            }
 //            return true;
