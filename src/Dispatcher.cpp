@@ -12,7 +12,7 @@
 #include "Event.h"
 #include "HelperFunction.h"
 
-Dispatcher::Dispatcher() : events_(NULL) {
+Dispatcher::Dispatcher() : events_(nullptr) {
 
 }
 
@@ -43,12 +43,12 @@ void Dispatcher::remove(Event* event) {
 }
 
 void Dispatcher::clear_events() {
-    if (events_ == NULL) return;
+    if (events_ == nullptr) return;
     if (events_->size() == 0) return;
     //    std::cout << "Clear event"<< std::endl;
 
     BOOST_FOREACH(Event* event, *events_) {
-        event->set_dispatcher(NULL);
+        event->set_dispatcher(nullptr);
         event->set_executable(false);
     }
 

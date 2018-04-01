@@ -20,17 +20,17 @@ TestTreatmentFailureEvent::TestTreatmentFailureEvent() {
 }
 
 TestTreatmentFailureEvent::~TestTreatmentFailureEvent() {
-    if (executable() && Model::DATA_COLLECTOR != NULL) {
+    if (executable() && Model::DATA_COLLECTOR != nullptr) {
         Model::DATA_COLLECTOR-> number_of_treatments_with_therapy_ID()[therapyId_] -= 1;
     }
 }
 
 void TestTreatmentFailureEvent::schedule_event(Scheduler* scheduler, Person* p, ClonalParasitePopulation* clinical_caused_parasite, const int& time,  const int& t_id) {
-    if (scheduler == NULL) {
+    if (scheduler == nullptr) {
         std::cout << "error null" << std::endl;
         assert(false);
     }
-    if (scheduler != NULL) {
+    if (scheduler != nullptr) {
         TestTreatmentFailureEvent* e = new TestTreatmentFailureEvent();
         e->set_dispatcher(p);
         e->set_clinical_caused_parasite(clinical_caused_parasite);

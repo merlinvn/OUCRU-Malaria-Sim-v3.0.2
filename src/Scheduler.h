@@ -23,7 +23,7 @@ class Scheduler {
     PROPERTY_REF(bool, is_force_stop);
 
 public:
-    Scheduler(Model* model = NULL);
+    Scheduler(Model* model = nullptr);
     virtual ~Scheduler();
 
     void clear_all_events();

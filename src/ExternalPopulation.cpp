@@ -22,16 +22,16 @@ ExternalPopulation::ExternalPopulation(Model* model) : Population(model) {
 
 ExternalPopulation::~ExternalPopulation() {
 //    //release memory for all persons
-//    if (all_persons() != NULL) {
+//    if (all_persons() != nullptr) {
 //        for (int i = 0; i < all_persons()->vPerson().size(); i++) {
 //            DeletePointer<Person>(all_persons()->vPerson()[i]);
 //        }
 //        all_persons()->vPerson().clear();
-//        set_all_persons(NULL);
+//        set_all_persons(nullptr);
 //    }
 //    //release person_indexes
 //
-//    if (person_index_list() != NULL) {
+//    if (person_index_list() != nullptr) {
 //
 //        BOOST_FOREACH(PersonIndex* person_index, *person_index_list()) {
 //            DeletePointer<PersonIndex>(person_index);
@@ -40,12 +40,12 @@ ExternalPopulation::~ExternalPopulation() {
 //        person_index_list()->clear();
 //
 //        delete person_index_list();
-//        set_person_index_list(NULL);
+//        set_person_index_list(nullptr);
 //    }
 }
 
 void ExternalPopulation::initialize() {
-        if (model() != NULL) {
+        if (model() != nullptr) {
         int number_of_location = Model::CONFIG->number_of_locations();
         int number_of_hoststate = Person::NUMBER_OF_STATE;
         int number_of_ageclasses = Model::CONFIG->number_of_age_classes();
@@ -70,7 +70,7 @@ void ExternalPopulation::perform_infection_event() {
                 int number_of_infectious_bites = Model::RANDOM->random_binomial(Model::CONFIG->p_infection_from_an_infectious_bite(), number_of_true_bites);
                 if (number_of_infectious_bites > 0) {
                     //infected one
-                    if (p->host_state() != Person::EXPOSED && p->liver_parasite_type() == NULL) {
+                    if (p->host_state() != Person::EXPOSED && p->liver_parasite_type() == nullptr) {
                         p->today_infections()->push_back(parasite_type_id);
                         today_infections.push_back(p);
                     }

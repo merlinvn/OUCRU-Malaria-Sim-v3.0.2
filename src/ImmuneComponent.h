@@ -22,7 +22,7 @@ class ImmuneComponent {
 
 
 public:
-    ImmuneComponent(ImmuneSystem* immune_system = NULL);
+    ImmuneComponent(ImmuneSystem* immune_system = nullptr);
     //    ImmuneComponent(const ImmuneComponent& orig);
     virtual ~ImmuneComponent();
 

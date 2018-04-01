@@ -210,7 +210,7 @@ namespace ez {
     /* ################################################################### */
     static void ToU4(std::string ** strings, unsigned int * out, int n) {
         for (int i = 0; i < n; ++i) {
-            out[i] = (unsigned int) strtoul(strings[i]->c_str(), NULL, 0);
+            out[i] = (unsigned int) strtoul(strings[i]->c_str(), nullptr, 0);
         }
     };
 
@@ -409,7 +409,7 @@ namespace ez {
             i++;
         }
         _argv[j] = '\0';
-        argv[argc] = NULL;
+        argv[argc] = nullptr;
 
         (*_argc) = argc;
         return argv;

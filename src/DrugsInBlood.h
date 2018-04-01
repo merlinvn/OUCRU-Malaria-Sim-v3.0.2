@@ -23,7 +23,7 @@ class DrugsInBlood {
     POINTER_PROPERTY(DrugPtrMap, drugs)
 
 public:
-    DrugsInBlood(Person* person = NULL);
+    DrugsInBlood(Person* person = nullptr);
     //    DrugsInBlood(const DrugsInBlood& orig);
     virtual ~DrugsInBlood();
 

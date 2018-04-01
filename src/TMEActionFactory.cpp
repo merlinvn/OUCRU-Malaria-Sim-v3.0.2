@@ -25,5 +25,5 @@ TMEAction* TMEActionFactory::create_action(const std::string& action_name) {
     FactoryMap::iterator it = m_FactoryMap.find(action_name);
     if (it != m_FactoryMap.end())
         return it->second();
-    return NULL;
+    return nullptr;
 }

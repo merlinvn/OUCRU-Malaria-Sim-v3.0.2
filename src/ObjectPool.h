@@ -6,7 +6,7 @@
  * 
  * Things need to remember when using Object Pool:
  *      - Add initialize variable in implement file (.cpp file) like: 
- *              ObjectPool<ClassName>* ClassName::object_pool = NULL;
+ *              ObjectPool<ClassName>* ClassName::object_pool = nullptr;
  *      - Remember to call Initialize() and Release() in the main program
  *      - Be careful with inheritance, normally just apply ObjectPool to the derived class (child class)  
  * 
@@ -27,15 +27,15 @@
 #include <assert.h>
 
 #define OBJECTPOOL_IMPL(class_name)\
-    ObjectPool<class_name>* class_name::object_pool = NULL;\
+    ObjectPool<class_name>* class_name::object_pool = nullptr;\
 
 
 #define OBJECTPOOL(class_name)\
   private:\
     static ObjectPool<class_name>* object_pool;\
   public:\
-    static void InitializeObjectPool(const int& size = EXPANSION_SIZE){ if (object_pool == NULL) object_pool = new ObjectPool<class_name>(size);}\
-    static void ReleaseObjectPool(){delete object_pool;object_pool=NULL;}\
+    static void InitializeObjectPool(const int& size = EXPANSION_SIZE){ if (object_pool == nullptr) object_pool = new ObjectPool<class_name>(size);}\
+    static void ReleaseObjectPool(){delete object_pool;object_pool=nullptr;}\
 //    static void* operator new(size_t size){ return object_pool->Alloc();}\
 //    static void operator delete(void* element){ object_pool->Free((class_name*)element);}\
 
@@ -120,7 +120,7 @@ T* ObjectPool<T>::Alloc() {
 
 template <class T>
 void ObjectPool<T>::Free(T * someElement) {
-    if (someElement == NULL) {
+    if (someElement == nullptr) {
         std::cout << typeid (T).name() << " Free failed!!!" << std::endl;
         assert(false);
     }

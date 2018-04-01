@@ -30,8 +30,8 @@ double InfantImmuneComponent::get_decay_rate(const int &age) const {
 double InfantImmuneComponent::get_current_value() {
     int currentTime = Model::SCHEDULER->current_time();
     double temp = 0.0;
-    if (immune_system() != NULL) {
-        if (immune_system()->person() != NULL) {
+    if (immune_system() != nullptr) {
+        if (immune_system()->person() != nullptr) {
             int duration = currentTime - immune_system()->person()->latest_update_time();
             //decrease I(t) = I0 * e ^ (-b2*t);
             temp = latest_value() * exp(-get_decay_rate(0) * duration);

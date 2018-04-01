@@ -20,7 +20,7 @@ ReturnToResidenceEvent::~ReturnToResidenceEvent() {
 }
 
 void ReturnToResidenceEvent::schedule_event(Scheduler* scheduler, Person* p, const int& time) {
-    if (scheduler != NULL) {
+    if (scheduler != nullptr) {
         ReturnToResidenceEvent* e = new ReturnToResidenceEvent();
         e->set_dispatcher(p);
 

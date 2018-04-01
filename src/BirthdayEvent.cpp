@@ -20,7 +20,7 @@ BirthdayEvent::~BirthdayEvent() {
 }
 
 void BirthdayEvent::execute() {
-    assert(dispatcher() != NULL);
+    assert(dispatcher() != nullptr);
     Person* p = (Person*) dispatcher();
     p->increase_age_by_1_year();
 
@@ -28,7 +28,7 @@ void BirthdayEvent::execute() {
 }
 
 void BirthdayEvent::schedule_event(Scheduler* scheduler, Person* p, const int& time) {
-    if (scheduler != NULL) {
+    if (scheduler != nullptr) {
         BirthdayEvent* e = new BirthdayEvent();
         e->set_dispatcher(p);        
         e->set_executable(true);

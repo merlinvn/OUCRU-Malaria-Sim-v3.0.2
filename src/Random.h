@@ -25,7 +25,7 @@ class Random {
 public:
     gsl_rng* G_RNG;
 
-    Random(Model* model = NULL,gsl_rng* g_rng = NULL);
+    Random(Model* model = nullptr,gsl_rng* g_rng = nullptr);
 
     virtual ~Random();
 

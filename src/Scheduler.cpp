@@ -43,7 +43,7 @@ void Scheduler::clear_all_events() {
     BOOST_FOREACH(EventPtrVector events_list, timed_events_list_) {
 
                     BOOST_FOREACH(Event *event, events_list) {
-                                    if (event->dispatcher() != NULL) {
+                                    if (event->dispatcher() != nullptr) {
                                         event->dispatcher()->remove(event);
                                     }
                                     DeletePointer<Event>(event);
@@ -108,7 +108,7 @@ void Scheduler::run() {
 }
 
 void Scheduler::begin_time_step() {
-    if (model_ != NULL) {
+    if (model_ != nullptr) {
         Model::DATA_COLLECTOR->begin_time_step();
 
         //turn on artemnisinin mutation at intervention day

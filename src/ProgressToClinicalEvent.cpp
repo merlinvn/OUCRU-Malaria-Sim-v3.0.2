@@ -101,7 +101,7 @@ void ProgressToClinicalEvent::execute() {
             //no treatment routine
             receive_no_treatment_routine(person);
 
-            person->cancel_all_events_except(NULL);
+            person->cancel_all_events_except(nullptr);
             person->set_host_state(Person::DEAD);
             Model::DATA_COLLECTOR->record_1_malaria_death(person->location(), person->age());
             Model::DATA_COLLECTOR->record_1_TF(person->location(), true);
@@ -138,7 +138,7 @@ void ProgressToClinicalEvent::execute() {
 
 void ProgressToClinicalEvent::schedule_event(Scheduler *scheduler, Person *p,
                                              ClonalParasitePopulation *clinical_caused_parasite, const int &time) {
-    if (scheduler != NULL) {
+    if (scheduler != nullptr) {
         ProgressToClinicalEvent *e = new ProgressToClinicalEvent();
         e->set_dispatcher(p);
         e->set_clinical_caused_parasite(clinical_caused_parasite);
@@ -152,7 +152,7 @@ void ProgressToClinicalEvent::schedule_event(Scheduler *scheduler, Person *p,
 
 void ProgressToClinicalEvent::receive_no_treatment_routine(Person *p) {
     if (p->will_progress_to_death_when_receive_no_treatment()) {
-        p->cancel_all_events_except(NULL);
+        p->cancel_all_events_except(nullptr);
         p->set_host_state(Person::DEAD);
     }
 }

@@ -19,7 +19,7 @@
 
 OBJECTPOOL_IMPL(DrugsInBlood)
 
-DrugsInBlood::DrugsInBlood(Person* person) : person_(person), drugs_(NULL) {
+DrugsInBlood::DrugsInBlood(Person* person) : person_(person), drugs_(nullptr) {
 
 }
 
@@ -28,7 +28,7 @@ void DrugsInBlood::init() {
 }
 
 DrugsInBlood::~DrugsInBlood() {
-    if (drugs_ != NULL) {
+    if (drugs_ != nullptr) {
         clear();
         DeletePointer<DrugPtrMap>(drugs_);
     }
@@ -86,7 +86,7 @@ void DrugsInBlood::remove_drug(const int& drugTypeID) {
 
 Drug* DrugsInBlood::get_drug(const int& typeID) {
     if (!is_drug_in_blood(typeID))
-        return NULL;
+        return nullptr;
 
     return drugs_->at(typeID);
 }

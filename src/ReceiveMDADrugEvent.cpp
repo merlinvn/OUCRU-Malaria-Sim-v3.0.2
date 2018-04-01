@@ -17,7 +17,7 @@ ReceiveMDADrugEvent::~ReceiveMDADrugEvent() {
 }
 
 void ReceiveMDADrugEvent::schedule_event(Scheduler* scheduler, Person* p, Therapy* therapy, const int& time) {
-    if (scheduler != NULL) {
+    if (scheduler != nullptr) {
         ReceiveMDADrugEvent* e = new ReceiveMDADrugEvent();
         e->set_dispatcher(p);
         e->set_received_therapy(therapy);
@@ -35,8 +35,8 @@ void ReceiveMDADrugEvent::execute() {
 //        return;
 //    }
 
-    person->receive_therapy(received_therapy_, NULL);
+    person->receive_therapy(received_therapy_, nullptr);
 
-    person->schedule_update_by_drug_event(NULL);
+    person->schedule_update_by_drug_event(nullptr);
 
 }

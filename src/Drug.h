@@ -25,7 +25,7 @@ class Drug {
     POINTER_PROPERTY(DrugsInBlood, person_drugs)
 
 public:
-    Drug(DrugType* drug_type = NULL);
+    Drug(DrugType* drug_type = nullptr);
     //    Drug(const Drug& orig);
     virtual ~Drug();
 

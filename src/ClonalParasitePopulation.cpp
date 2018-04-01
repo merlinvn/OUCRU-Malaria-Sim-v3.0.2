@@ -17,7 +17,7 @@
 OBJECTPOOL_IMPL(ClonalParasitePopulation)
 const double ClonalParasitePopulation::LOG_ZERO_PARASITE_DENSITY = -1000;
 
-ClonalParasitePopulation::ClonalParasitePopulation(IntGenotype* genotype) : last_update_log10_parasite_density_(LOG_ZERO_PARASITE_DENSITY), gametocyte_level_(0.0), first_date_in_blood_(-1), genotype_(genotype), update_function_(NULL) {
+ClonalParasitePopulation::ClonalParasitePopulation(IntGenotype* genotype) : last_update_log10_parasite_density_(LOG_ZERO_PARASITE_DENSITY), gametocyte_level_(0.0), first_date_in_blood_(-1), genotype_(genotype), update_function_(nullptr) {
 }
 
 ClonalParasitePopulation::~ClonalParasitePopulation() {
@@ -29,7 +29,7 @@ double ClonalParasitePopulation::get_current_parasite_density(const int& current
         return last_update_log10_parasite_density_;
     }
 
-    if (update_function_ == NULL) {
+    if (update_function_ == nullptr) {
         //        std::cout << "hello" << std::endl;
         return last_update_log10_parasite_density_;
     }

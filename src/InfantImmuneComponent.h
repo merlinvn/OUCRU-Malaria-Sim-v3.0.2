@@ -17,7 +17,7 @@ class InfantImmuneComponent : public ImmuneComponent {
 DISALLOW_COPY_AND_ASSIGN_(InfantImmuneComponent)
 
 public:
-    InfantImmuneComponent(ImmuneSystem *immune_system = NULL);
+    InfantImmuneComponent(ImmuneSystem *immune_system = nullptr);
 
     // InfantImmuneComponent(const InfantImmuneComponent& orig);
     virtual ~InfantImmuneComponent();

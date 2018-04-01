@@ -29,7 +29,7 @@ void PersonIndexAll::remove(Person* p) {
     vPerson_.pop_back();
     p->PersonIndexAllHandler::set_index(-1);
     //    delete p;
-    //    p = NULL;
+    //    p = nullptr;
 }
 
 int PersonIndexAll::size() const {

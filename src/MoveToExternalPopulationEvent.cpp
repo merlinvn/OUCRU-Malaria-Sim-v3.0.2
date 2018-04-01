@@ -22,7 +22,7 @@ MoveToExternalPopulationEvent::~MoveToExternalPopulationEvent() {
 }
 
 void MoveToExternalPopulationEvent::schedule_event(Scheduler* scheduler, Person* p, const int& time) {
-    if (scheduler != NULL) {
+    if (scheduler != nullptr) {
         MoveToExternalPopulationEvent* e = new MoveToExternalPopulationEvent();
         e->set_dispatcher(p);
 

@@ -23,7 +23,7 @@ MatureGametocyteEvent::~MatureGametocyteEvent() {
 }
 
 void MatureGametocyteEvent::schedule_event(Scheduler* scheduler, Person* p, ClonalParasitePopulation* blood_parasite, const int& time) {
-    if (scheduler != NULL) {
+    if (scheduler != nullptr) {
         MatureGametocyteEvent* e = new MatureGametocyteEvent();
         e->set_dispatcher(p);
         e->set_blood_parasite(blood_parasite);

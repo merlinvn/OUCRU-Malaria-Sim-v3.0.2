@@ -18,7 +18,7 @@ ReceiveTherapyEvent::~ReceiveTherapyEvent() {
 }
 
 void ReceiveTherapyEvent::schedule_event(Scheduler* scheduler, Person* p, Therapy* therapy, const int& time, ClonalParasitePopulation* clinical_caused_parasite) {
-    if (scheduler != NULL) {
+    if (scheduler != nullptr) {
         ReceiveTherapyEvent* e = new ReceiveTherapyEvent();
         e->set_dispatcher(p);
         e->set_received_therapy(therapy);

@@ -48,7 +48,7 @@ PROPERTY_REF(std::vector<std::vector<std::vector<double> > >, force_of_infection
 
 
 public:
-    Population(Model *model = NULL);
+    Population(Model *model = nullptr);
 
     virtual ~Population();
 

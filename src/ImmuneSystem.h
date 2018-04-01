@@ -32,7 +32,7 @@ class ImmuneSystem {
     POINTER_PROPERTY_HEADER(ImmuneComponent, immune_component);
 
 public:
-    ImmuneSystem(Person* p = NULL);
+    ImmuneSystem(Person* p = nullptr);
     virtual ~ImmuneSystem();
 
     static void Initialize();

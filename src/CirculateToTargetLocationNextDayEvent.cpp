@@ -24,7 +24,7 @@ CirculateToTargetLocationNextDayEvent::~CirculateToTargetLocationNextDayEvent() 
 }
 
 void CirculateToTargetLocationNextDayEvent::schedule_event(Scheduler* scheduler, Person* p, const int& target_location, const int& time) {
-    if (scheduler != NULL) {
+    if (scheduler != nullptr) {
         CirculateToTargetLocationNextDayEvent* e = new CirculateToTargetLocationNextDayEvent();
         e->set_dispatcher(p);
         e->set_target_location(target_location);

@@ -22,7 +22,7 @@ SwitchImmuneComponentEvent::~SwitchImmuneComponentEvent() {
 
 void SwitchImmuneComponentEvent::execute() {
 
-    assert(dispatcher() != NULL);
+    assert(dispatcher() != nullptr);
     Person* p = (Person*) dispatcher();
     p->immune_system()->set_immune_component(new NonInfantImmuneComponent());
 
@@ -30,7 +30,7 @@ void SwitchImmuneComponentEvent::execute() {
 }
 
 void SwitchImmuneComponentEvent::schedule_for_switch_immune_component_event(Scheduler* scheduler, Person* p, const int& time) {
-     if (scheduler != NULL) {
+     if (scheduler != nullptr) {
         SwitchImmuneComponentEvent* e = new SwitchImmuneComponentEvent();
         e->set_dispatcher(p);
         

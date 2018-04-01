@@ -40,14 +40,14 @@
 #include "ImportationPeriodicallyEvent.h"
 #include "ImportationEvent.h"
 
-Model *Model::MODEL = NULL;
-Config *Model::CONFIG = NULL;
-Random *Model::RANDOM = NULL;
-Scheduler *Model::SCHEDULER = NULL;
-TMEScheduler *Model::TME_SCHEDULER = NULL;
-ModelDataCollector *Model::DATA_COLLECTOR = NULL;
-Population *Model::POPULATION = NULL;
-//Population* Model::EXTERNAL_POPULATION = NULL;
+Model *Model::MODEL = nullptr;
+Config *Model::CONFIG = nullptr;
+Random *Model::RANDOM = nullptr;
+Scheduler *Model::SCHEDULER = nullptr;
+TMEScheduler *Model::TME_SCHEDULER = nullptr;
+ModelDataCollector *Model::DATA_COLLECTOR = nullptr;
+Population *Model::POPULATION = nullptr;
+//Population* Model::EXTERNAL_POPULATION = nullptr;
 
 Model::Model(const int &object_pool_size) {
     initialize_object_pool(object_pool_size);
@@ -105,14 +105,14 @@ Model::~Model() {
     }
     reporters_.clear();
 
-    MODEL = NULL;
-    CONFIG = NULL;
-    SCHEDULER = NULL;
-    TME_SCHEDULER = NULL;
-    RANDOM = NULL;
-    DATA_COLLECTOR = NULL;
-    POPULATION = NULL;
-//    EXTERNAL_POPULATION = NULL;
+    MODEL = nullptr;
+    CONFIG = nullptr;
+    SCHEDULER = nullptr;
+    TME_SCHEDULER = nullptr;
+    RANDOM = nullptr;
+    DATA_COLLECTOR = nullptr;
+    POPULATION = nullptr;
+//    EXTERNAL_POPULATION = nullptr;
 
     release_object_pool();
 }

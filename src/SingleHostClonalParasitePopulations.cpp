@@ -23,26 +23,26 @@
 
 OBJECTPOOL_IMPL(SingleHostClonalParasitePopulations)
 
-SingleHostClonalParasitePopulations::SingleHostClonalParasitePopulations(Person* person) : person_(person), parasites_(NULL), relative_effective_parasite_density_(NULL), log10_total_relative_density_(ClonalParasitePopulation::LOG_ZERO_PARASITE_DENSITY) {
+SingleHostClonalParasitePopulations::SingleHostClonalParasitePopulations(Person* person) : person_(person), parasites_(nullptr), relative_effective_parasite_density_(nullptr), log10_total_relative_density_(ClonalParasitePopulation::LOG_ZERO_PARASITE_DENSITY) {
 
 }
 
 void SingleHostClonalParasitePopulations::init() {
     parasites_ = new std::vector<ClonalParasitePopulation*> ();
-    if (Model::CONFIG != NULL) {
+    if (Model::CONFIG != nullptr) {
         relative_effective_parasite_density_ = new DoubleVector(Model::CONFIG->number_of_parasite_types(), 0.0);
     }
 }
 
 SingleHostClonalParasitePopulations::~SingleHostClonalParasitePopulations() {
-    if (parasites_ != NULL) {
+    if (parasites_ != nullptr) {
         clear();
         DeletePointer< std::vector<ClonalParasitePopulation*> >(parasites_);
     }
 
     DeletePointer< std::vector<double> >(relative_effective_parasite_density_);
 
-    person_ = NULL;
+    person_ = nullptr;
 
 }
 
@@ -51,7 +51,7 @@ void SingleHostClonalParasitePopulations::clear() {
     remove_all_infection_force();
 
     for (int i = 0; i < parasites_->size(); i++) {
-        if (Model::DATA_COLLECTOR != NULL) {
+        if (Model::DATA_COLLECTOR != nullptr) {
             Model::DATA_COLLECTOR->resistance_tracker().decrease(parasites_->at(i)->genotype()->genotype_id(), person_->location());
         }
         delete parasites_->at(i);
@@ -67,7 +67,7 @@ void SingleHostClonalParasitePopulations::add(ClonalParasitePopulation* blood_pa
     blood_parasite->set_index(parasites_->size() - 1);
     assert(parasites_->at(blood_parasite->index()) == blood_parasite);
 
-    if (Model::DATA_COLLECTOR != NULL) {
+    if (Model::DATA_COLLECTOR != nullptr) {
         Model::DATA_COLLECTOR->resistance_tracker().increase(blood_parasite->genotype()->genotype_id(), person_->location());
     }
 }
@@ -104,19 +104,19 @@ void SingleHostClonalParasitePopulations::remove(const int& index) {
     //add all infection force
     add_all_infection_force();
 
-    bp->set_parasite_population(NULL);
+    bp->set_parasite_population(nullptr);
 
     //    if (contain(bp)) {
     //        //        std::cout <<  parasites_.size()<< std::endl;
     //        assert(false);
     //    }
     //    std::cout << parasites_.size() << std::endl;
-    if (Model::DATA_COLLECTOR != NULL) {
+    if (Model::DATA_COLLECTOR != nullptr) {
         Model::DATA_COLLECTOR->resistance_tracker().decrease(bp->genotype()->genotype_id(), person_->location());
     }
 
     delete bp;
-    bp = NULL;
+    bp = nullptr;
 }
 
 void SingleHostClonalParasitePopulations::remove_all_infection_force() {
@@ -136,7 +136,7 @@ void SingleHostClonalParasitePopulations::add_all_infection_force() {
 }
 
 void SingleHostClonalParasitePopulations::change_all_infection_force(const double& sign) {
-    if (person_ == NULL) return;
+    if (person_ == nullptr) return;
 
     if (log10_total_relative_density_ == ClonalParasitePopulation::LOG_ZERO_PARASITE_DENSITY) {
         //do nothing

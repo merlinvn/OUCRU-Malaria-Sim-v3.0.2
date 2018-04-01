@@ -37,7 +37,7 @@ public:
     static const double LOG_ZERO_PARASITE_DENSITY;
 
 public:
-    ClonalParasitePopulation(IntGenotype* genotype = NULL);
+    ClonalParasitePopulation(IntGenotype* genotype = nullptr);
     //    BloodParasite(const BloodParasite& orig);
     virtual ~ClonalParasitePopulation();
 

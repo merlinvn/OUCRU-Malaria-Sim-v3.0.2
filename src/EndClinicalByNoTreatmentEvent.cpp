@@ -24,7 +24,7 @@ EndClinicalByNoTreatmentEvent::~EndClinicalByNoTreatmentEvent() {
 }
 
 void EndClinicalByNoTreatmentEvent::schedule_event(Scheduler* scheduler, Person* p, ClonalParasitePopulation* clinical_caused_parasite, const int& time) {
-    if (scheduler != NULL) {
+    if (scheduler != nullptr) {
         EndClinicalByNoTreatmentEvent* e = new EndClinicalByNoTreatmentEvent();
         e->set_dispatcher(p);
         e->set_clinical_caused_parasite(clinical_caused_parasite);

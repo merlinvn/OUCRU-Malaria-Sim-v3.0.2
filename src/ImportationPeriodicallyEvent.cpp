@@ -26,9 +26,9 @@ ImportationPeriodicallyEvent::~ImportationPeriodicallyEvent() {
 }
 
 void ImportationPeriodicallyEvent::schedule_event(Scheduler* scheduler, const int& location, const int& duration, const int& genotype_id, const int& number_of_cases, const int& start_day) {
-    if (scheduler != NULL) {
+    if (scheduler != nullptr) {
         ImportationPeriodicallyEvent* e = new ImportationPeriodicallyEvent(location, duration, genotype_id, number_of_cases, start_day);
-        e->set_dispatcher(NULL);
+        e->set_dispatcher(nullptr);
         e->set_executable(true);
         e->set_time(Model::SCHEDULER->current_time() + 1); // schedule for next day
         scheduler->schedule(e);
@@ -62,7 +62,7 @@ void ImportationPeriodicallyEvent::execute() {
 
             //check and draw random Genotype 
             // fix allele 580Y and x of the last loci, other alleles will be drawed randomly
-            IntGenotype* importedGenotype = NULL;
+            IntGenotype* importedGenotype = nullptr;
             if (genotype_id_ == -1) {
                 //  1 <=random_id  <= 32  or < 33
                 int random_id = Model::RANDOM->random_uniform_int(1, 33);

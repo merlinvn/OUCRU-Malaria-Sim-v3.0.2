@@ -18,18 +18,18 @@
 
 OBJECTPOOL_IMPL(ImmuneSystem)
 
-ImmuneSystem::ImmuneSystem(Person *p) : person_(p), increase_(false), immune_component_(NULL) {
+ImmuneSystem::ImmuneSystem(Person *p) : person_(p), increase_(false), immune_component_(nullptr) {
     //    immune_components_ = new ImmuneComponentPtrVector();
 
 }
 
 ImmuneSystem::~ImmuneSystem() {
 
-    if (immune_component_ != NULL) {
+    if (immune_component_ != nullptr) {
         DeletePointer<ImmuneComponent>(immune_component_);
     }
-    assert(immune_component_ == NULL);
-    person_ = NULL;
+    assert(immune_component_ == nullptr);
+    person_ = nullptr;
 }
 
 ImmuneComponent* ImmuneSystem::immune_component() const {
@@ -38,7 +38,7 @@ ImmuneComponent* ImmuneSystem::immune_component() const {
 
 void ImmuneSystem::set_immune_component(ImmuneComponent* value) {
     if (immune_component_ != value) {
-        if (immune_component_ != NULL) {
+        if (immune_component_ != nullptr) {
             DeletePointer<ImmuneComponent>(immune_component_);
         }
 

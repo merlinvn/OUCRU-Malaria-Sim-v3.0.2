@@ -18,7 +18,7 @@ ReturnToNormalPopulationEvent::~ReturnToNormalPopulationEvent() {
 }
 
 void ReturnToNormalPopulationEvent::schedule_event(Scheduler* scheduler, Person* p, const int& time) {
-    if (scheduler != NULL) {
+    if (scheduler != nullptr) {
         ReturnToNormalPopulationEvent* e = new ReturnToNormalPopulationEvent();
         e->set_dispatcher(p);
 

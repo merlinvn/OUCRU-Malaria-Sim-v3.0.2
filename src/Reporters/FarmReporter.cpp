@@ -153,7 +153,7 @@ void FarmReporter::output_parameters() {
     std::cout << Model::CONFIG->tf_window_size() << "\t";
 
     SCTherapy* scTherapy = dynamic_cast<SCTherapy*> (Model::CONFIG->strategy()->get_therapy(nullptr));
-    if (scTherapy != NULL) {
+    if (scTherapy != nullptr) {
         std::cout << scTherapy->dosing_day() << "\t";
     } else {
         std::cout << 0 << "\t";

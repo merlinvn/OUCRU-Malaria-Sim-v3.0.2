@@ -17,7 +17,7 @@ class ImmunityClearanceUpdateFunction: public ParasiteDensityUpdateFunction {
     
     POINTER_PROPERTY(Model, model)
 public:
-    ImmunityClearanceUpdateFunction(Model* model = NULL);
+    ImmunityClearanceUpdateFunction(Model* model = nullptr);
 //    ImmunityClearanceUpdateFunction(const ImmunityClearanceUpdateFunction& orig);
     virtual ~ImmunityClearanceUpdateFunction();
     

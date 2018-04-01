@@ -23,7 +23,7 @@ class TMEScheduler {
     PROPERTY_REF(std::string, tme_file_name)
 
 public:
-    TMEScheduler(Model* model = NULL);
+    TMEScheduler(Model* model = nullptr);
     //    TMEScheduler(const TMEScheduler& orig);
     virtual ~TMEScheduler();
 

@@ -25,10 +25,10 @@ ImportationEvent::~ImportationEvent() {
 }
 
 void ImportationEvent::schedule_event(Scheduler* scheduler, const int& location, const int& execute_at, const int& genotype_id, const int& number_of_cases) {
-    if (scheduler != NULL) {
+    if (scheduler != nullptr) {
         ImportationEvent* e = new ImportationEvent(location, execute_at, genotype_id, number_of_cases);
         //        e->set_dispatcher(p);
-        e->set_dispatcher(NULL);
+        e->set_dispatcher(nullptr);
         e->set_executable(true);
         e->set_time(execute_at);
 

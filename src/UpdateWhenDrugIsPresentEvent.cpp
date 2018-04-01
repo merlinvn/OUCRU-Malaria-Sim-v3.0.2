@@ -24,7 +24,7 @@ UpdateWhenDrugIsPresentEvent::~UpdateWhenDrugIsPresentEvent() {
 }
 
 void UpdateWhenDrugIsPresentEvent::schedule_event(Scheduler* scheduler, Person* p, ClonalParasitePopulation* clinical_caused_parasite, const int& time) {
-    if (scheduler != NULL) {
+    if (scheduler != nullptr) {
 
         UpdateWhenDrugIsPresentEvent* e = new UpdateWhenDrugIsPresentEvent();
         e->set_dispatcher(p);
