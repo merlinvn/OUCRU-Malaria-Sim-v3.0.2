@@ -110,6 +110,12 @@ void Scheduler::run() {
 void Scheduler::begin_time_step() {
     if (model_ != NULL) {
         Model::DATA_COLLECTOR->begin_time_step();
+
+        //turn on artemnisinin mutation at intervention day
+        if (current_time_ == Model::CONFIG->start_intervention_day()){
+            Model::CONFIG->drug_db()->drug_db()[0]->set_p_mutation(0.0005);
+        }
+
         model_->report_begin_of_time_step();
         model_->perform_infection_event();
     }
@@ -147,6 +153,8 @@ void Scheduler::update_end_of_time_step() {
 
     //update treatment coverage
     update_treatment_coverage();
+
+
 }
 
 void Scheduler::report_end_of_time_step() {

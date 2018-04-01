@@ -483,7 +483,7 @@ introduce_parasite_periodically:
         # genotype_id -1: fix allele 580Y and x of the last loci, other alleles will be drawed randomly
         genotype_id: -1
         number_of_cases: 1
-        start_day: 5110
+        start_day: 3600
 
 
 
@@ -518,7 +518,7 @@ drugInfo:
     maximum_parasite_killing_rate: 0.999
     n: 25
     age_specific_drug_concentration_sd: [0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4]
-    mutation_probability: 0.005
+    mutation_probability: 0.000
     affecting_loci: [2]
     selecting_alleles: [[1]]
     k: 4
