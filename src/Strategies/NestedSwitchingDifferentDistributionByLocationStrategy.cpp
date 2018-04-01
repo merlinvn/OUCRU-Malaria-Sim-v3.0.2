@@ -77,22 +77,13 @@ void NestedSwitchingDifferentDistributionByLocationStrategy::update_end_of_time_
             ((NestedSwitchingStrategy *) Model::CONFIG->strategy_db()[switch_to_strategy_id_])->adjustDisttribution(
                     Model::SCHEDULER->current_time(), Model::CONFIG->total_time());
         }
-        if (Model::CONFIG->strategy_db()[switch_to_strategy_id_]->get_type() ==
-            IStrategy::NestedSwitchingDifferentDistributionByLocation) {
-            ((NestedSwitchingDifferentDistributionByLocationStrategy *) Model::CONFIG->strategy_db()[switch_to_strategy_id_])->adjustDistribution(
-                    Model::SCHEDULER->current_time(), Model::CONFIG->total_time());
-        }
-
-        //        std::cout << to_string() << std::endl;
     }
 
-    if (Model::SCHEDULER->current_time() % 30 == 0) {
-        adjustDistribution(Model::SCHEDULER->current_time(), Model::CONFIG->total_time());
-        //        std::cout << to_string() << std::endl;
-    }
+    adjustDistribution(Model::SCHEDULER->current_time(), Model::CONFIG->total_time());
+
     // update each strategy in the nest
-    for (int i = 0; i < strategy_list_.size(); i++) {
-        strategy_list_[i]->update_end_of_time_step();
+    for (auto &strategy : strategy_list_) {
+        strategy->update_end_of_time_step();
     }
 }
 

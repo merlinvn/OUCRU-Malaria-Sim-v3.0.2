@@ -819,11 +819,9 @@ TherapyInfo:
 StrategyInfo:
     0:
         name: ACTDistribution-AL-DPQ-ASSP-ASAQ-ASMQ
-        type: MFTDifferentDistributionByLocation
+        type: MFT
         therapy_ids: [6,8,10,7,9]
-        distribution: [
-        [0.836684858,0.059881511,0.056717559,0.030492855,0.016180749]
-        ]
+        distribution: [0.836684858,0.059881511,0.056717559,0.030492855,0.016180749]
     1:
         name: RFTDistribution-QN-SP-CQ-AQ
         type: MFTDifferentDistributionByLocation
@@ -889,12 +887,12 @@ StrategyInfo:
         name: Cycling_AL_ASAQ_DPQ
         type: Cycling
         therapy_ids: [6,7,8]
-        cycling_time: 1825
+        cycling_time: 1800
     5:
         name: Cycling_AL_DPQ
         type: Cycling
         therapy_ids: [6,8]
-        cycling_time: 1825
+        cycling_time: 1800
     6:
         name: Scenario1_BaseLineStrategy
         type: NestedSwitchingDifferentDistributionByLocation
@@ -946,7 +944,7 @@ StrategyInfo:
         [0.472340426,0.527659574],
         [0.472340426,0.527659574]
         ]
-        strategy_switching_day: -1
+        strategy_switching_day: 3600
         switch_to_strategy_id: 0
     7:
         name: Scenario2
