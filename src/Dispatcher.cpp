@@ -47,7 +47,7 @@ void Dispatcher::clear_events() {
     if (events_->size() == 0) return;
     //    std::cout << "Clear event"<< std::endl;
 
-    for(Event* event :  *events_) {
+    for(auto &event :  *events_) {
         event->set_dispatcher(nullptr);
         event->set_executable(false);
     }

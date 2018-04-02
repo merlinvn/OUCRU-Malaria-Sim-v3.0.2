@@ -40,7 +40,7 @@ Scheduler::~Scheduler() {
 
 void Scheduler::clear_all_events() {
 
-    for (EventPtrVector events_list :  timed_events_list_) {
+    for (EventPtrVector &events_list :  timed_events_list_) {
         for (Event *event :  events_list) {
             if (event->dispatcher() != nullptr) {
                 event->dispatcher()->remove(event);

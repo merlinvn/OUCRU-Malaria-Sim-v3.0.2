@@ -14,7 +14,7 @@ DrugDatabase::DrugDatabase() : drug_db_() {
 
 DrugDatabase::~DrugDatabase() {
 
-    for(DrugTypePtrMap::value_type &i :  drug_db_) {
+    for(auto &i :  drug_db_) {
         delete i.second;
     }
     drug_db_.clear();

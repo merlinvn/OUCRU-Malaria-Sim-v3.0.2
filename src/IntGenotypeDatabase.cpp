@@ -24,7 +24,7 @@ IntGenotypeDatabase::IntGenotypeDatabase() {
 
 IntGenotypeDatabase::~IntGenotypeDatabase() {
 
-    for(IntGenotypePtrMap::value_type &i :  db_) {
+    for(auto &i :  db_) {
         delete i.second;
     }
     db_.clear();
