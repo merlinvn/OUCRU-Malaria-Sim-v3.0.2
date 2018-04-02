@@ -16,7 +16,7 @@
 #include "NestedSwitchingStrategy.h"
 
 NestedSwitchingDifferentDistributionByLocationStrategy::NestedSwitchingDifferentDistributionByLocationStrategy()
-        : strategy_switching_day_{-1}, switch_to_strategy_id_{-1} {
+        : strategy_switching_day_{-1}, switch_to_strategy_id_{-1} , peek_at_{-1}{
 
 };
 
@@ -79,7 +79,7 @@ void NestedSwitchingDifferentDistributionByLocationStrategy::update_end_of_time_
         }
     }
 
-    adjustDistribution(Model::SCHEDULER->current_time(), Model::CONFIG->total_time());
+    adjustDistribution(Model::SCHEDULER->current_time(), peek_at_);
 
     // update each strategy in the nest
     for (auto &strategy : strategy_list_) {
@@ -87,16 +87,32 @@ void NestedSwitchingDifferentDistributionByLocationStrategy::update_end_of_time_
     }
 }
 
-void NestedSwitchingDifferentDistributionByLocationStrategy::adjustDistribution(int time, int totaltime) {
+void NestedSwitchingDifferentDistributionByLocationStrategy::adjustDistribution(int time, int peek_at) {
 
     if (time > Model::CONFIG->start_intervention_day() &&
         (time - Model::CONFIG->start_intervention_day()) % 360 == 0) {
-        for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
-            double dACT = distribution_[loc][0] * Model::CONFIG->inflation_factor();
-            distribution_[loc][0] = dACT;
-            double otherD = (1 - dACT) / (distribution_[loc].size() - 1);
-            for (int i = 1; i < distribution_[loc].size(); i++) {
-                distribution_[loc][i] = otherD;
+        if (peek_at == -1) {
+            // inflation every year
+            for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
+                double dACT = distribution_[loc][0] * Model::CONFIG->inflation_factor();
+                distribution_[loc][0] = dACT;
+                double otherD = (1 - dACT) / (distribution_[loc].size() - 1);
+                for (int i = 1; i < distribution_[loc].size(); i++) {
+                    distribution_[loc][i] = otherD;
+                }
+            }
+        } else {
+            // increasing linearly
+            if (distribution_[0][0] < 1) {
+                for (int loc = 0; loc < Model::CONFIG->number_of_locations(); loc++) {
+                    double dACT = ((1 - start_distribution_[loc][0]) * time) / peek_at_ + start_distribution_[loc][0];
+                    dACT = dACT >= 1 ? 1 : dACT;
+                    distribution_[loc][0] = dACT;
+                    double otherD = (1 - dACT) / (distribution_[loc].size() - 1);
+                    for (int i = 1; i < distribution_[loc].size(); i++) {
+                        distribution_[loc][i] = otherD;
+                    }
+                }
             }
         }
     }

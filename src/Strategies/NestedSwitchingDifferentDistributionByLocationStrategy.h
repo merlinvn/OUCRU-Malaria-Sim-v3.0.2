@@ -17,6 +17,7 @@ class NestedSwitchingDifferentDistributionByLocationStrategy  : public IStrategy
 
     VIRTUAL_PROPERTY_REF(int, strategy_switching_day)
     VIRTUAL_PROPERTY_REF(int, switch_to_strategy_id)
+    VIRTUAL_PROPERTY_REF(int, peek_at)
 public:
     NestedSwitchingDifferentDistributionByLocationStrategy();
     //    NestedSwitchingStrategy(const NestedSwitchingStrategy& orig);
