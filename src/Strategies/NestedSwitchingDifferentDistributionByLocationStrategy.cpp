@@ -64,7 +64,7 @@ std::string NestedSwitchingDifferentDistributionByLocationStrategy::to_string() 
 }
 
 IStrategy::StrategyType NestedSwitchingDifferentDistributionByLocationStrategy::get_type() const {
-    return IStrategy::NestedSwitching;
+    return IStrategy::NestedSwitchingDifferentDistributionByLocation;
 }
 
 void NestedSwitchingDifferentDistributionByLocationStrategy::update_end_of_time_step() {
