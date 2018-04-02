@@ -899,7 +899,7 @@ StrategyInfo:
         name: Scenario1_BaseLineStrategy
         type: NestedSwitchingDifferentDistributionByLocation
         strategy_ids: [0,1]
-        peek_at: -1
+        peak_at: -1
         start_distribution: [
         [0.388257576,0.611742424],
         [0.388257576,0.611742424],
@@ -952,7 +952,7 @@ StrategyInfo:
     7:
         name: Scenario2
         type: NestedSwitchingDifferentDistributionByLocation
-        peek_at: -1
+        peak_at: -1
         strategy_ids: [0,1]
         start_distribution: [
         [0.388257576,0.611742424],
@@ -1006,7 +1006,7 @@ StrategyInfo:
     8:
         name: Scenario3
         type: NestedSwitchingDifferentDistributionByLocation
-        peek_at: -1
+        peak_at: -1
         strategy_ids: [0,1]
         start_distribution: [
         [0.388257576,0.611742424],
@@ -1060,7 +1060,7 @@ StrategyInfo:
     9:
         name: Scenario4
         type: NestedSwitchingDifferentDistributionByLocation
-        peek_at: -1
+        peak_at: -1
         strategy_ids: [0,1]
         start_distribution: [
         [0.388257576,0.611742424],
@@ -1114,7 +1114,7 @@ StrategyInfo:
     10:
         name: Scenario5
         type: NestedSwitchingDifferentDistributionByLocation
-        peek_at: -1
+        peak_at: -1
         strategy_ids: [0,1]
         start_distribution: [
         [0.388257576,0.611742424],

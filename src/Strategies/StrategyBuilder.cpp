@@ -261,7 +261,7 @@ IStrategy *StrategyBuilder::buildNestedSwitchingDifferentDistributionByLocationS
         result->add_strategy(Model::CONFIG->strategy_db()[ns["strategy_ids"][i].as<int>()]);
     }
 
-    result->set_peek_at(ns["peek_at"].as<int>());
+    result->set_peak_at(ns["peak_at"].as<int>());
     result->set_strategy_switching_day(ns["strategy_switching_day"].as<int>());
     result->set_switch_to_strategy_id(ns["switch_to_strategy_id"].as<int>());
 

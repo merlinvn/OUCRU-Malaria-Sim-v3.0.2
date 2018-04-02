@@ -861,7 +861,7 @@ StrategyInfo:
         name: BaseLineStrategy
         type: NestedSwitchingDifferentDistributionByLocation
         strategy_ids: [0,1]
-        peek_at: -1
+        peak_at: -1
         start_distribution: [[0.05, 0.95]]
         strategy_switching_day: 5110
         switch_to_strategy_id: 0
