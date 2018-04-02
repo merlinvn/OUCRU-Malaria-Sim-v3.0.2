@@ -819,7 +819,7 @@ TherapyInfo:
 StrategyInfo:
     0:
         name: ACTDistribution-AL-DPQ-ASSP-ASAQ-ASMQ
-        type: MFTD
+        type: MFT
         therapy_ids: [6,8,10,7,9]
         distribution: [0.836684858,0.059881511,0.056717559,0.030492855,0.016180749]
     1:
