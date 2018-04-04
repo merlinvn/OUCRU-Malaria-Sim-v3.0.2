@@ -276,16 +276,6 @@ void Config::build_drug_and_parasite_db(const YAML::Node &config) {
     //build drug DB
     build_drug_db(config);
 
-
-    //read fake_efficacy_table
-    fake_efficacy_table_.clear();
-    fake_efficacy_table_.assign(genotype_db_->db().size(), std::vector<double>());
-
-    for (int g_id = 0; g_id < genotype_db_->db().size(); g_id++) {
-        for (int i = 0; i < config["fake_efficacy_table"][g_id].size(); i++) {
-            fake_efficacy_table_[g_id].push_back(config["fake_efficacy_table"][g_id][i].as<double>());
-        }
-    }
 }
 
 void Config::read_genotype_info(const YAML::Node &config) {
@@ -413,9 +403,6 @@ DrugType *Config::read_drugtype(const YAML::Node &config, const int &drug_id) {
     //        double value = it->second.as<double>();
     //        std::cout << key << ":::::" << value << std::endl;
     //    }
-
-
-
 
     dt->set_k(n["k"].as<double>());
 

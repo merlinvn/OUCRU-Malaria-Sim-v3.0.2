@@ -1286,9 +1286,7 @@ StrategyInfo:
         strategy_switching_day: 3600
         switch_to_strategy_id: 12
 
-
-
-main_strategy_id: 8
+main_strategy_id: 13
 
 
 

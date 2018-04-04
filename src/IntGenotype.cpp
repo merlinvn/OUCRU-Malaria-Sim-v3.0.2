@@ -80,14 +80,14 @@ IntGenotype* IntGenotype::combine_mutation_to(const int &locus, const int &value
     return Model::CONFIG->genotype_db()->get(id);
 }
 
-double IntGenotype::get_fake_efficacy(DrugType* dt) {
+double IntGenotype::get_EC50_power_n(DrugType *dt) {
 
-    return get_fake_efficacy(dt->id());
+    return get_EC50(dt->id());
 }
 
-double IntGenotype::get_fake_efficacy(const int &drug_id) {
+double IntGenotype::get_EC50(const int &drug_id) {
 
-    return Model::CONFIG->fake_efficacy_table()[genotype_id_][drug_id];
+    return Model::CONFIG->EC50_power_n_table()[genotype_id_][drug_id];
 }
 
 int IntGenotype::select_mutation_allele(const int &mutation_locus, const int &current_allele_value) {

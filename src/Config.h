@@ -42,8 +42,6 @@ VIRTUAL_PROPERTY_REF(int, number_of_age_classes)
 
 VIRTUAL_PROPERTY_REF(int, number_of_parasite_types)
 
-VIRTUAL_PROPERTY_REF(DoubleVector2, fake_efficacy_table)
-
 VIRTUAL_PROPERTY_REF(DoubleVector2, EC50_power_n_table)
 
 VIRTUAL_PROPERTY_REF(Seasonality, seasonal_beta)

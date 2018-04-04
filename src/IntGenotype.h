@@ -26,8 +26,8 @@ public:
 
     virtual ~IntGenotype();
 
-    double get_fake_efficacy(DrugType* dt);
-    double get_fake_efficacy(const int &drug_id);
+    double get_EC50_power_n(DrugType *dt);
+    double get_EC50(const int &drug_id);
 
     bool resist_to(DrugType* dt);
 
