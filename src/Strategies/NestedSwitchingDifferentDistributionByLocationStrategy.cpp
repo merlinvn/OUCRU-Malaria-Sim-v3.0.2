@@ -16,7 +16,7 @@
 #include "NestedSwitchingStrategy.h"
 
 NestedSwitchingDifferentDistributionByLocationStrategy::NestedSwitchingDifferentDistributionByLocationStrategy()
-        : strategy_switching_day_{-1}, switch_to_strategy_id_{-1} , peak_at_{-1}{
+        : strategy_switching_day_{-1}, switch_to_strategy_id_{-1}, peak_at_{-1} {
 
 };
 
@@ -124,9 +124,10 @@ void NestedSwitchingDifferentDistributionByLocationStrategy::initialize_update_t
     // when switch to MFTBalancing
     if (Model::CONFIG->strategy_db()[switch_to_strategy_id_]->get_type() == IStrategy::MFTRebalancing) {
         //        std::cout << "hello" << std::endl;
-        ((MFTRebalancingStrategy *) Model::CONFIG->strategy_db()[switch_to_strategy_id_])->set_next_update_time(-1);
+        ((MFTRebalancingStrategy *) Model::CONFIG->strategy_db()[switch_to_strategy_id_])->set_next_update_time(
+                strategy_switching_day_ + 60);
         ((MFTRebalancingStrategy *) Model::CONFIG->strategy_db()[switch_to_strategy_id_])->set_latest_adjust_distribution_time(
-                strategy_switching_day_);
+                -1);
     }
     // when switch to Cycling
     if (Model::CONFIG->strategy_db()[switch_to_strategy_id_]->get_type() == IStrategy::Cycling) {
