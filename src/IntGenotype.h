@@ -35,7 +35,7 @@ public:
 
     IntGenotype* combine_mutation_to(const int &locus, const int &value);
 
-    int select_mutation_allele(const int & mutation_locus, const int &current_allele_value);
+    int select_mutation_allele(const int & mutation_locus);
 
     friend std::ostream& operator<<(std::ostream& os, const IntGenotype& e);
 

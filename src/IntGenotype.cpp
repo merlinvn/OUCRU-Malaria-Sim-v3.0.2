@@ -12,7 +12,7 @@
 #include "Random.h"
 #include "SCTherapy.h"
 
-IntGenotype::IntGenotype(const int& id) : genotype_id_(id) {
+IntGenotype::IntGenotype(const int &id) : genotype_id_(id) {
 
     gene_expression_.clear();
 
@@ -25,9 +25,10 @@ IntGenotype::IntGenotype(const int& id) : genotype_id_(id) {
     //daily_fitness
     daily_fitness_multiple_infection_ = 1;
     for (int i = 0; i < Model::CONFIG->genotype_info().loci_vector.size(); i++) {
-        daily_fitness_multiple_infection_ *= 1 - Model::CONFIG->genotype_info().loci_vector[i].alleles[gene_expression_[i]].daily_cost_of_resistance;
+        daily_fitness_multiple_infection_ *=
+                1 - Model::CONFIG->genotype_info().loci_vector[i].alleles[gene_expression_[i]].daily_cost_of_resistance;
     }
-    
+
 //    std::cout << id << "-" << daily_fitness_multiple_infection_<<std::endl;
     //number_of_resistance_position (level)
     number_of_resistance_position_ = 0;
@@ -40,7 +41,7 @@ IntGenotype::IntGenotype(const int& id) : genotype_id_(id) {
 IntGenotype::~IntGenotype() {
 }
 
-bool IntGenotype::resist_to(DrugType* dt) {
+bool IntGenotype::resist_to(DrugType *dt) {
     for (int i = 0; i < dt->affecting_loci().size(); i++) {
 
         for (int j = 0; j < dt->selecting_alleles()[i].size(); j++) {
@@ -52,8 +53,8 @@ bool IntGenotype::resist_to(DrugType* dt) {
     return false;
 }
 
-bool IntGenotype::resist_to(Therapy* therapy) {
-    SCTherapy* scTherapy = dynamic_cast<SCTherapy*> (therapy);
+bool IntGenotype::resist_to(Therapy *therapy) {
+    SCTherapy *scTherapy = dynamic_cast<SCTherapy *> (therapy);
     if (scTherapy != NULL) {
         for (int i = 0; i < scTherapy->drug_ids().size(); i++) {
             if (resist_to(Model::CONFIG->drug_db()->get(scTherapy->drug_ids()[i]))) {
@@ -64,7 +65,7 @@ bool IntGenotype::resist_to(Therapy* therapy) {
     return false;
 }
 
-IntGenotype* IntGenotype::combine_mutation_to(const int &locus, const int &value) {
+IntGenotype *IntGenotype::combine_mutation_to(const int &locus, const int &value) {
     if (gene_expression_[locus] == value) {
         return this;
     }
@@ -90,20 +91,23 @@ double IntGenotype::get_EC50(const int &drug_id) {
     return Model::CONFIG->EC50_power_n_table()[genotype_id_][drug_id];
 }
 
-int IntGenotype::select_mutation_allele(const int &mutation_locus, const int &current_allele_value) {
+int IntGenotype::select_mutation_allele(const int &mutation_locus) {
+    int current_allele_value = gene_expression()[mutation_locus];
 
-    double P = Model::RANDOM->random_flat(0.0, 1.0);
+    //pos is from 0 to size -1
+    int pos = Model::RANDOM->random_uniform_int(0,
+                                                Model::CONFIG->genotype_info().loci_vector[mutation_locus].alleles[current_allele_value].mutation_values.size());
     //    double t = 1.0 / affecting_loci_.size();
-    return Model::CONFIG->genotype_info().loci_vector[mutation_locus].alleles[current_allele_value].mutation_values[(int) floor(P * Model::CONFIG->genotype_info().loci_vector[mutation_locus].alleles[current_allele_value].mutation_values.size())];
+    return Model::CONFIG->genotype_info().loci_vector[mutation_locus].alleles[current_allele_value].mutation_values[pos];
 }
 
-std::ostream& operator<<(std::ostream& os, const IntGenotype& e) {
+std::ostream &operator<<(std::ostream &os, const IntGenotype &e) {
     os << e.genotype_id_ << "\t";
     for (int i = 0; i < e.gene_expression_.size(); i++) {
         int v = e.gene_expression_[i];
         os << Model::CONFIG->genotype_info().loci_vector[i].alleles[v];
     }
-    
+
 //    os << "\t" << e.number_of_resistance_position_;
     return os;
 }

@@ -73,6 +73,7 @@ int Random::random_uniform(const int& range) {
     return gsl_rng_uniform_int(G_RNG, range);
 }
 
+//return an interger in  [from, to) , not include to
 int Random::random_uniform_int(const int& from, const int& to) {
     return from + gsl_rng_uniform_int(G_RNG, to - from);
 }

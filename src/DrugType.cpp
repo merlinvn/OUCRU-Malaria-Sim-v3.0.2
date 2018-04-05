@@ -83,10 +83,10 @@ bool DrugType::is_lumefantrine() {
 }
 
 int DrugType::select_mutation_locus() {
-    double P = Model::RANDOM->random_flat(0.0, 1.0);
-    //    double t = 1.0 / affecting_loci_.size();
 
-    return affecting_loci_[(int) floor(P * affecting_loci_.size())];
+    int pos = Model::RANDOM->random_uniform_int(0, affecting_loci_.size());
+
+    return affecting_loci_[pos];
 }
 
 double DrugType::inferEC50(IntGenotype *genotype) {

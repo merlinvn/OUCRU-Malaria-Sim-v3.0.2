@@ -357,8 +357,7 @@ void SingleHostClonalParasitePopulations::clear_cured_parasites() {
 }
 
 void SingleHostClonalParasitePopulations::update_by_drugs(DrugsInBlood *drugs_in_blood) {
-    for (int i = 0; i < parasites_->size(); i++) {
-        ClonalParasitePopulation *bloodParasite = parasites_->at(i);
+    for (auto &bloodParasite : *parasites_) {
         IntGenotype *new_genotype = bloodParasite->genotype();
 
         double percent_parasite_remove = 0;
@@ -368,17 +367,20 @@ void SingleHostClonalParasitePopulations::update_by_drugs(DrugsInBlood *drugs_in
             double P = Model::RANDOM->random_flat(0.0, 1.0);
 
             if (P < drug->get_mutation_probability()) {
+//only select affecting_locus
+//                int mutation_locus = drug->drug_type()->select_mutation_locus();
 
-                int mutation_locus = drug->drug_type()->select_mutation_locus();
+
+                // select all locus
+                int mutation_locus = Model::RANDOM->random_uniform_int(0, new_genotype->gene_expression().size());
 
                 //only allow x to mutate after intervention day
                 while (Model::SCHEDULER->current_time() <= Model::CONFIG->start_intervention_day()
-                    && mutation_locus == new_genotype->gene_expression().size() - 1) {
+                       && mutation_locus == new_genotype->gene_expression().size() - 1) {
                     // redraw
                     mutation_locus = drug->drug_type()->select_mutation_locus();
                 }
-                int new_allele_value = bloodParasite->genotype()->select_mutation_allele(mutation_locus,
-                                                                                         bloodParasite->genotype()->gene_expression()[mutation_locus]);
+                int new_allele_value = bloodParasite->genotype()->select_mutation_allele(mutation_locus);
                 //                std::cout << mutation_locus << "-" << bloodParasite->genotype()->gene_expression()[mutation_locus] << "-" << new_allele_value << std::endl;
                 IntGenotype *mutation_genotype = new_genotype->combine_mutation_to(mutation_locus, new_allele_value);
 
@@ -411,8 +413,8 @@ void SingleHostClonalParasitePopulations::update_by_drugs(DrugsInBlood *drugs_in
 }
 
 bool SingleHostClonalParasitePopulations::has_detectable_parasite() {
-    for (int i = 0; i < parasites_->size(); i++) {
-        if (parasites_->at(i)->last_update_log10_parasite_density() >=
+    for (auto &parasite : *parasites_) {
+        if (parasite->last_update_log10_parasite_density() >=
             Model::CONFIG->log_parasite_density_level().log_parasite_density_detectable) {
             return true;
         }
