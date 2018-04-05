@@ -400,8 +400,8 @@ drugInfo:
     n: 20
     age_specific_drug_concentration_sd: [0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4]
     mutation_probability: 0.005
-    affecting_loci: [0,1]
-    selecting_alleles: [[0],[0,2,3,4,6,7]]
+    affecting_loci: [0,1,4]
+    selecting_alleles: [[0],[0,2,3,4,6,7],[1]]
     k: 4
     EC50:
       #KNY--

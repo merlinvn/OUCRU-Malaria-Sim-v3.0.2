@@ -39,6 +39,7 @@ public:
     VIRTUAL_PROPERTY_REF(double, k)
     VIRTUAL_PROPERTY_REF(double, cut_off_percent)
 
+// TODO: Consider removing effecting_loci and selecting alleles
     VIRTUAL_PROPERTY_REF(IntVector, affecting_loci)
     VIRTUAL_PROPERTY_REF(IntVector2, selecting_alleles)
     VIRTUAL_PROPERTY_REF(ec50map_type, ec50map)
