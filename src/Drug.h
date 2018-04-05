@@ -14,7 +14,10 @@
 class Drug {
     OBJECTPOOL(Drug)
     DISALLOW_COPY_AND_ASSIGN_(Drug)
-    PROPERTY_REF(int, dosing_days)
+
+    double get_parasite_killing_rate(int &genotype_id);
+
+PROPERTY_REF(int, dosing_days)
     PROPERTY_REF(int, start_time)
     PROPERTY_REF(int, end_time)
     PROPERTY_REF(double, last_update_value)
@@ -37,7 +40,6 @@ public:
     double get_mutation_probability(double currentDrugConcentration);
 
     void set_number_of_dosing_days(int dosingDays);
-private:
 
 };
 

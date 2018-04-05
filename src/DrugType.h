@@ -52,7 +52,7 @@ public:
 
     void reset(int length);
 
-    virtual double get_parasite_killing_rate_by_concentration(const double &concentration, IntGenotype* genotype);
+    virtual double get_parasite_killing_rate_by_concentration(const double &concentration, const double& EC50_power_n );
 
     virtual double n();
     virtual void set_n(const double& n);

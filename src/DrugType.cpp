@@ -45,16 +45,16 @@ void DrugType::reset(int length) {
 //    return maximum_parasite_killing_rate_ * conPowerN / (conPowerN + EC50_power_n_);
 //}
 
-double DrugType::get_parasite_killing_rate_by_concentration(const double& concentration, IntGenotype* genotype) {
+double DrugType::get_parasite_killing_rate_by_concentration(const double &concentration, const double &EC50_power_n) {
     double conPowerN = pow(concentration, n_);
-    return maximum_parasite_killing_rate_ * conPowerN / (conPowerN + Model::CONFIG->EC50_power_n_table()[genotype->genotype_id()][id_]);
+    return maximum_parasite_killing_rate_ * conPowerN / (conPowerN + EC50_power_n);
 }
 
 double DrugType::n() {
     return n_;
 }
 
-void DrugType::set_n(const double& n) {
+void DrugType::set_n(const double &n) {
     n_ = n;
     //    set_EC50_power_n(pow(EC50_, n_));
 }
@@ -89,7 +89,7 @@ int DrugType::select_mutation_locus() {
     return affecting_loci_[(int) floor(P * affecting_loci_.size())];
 }
 
-double DrugType::inferEC50(IntGenotype* genotype) {
+double DrugType::inferEC50(IntGenotype *genotype) {
     //compare genotype.short_name with Ccnfig to get EC50 
     for (auto &item : ec50map_) {
         std::string key = item.first;

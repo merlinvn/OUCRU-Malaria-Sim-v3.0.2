@@ -368,7 +368,15 @@ void SingleHostClonalParasitePopulations::update_by_drugs(DrugsInBlood *drugs_in
             double P = Model::RANDOM->random_flat(0.0, 1.0);
 
             if (P < drug->get_mutation_probability()) {
+
                 int mutation_locus = drug->drug_type()->select_mutation_locus();
+
+                //only allow x to mutate after intervention day
+                while (Model::SCHEDULER->current_time() <= Model::CONFIG->start_intervention_day()
+                    && mutation_locus == new_genotype->gene_expression().size() - 1) {
+                    // redraw
+                    mutation_locus = drug->drug_type()->select_mutation_locus();
+                }
                 int new_allele_value = bloodParasite->genotype()->select_mutation_allele(mutation_locus,
                                                                                          bloodParasite->genotype()->gene_expression()[mutation_locus]);
                 //                std::cout << mutation_locus << "-" << bloodParasite->genotype()->gene_expression()[mutation_locus] << "-" << new_allele_value << std::endl;
@@ -391,8 +399,8 @@ void SingleHostClonalParasitePopulations::update_by_drugs(DrugsInBlood *drugs_in
                 bloodParasite->set_genotype(new_genotype);
             }
 
-            double pTemp = drug->drug_type()->get_parasite_killing_rate_by_concentration(drug->last_update_value(),
-                                                                                         bloodParasite->genotype());
+            double pTemp = drug->get_parasite_killing_rate(bloodParasite->genotype()->genotype_id());
+
             percent_parasite_remove = percent_parasite_remove + pTemp - percent_parasite_remove * pTemp;
         }
         if (percent_parasite_remove > 0) {

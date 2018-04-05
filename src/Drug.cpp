@@ -12,6 +12,7 @@
 #include "Population.h"
 #include "Model.h"
 #include "Scheduler.h"
+#include "Config.h"
 #include <math.h>
 
 OBJECTPOOL_IMPL(Drug)
@@ -87,4 +88,9 @@ void Drug::set_number_of_dosing_days(int dosingDays) {
 
     start_time_ = last_update_time_;
     end_time_ = last_update_time_ + drug_type_->get_total_duration_of_drug_activity(dosingDays);
+}
+
+double Drug::get_parasite_killing_rate(int &genotype_id) {
+    return drug_type_->get_parasite_killing_rate_by_concentration(last_update_value_,
+                                               Model::CONFIG->EC50_power_n_table()[genotype_id][drug_type()->id()]);
 }
