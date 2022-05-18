@@ -12,7 +12,7 @@ This version of the simulation was used to generate the results published in
    
 In the individual Figure folders in this repository you will find the raw simulation outputs that were used to generate the figures in this paper.
 
-Below, you will find instructions for compiling and running the simulation.  Please contact Tran Dang Nguyen (nguyentd@oucru.org) or Maciej Boni (maciej.boni@ndm.ox.ac.uk) if you have any questions about the steps below.
+Below, you will find instructions for compiling and running the simulation.  Please contact Tran Dang Nguyen (uut47@psu.edu) or Maciej Boni (maciej.boni@ndm.ox.ac.uk) if you have any questions about the steps below.
 
 
 ::::::::::
